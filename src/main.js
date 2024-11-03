@@ -1,3 +1,8 @@
+import "bootstrap/dist/css/bootstrap.min.css"
+import '@/assets/style.css'
+import '@/assets/main.css'
+import '@/assets/nomal.css'
+
 
 import { createApp } from 'vue'
 import App from './App.vue'
