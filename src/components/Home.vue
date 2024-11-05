@@ -131,7 +131,7 @@
                     <!-- Product Item 1 -->
                     <div class="product-item swiper-slide">
                     <span class="badge bg-success position-absolute m-3">-15%</span>
-                    <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
+                    <a href="#" class="btn-wishlist"><font-awesome-icon :icon="['far', 'heart']" /></a>
                     <figure>
                         <a href="#1" title="Sunstar Fresh Melon Juice">
                         <img src="https://traicayxanh.vn/wp-content/uploads/2024/07/gio-trai-cay-tang-thay-co-300x300.jpg" class="tab-image" alt="Sunstar Fresh Melon Juice">
@@ -147,78 +147,19 @@
                         <div class="input-group product-qty">
                         <span class="input-group-btn">
                             <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
-                            <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
+                                <font-awesome-icon :icon="['fas', 'minus']" />                            
                             </button>
                         </span>
                         <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
                         <span class="input-group-btn">
                             <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
-                            <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
+                                <font-awesome-icon :icon="['fas', 'plus']" />
                             </button>
                         </span>
-                        </div>
-                        <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></iconify-icon></a>
-                    </div>
-                    </div>
-                    <!-- End Product Item 1 -->
-                    
-                </div>
-                <div class="swiper-pagination"></div>
-                </div>
-            </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-5 overflow-hidden">
-        <div class="container-fluid">
-            <div class="row">
-            <div class="col-md-12">
-                <div class="section-header d-flex flex-wrap justify-content-between my-5">
-                <h2 class="section-title">Sản Phẩm Nổi Bật</h2>
-                <div class="d-flex align-items-center">
-                    <a href="#" class="btn-link text-decoration-none">Xem tất cả →</a>
-                    <div class="swiper-buttons">
-                    <button class="swiper-prev products-carousel-prev btn btn-primary">❮</button>
-                    <button class="swiper-next products-carousel-next btn btn-primary">❯</button>
-                    </div>
-                </div>
-                </div>
-            </div>
-            </div>
-            <div class="row">
-            <div class="col-md-3">
-                <div class="swiper-container">
-                <div class="swiper-wrapper">
-                    <!-- Product Item 1 -->
-                    <div class="product-item swiper-slide">
-                    <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
-                    <figure>
-                        <a href="#1" title="Sunstar Fresh Melon Juice">
-                        <img src="https://traicayxanh.vn/wp-content/uploads/2024/07/gio-trai-cay-tang-thay-co-300x300.jpg" class="tab-image" alt="Sunstar Fresh Melon Juice">
-                        </a>
-                    </figure>
-                    <h3>Sunstar Fresh Melon Juice</h3>
-                    <span class="qty">1 Unit</span>
-                    <span class="rating">
-                        <svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5
-                    </span>
-                    <span class="price">$18.00</span>
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="input-group product-qty">
-                        <span class="input-group-btn">
-                            <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
-                            <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
-                            </button>
-                        </span>
-                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
-                        <span class="input-group-btn">
-                            <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
-                            <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
-                            </button>
-                        </span>
-                        </div>
-                        <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></iconify-icon></a>
+                        </div> 
+                        <button class="btn btn-primary">
+                            <a href="#" class="nav-link">Thêm Giỏ Hàng <font-awesome-icon :icon="['fas', 'cart-shopping']" /></a>
+                        </button>
                     </div>
                     </div>
                     <!-- End Product Item 1 -->
@@ -253,7 +194,7 @@
                 <div class="swiper-wrapper">
                     <!-- Product Item 1 -->
                     <div class="product-item swiper-slide">
-                    <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
+                    <a href="#" class="btn-wishlist"><font-awesome-icon :icon="['far', 'heart']" /></a>
                     <figure>
                         <a href="#1" title="Sunstar Fresh Melon Juice">
                         <img src="https://traicayxanh.vn/wp-content/uploads/2024/07/gio-trai-cay-tang-thay-co-300x300.jpg" class="tab-image" alt="Sunstar Fresh Melon Juice">
@@ -269,17 +210,82 @@
                         <div class="input-group product-qty">
                         <span class="input-group-btn">
                             <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
-                            <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
+                                <font-awesome-icon :icon="['fas', 'minus']" />                            
                             </button>
                         </span>
                         <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
                         <span class="input-group-btn">
                             <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
-                            <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
+                                <font-awesome-icon :icon="['fas', 'plus']" />
                             </button>
                         </span>
-                        </div>
-                        <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></iconify-icon></a>
+                        </div> 
+                        <button class="btn btn-primary">
+                            <a href="#" class="nav-link">Thêm Giỏ Hàng <font-awesome-icon :icon="['fas', 'cart-shopping']" /></a>
+                        </button>
+                    </div>
+                    </div>
+                    <!-- End Product Item 1 -->
+                    
+                </div>
+                <div class="swiper-pagination"></div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 overflow-hidden">
+        <div class="container-fluid">
+            <div class="row">
+            <div class="col-md-12">
+                <div class="section-header d-flex flex-wrap justify-content-between my-5">
+                <h2 class="section-title">Trái Cây Nhập Khẩu</h2>
+                <div class="d-flex align-items-center">
+                    <a href="#" class="btn-link text-decoration-none">Xem tất cả →</a>
+                    <div class="swiper-buttons">
+                    <button class="swiper-prev products-carousel-prev btn btn-primary">❮</button>
+                    <button class="swiper-next products-carousel-next btn btn-primary">❯</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-md-3">
+                <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <!-- Product Item 1 -->
+                    <div class="product-item swiper-slide">
+                    <a href="#" class="btn-wishlist"><font-awesome-icon :icon="['far', 'heart']" /></a>
+                    <figure>
+                        <a href="#1" title="Sunstar Fresh Melon Juice">
+                        <img src="https://traicayxanh.vn/wp-content/uploads/2024/07/gio-trai-cay-tang-thay-co-300x300.jpg" class="tab-image" alt="Sunstar Fresh Melon Juice">
+                        </a>
+                    </figure>
+                    <h3>Sunstar Fresh Melon Juice</h3>
+                    <span class="qty">1 Unit</span>
+                    <span class="rating">
+                        <svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5
+                    </span>
+                    <span class="price">$18.00</span>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="input-group product-qty">
+                        <span class="input-group-btn">
+                            <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
+                                <font-awesome-icon :icon="['fas', 'minus']" />                            
+                            </button>
+                        </span>
+                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
+                        <span class="input-group-btn">
+                            <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
+                                <font-awesome-icon :icon="['fas', 'plus']" />
+                            </button>
+                        </span>
+                        </div> 
+                        <button class="btn btn-primary">
+                            <a href="#" class="nav-link">Thêm Giỏ Hàng <font-awesome-icon :icon="['fas', 'cart-shopping']" /></a>
+                        </button>
                     </div>
                     </div>
                     <!-- End Product Item 1 -->

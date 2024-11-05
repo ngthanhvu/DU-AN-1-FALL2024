@@ -105,7 +105,7 @@
             <h5 class="widget-title">Đăng Kí Nhận Ưu Đãi</h5>
             <p>Subscribe to our newsletter to get updates about our grand offers.</p>
             <form class="d-flex mt-3 gap-0" role="newsletter">
-              <input class="form-control rounded-start rounded-0 bg-light" type="email" placeholder="Email Address"
+              <input class="form-control rounded-start rounded-0 bg-light" type="email" placeholder="Điền email"
                 aria-label="Email Address">
               <button class="btn btn-dark rounded-end rounded-0" type="submit">Đăng Kí</button>
             </form>
