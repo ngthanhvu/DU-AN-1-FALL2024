@@ -33,3 +33,8 @@ npm run build
 ```sh
 npm run lint
 ```
+### FontAwesome
+
+```sh
+npm i font-awesome
+```
