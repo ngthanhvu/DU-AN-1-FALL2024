@@ -33,3 +33,18 @@ npm run build
 ```sh
 npm run lint
 ```
+### FontAwesome
+
+```sh
+npm i font-awesome
+```
+### Boostrap
+
+```sh
+npm i bootstrap@5.3.3
+```
+### Router
+
+```sh
+npm install vue-router@4
+```

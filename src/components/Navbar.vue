@@ -37,33 +37,18 @@
                 <div
                     class="col-sm-8 col-lg-4 d-flex justify-content-end gap-5 align-items-center mt-4 mt-sm-0 justify-content-center justify-content-sm-end">
                     <div class="support-box text-end d-none d-xl-block">
-                        <span class="fs-6 text-muted">TƯ VẤN & HỖ TRỢ</span>
+                        <span class="fs-6 text-muted">TƯ VẤN & HỖ TRỢ</span><br>
                         <span class="mb-0">+980-34984089</span>
                     </div>
                     <ul class="d-flex justify-content-end list-unstyled m-0">
-                        <li><a href="#" class="rounded-circle bg-light p-2 mx-1"><svg width="24" height="24"
-                                    viewBox="0 0 24 24">
-                                    <use xlink:href="#user"></use>
-                                </svg></a></li>
-                        <li><a href="#" class="rounded-circle bg-light p-2 mx-1"><svg width="24" height="24"
-                                    viewBox="0 0 24 24">
-                                    <use xlink:href="#heart"></use>
-                                </svg></a></li>
-                        <li class="d-lg-none"><a href="#" class="rounded-circle bg-light p-2 mx-1"
-                                data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
-                                aria-controls="offcanvasCart"><svg width="24" height="24" viewBox="0 0 24 24">
-                                    <use xlink:href="#cart"></use>
-                                </svg></a></li>
-                        <li class="d-lg-none"><a href="#" class="rounded-circle bg-light p-2 mx-1"
-                                data-bs-toggle="offcanvas" data-bs-target="#offcanvasSearch"
-                                aria-controls="offcanvasSearch"><svg width="24" height="24" viewBox="0 0 24 24">
-                                    <use xlink:href="#search"></use>
-                                </svg></a></li>
+                        <li><a href="#" class="rounded-circle bg-light p-2 mx-1"><font-awesome-icon :icon="['far', 'user']" /></a></li>
+
+                        <li><a href="#" class="rounded-circle bg-light p-2 mx-1"><font-awesome-icon :icon="['far', 'heart']" /></a></li>
                     </ul>
                     <div class="cart text-end d-none d-lg-block dropdown">
                         <button class="border-0 bg-transparent d-flex flex-column gap-2 lh-1" type="button"
                             data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-                            <span class="fs-6 text-muted dropdown-toggle">GIỎ HÀNG</span>
+                            <span class="fs-6 text-muted dropdown-toggle">Giỏ Hàng <font-awesome-icon :icon="['fas', 'cart-shopping']" /></span>
                             <span class="cart-total fs-5 fw-bold">120.000 VNĐ</span>
                         </button>
                     </div>
@@ -90,12 +75,18 @@
                                 <option>TRI ÂN KHÁCH HÀNG</option>
                             </select>
                             <ul class="navbar-nav justify-content-end menu-list list-unstyled d-flex gap-md-3 mb-0">
-                                <li class="nav-item active"><a href="index.html" class="nav-link">TRANG CHỦ</a></li>
-                                <li class="nav-item dropdown"><a href="gioithieu.html" class="nav-link">GIỚI THIỆU</a>
+                                <li class="nav-item active">
+                                    <router-link to="/home" class="nav-link">TRANG CHỦ</router-link>
+                                </li>
+
+                                <li class="nav-item active">
+                                    <router-link to="/about" class="nav-link">GIỚI THIỆU</router-link>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="product.html" role="button" id="pages"
-                                        aria-expanded="false">SẢN PHẨM</a>
+                                    <router-link class="nav-link dropdown-toggle" to="/product" role="button" id="pages"
+                                        aria-expanded="false">
+                                        SẢN PHẨM
+                                    </router-link>
                                     <ul class="dropdown-menu" aria-labelledby="pages">
                                         <li><a href="#" class="dropdown-item">TRÁI CÂY NHẬP KHẨU</a></li>
                                         <li><a href="#" class="dropdown-item">GIỎ TRÁI CÂY</a></li>
@@ -105,8 +96,8 @@
                                         <li><a href="#" class="dropdown-item">BÁNH KẸO TRÁI CÂY</a></li>
                                     </ul>
                                 </li>
-                                <li class="nav-item"><a href="tintuc.html" class="nav-link">TIN TỨC</a></li>
-                                <li class="nav-item"><a href="lienhe.html" class="nav-link">LIÊN HỆ</a></li>
+                                <li class="nav-item"><router-link to="/post" class="nav-link">TIN TỨC</router-link></li>
+                                <li class="nav-item"><router-link to="/contact" class="nav-link">LIÊN HỆ</router-link></li>
                             </ul>
                         </div>
                     </div>
