@@ -1,6 +1,6 @@
 # duan
 
-This template should help get you started developing with Vue 3 in Vite.
+Dự án 1 của nhóm sinh viên 4HAG của fpl Tây Nguyên
 
 ## Project Setup
 
