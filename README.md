@@ -27,9 +27,32 @@ npm run dev
 ```sh
 npm run build
 ```
+<<<<<<< HEAD
+### Update router
+```sh
+npm install vue-router@4
+```
+### Update swiper
+```sh
+npm install swiper
+```
+### Update bootstrap 
+```sh
+npm install bootstrap
+```
+### Update icon Fortawesome
+```sh
+npm install @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/free-brands-svg-icons @fortawesome/vue-fontawesome
+```
+### Update icon brands
+```sh
+npm install @fortawesome/free-regular-svg-icons
+```
+=======
 
 ### Lint with [ESLint](https://eslint.org/)
 
 ```sh
 npm run lint
 ```
+>>>>>>> 33f0493bc8fa96ce811d8ac07ca785f9e28cff3a
