@@ -55,4 +55,8 @@ npm install @fortawesome/free-regular-svg-icons
 ```sh
 npm run lint
 ```
+### nếu bug thì cài cái này
+```sh
+npm install --legacy-peer-deps
+```
 >>>>>>> 33f0493bc8fa96ce811d8ac07ca785f9e28cff3a
