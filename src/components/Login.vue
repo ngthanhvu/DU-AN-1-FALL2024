@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container" style="height: 55vh;">
         <div class="login-form">
             <h2 class="text-center text-bold">ĐĂNG NHẬP</h2>
             <form>
@@ -23,7 +23,7 @@
         </div>
     </div>
 </template>
-<style>
+<style scoped>
 .login-form {
     max-width: 800px;
     margin: 50px auto;
@@ -31,10 +31,11 @@
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 175px;
 }
 
 .btn-login {
-    background: #7fad39;
+    background: #FF0000;
     color: #fff;
 }
 
@@ -44,6 +45,6 @@
 }
 
 .text-dark:hover {
-    color: #7fad39 !important;
+    color: #FF0000 !important;
 }
 </style>

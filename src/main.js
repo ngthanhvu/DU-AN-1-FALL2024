@@ -28,8 +28,8 @@ import {
     faPlus, faFolderOpen
 } from '@fortawesome/free-solid-svg-icons';
 import { faFacebook, faTwitter, faLinkedin, faPinterestP } from '@fortawesome/free-brands-svg-icons';
-import { faHeart, faUser, faEye, faClipboard, faStar } from '@fortawesome/free-regular-svg-icons';
-import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faUser, faEye, faClipboard, faStar, } from '@fortawesome/free-regular-svg-icons';
+import { faCartShopping, faBagShopping } from '@fortawesome/free-solid-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 
 // Thêm các icon vào thư viện
@@ -38,7 +38,7 @@ library.add(
     faFacebook, faTwitter, faLinkedin, faPinterestP,
     faUser, faHeart, faCartShopping, faEye, faGauge,
     faFolderOpen, faClipboard, faArrowRightFromBracket,
-    faPlus, fas, faStar
+    faPlus, fas, faStar, faBagShopping
 );
 
 const app = createApp(App);

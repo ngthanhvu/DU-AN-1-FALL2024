@@ -14,7 +14,7 @@ export default {
     },
     footerComponent() {
       return this.$route.path.includes('/admin') ? AdminFooter : Footer
-      
+
     },
     sidebarComponent() {
       return this.$route.path.includes('/admin') ? AdminSidebar : Sidebar
@@ -31,11 +31,12 @@ export default {
     </div>
   </header>
 
-  <main>
+  <main class="main">
     <RouterView />
   </main>
   <!-- <Footer /> -->
   <component :is="footerComponent" />
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>

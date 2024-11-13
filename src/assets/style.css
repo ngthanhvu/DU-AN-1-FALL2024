@@ -11,9 +11,12 @@ body {
 }
 
 header {
-    position: absolute;
+    position: fixed;
     width: 100%;
     top: 0;
+    z-index: 999;
+    background-color: #fff;
+    border-bottom: 1px solid #f1f1f1;
 }
 
 .head-container {
@@ -39,7 +42,7 @@ header {
 
 .navmenu {
     display: flex;
-    padding-top: 15px;
+    padding-top: 10px;
 }
 
 .navmenu a {
@@ -78,6 +81,9 @@ header {
     border-radius: 50%;
 }
 
+.section-1 {
+    margin-top: 55px;
+}
 .section-1 img {
     width: 100%;
 }
