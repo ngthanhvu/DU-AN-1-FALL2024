@@ -1,6 +1,6 @@
 <template>
   <!-- Product Details Section Begin -->
-  <section class="product-details spad">
+  <section class="product-details spad mt-5">
     <div class="container">
       <div class="row">
         <div class="col-lg-6 col-md-6">
@@ -153,7 +153,7 @@ export default {
       quantity: 1,
       selectedSize: 'S',
       sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-      selectedTab: 'tabs-1',  
+      selectedTab: 'tabs-1',
       tabs: [
         { id: 'tabs-1', name: 'MÔ TẢ', content: 'Nội dung mô tả sản phẩm tại đây.' },
         { id: 'tabs-2', name: 'XUẤT XỨ', content: 'Nội dung thông tin sản phẩm tại đây.' },
@@ -351,5 +351,17 @@ export default {
 .swatch-element input[type="radio"]:disabled+label {
   background-color: #ddd;
   cursor: not-allowed;
+}
+.prev-button,
+.next-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 10px 12px;
+  cursor: pointer;
+  border: none;
+  border-radius: 50%;
 }
 </style>

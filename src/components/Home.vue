@@ -432,4 +432,16 @@ export default {
 .card-title:hover {
     color: #ff0000;
 }
+.prev-button,
+.next-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 10px 12px;
+  cursor: pointer;
+  border: none;
+  border-radius: 50%;
+}
 </style>
