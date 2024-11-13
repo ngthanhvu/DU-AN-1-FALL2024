@@ -3,6 +3,7 @@ import './assets/vip.css';
 import './assets/base.css';
 import './assets/admin.css';
 import './assets/style.css';
+import './assets/responsive.css';
 
 import { createApp } from 'vue';
 import App from './App.vue';

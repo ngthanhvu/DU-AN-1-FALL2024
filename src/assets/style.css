@@ -799,3 +799,26 @@ footer .footer .logo {
 .news-item p {
     font-size: 0.9rem;
 }
+
+/*Product*/
+
+.product-col {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .image_link img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    transition: transform 0.3s ease;
+  }
+  
+  .image_link img:hover {
+    transform: scale(1.05);
+  }
+  
+  
+  
+
+
