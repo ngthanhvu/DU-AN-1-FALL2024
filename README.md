@@ -27,18 +27,17 @@ npm run dev
 ```sh
 npm run build
 ```
-<<<<<<< HEAD
 ### Update router
 ```sh
 npm install vue-router@4
 ```
 ### Update swiper
 ```sh
-npm install swiper
+npm install swiper@6.8.4 --legacy-peer-deps
 ```
 ### Update bootstrap 
 ```sh
-npm install bootstrap
+npm install bootstrap-vue-3
 ```
 ### Update icon Fortawesome
 ```sh
@@ -48,7 +47,6 @@ npm install @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons 
 ```sh
 npm install @fortawesome/free-regular-svg-icons
 ```
-=======
 
 ### Lint with [ESLint](https://eslint.org/)
 
@@ -59,4 +57,3 @@ npm run lint
 ```sh
 npm install --legacy-peer-deps
 ```
->>>>>>> 33f0493bc8fa96ce811d8ac07ca785f9e28cff3a

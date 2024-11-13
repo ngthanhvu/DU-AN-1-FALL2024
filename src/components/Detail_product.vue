@@ -55,7 +55,8 @@
 
                         <ul>
                             <li><b>Sẵn có: </b> <span>Còn hàng</span></li>
-                            <li><b>Thời gian giao hàng:</b> <span> 2 - 3 ngày. <samp>Giao hàng miễn phí</samp></span></li>
+                            <li><b>Thời gian giao hàng:</b> <span> 2 - 3 ngày. <samp>Giao hàng miễn phí</samp></span>
+                            </li>
                             <li><b>Khối Lượng: </b> <span>0.2 kg</span></li>
                             <li><b>Share on</b>
                                 <div class="share">
@@ -92,148 +93,130 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!-- Product Details Section End -->
+
+    <!-- Product Slider Section Begin -->
     <section class="section-3 mt-5">
         <div class="container">
-            <div class="row">
-                <!-- Category Section (Thay thế bằng các tên danh mục giả) -->
-                <div class="col-md-12 mb-4">
-                    <h2>Danh mục Sản phẩm 1</h2>
-
-                    <div class="slider-container">
-                        <div class="slider-wrapper">
-                            <!-- Product Item 1 -->
-                            <div class="slider-slide">
-                                <a href="/detail" class="text-decoration-none text-black">
-                                    <div class="card border-0">
-                                        <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg"
-                                            class="border" alt="Product Image 1">
-                                        <div class="card-body">
-                                            <div class="rating">
-                                                <span class="fa fa-star checked"></span>
-                                                <span class="fa fa-star checked"></span>
-                                                <span class="fa fa-star checked"></span>
-                                                <span class="fa fa-star checked"></span>
-                                                <span class="fa fa-star"></span>
-                                            </div>
-                                            <p class="card-title text-left">Tên sản phẩm 1</p>
-                                            <p class="card-text text-left">
-                                                <span class="text-decoration-line-through">300.000đ</span>
-                                                <span class="text-danger">250.000đ</span>
-                                            </p>
-                                        </div>
+            <h2>Cháy cùng Euro/Copa</h2>
+            <div class="slider-container">
+                <!-- Product Cards -->
+                <div class="slider" :style="{ transform: 'translateX(' + (-currentSlide * 20) + '%)' }">
+                    <div class="slide" v-for="(item, index) in products" :key="index">
+                        <a href="/detail" class="text-decoration-none text-black">
+                            <div class="card border-0">
+                                <img :src="item.image" class="border" alt="Product Image" />
+                                <div class="card-body">
+                                    <div class="rating">
+                                        <font-awesome-icon :icon="['far', 'star']" class="star-icon" v-for="i in 5"
+                                            :key="i" />
                                     </div>
-                                </a>
+                                    <p class="card-title text-left">
+                                        <b>{{ item.name }}</b>
+                                    </p>
+                                    <p class="card-text text-left">
+                                        <span class="text-danger me-2"><b>{{ item.price }}</b></span>
+                                        <span class="text-decoration-line-through">{{ item.oldPrice }}</span>
+                                    </p>
+                                </div>
                             </div>
-
-                            <!-- Product Item 2 -->
-                            <div class="slider-slide">
-                                <a href="/detail?id=2" class="text-decoration-none text-black">
-                                    <div class="card border-0">
-                                        <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/fe1c5d8f-1722498244281.jpg"
-                                            class="border" alt="Product Image 2">
-                                        <div class="card-body">
-                                            <div class="rating">
-                                                <span class="fa fa-star checked"></span>
-                                                <span class="fa fa-star checked"></span>
-                                                <span class="fa fa-star checked"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                            </div>
-                                            <p class="card-title text-left">Tên sản phẩm 2</p>
-                                            <p class="card-text text-left">
-                                                <span class="text-decoration-line-through">400.000đ</span>
-                                                <span class="text-danger">350.000đ</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-
-                            <!-- Product Item 3 -->
-                            <div class="slider-slide">
-                                <a href="/detail" class="text-decoration-none text-black">
-                                    <div class="card border-0">
-                                        <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/image-1722497259028.png"
-                                            class="border" alt="Product Image 3">
-                                        <div class="card-body">
-                                            <div class="rating">
-                                                <span class="fa fa-star checked"></span>
-                                                <span class="fa fa-star checked"></span>
-                                                <span class="fa fa-star checked"></span>
-                                                <span class="fa fa-star checked"></span>
-                                                <span class="fa fa-star"></span>
-                                            </div>
-                                            <p class="card-title text-left">Tên sản phẩm 3</p>
-                                            <p class="card-text text-left">
-                                                <span class="text-decoration-line-through">500.000đ</span>
-                                                <span class="text-danger">450.000đ</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-
-
-                        </div>
-
-                        <!-- điều hướng -->
-                        <button class="slider-button-prev">❮</button>
-                        <button class="slider-button-next">❯</button>
+                        </a>
                     </div>
                 </div>
 
-                <!-- Thêm các danh mục và sản phẩm khác tương tự nếu cần -->
+                <button @click="prevSlide" class="prev-button">Prev</button>
+                <button @click="nextSlide" class="next-button">Next</button>
+                <!-- Navigation Buttons -->
             </div>
         </div>
     </section>
-
+    <!-- Product Slider Section End -->
 </template>
 
 <script>
 export default {
-    name: 'Detail_product',
+    name: 'DetailProduct',
     data() {
         return {
             largeImage: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/photo-2024-09-11-22-53-27.jpg?v=1726070059660',
-
             thumbnails: [
                 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/photo-2024-09-11-22-53-27.jpg?v=1726070059660',
                 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/photo-2024-09-11-22-53-28.jpg?v=1726070063893',
                 'https://bizweb.dktcdn.net/thumb/compact/100/483/998/products/photo-2024-09-11-22-53-29-2.jpg?v=1726070065717',
                 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/photo-2024-09-11-22-53-31-2.jpg?v=1726070069620'
             ],
-
-
             quantity: 1,
             selectedSize: 'S',
             sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-            selectedTab: 'tabs-1',  // Tab mặc định được chọn
+            selectedTab: 'tabs-1',
             tabs: [
-                {
-                    id: 'tabs-1',
-                    name: 'MÔ TẢ',
-                    content: 'Nội dung mô tả sản phẩm tại đây.'
-                },
-                {
-                    id: 'tabs-2',
-                    name: 'XUẤT XỨ',
-                    content: 'Nội dung thông tin sản phẩm tại đây.'
-                },
-                {
-                    id: 'tabs-3',
-                    name: 'ĐÁNH GIÁ',
-                    content: 'Nội dung đánh giá sản phẩm tại đây.'
-                },
+                { id: 'tabs-1', name: 'MÔ TẢ', content: 'Nội dung mô tả sản phẩm tại đây.' },
+                { id: 'tabs-2', name: 'XUẤT XỨ', content: 'Nội dung thông tin sản phẩm tại đây.' },
+                { id: 'tabs-3', name: 'ĐÁNH GIÁ', content: 'Nội dung đánh giá sản phẩm tại đây.' }
             ],
 
+            currentSlide: 0,
+            products: [
+                {
+                    name: 'MU Home (2012/2013) Màu đỏ + Cộc tay | Bản CLASSIC [Không có quần]',
+                    price: '250.000đ',
+                    oldPrice: '300.000đ',
+                    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg'
+                },
+                {
+                    name: 'Product 2',
+                    price: '200.000đ',
+                    oldPrice: '250.000đ',
+                    image: 'https://via.placeholder.com/150'
+                },
+                {
+                    name: 'Product 3',
+                    price: '150.000đ',
+                    oldPrice: '200.000đ',
+                    image: 'https://via.placeholder.com/150'
+                },
+                {
+                    name: 'Product 4',
+                    price: '300.000đ',
+                    oldPrice: '350.000đ',
+                    image: 'https://via.placeholder.com/150'
+                },
+                {
+                    name: 'Product 5',
+                    price: '100.000đ',
+                    oldPrice: '150.000đ',
+                    image: 'https://via.placeholder.com/150'
+                },
+                {
+                    name: 'Product 5',
+                    price: '100.000đ',
+                    oldPrice: '150.000đ',
+                    image: 'https://via.placeholder.com/150'
+                }, {
+                    name: 'Product 5',
+                    price: '100.000đ',
+                    oldPrice: '150.000đ',
+                    image: 'https://via.placeholder.com/150'
+                }, {
+                    name: 'Product 5',
+                    price: '100.000đ',
+                    oldPrice: '150.000đ',
+                    image: 'https://via.placeholder.com/150'
+                },
+            ]
         };
+    },
+    computed: {
+        currentSlideProducts() {
+            const perPage = 5; 
+            const start = this.currentIndex * perPage;
+            return this.products.slice(start, start + perPage);
+        }
     },
     methods: {
         changeImage(image) {
@@ -242,21 +225,31 @@ export default {
         increaseQuantity() {
             this.quantity++;
         },
-        decreaseQuantity() {
-            if (this.quantity > 1) {
-                this.quantity--;
+        nextSlide() {
+            if (this.currentSlide < this.products.length - 1) {
+                this.currentSlide++;
+            } else {
+                this.currentSlide = 0;
             }
         },
-        selectTab(tabId) {
-            this.selectedTab = tabId;
+        prevSlide() {
+            if (this.currentSlide > 0) {
+                this.currentSlide--;
+            } else {
+                this.currentSlide = this.products.length - 1;
+            }
         }
-
     }
 };
 
 </script>
 
 <style scoped>
+.slider-slide {
+    width: 100%;
+    /* Mỗi slide chiếm 100% chiều rộng */
+}
+
 .product__details__pic__item--large {
     width: 100%;
     height: 600px;
@@ -296,12 +289,11 @@ export default {
     border-color: #f56363;
 }
 
-/* Căn chỉnh các phần tử trong product quantity */
 .product__details__quantity {
     display: flex;
     align-items: center;
-    gap: 10px; /* Khoảng cách giữa số lượng và nút */
-}
+    gap: 10px;
+ }
 
 .quantity {
     display: flex;
@@ -361,4 +353,6 @@ export default {
     background-color: #ddd;
     cursor: not-allowed;
 }
+
+
 </style>

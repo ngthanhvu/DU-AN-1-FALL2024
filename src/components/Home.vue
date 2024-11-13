@@ -85,101 +85,64 @@
             </div>
         </section>
 
+        <section class="section-3 mt-5">
+            <div class="container">
+                <h2>Cháy cùng Euro/Copa</h2>
+                <swiper :slides-per-view="5" :loop="true" :autoplay="{ delay: 3000 }"  pagination
+                    class="mySwiper">
+                    <swiper-slide v-for="(item, index) in products" :key="index">
+                        <a href="/detail_product" class="text-decoration-none text-black">
+                            <div class="card border-0">
+                                <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg"
+                                    class="border" alt="Product Image">
+                                <div class="card-body">
+                                    <div class="rating">
+                                        <font-awesome-icon :icon="['far', 'star']" class="star-icon" v-for="i in 5"
+                                            :key="i" />
+                                    </div>
+                                    <p class="card-title text-left"><b>MU Home (2012/2013) Màu đỏ + Cộc tay | Bản
+                                            CLASSIC [Không có quần]</b></p>
+                                    <p class="card-text text-left">
+                                        <span class="text-danger me-2"><b>250.000đ</b></span>
+                                        <span class="text-decoration-line-through">300.000đ</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </swiper-slide>
+                </swiper>
+            </div>
+        </section>
 
         <section class="section-3 mt-5">
             <div class="container">
-                <div class="row">
-                    <!-- Category Section (Thay thế bằng các tên danh mục giả) -->
-                    <div class="col-md-12 mb-4">
-                        <h2>Danh mục Sản phẩm 1</h2>
-
-                        <div class="slider-container">
-                            <div class="slider-wrapper">
-                                <!-- Product Item 1 -->
-                                <div class="slider-slide">
-                                    <a href="/detail" class="text-decoration-none text-black">
-                                        <div class="card border-0">
-                                            <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg"
-                                                class="border" alt="Product Image 1">
-                                            <div class="card-body">
-                                                <div class="rating">
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star"></span>
-                                                </div>
-                                                <p class="card-title text-left">Tên sản phẩm 1</p>
-                                                <p class="card-text text-left">
-                                                    <span class="text-decoration-line-through">300.000đ</span>
-                                                    <span class="text-danger">250.000đ</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
+                <h2>Cháy cùng Euro/Copa</h2>
+                <swiper :slides-per-view="5" :loop="true" :autoplay="{ delay: 3000 }"  pagination
+                    class="mySwiper">
+                    <swiper-slide v-for="(item, index) in products" :key="index">
+                        <a href="/detail_product" class="text-decoration-none text-black">
+                            <div class="card border-0">
+                                <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg"
+                                    class="border" alt="Product Image">
+                                <div class="card-body">
+                                    <div class="rating">
+                                        <font-awesome-icon :icon="['far', 'star']" class="star-icon" v-for="i in 5"
+                                            :key="i" />
+                                    </div>
+                                    <p class="card-title text-left"><b>MU Home (2012/2013) Màu đỏ + Cộc tay | Bản
+                                            CLASSIC [Không có quần]</b></p>
+                                    <p class="card-text text-left">
+                                        <span class="text-danger me-2"><b>250.000đ</b></span>
+                                        <span class="text-decoration-line-through">300.000đ</span>
+                                    </p>
                                 </div>
-
-                                <!-- Product Item 2 -->
-                                <div class="slider-slide">
-                                    <a href="/detail?id=2" class="text-decoration-none text-black">
-                                        <div class="card border-0">
-                                            <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/fe1c5d8f-1722498244281.jpg"
-                                                class="border" alt="Product Image 2">
-                                            <div class="card-body">
-                                                <div class="rating">
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star"></span>
-                                                    <span class="fa fa-star"></span>
-                                                </div>
-                                                <p class="card-title text-left">Tên sản phẩm 2</p>
-                                                <p class="card-text text-left">
-                                                    <span class="text-decoration-line-through">400.000đ</span>
-                                                    <span class="text-danger">350.000đ</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <!-- Product Item 3 -->
-                                <div class="slider-slide">
-                                    <a href="/detail" class="text-decoration-none text-black">
-                                        <div class="card border-0">
-                                            <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/image-1722497259028.png"
-                                                class="border" alt="Product Image 3">
-                                            <div class="card-body">
-                                                <div class="rating">
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star"></span>
-                                                </div>
-                                                <p class="card-title text-left">Tên sản phẩm 3</p>
-                                                <p class="card-text text-left">
-                                                    <span class="text-decoration-line-through">500.000đ</span>
-                                                    <span class="text-danger">450.000đ</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-
-
                             </div>
-
-                            <!-- điều hướng -->
-                            <button class="slider-button-prev">❮</button>
-                            <button class="slider-button-next">❯</button>
-                        </div>
-                    </div>
-
-                    <!-- Thêm các danh mục và sản phẩm khác tương tự nếu cần -->
-                </div>
+                        </a>
+                    </swiper-slide>
+                </swiper>
             </div>
         </section>
+
         <section class="section awe-section-4">
             <div class="section_banner_adv">
                 <div class="container">
@@ -194,47 +157,33 @@
                 </div>
             </div>
         </section>
-        <!-- Section 5: Banner -->
+
         <section class="section-3 mt-5">
             <div class="container">
-                <div class="row">
-                    <!-- Category Section (Thay thế bằng các tên danh mục giả) -->
-                    <div class="col-md-12 mb-4">
-                        <h2>Danh mục Sản phẩm 1</h2>
-
-                        <div class="slider-container">
-                            <div class="slider-wrapper">
-                                <!-- Product Item 1 -->
-                                <div class="slider-slide">
-                                    <a href="/detail" class="text-decoration-none text-black">
-                                        <div class="card border-0">
-                                            <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg"
-                                                class="border" alt="Product Image 1">
-                                            <div class="card-body">
-                                                <div class="rating">
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star"></span>
-                                                </div>
-                                                <p class="card-title text-left">Tên sản phẩm 1</p>
-                                                <p class="card-text text-left">
-                                                    <span class="text-decoration-line-through">300.000đ</span>
-                                                    <span class="text-danger">250.000đ</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
+                <h2>Cốc giữ nhiệt</h2>
+                <swiper :slides-per-view="5" :loop="true" :autoplay="{ delay: 3000 }"  pagination
+                    class="mySwiper">
+                    <swiper-slide v-for="(item, index) in products" :key="index">
+                        <a href="/detail_product" class="text-decoration-none text-black">
+                            <div class="card border-0">
+                                <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg"
+                                    class="border" alt="Product Image">
+                                <div class="card-body">
+                                    <div class="rating">
+                                        <font-awesome-icon :icon="['far', 'star']" class="star-icon" v-for="i in 5"
+                                            :key="i" />
+                                    </div>
+                                    <p class="card-title text-left"><b>MU Home (2012/2013) Màu đỏ + Cộc tay | Bản
+                                            CLASSIC [Không có quần]</b></p>
+                                    <p class="card-text text-left">
+                                        <span class="text-danger me-2"><b>250.000đ</b></span>
+                                        <span class="text-decoration-line-through">300.000đ</span>
+                                    </p>
                                 </div>
                             </div>
-                            <!-- điều hướng -->
-                            <button class="slider-button-prev">❮</button>
-                            <button class="slider-button-next">❯</button>
-                        </div>
-                    </div>
-                    <!-- Thêm các danh mục và sản phẩm khác tương tự nếu cần -->
-                </div>
+                        </a>
+                    </swiper-slide>
+                </swiper>
             </div>
         </section>
 
@@ -247,9 +196,13 @@
                     <div class="col-md-4 mb-4">
                         <div class="news-item">
                             <a href="#" class="text-decoration-none">
-                                <img src="https://cafefcdn.com/203337114487263232/2021/9/5/sport17bab263cf1original-ratio-1630800402561676628516.jpeg" class="img-fluid" alt="News Image 1">
-                                <h4 class="mt-3">Man United lập kỷ lục thu về 1.366 tỷ từ bán áo đấu Ronaldo sau 12h, bao giờ thu hồi "vốn"?</h4>
-                                <p class="text-muted">Theo LovetheSales.com, 12h sau khi áo đấu của Cristiano Ronaldo phát hành, fan đã bỏ ra tổng cộng 32,5 triệu bảng (60 triệu USD – khoảng 1.366 tỷ</p>
+                                <img src="https://cafefcdn.com/203337114487263232/2021/9/5/sport17bab263cf1original-ratio-1630800402561676628516.jpeg"
+                                    class="img-fluid" alt="News Image 1">
+                                <h4 class="mt-3">Man United lập kỷ lục thu về 1.366 tỷ từ bán áo đấu Ronaldo sau 12h,
+                                    bao giờ thu hồi "vốn"?</h4>
+                                <p class="text-muted">Theo LovetheSales.com, 12h sau khi áo đấu của Cristiano Ronaldo
+                                    phát hành, fan đã bỏ ra tổng cộng 32,5 triệu bảng (60 triệu USD – khoảng 1.366 tỷ
+                                </p>
                             </a>
                         </div>
                     </div>
@@ -257,9 +210,13 @@
                     <div class="col-md-4 mb-4">
                         <div class="news-item">
                             <a href="#" class="text-decoration-none">
-                                <img src="https://cafefcdn.com/203337114487263232/2021/9/5/sport17bab263cf1original-ratio-1630800402561676628516.jpeg" class="img-fluid" alt="News Image 2">
-                                <h4 class="mt-3">Man United lập kỷ lục thu về 1.366 tỷ từ bán áo đấu Ronaldo sau 12h, bao giờ thu hồi "vốn"?</h4>
-                                <p class="text-muted">Theo LovetheSales.com, 12h sau khi áo đấu của Cristiano Ronaldo phát hành, fan đã bỏ ra tổng cộng 32,5 triệu bảng (60 triệu USD – khoảng 1.366 tỷ</p>
+                                <img src="https://cafefcdn.com/203337114487263232/2021/9/5/sport17bab263cf1original-ratio-1630800402561676628516.jpeg"
+                                    class="img-fluid" alt="News Image 2">
+                                <h4 class="mt-3">Man United lập kỷ lục thu về 1.366 tỷ từ bán áo đấu Ronaldo sau 12h,
+                                    bao giờ thu hồi "vốn"?</h4>
+                                <p class="text-muted">Theo LovetheSales.com, 12h sau khi áo đấu của Cristiano Ronaldo
+                                    phát hành, fan đã bỏ ra tổng cộng 32,5 triệu bảng (60 triệu USD – khoảng 1.366 tỷ
+                                </p>
                             </a>
                         </div>
                     </div>
@@ -267,9 +224,13 @@
                     <div class="col-md-4 mb-4">
                         <div class="news-item">
                             <a href="#" class="text-decoration-none">
-                                <img src="https://cafefcdn.com/203337114487263232/2021/9/5/sport17bab263cf1original-ratio-1630800402561676628516.jpeg" class="img-fluid" alt="News Image 3">
-                                <h4 class="mt-3">Man United lập kỷ lục thu về 1.366 tỷ từ bán áo đấu Ronaldo sau 12h, bao giờ thu hồi "vốn"?</h4>
-                                <p class="text-muted">Theo LovetheSales.com, 12h sau khi áo đấu của Cristiano Ronaldo phát hành, fan đã bỏ ra tổng cộng 32,5 triệu bảng (60 triệu USD – khoảng 1.366 tỷ</p>
+                                <img src="https://cafefcdn.com/203337114487263232/2021/9/5/sport17bab263cf1original-ratio-1630800402561676628516.jpeg"
+                                    class="img-fluid" alt="News Image 3">
+                                <h4 class="mt-3">Man United lập kỷ lục thu về 1.366 tỷ từ bán áo đấu Ronaldo sau 12h,
+                                    bao giờ thu hồi "vốn"?</h4>
+                                <p class="text-muted">Theo LovetheSales.com, 12h sau khi áo đấu của Cristiano Ronaldo
+                                    phát hành, fan đã bỏ ra tổng cộng 32,5 triệu bảng (60 triệu USD – khoảng 1.366 tỷ
+                                </p>
                             </a>
                         </div>
                     </div>
@@ -312,7 +273,10 @@
 </template>
 
 <script>
+import { Swiper, SwiperSlide } from 'swiper/vue';
+
 export default {
+    components: { Swiper, SwiperSlide },
     data() {
         return {
             carouselImages: [
@@ -320,6 +284,50 @@ export default {
                 { desktop: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_2.jpg?1722078914172", mobile: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_2.png?1717181462123" },
                 { desktop: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_3.jpg?1722078914172", mobile: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_3.png?1717181462123" },
                 { desktop: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_4.jpg?1722078914172", mobile: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_4.png?1717181462123" }
+            ],
+            products: [
+                {
+                    id: 1,
+                    name: 'MU Home (2012/2013) Màu đỏ + Cộc tay | Bản CLASSIC [Không có quần]',
+                    price: 250000,
+                    oldPrice: 300000,
+                    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg',
+                },
+                {
+                    id: 2,
+                    name: 'Real Madrid Away (2021/2022) Màu đen',
+                    price: 260000,
+                    oldPrice: 320000,
+                    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/real-madrid.jpg',
+                },
+                {
+                    id: 3,
+                    name: 'Juventus Home (2021/2022) Màu trắng đen',
+                    price: 270000,
+                    oldPrice: 330000,
+                    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/juventus.jpg',
+                },
+                {
+                    id: 4,
+                    name: 'BĐN Home (2024 - 2025) Màu đỏ + Cộc tay | Bản PLAYER [Có quần]',
+                    price: 280000,
+                    oldPrice: 340000,
+                    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg',
+                },
+                {
+                    id: 5,
+                    name: 'BĐN Home (2024 - 2025) Màu đỏ + Cộc tay | Bản PLAYER [Có quần]',
+                    price: 290000,
+                    oldPrice: 350000,
+                    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg',
+                },
+                {
+                    id: 6,
+                    name: 'BĐN Home (2024 - 2025) Màu đỏ + Cộc tay | Bản PLAYER [Có quần]',
+                    price: 300000,
+                    oldPrice: 360000,
+                    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg',
+                },
             ],
             categories: [],
             banner1: "//bizweb.dktcdn.net/100/483/998/themes/904984/assets/twobanner_1.png?1720275862057",
@@ -340,5 +348,25 @@ export default {
 </script>
 
 <style scoped>
-/* Các CSS styles cần thiết */
+.star-icon {
+    color: gold;
+    font-size: 18px;
+}
+
+.slider-slide img {
+    transition: transform 0.3s ease;
+}
+
+.slider-slide:hover img {
+    transform: scale(1.1);
+}
+
+.card-title {
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.card-title:hover {
+    color: #ff0000;
+}
+
 </style>
