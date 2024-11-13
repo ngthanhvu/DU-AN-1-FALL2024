@@ -85,63 +85,85 @@
             </div>
         </section>
 
+        <!-- Product Slider Section Begin -->
         <section class="section-3 mt-5">
             <div class="container">
-                <h2>Cháy cùng Euro/Copa</h2>
-                <swiper :slides-per-view="5" :loop="true" :autoplay="{ delay: 3000 }"  pagination
-                    class="mySwiper">
-                    <swiper-slide v-for="(item, index) in products" :key="index">
-                        <a href="/detail_product" class="text-decoration-none text-black">
-                            <div class="card border-0">
-                                <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg"
-                                    class="border" alt="Product Image">
-                                <div class="card-body">
-                                    <div class="rating">
-                                        <font-awesome-icon :icon="['far', 'star']" class="star-icon" v-for="i in 5"
-                                            :key="i" />
+                <div class="heading-container">
+                    <h2>Cháy cùng Euro/Copa</h2>
+                    <router-link to="/product" class="text-decoration-none text-black"><b>Xem thêm</b></router-link>
+                </div>
+                <div class="slider-container">
+                    <!-- Product Cards -->
+                    <div class="slider" :style="{ transform: 'translateX(' + (-currentSlide * 20) + '%)' }">
+                        <div class="slide" v-for="(item, index) in products" :key="index">
+                            <a href="/detail" class="text-decoration-none text-black">
+                                <div class="card border-0 py-5">
+                                    <img :src="item.image" class="border" alt="Product Image" />
+                                    <div class="card-body">
+                                        <div class="rating">
+                                            <font-awesome-icon :icon="['far', 'star']" class="star-icon" v-for="i in 5"
+                                                :key="i" />
+                                        </div>
+                                        <p class="card-title text-left">
+                                            <b>{{ item.name }}</b>
+                                        </p>
+                                        <p class="card-text text-left">
+                                            <span class="text-danger me-2"><b>{{ item.price }}</b></span>
+                                            <span class="text-decoration-line-through">{{ item.oldPrice }}</span>
+                                        </p>
                                     </div>
-                                    <p class="card-title text-left"><b>MU Home (2012/2013) Màu đỏ + Cộc tay | Bản
-                                            CLASSIC [Không có quần]</b></p>
-                                    <p class="card-text text-left">
-                                        <span class="text-danger me-2"><b>250.000đ</b></span>
-                                        <span class="text-decoration-line-through">300.000đ</span>
-                                    </p>
                                 </div>
-                            </div>
-                        </a>
-                    </swiper-slide>
-                </swiper>
+                            </a>
+                        </div>
+                    </div>
+                    <button @click="prevSlide" class="prev-button"><font-awesome-icon
+                            :icon="['fas', 'arrow-left']" /></button>
+                    <button @click="nextSlide" class="next-button"><font-awesome-icon
+                            :icon="['fas', 'arrow-right']" /></button>
+                </div>
             </div>
         </section>
+        <!-- Product Slider Section End -->
 
-        <section class="section-3 mt-5">
+        <!-- Product Slider Section Begin -->
+        <section class="section-3 ">
             <div class="container">
-                <h2>Cháy cùng Euro/Copa</h2>
-                <swiper :slides-per-view="5" :loop="true" :autoplay="{ delay: 3000 }"  pagination
-                    class="mySwiper">
-                    <swiper-slide v-for="(item, index) in products" :key="index">
-                        <a href="/detail_product" class="text-decoration-none text-black">
-                            <div class="card border-0">
-                                <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg"
-                                    class="border" alt="Product Image">
-                                <div class="card-body">
-                                    <div class="rating">
-                                        <font-awesome-icon :icon="['far', 'star']" class="star-icon" v-for="i in 5"
-                                            :key="i" />
+                <div class="heading-container">
+                    <h2>ÁO CLB</h2>
+                    <router-link to="/product" class="text-decoration-none text-black"><b>Xem thêm</b></router-link>
+                </div>
+                <div class="slider-container">
+                    <!-- Product Cards -->
+                    <div class="slider" :style="{ transform: 'translateX(' + (-currentSlide * 20) + '%)' }">
+                        <div class="slide" v-for="(item, index) in products" :key="index">
+                            <a href="/detail" class="text-decoration-none text-black">
+                                <div class="card border-0 py-5">
+                                    <img :src="item.image" class="border" alt="Product Image" />
+                                    <div class="card-body">
+                                        <div class="rating">
+                                            <font-awesome-icon :icon="['far', 'star']" class="star-icon" v-for="i in 5"
+                                                :key="i" />
+                                        </div>
+                                        <p class="card-title text-left">
+                                            <b>{{ item.name }}</b>
+                                        </p>
+                                        <p class="card-text text-left">
+                                            <span class="text-danger me-2"><b>{{ item.price }}</b></span>
+                                            <span class="text-decoration-line-through">{{ item.oldPrice }}</span>
+                                        </p>
                                     </div>
-                                    <p class="card-title text-left"><b>MU Home (2012/2013) Màu đỏ + Cộc tay | Bản
-                                            CLASSIC [Không có quần]</b></p>
-                                    <p class="card-text text-left">
-                                        <span class="text-danger me-2"><b>250.000đ</b></span>
-                                        <span class="text-decoration-line-through">300.000đ</span>
-                                    </p>
                                 </div>
-                            </div>
-                        </a>
-                    </swiper-slide>
-                </swiper>
+                            </a>
+                        </div>
+                    </div>
+                    <button @click="prevSlide" class="prev-button"><font-awesome-icon
+                            :icon="['fas', 'arrow-left']" /></button>
+                    <button @click="nextSlide" class="next-button"><font-awesome-icon
+                            :icon="['fas', 'arrow-right']" /></button>
+                </div>
             </div>
         </section>
+        <!-- Product Slider Section End -->
 
         <section class="section awe-section-4">
             <div class="section_banner_adv">
@@ -158,34 +180,45 @@
             </div>
         </section>
 
-        <section class="section-3 mt-5">
+          <!-- Product Slider Section Begin -->
+          <section class="section-3 mt-5">
             <div class="container">
-                <h2>Cốc giữ nhiệt</h2>
-                <swiper :slides-per-view="5" :loop="true" :autoplay="{ delay: 3000 }"  pagination
-                    class="mySwiper">
-                    <swiper-slide v-for="(item, index) in products" :key="index">
-                        <a href="/detail_product" class="text-decoration-none text-black">
-                            <div class="card border-0">
-                                <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg"
-                                    class="border" alt="Product Image">
-                                <div class="card-body">
-                                    <div class="rating">
-                                        <font-awesome-icon :icon="['far', 'star']" class="star-icon" v-for="i in 5"
-                                            :key="i" />
+                <div class="heading-container">
+                    <h2>Giày Đá Bóng</h2>
+                    <router-link to="/product" class="text-decoration-none text-black"><b>Xem thêm</b></router-link>
+                </div>
+                <div class="slider-container">
+                    <!-- Product Cards -->
+                    <div class="slider" :style="{ transform: 'translateX(' + (-currentSlide * 20) + '%)' }">
+                        <div class="slide" v-for="(item, index) in products" :key="index">
+                            <a href="/detail" class="text-decoration-none text-black">
+                                <div class="card border-0 py-5">
+                                    <img :src="item.image" class="border" alt="Product Image" />
+                                    <div class="card-body">
+                                        <div class="rating">
+                                            <font-awesome-icon :icon="['far', 'star']" class="star-icon" v-for="i in 5"
+                                                :key="i" />
+                                        </div>
+                                        <p class="card-title text-left">
+                                            <b>{{ item.name }}</b>
+                                        </p>
+                                        <p class="card-text text-left">
+                                            <span class="text-danger me-2"><b>{{ item.price }}</b></span>
+                                            <span class="text-decoration-line-through">{{ item.oldPrice }}</span>
+                                        </p>
                                     </div>
-                                    <p class="card-title text-left"><b>MU Home (2012/2013) Màu đỏ + Cộc tay | Bản
-                                            CLASSIC [Không có quần]</b></p>
-                                    <p class="card-text text-left">
-                                        <span class="text-danger me-2"><b>250.000đ</b></span>
-                                        <span class="text-decoration-line-through">300.000đ</span>
-                                    </p>
                                 </div>
-                            </div>
-                        </a>
-                    </swiper-slide>
-                </swiper>
+                            </a>
+                        </div>
+                    </div>
+                    <button @click="prevSlide" class="prev-button"><font-awesome-icon
+                            :icon="['fas', 'arrow-left']" /></button>
+                    <button @click="nextSlide" class="next-button"><font-awesome-icon
+                            :icon="['fas', 'arrow-right']" /></button>
+                </div>
             </div>
         </section>
+        <!-- Product Slider Section End -->
 
         <!-- Section: Tin Tức -->
         <section class="section-news mt-5">
@@ -285,48 +318,54 @@ export default {
                 { desktop: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_3.jpg?1722078914172", mobile: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_3.png?1717181462123" },
                 { desktop: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_4.jpg?1722078914172", mobile: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_4.png?1717181462123" }
             ],
+
+            currentSlide: 0,
             products: [
                 {
-                    id: 1,
                     name: 'MU Home (2012/2013) Màu đỏ + Cộc tay | Bản CLASSIC [Không có quần]',
-                    price: 250000,
-                    oldPrice: 300000,
-                    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg',
+                    price: '250.000đ',
+                    oldPrice: '300.000đ',
+                    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg'
                 },
                 {
-                    id: 2,
-                    name: 'Real Madrid Away (2021/2022) Màu đen',
-                    price: 260000,
-                    oldPrice: 320000,
-                    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/real-madrid.jpg',
+                    name: 'Product 2',
+                    price: '200.000đ',
+                    oldPrice: '250.000đ',
+                    image: 'https://via.placeholder.com/150'
                 },
                 {
-                    id: 3,
-                    name: 'Juventus Home (2021/2022) Màu trắng đen',
-                    price: 270000,
-                    oldPrice: 330000,
-                    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/juventus.jpg',
+                    name: 'Product 3',
+                    price: '150.000đ',
+                    oldPrice: '200.000đ',
+                    image: 'https://via.placeholder.com/150'
                 },
                 {
-                    id: 4,
-                    name: 'BĐN Home (2024 - 2025) Màu đỏ + Cộc tay | Bản PLAYER [Có quần]',
-                    price: 280000,
-                    oldPrice: 340000,
-                    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg',
+                    name: 'Product 4',
+                    price: '300.000đ',
+                    oldPrice: '350.000đ',
+                    image: 'https://via.placeholder.com/150'
                 },
                 {
-                    id: 5,
-                    name: 'BĐN Home (2024 - 2025) Màu đỏ + Cộc tay | Bản PLAYER [Có quần]',
-                    price: 290000,
-                    oldPrice: 350000,
-                    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg',
+                    name: 'Product 5',
+                    price: '100.000đ',
+                    oldPrice: '150.000đ',
+                    image: 'https://via.placeholder.com/150'
                 },
                 {
-                    id: 6,
-                    name: 'BĐN Home (2024 - 2025) Màu đỏ + Cộc tay | Bản PLAYER [Có quần]',
-                    price: 300000,
-                    oldPrice: 360000,
-                    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg',
+                    name: 'Product 5',
+                    price: '100.000đ',
+                    oldPrice: '150.000đ',
+                    image: 'https://via.placeholder.com/150'
+                }, {
+                    name: 'Product 5',
+                    price: '100.000đ',
+                    oldPrice: '150.000đ',
+                    image: 'https://via.placeholder.com/150'
+                }, {
+                    name: 'Product 5',
+                    price: '100.000đ',
+                    oldPrice: '150.000đ',
+                    image: 'https://via.placeholder.com/150'
                 },
             ],
             categories: [],
@@ -337,11 +376,36 @@ export default {
     computed: {
         isDesktop() {
             return window.innerWidth > 768;
+        },
+        currentSlideProducts() {
+            const perPage = 5;
+            const start = this.currentIndex * perPage;
+            return this.products.slice(start, start + perPage);
         }
     },
     methods: {
         formatVND(number) {
             return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+        },
+        changeImage(image) {
+            this.largeImage = image;
+        },
+        increaseQuantity() {
+            this.quantity++;
+        },
+        nextSlide() {
+            if (this.currentSlide < this.products.length - 1) {
+                this.currentSlide++;
+            } else {
+                this.currentSlide = 0;
+            }
+        },
+        prevSlide() {
+            if (this.currentSlide > 0) {
+                this.currentSlide--;
+            } else {
+                this.currentSlide = this.products.length - 1;
+            }
         }
     }
 };
@@ -368,5 +432,4 @@ export default {
 .card-title:hover {
     color: #ff0000;
 }
-
 </style>

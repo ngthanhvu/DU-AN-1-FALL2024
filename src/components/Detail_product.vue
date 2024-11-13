@@ -83,9 +83,10 @@
               </li>
             </ul>
 
+            <!-- Tab Content -->
             <div class="tab-content">
-              <div v-for="(tab, index) in tabs" :key="index" v-show="selectedTab === tab.id" :id="tab.id"
-                class="tab-pane" role="tabpanel">
+              <div v-for="(tab, index) in tabs" :key="index" :id="tab.id" class="tab-pane" role="tabpanel"
+                :class="{ active: selectedTab === tab.id }">
                 <div class="product__details__tab__desc">
                   <h6>{{ tab.name }}</h6>
                   <p>{{ tab.content }}</p>
@@ -102,13 +103,16 @@
   <!-- Product Slider Section Begin -->
   <section class="section-3 mt-5">
     <div class="container">
-      <h2>Cháy cùng Euro/Copa</h2>
+      <div class="heading-container">
+        <h2>Cháy cùng Euro/Copa</h2>
+        <router-link to="/product" class="text-decoration-none text-black"><b>Xem thêm</b></router-link>
+      </div>
       <div class="slider-container">
         <!-- Product Cards -->
         <div class="slider" :style="{ transform: 'translateX(' + (-currentSlide * 20) + '%)' }">
           <div class="slide" v-for="(item, index) in products" :key="index">
             <a href="/detail" class="text-decoration-none text-black">
-              <div class="card border-0">
+              <div class="card border-0 py-5">
                 <img :src="item.image" class="border" alt="Product Image" />
                 <div class="card-body">
                   <div class="rating">
@@ -126,10 +130,8 @@
             </a>
           </div>
         </div>
-
-        <button @click="prevSlide" class="prev-button">Prev</button>
-        <button @click="nextSlide" class="next-button">Next</button>
-        <!-- Navigation Buttons -->
+        <button @click="prevSlide" class="prev-button"><font-awesome-icon :icon="['fas', 'arrow-left']" /></button>
+        <button @click="nextSlide" class="next-button"><font-awesome-icon :icon="['fas', 'arrow-right']" /></button>
       </div>
     </div>
   </section>
@@ -151,13 +153,12 @@ export default {
       quantity: 1,
       selectedSize: 'S',
       sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-      selectedTab: 'tabs-1',
+      selectedTab: 'tabs-1',  
       tabs: [
         { id: 'tabs-1', name: 'MÔ TẢ', content: 'Nội dung mô tả sản phẩm tại đây.' },
         { id: 'tabs-2', name: 'XUẤT XỨ', content: 'Nội dung thông tin sản phẩm tại đây.' },
         { id: 'tabs-3', name: 'ĐÁNH GIÁ', content: 'Nội dung đánh giá sản phẩm tại đây.' }
       ],
-
       currentSlide: 0,
       products: [
         {

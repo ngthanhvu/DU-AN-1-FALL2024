@@ -13,10 +13,12 @@
 
       <!-- Main Navigation Links -->
       <ul class="navmenu">
-        <li><a href="/">Trang Chủ</a></li>
-        <li><a href="/product">Sản Phẩm</a></li>
-        <li><a href="/contact">Liên Hệ</a></li>
-        <li><a href="/blog">Tin tức</a></li>
+        <li><router-link to="/">Trang Chủ</router-link></li>
+        <li><router-link to="/product">Sản Phẩm</router-link></li>
+        <li><router-link to="/about">Giới Thiệu</router-link></li>
+        <li><router-link to="/blog">Tin Tức</router-link></li>
+        <li><router-link to="/contact">Liên Hệ</router-link></li>
+
         <li v-if="isAdmin" class="admin-link"><a href="/admin">Admin</a></li>
       </ul>
 
@@ -41,8 +43,8 @@
           <ul class="ct-mobile">
             <li><a href="/">Trang Chủ</a></li>
             <li><a href="/product">Sản Phẩm</a></li>
-            <li><a href="/contact">Liên Hệ</a></li>
             <li><a href="/blog">Tin tức</a></li>
+            <li><a href="/contact">Liên Hệ</a></li>
             <li v-if="isAdmin" class="admin-link"><a href="/admin">Admin</a></li>
           </ul>
         </div>

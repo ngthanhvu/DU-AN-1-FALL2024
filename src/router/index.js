@@ -11,6 +11,7 @@ import Login from '../components/Login.vue';
 import Register from '../components/Register.vue';
 import Cart from '../components/Cart.vue';
 import Checkout from '../components/Checkout.vue';
+import Profile from '../components/Profile.vue';
 
 import AdminLayout from '../components/admin/AdminLayout.vue';
 import AdminDashboard from '@/components/admin/AdminDashboard.vue';
@@ -27,6 +28,7 @@ const routes = [
   { path: '/register', component: Register , meta: { title: 'Register' }},
   { path: '/cart', component: Cart , meta: { title: 'Cart' }},
   { path: '/checkout', component: Checkout , meta: { title: 'Checkout' }},
+  { path: '/profile', component: Profile , meta: { title: 'Profile' }},
   {
     path: '/admin',
     component: AdminLayout,

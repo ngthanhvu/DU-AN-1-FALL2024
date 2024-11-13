@@ -20,26 +20,13 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-// Import các icon
-import {
-    faPhone, faMapMarkerAlt,
-    faEnvelope, faClock, faGauge,
-    faArrowRightFromBracket,
-    faPlus, faFolderOpen
-} from '@fortawesome/free-solid-svg-icons';
-import { faFacebook, faTwitter, faLinkedin, faPinterestP } from '@fortawesome/free-brands-svg-icons';
-import { faHeart, faUser, faEye, faClipboard, faStar, } from '@fortawesome/free-regular-svg-icons';
-import { faCartShopping, faBagShopping } from '@fortawesome/free-solid-svg-icons';
+// Import tất cả các icon
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
 
 // Thêm các icon vào thư viện
-library.add(
-    faPhone, faMapMarkerAlt, faEnvelope, faClock,
-    faFacebook, faTwitter, faLinkedin, faPinterestP,
-    faUser, faHeart, faCartShopping, faEye, faGauge,
-    faFolderOpen, faClipboard, faArrowRightFromBracket,
-    faPlus, fas, faStar, faBagShopping
-);
+library.add(fas, far, fab);
 
 const app = createApp(App);
 
