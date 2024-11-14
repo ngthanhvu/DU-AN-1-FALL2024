@@ -15,6 +15,8 @@ import router from './router';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
+// Boostrap icon
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 // Font Awesome
 import { library } from '@fortawesome/fontawesome-svg-core';

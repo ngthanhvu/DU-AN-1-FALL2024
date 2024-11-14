@@ -57,3 +57,8 @@ npm run lint
 ```sh
 npm install --legacy-peer-deps
 ```
+### Boostrap icon
+
+```sh
+npm i bootstrap-icons
+```
