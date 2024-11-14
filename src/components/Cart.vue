@@ -37,11 +37,11 @@
                             <tbody>
                                 <tr>
                                     <td class="shoping__cart__item">
-                                        <img src="https://cdn.medigoapp.com/product/tao_tay_4_b2a1afe264.jpg" alt="">
-                                        <h5>Vegetable’s Package</h5>
+                                        <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/photo-2024-07-03-00-19-17.jpg" alt="">
+                                        <h5>Áo MU đỏ</h5>
                                     </td>
                                     <td class="shoping__cart__price">
-                                        $55.00
+                                        350.000đ
                                     </td>
                                     <td class="shoping__cart__quantity">
                                         <div class="quantity">
@@ -51,7 +51,7 @@
                                         </div>
                                     </td>
                                     <td class="shoping__cart__total">
-                                        $110.00
+                                        350.000đ
                                     </td>
                                     <td class="shoping__cart__item__close">
                                         <span class="icon_clos">X</span>
@@ -75,7 +75,7 @@
                             <h5>ƯU ĐÃI GIẢM GIÁ</h5>
                             <form action="#">
                                 <input type="text" placeholder="Nhập mã giảm giá nếu có">
-                                <button type="submit" class="site-btn">ÁP DỤNG</button>
+                                <button type="submit" class="site-btn">ÁP DỤNG <font-awesome-icon :icon="['fas', 'ticket']" /></button>
                             </form>
                         </div>
                     </div>
@@ -84,10 +84,10 @@
                     <div class="shoping__checkout">
                         <h5>TỔNG SẢN PHẨM</h5>
                         <ul>
-                            <li>Tạm tính <span>$454.98</span></li>
-                            <li>Tổng thanh toán <span>$454.98</span></li>
+                            <li>Tạm tính <span>380.000đ</span></li>
+                            <li>Tổng thanh toán <span>380.000đ</span></li>
                         </ul>
-                        <router-link to="/checkout" class="primary-btn">TIẾN HÀNH THANH TOÁN</router-link>
+                        <router-link to="/checkout" class="primary-btn">TIẾN HÀNH THANH TOÁN <font-awesome-icon :icon="['far', 'credit-card']" /></router-link>
                     </div>
                 </div>
             </div>

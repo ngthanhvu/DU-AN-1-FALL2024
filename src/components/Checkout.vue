@@ -1,32 +1,27 @@
 <template>
-      <!-- Breadcrumb Section Begin -->
-      <section class="shop1 text-center">
-    <span class="crumb-border"></span>
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12">
-          <ul class="breadcrumb">
-            <li class="home">
-              <router-link to="/"><b>Trang chủ </b></router-link>
-              <span class="icon-arrow-right text-danger"><font-awesome-icon :icon="['fas', 'arrow-right']" /> </span>
-            </li>
-            <li><strong><span class="text-danger"> Thanh Toán</span></strong></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- Breadcrumb Section End -->
-   
-   <!-- Checkout Section Begin -->
-   <section class="checkout spad">
+    <!-- Breadcrumb Section Begin -->
+    <section class="shop1 text-center">
+        <span class="crumb-border"></span>
         <div class="container">
             <div class="row">
-                <div class="col-lg-12">
-                    <h6><span class="icon_tag_alt"></span> Bạn có phiếu giảm giá? <a href="#">Bấm vào để dùng</a> nếu có mã!
-                    </h6>
+                <div class="col-xs-12">
+                    <ul class="breadcrumb">
+                        <li class="home">
+                            <router-link to="/"><b>Trang chủ </b></router-link>
+                            <span class="icon-arrow-right text-danger"><font-awesome-icon
+                                    :icon="['fas', 'arrow-right']" /> </span>
+                        </li>
+                        <li><strong><span class="text-danger"> Thanh Toán</span></strong></li>
+                    </ul>
                 </div>
             </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Checkout Section Begin -->
+    <section class="checkout spad">
+        <div class="container">
             <div class="checkout__form">
                 <h4>Thông Tin Thanh Toán</h4>
                 <form action="#">
@@ -99,33 +94,36 @@
                                 <h4>ĐƠN HÀNG</h4>
                                 <div class="checkout__order__products">Sản phẩm <span>Giá tiền</span></div>
                                 <ul>
-                                    <li>Vegetable’s Package <span>$75.99</span></li>
-                                    <li>Fresh Vegetable <span>$151.99</span></li>
-                                    <li>Organic Bananas <span>$53.99</span></li>
+                                    <li>Áo MU đỏ <span>350.000đ</span></li>
+                                    <li>Áo MU Away (2024-2025) Màu xanh  <span>250.000đ</span></li>
+                                    <li>Áo Đức Home (2024 - 2025) Màu trắng <span>450.000đ</span></li>  
                                 </ul>
-                                <div class="checkout__order__subtotal">Tạm tính <span>$750.99</span></div>
-                                <div class="checkout__order__total">Tổng thanh toán <span>$750.99</span></div>
+                                <div class="checkout__order__subtotal">Tạm tính <span>1.000.000đ</span></div>
+                                <div class="checkout__order__total">Tổng thanh toán <span>1.100.000đ</span></div>
+
+                                <!-- Phương thức thanh toán -->
                                 <div class="checkout__input__checkbox">
                                     <label for="cod">
                                         Thanh Toán Khi Nhận Hàng
-                                        <input type="checkbox" id="payment">
+                                        <input type="radio" name="payment" id="cod" value="cod">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
                                 <div class="checkout__input__checkbox">
-                                    <label for="payment">
+                                    <label for="banking">
                                         Thanh Toán Bằng Banking
-                                        <input type="checkbox" id="payment">
+                                        <input type="radio" name="payment" id="banking" value="banking">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
                                 <div class="checkout__input__checkbox">
-                                    <label for="paypal">
+                                    <label for="vnpay">
                                         Thanh Toán Bằng VNPAY
-                                        <input type="checkbox" id="paypal">
+                                        <input type="radio" name="payment" id="vnpay" value="vnpay">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
+
                                 <button type="submit" class="site-btn">Xác Nhận Thanh Toán</button>
                             </div>
                         </div>
@@ -134,7 +132,6 @@
             </div>
         </div>
     </section>
-    <!-- Checkout Section End -->
 </template>
 
 <script>

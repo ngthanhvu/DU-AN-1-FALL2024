@@ -1,6 +1,26 @@
 <template>
+  <section class="shop1 text-center">
+    <span class="crumb-border"></span>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <ul class="breadcrumb">
+            <li class="home">
+              <router-link to="/"><b>Trang chủ </b></router-link>
+              <span class="icon-arrow-right text-danger"><font-awesome-icon :icon="['fas', 'arrow-right']" /> </span>
+            </li>
+            <li class="home">
+              <router-link to="/product"><b>Sản Phẩm </b></router-link>
+              <span class="icon-arrow-right text-danger"><font-awesome-icon :icon="['fas', 'arrow-right']" /> </span>
+            </li>
+            <li><strong><span class="text-danger"> Áo Khoác Thể Thao</span></strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
   <!-- Product Details Section Begin -->
-  <section class="product-details spad mt-5">
+  <section class="product-details ">
     <div class="container">
       <div class="row">
         <div class="col-lg-6 col-md-6">
@@ -50,7 +70,8 @@
               </div>
             </div>
             <div class="mb-3">
-              <router-link to="/cart" class="btn btn-danger mt-3">ADD TO CARD </router-link>
+              <router-link to="/cart" class="btn btn-danger mt-3">ADD TO CARD <font-awesome-icon
+                  :icon="['fas', 'cart-plus']" /> </router-link>
             </div>
 
             <ul>
@@ -82,7 +103,6 @@
                 </a>
               </li>
             </ul>
-
             <!-- Tab Content -->
             <div class="tab-content">
               <div v-for="(tab, index) in tabs" :key="index" :id="tab.id" class="tab-pane" role="tabpanel"
@@ -90,6 +110,32 @@
                 <div class="product__details__tab__desc">
                   <h6>{{ tab.name }}</h6>
                   <p>{{ tab.content }}</p>
+
+                  <!-- Hiển thị form bình luận khi chọn tab ĐÁNH GIÁ -->
+                  <div v-if="tab.id === 'tabs-3'">
+                    <h6>Viết bình luận của bạn</h6>
+                    <form @submit.prevent="submitComment">
+                      <div class="form-group">
+                        <label for="name">Tên của bạn:</label>
+                        <input type="text" id="name" v-model="commentData.name" required />
+                      </div>
+                      
+                      <div class="form-group">
+                        <label for="comment">Bình luận:</label>
+                        <textarea id="comment" v-model="commentData.comment" required></textarea>
+                      </div>
+                      <button type="submit">Gửi bình luận</button>
+                    </form>
+
+                    <!-- Hiển thị danh sách bình luận -->
+                    <div class="comments-list" v-if="comments.length">
+                      <h6>Các bình luận</h6>
+                      <div v-for="(comment, idx) in comments" :key="idx" class="comment-item">
+                        <p><strong>{{ comment.name }}</strong> 🥰 </p>
+                        <p>{{ comment.comment }}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -111,7 +157,7 @@
         <!-- Product Cards -->
         <div class="slider" :style="{ transform: 'translateX(' + (-currentSlide * 20) + '%)' }">
           <div class="slide" v-for="(item, index) in products" :key="index">
-            <a href="/detail" class="text-decoration-none text-black">
+            <a href="/detail_product" class="text-decoration-none text-black">
               <div class="card border-0 py-5">
                 <img :src="item.image" class="border" alt="Product Image" />
                 <div class="card-body">
@@ -157,8 +203,15 @@ export default {
       tabs: [
         { id: 'tabs-1', name: 'MÔ TẢ', content: 'Nội dung mô tả sản phẩm tại đây.' },
         { id: 'tabs-2', name: 'XUẤT XỨ', content: 'Nội dung thông tin sản phẩm tại đây.' },
-        { id: 'tabs-3', name: 'ĐÁNH GIÁ', content: 'Nội dung đánh giá sản phẩm tại đây.' }
+        { id: 'tabs-3', name: 'BÌNH LUẬN', content: '' },
       ],
+      commentData: {
+        name: '',
+        email: '',
+        rating: '5',
+        comment: ''
+      },
+      comments: [],
       currentSlide: 0,
       products: [
         {
@@ -225,7 +278,7 @@ export default {
       this.quantity++;
     },
     nextSlide() {
-      if (this.currentSlide < this.products.length - 1) {
+      if (this.currentSlide < this.products.length - 5) {
         this.currentSlide++;
       } else {
         this.currentSlide = 0;
@@ -234,8 +287,16 @@ export default {
     prevSlide() {
       if (this.currentSlide > 0) {
         this.currentSlide--;
-      } else {
-        this.currentSlide = this.products.length - 1;
+      }
+    },
+    submitComment() {
+      this.comments.push({ ...this.commentData });
+      // Xóa dữ liệu trong form sau khi gửi
+      this.commentData = {
+        name: '',
+        email: '',
+        rating: '5',
+        comment: ''
       }
     }
   }
@@ -352,6 +413,7 @@ export default {
   background-color: #ddd;
   cursor: not-allowed;
 }
+
 .prev-button,
 .next-button {
   position: absolute;
@@ -363,5 +425,9 @@ export default {
   cursor: pointer;
   border: none;
   border-radius: 50%;
+}
+
+.product-details {
+  margin: -65px 0 auto;
 }
 </style>

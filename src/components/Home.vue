@@ -85,140 +85,25 @@
             </div>
         </section>
 
-        <!-- Product Slider Section Begin -->
-        <section class="section-3 mt-5">
-            <div class="container">
-                <div class="heading-container">
-                    <h2>Cháy cùng Euro/Copa</h2>
-                    <router-link to="/product" class="text-decoration-none text-black"><b>Xem thêm</b></router-link>
-                </div>
-                <div class="slider-container">
-                    <!-- Product Cards -->
-                    <div class="slider" :style="{ transform: 'translateX(' + (-currentSlide * 20) + '%)' }">
-                        <div class="slide" v-for="(item, index) in products" :key="index">
-                            <a href="/detail" class="text-decoration-none text-black">
-                                <div class="card border-0 py-5">
-                                    <img :src="item.image" class="border" alt="Product Image" />
-                                    <div class="card-body">
-                                        <div class="rating">
-                                            <font-awesome-icon :icon="['far', 'star']" class="star-icon" v-for="i in 5"
-                                                :key="i" />
-                                        </div>
-                                        <p class="card-title text-left">
-                                            <b>{{ item.name }}</b>
-                                        </p>
-                                        <p class="card-text text-left">
-                                            <span class="text-danger me-2"><b>{{ item.price }}</b></span>
-                                            <span class="text-decoration-line-through">{{ item.oldPrice }}</span>
-                                        </p>
-                                    </div>
-                                </div>
+        <div>
+            <ProductSlider title="Cháy cùng Euro/Copa" :products="euroProducts" />
+            <ProductSlider title="ÁO CLB" :products="clubShirtProducts" />
+            <section class="section awe-section-4">
+                <div class="section_banner_adv">
+                    <div class="container">
+                        <div class="text-center row mb-3">
+                            <a class="col-12 px-md-0" href="https://b2b.farmersmarket.vn/" title="Quà Tết Doanh Nghiệp">
+                                <img class="img-fluid lazyload loaded"
+                                    src="//theme.hstatic.net/1000141988/1001239110/14/section_hot_banner.png?v=343"
+                                    data-src="//theme.hstatic.net/1000141988/1001239110/14/section_hot_banner.png?v=343"
+                                    alt="Quà Tết Doanh Nghiệp" data-was-processed="true">
                             </a>
                         </div>
                     </div>
-                    <button @click="prevSlide" class="prev-button"><font-awesome-icon
-                            :icon="['fas', 'arrow-left']" /></button>
-                    <button @click="nextSlide" class="next-button"><font-awesome-icon
-                            :icon="['fas', 'arrow-right']" /></button>
                 </div>
-            </div>
-        </section>
-        <!-- Product Slider Section End -->
-
-        <!-- Product Slider Section Begin -->
-        <section class="section-3 ">
-            <div class="container">
-                <div class="heading-container">
-                    <h2>ÁO CLB</h2>
-                    <router-link to="/product" class="text-decoration-none text-black"><b>Xem thêm</b></router-link>
-                </div>
-                <div class="slider-container">
-                    <!-- Product Cards -->
-                    <div class="slider" :style="{ transform: 'translateX(' + (-currentSlide * 20) + '%)' }">
-                        <div class="slide" v-for="(item, index) in products" :key="index">
-                            <a href="/detail" class="text-decoration-none text-black">
-                                <div class="card border-0 py-5">
-                                    <img :src="item.image" class="border" alt="Product Image" />
-                                    <div class="card-body">
-                                        <div class="rating">
-                                            <font-awesome-icon :icon="['far', 'star']" class="star-icon" v-for="i in 5"
-                                                :key="i" />
-                                        </div>
-                                        <p class="card-title text-left">
-                                            <b>{{ item.name }}</b>
-                                        </p>
-                                        <p class="card-text text-left">
-                                            <span class="text-danger me-2"><b>{{ item.price }}</b></span>
-                                            <span class="text-decoration-line-through">{{ item.oldPrice }}</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <button @click="prevSlide" class="prev-button"><font-awesome-icon
-                            :icon="['fas', 'arrow-left']" /></button>
-                    <button @click="nextSlide" class="next-button"><font-awesome-icon
-                            :icon="['fas', 'arrow-right']" /></button>
-                </div>
-            </div>
-        </section>
-        <!-- Product Slider Section End -->
-
-        <section class="section awe-section-4">
-            <div class="section_banner_adv">
-                <div class="container">
-                    <div class="text-center  row mb-3 ">
-                        <a class="col-12 px-md-0" href="https://b2b.farmersmarket.vn/" title="Quà Tết Doanh Nghiệp">
-                            <img class="img-fluid lazyload loaded"
-                                src="//theme.hstatic.net/1000141988/1001239110/14/section_hot_banner.png?v=343"
-                                data-src="//theme.hstatic.net/1000141988/1001239110/14/section_hot_banner.png?v=343"
-                                alt="Quà Tết Doanh Nghiệp" data-was-processed="true">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-          <!-- Product Slider Section Begin -->
-          <section class="section-3 mt-5">
-            <div class="container">
-                <div class="heading-container">
-                    <h2>Giày Đá Bóng</h2>
-                    <router-link to="/product" class="text-decoration-none text-black"><b>Xem thêm</b></router-link>
-                </div>
-                <div class="slider-container">
-                    <!-- Product Cards -->
-                    <div class="slider" :style="{ transform: 'translateX(' + (-currentSlide * 20) + '%)' }">
-                        <div class="slide" v-for="(item, index) in products" :key="index">
-                            <a href="/detail" class="text-decoration-none text-black">
-                                <div class="card border-0 py-5">
-                                    <img :src="item.image" class="border" alt="Product Image" />
-                                    <div class="card-body">
-                                        <div class="rating">
-                                            <font-awesome-icon :icon="['far', 'star']" class="star-icon" v-for="i in 5"
-                                                :key="i" />
-                                        </div>
-                                        <p class="card-title text-left">
-                                            <b>{{ item.name }}</b>
-                                        </p>
-                                        <p class="card-text text-left">
-                                            <span class="text-danger me-2"><b>{{ item.price }}</b></span>
-                                            <span class="text-decoration-line-through">{{ item.oldPrice }}</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <button @click="prevSlide" class="prev-button"><font-awesome-icon
-                            :icon="['fas', 'arrow-left']" /></button>
-                    <button @click="nextSlide" class="next-button"><font-awesome-icon
-                            :icon="['fas', 'arrow-right']" /></button>
-                </div>
-            </div>
-        </section>
-        <!-- Product Slider Section End -->
+            </section>
+            <ProductSlider title="Giày Đá Bóng" :products="soccerShoesProducts" />
+        </div>
 
         <!-- Section: Tin Tức -->
         <section class="section-news mt-5">
@@ -306,10 +191,12 @@
 </template>
 
 <script>
-import { Swiper, SwiperSlide } from 'swiper/vue';
+import ProductSlider from '../components/ProductSlider.vue';
 
 export default {
-    components: { Swiper, SwiperSlide },
+    components: {
+        ProductSlider
+    },
     data() {
         return {
             carouselImages: [
@@ -320,7 +207,7 @@ export default {
             ],
 
             currentSlide: 0,
-            products: [
+            euroProducts: [
                 {
                     name: 'MU Home (2012/2013) Màu đỏ + Cộc tay | Bản CLASSIC [Không có quần]',
                     price: '250.000đ',
@@ -368,6 +255,103 @@ export default {
                     image: 'https://via.placeholder.com/150'
                 },
             ],
+            clubShirtProducts: [
+                {
+                    name: 'MU Home (2012/2013) Màu đỏ + Cộc tay | Bản CLASSIC [Không có quần]',
+                    price: '250.000đ',
+                    oldPrice: '300.000đ',
+                    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg'
+                },
+                {
+                    name: 'Product 2',
+                    price: '200.000đ',
+                    oldPrice: '250.000đ',
+                    image: 'https://via.placeholder.com/150'
+                },
+                {
+                    name: 'Product 3',
+                    price: '150.000đ',
+                    oldPrice: '200.000đ',
+                    image: 'https://via.placeholder.com/150'
+                },
+                {
+                    name: 'Product 4',
+                    price: '300.000đ',
+                    oldPrice: '350.000đ',
+                    image: 'https://via.placeholder.com/150'
+                },
+                {
+                    name: 'Product 5',
+                    price: '100.000đ',
+                    oldPrice: '150.000đ',
+                    image: 'https://via.placeholder.com/150'
+                },
+                {
+                    name: 'Product 5',
+                    price: '100.000đ',
+                    oldPrice: '150.000đ',
+                    image: 'https://via.placeholder.com/150'
+                }, {
+                    name: 'Product 5',
+                    price: '100.000đ',
+                    oldPrice: '150.000đ',
+                    image: 'https://via.placeholder.com/150'
+                }, {
+                    name: 'Product 5',
+                    price: '100.000đ',
+                    oldPrice: '150.000đ',
+                    image: 'https://via.placeholder.com/150'
+                },
+            ],
+            soccerShoesProducts: [
+                {
+                    name: 'MU Home (2012/2013) Màu đỏ + Cộc tay | Bản CLASSIC [Không có quần]',
+                    price: '250.000đ',
+                    oldPrice: '300.000đ',
+                    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg'
+                },
+                {
+                    name: 'Product 2',
+                    price: '200.000đ',
+                    oldPrice: '250.000đ',
+                    image: 'https://via.placeholder.com/150'
+                },
+                {
+                    name: 'Product 3',
+                    price: '150.000đ',
+                    oldPrice: '200.000đ',
+                    image: 'https://via.placeholder.com/150'
+                },
+                {
+                    name: 'Product 4',
+                    price: '300.000đ',
+                    oldPrice: '350.000đ',
+                    image: 'https://via.placeholder.com/150'
+                },
+                {
+                    name: 'Product 5',
+                    price: '100.000đ',
+                    oldPrice: '150.000đ',
+                    image: 'https://via.placeholder.com/150'
+                },
+                {
+                    name: 'Product 5',
+                    price: '100.000đ',
+                    oldPrice: '150.000đ',
+                    image: 'https://via.placeholder.com/150'
+                }, {
+                    name: 'Product 5',
+                    price: '100.000đ',
+                    oldPrice: '150.000đ',
+                    image: 'https://via.placeholder.com/150'
+                }, {
+                    name: 'Product 5',
+                    price: '100.000đ',
+                    oldPrice: '150.000đ',
+                    image: 'https://via.placeholder.com/150'
+                },
+            ],
+
             categories: [],
             banner1: "//bizweb.dktcdn.net/100/483/998/themes/904984/assets/twobanner_1.png?1720275862057",
             banner2: "//bizweb.dktcdn.net/100/483/998/themes/904984/assets/twobanner_2.png?1720275862057"
@@ -431,17 +415,5 @@ export default {
 
 .card-title:hover {
     color: #ff0000;
-}
-.prev-button,
-.next-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  padding: 10px 12px;
-  cursor: pointer;
-  border: none;
-  border-radius: 50%;
 }
 </style>
