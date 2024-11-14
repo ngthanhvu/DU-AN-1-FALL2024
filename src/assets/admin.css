@@ -12759,7 +12759,7 @@ body {
     flex-basis: 225px;
     flex-shrink: 0;
     transition: transform 0.15s ease-in-out;
-    z-index: 1038;
+    /* z-index: 1038; */
     transform: translateX(-225px);
 }
 
@@ -12890,6 +12890,7 @@ body {
 
 .sb-sidenav .sb-sidenav-menu {
     flex-grow: 1;
+    margin-top: 50px;
 }
 
 .sb-sidenav .sb-sidenav-menu .nav {

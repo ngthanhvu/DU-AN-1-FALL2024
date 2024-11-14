@@ -19,7 +19,7 @@
         <li><router-link to="/tin-tuc">Tin Tức</router-link></li>
         <li><router-link to="/lien-he">Liên Hệ</router-link></li>
 
-        <li v-if="isAdmin" class="admin-link"><a href="/admin">Admin</a></li>
+        <li class="admin-link"><a href="/admin">Admin</a></li>
       </ul>
 
       <!-- Cart and Login Icons -->
