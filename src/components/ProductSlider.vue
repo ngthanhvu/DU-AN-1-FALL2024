@@ -8,7 +8,7 @@
             <div class="slider-container">
                 <div class="slider" :style="{ transform: 'translateX(' + (-currentSlide * 20) + '%)' }">
                     <div class="slide" v-for="(item, index) in products" :key="index">
-                        <a href="/detail" class="text-decoration-none text-black">
+                        <a href="/chi-tiet-san-pham" class="text-decoration-none text-black">
                             <div class="card border-0 py-5">
                                 <img :src="item.image" class="border" alt="Product Image" />
                                 <div class="card-body">
@@ -53,7 +53,7 @@ export default {
         prevSlide() {
             if (this.currentSlide > 0) {
                 this.currentSlide--;
-            } 
+            }
         },
         nextSlide() {
             if (this.currentSlide < this.products.length - 5) {

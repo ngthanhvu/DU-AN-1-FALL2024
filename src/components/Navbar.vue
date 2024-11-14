@@ -14,10 +14,10 @@
       <!-- Main Navigation Links -->
       <ul class="navmenu">
         <li><router-link to="/">Trang Chủ</router-link></li>
-        <li><router-link to="/product">Sản Phẩm</router-link></li>
-        <li><router-link to="/about">Giới Thiệu</router-link></li>
-        <li><router-link to="/blog">Tin Tức</router-link></li>
-        <li><router-link to="/contact">Liên Hệ</router-link></li>
+        <li><router-link to="/san-pham">Sản Phẩm</router-link></li>
+        <li><router-link to="/gioi-thieu">Giới Thiệu</router-link></li>
+        <li><router-link to="/tin-tuc">Tin Tức</router-link></li>
+        <li><router-link to="/lien-he">Liên Hệ</router-link></li>
 
         <li v-if="isAdmin" class="admin-link"><a href="/admin">Admin</a></li>
       </ul>

@@ -218,7 +218,7 @@ export default {
                     name: 'Product 2',
                     price: '200.000đ',
                     oldPrice: '250.000đ',
-                    image: 'https://via.placeholder.com/150'
+                    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/photo-2024-09-11-22-53-26.jpg?v=1726070058243'
                 },
                 {
                     name: 'Product 3',
