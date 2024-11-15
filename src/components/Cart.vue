@@ -65,7 +65,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="shoping__cart__btns">
-                        <a href="#" class="primary-btn cart-btn">TIẾP TỤC MUA SẮM</a>
+                        <router-link to="/san-pham"  class="primary-btn cart-btn">TIẾP TỤC MUA SẮM <font-awesome-icon :icon="['fas', 'bag-shopping']" /></router-link>
 
                     </div>
                 </div>
@@ -87,7 +87,7 @@
                             <li>Tạm tính <span>380.000đ</span></li>
                             <li>Tổng thanh toán <span>380.000đ</span></li>
                         </ul>
-                        <router-link to="/checkout" class="primary-btn">TIẾN HÀNH THANH TOÁN <font-awesome-icon :icon="['far', 'credit-card']" /></router-link>
+                        <router-link to="/thanh-toan" class="primary-btn">TIẾN HÀNH THANH TOÁN <font-awesome-icon :icon="['far', 'credit-card']" /></router-link>
                     </div>
                 </div>
             </div>

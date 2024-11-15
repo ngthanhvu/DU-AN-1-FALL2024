@@ -2,8 +2,8 @@
     <section class="section-3 mt-5">
         <div class="container">
             <div class="heading-container">
-                <h2>{{ title }}</h2>
-                <router-link to="/product" class="text-decoration-none text-black"><b>Xem thêm</b></router-link>
+                <h3><strong>{{ title }}</strong></h3>
+                <router-link to="/san-pham" class="text-decoration-none text-black"><b>Xem thêm</b></router-link>
             </div>
             <div class="slider-container">
                 <div class="slider" :style="{ transform: 'translateX(' + (-currentSlide * 20) + '%)' }">
@@ -15,9 +15,9 @@
                                     <div class="rating">
                                         <font-awesome-icon :icon="['far', 'star']" class="star-icon" v-for="i in 5" :key="i" />
                                     </div>
-                                    <p class="card-title text-left">
+                                    <h5 class="card-title text-left">
                                         <b>{{ item.name }}</b>
-                                    </p>
+                                    </h5>
                                     <p class="card-text text-left">
                                         <span class="text-danger me-2"><b>{{ item.price }}</b></span>
                                         <span class="text-decoration-line-through">{{ item.oldPrice }}</span>
@@ -67,4 +67,24 @@ export default {
 </script>
 
 <style scoped>
+.slide img {
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+}
+
+.slide img:hover {
+    transform: scale(1.1); 
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
+}
+.card-body h5:hover {
+    color:rgb(253, 0, 0);
+}
+.card-body h5{
+    font-size: 16px;
+}
+.heading-container a:hover {
+    
+}
+.rating{
+    color: gold;
+}
 </style>

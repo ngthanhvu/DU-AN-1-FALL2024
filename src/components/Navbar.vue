@@ -24,7 +24,7 @@
 
       <!-- Cart and Login Icons -->
       <ul class="navicon">
-        <li><a style="color: #333;" href="/cart"><font-awesome-icon :icon="['fas', 'bag-shopping']" /> <span>{{ cartCount }}</span></a></li>
+        <li><a style="color: #333;" href="/gio-hang"><font-awesome-icon :icon="['fas', 'bag-shopping']" /> <span>{{ cartCount }}</span></a></li>
         <li><a href="/login" class="login-button">Đăng nhập</a></li>
       </ul>
     </div>
@@ -42,7 +42,7 @@
         <div class="link_list_mobile">
           <ul class="ct-mobile">
             <li><a href="/">Trang Chủ</a></li>
-            <li><a href="/product">Sản Phẩm</a></li>
+            <li><a href="/san-pham">Sản Phẩm</a></li>
             <li><a href="/blog">Tin tức</a></li>
             <li><a href="/contact">Liên Hệ</a></li>
             <li v-if="isAdmin" class="admin-link"><a href="/admin">Admin</a></li>

@@ -84,7 +84,7 @@
           <div v-for="product in filteredProducts" :key="product.id" class="col-md-3 col-sm-6 mb-5 product-col">
             <div class="product-box">
               <div class="product-thumbnail">
-                <router-link :to="'/detail_product/' + product.id" class="image_link">
+                <router-link :to="'/chi-tiet-san-pham/' + product.id" class="image_link">
                   <img :src="product.image" class="lazyload" :alt="product.name" width="100%">
                 </router-link>
                 <div v-if="product.isOnSale" class="product-label">
@@ -95,11 +95,11 @@
                 <div class="sapo-product-reviews-badge">
                   <div class="sapo-product-reviews-star" style="color: #ffbe00; font-size: 24px;">
                     <span v-for="n in 5" :key="n" class="bi-star"
-                      :class="{ 'text-warning': n <= product.rating }">★</span>
+                      :class="{ 'text-warning': n <= product.rating }"></span>
                   </div>
                 </div>
                 <h3 class="product-name">
-                  <router-link :to="'/detail_product/' + product.id">{{ product.name }}</router-link>
+                  <router-link :to="'/chi-tiet-san-pham/' + product.id">{{ product.name }}</router-link>
                 </h3>
                 <div class="price-box clearfix">
                   <span class="price product-price">{{ product.price }}₫</span>
@@ -156,7 +156,7 @@ export default {
       return filtered;
     },
     pages() {
-      const totalPages = Math.ceil(this.products.length / 4); // Assuming 4 products per page
+      const totalPages = Math.ceil(this.products.length / 4); 
       return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
   },
@@ -173,7 +173,7 @@ export default {
 
 <style scoped>
 .product-name {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: bold;
   color: #333;
   margin: 12px 0 8px;

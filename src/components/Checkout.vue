@@ -41,9 +41,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="checkout__input">
-                                <p>Quốc gia<span>*</span></p>
-                                <input type="text">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="checkout__input">
+                                        <p>Số Điện Thoại<span>*</span></p>
+                                        <input type="text">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="checkout__input">
+                                        <p>Email<span>*</span></p>
+                                        <input type="text">
+                                    </div>
+                                </div>
                             </div>
                             <div class="checkout__input">
                                 <p>Tỉnh/Thành Phố<span>*</span></p>
@@ -67,20 +77,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Số Điện Thoại<span>*</span></p>
-                                        <input type="text">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Email<span>*</span></p>
-                                        <input type="text">
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="checkout__input__checkbox">
                                 <label for="acc">
                                     Đồng ý với điều khoản & Dịch vụ ?
@@ -88,6 +85,11 @@
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
+                            <div class="checkout__input">
+                                <p>Ghi chú đơn hàng  (tùy chọn)<span>*</span></p>
+                                <textarea rows="4" style="resize: both; width: 100%;"></textarea>
+                            </div>
+
                         </div>
                         <div class="col-lg-4 col-md-6">
                             <div class="checkout__order">
@@ -95,8 +97,8 @@
                                 <div class="checkout__order__products">Sản phẩm <span>Giá tiền</span></div>
                                 <ul>
                                     <li>Áo MU đỏ <span>350.000đ</span></li>
-                                    <li>Áo MU Away (2024-2025) Màu xanh  <span>250.000đ</span></li>
-                                    <li>Áo Đức Home (2024 - 2025) Màu trắng <span>450.000đ</span></li>  
+                                    <li>Áo MU Away (2024-2025) Màu xanh <span>250.000đ</span></li>
+                                    <li>Áo Đức Home (2024 - 2025) Màu trắng <span>450.000đ</span></li>
                                 </ul>
                                 <div class="checkout__order__subtotal">Tạm tính <span>1.000.000đ</span></div>
                                 <div class="checkout__order__total">Tổng thanh toán <span>1.100.000đ</span></div>

@@ -151,13 +151,13 @@
     <div class="container">
       <div class="heading-container">
         <h2>Cháy cùng Euro/Copa</h2>
-        <router-link to="/product" class="text-decoration-none text-black"><b>Xem thêm</b></router-link>
+        <router-link to="/san-pham" class="text-decoration-none text-black"><b>Xem thêm</b></router-link>
       </div>
       <div class="slider-container">
         <!-- Product Cards -->
         <div class="slider" :style="{ transform: 'translateX(' + (-currentSlide * 20) + '%)' }">
           <div class="slide" v-for="(item, index) in products" :key="index">
-            <a href="/detail_product" class="text-decoration-none text-black">
+            <a href="/chi-tiet-san-pham" class="text-decoration-none text-black">
               <div class="card border-0 py-5">
                 <img :src="item.image" class="border" alt="Product Image" />
                 <div class="card-body">
