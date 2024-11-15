@@ -119,12 +119,12 @@
                         <label for="name">Tên của bạn:</label>
                         <input type="text" id="name" v-model="commentData.name" required />
                       </div>
-                      
+
                       <div class="form-group">
                         <label for="comment">Bình luận:</label>
                         <textarea id="comment" v-model="commentData.comment" required></textarea>
                       </div>
-                      <button type="submit">Gửi bình luận</button>
+                      <button type="submit" class="btn-comment">Gửi bình luận</button>
                     </form>
 
                     <!-- Hiển thị danh sách bình luận -->
@@ -429,5 +429,16 @@ export default {
 
 .product-details {
   margin: -65px 0 auto;
+}
+.btn-comment {
+  background-color: #ff0000;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.btn-comment:hover {
+  background-color: #e60000;
 }
 </style>

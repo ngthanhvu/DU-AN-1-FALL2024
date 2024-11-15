@@ -67,3 +67,8 @@ npm i bootstrap-icons
 ```sh
 npm install vietnam-provinces
 ```
+
+### Thư viện axios
+``` sh
+npm install axios
+```
