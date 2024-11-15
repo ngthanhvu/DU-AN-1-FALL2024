@@ -62,3 +62,8 @@ npm install --legacy-peer-deps
 ```sh
 npm i bootstrap-icons
 ```
+
+### Thư viện tỉnh thành
+```sh
+npm install vietnam-provinces
+```
