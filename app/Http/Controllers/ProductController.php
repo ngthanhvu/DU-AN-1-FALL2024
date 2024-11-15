@@ -5,16 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB;
-use App\Models\Skus;
-use App\Models\Category;
 use App\Models\Images;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $products = Product::with('category', 'skus', 'images')->get();
@@ -23,32 +17,43 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        // Validate dữ liệu gửi lên
         $request->validate([
             'name' => 'required',
             'category_id' => 'required|exists:categories,id',
             'price' => 'required|numeric',
             'quantity' => 'required|integer',
-            'sku_code' => 'required',
-            'images' => 'required|array', // Đảm bảo có ảnh
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Kiểm tra ảnh
-            'primary_image' => 'required|integer' // Thêm trường primary_image để chỉ định ảnh chính
+            'skus' => 'required|array',
+            'skus.*.sku_code' => 'required|string',
+            'skus.*.size' => 'nullable|string',
+            'skus.*.color' => 'nullable|string',
+            'skus.*.stock' => 'required|integer|min:0',
+            'images' => 'required|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'primary_image' => 'required|integer|min:0',
         ]);
 
-        // Tạo product
+        // Tạo Product
         $product = Product::create($request->only('name', 'description', 'price', 'quantity', 'category_id'));
 
-        // Tạo SKU
-        $product->skus()->create($request->only('sku_code', 'size', 'color', 'stock'));
+        // Tạo các SKU cho product
+        foreach ($request->input('skus', []) as $sku) {
+            $product->skus()->create([
+                'sku_code' => $sku['sku_code'],
+                'size' => $sku['size'] ?? null,
+                'color' => $sku['color'] ?? null,
+                'stock' => $sku['stock'] ?? 0,
+            ]);
+        }
 
         // Lưu hình ảnh và chỉ định ảnh chính
-        $primaryImageId = $request->primary_image; // Lấy ID ảnh chính từ form
-
         if ($request->hasFile('images')) {
+            $primaryImageIndex = $request->input('primary_image');
             foreach ($request->file('images') as $index => $image) {
                 $imagePath = $image->store('images', 'public');
-                $isPrimary = ($index == $primaryImageId) ? 1 : 0; // Kiểm tra ảnh có phải là ảnh chính không
+                $isPrimary = ($index === $primaryImageIndex) ? 1 : 0;
 
-                // Lưu ảnh vào DB
+                // Lưu ảnh vào database
                 Images::create([
                     'product_id' => $product->id,
                     'image_path' => $imagePath,
@@ -57,20 +62,16 @@ class ProductController extends Controller
             }
         }
 
+        // Trả về response
         return response()->json($product->load('category', 'skus', 'images'), 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Product $product)
     {
         return response()->json($product->load('category', 'skus', 'images'), 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Product $product)
     {
         // Validate dữ liệu
@@ -81,7 +82,7 @@ class ProductController extends Controller
             'quantity' => 'sometimes|integer|min:0',
             'category_id' => 'sometimes|exists:categories,id',
             'sku_id' => 'sometimes|exists:skus,id',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:20048',
         ]);
 
         // Cập nhật product
@@ -98,9 +99,6 @@ class ProductController extends Controller
         return response()->json($product->load('category', 'skus', 'images'), 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Product $product)
     {
         // Xóa các hình ảnh liên quan
