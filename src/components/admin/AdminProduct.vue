@@ -1,30 +1,33 @@
 <template>
-    <div id="layoutSidenav_content">
-      <main>
-        <div class="container-fluid px-4" style="margin-top: 80px;">
-          <h1 class="mt-4">Product</h1>
-          <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-            <li class="breadcrumb-item active">Static Navigation</li>
-          </ol>
-          <div class="card mb-4">
-            <div class="card-body">
-              <p class="mb-0">
-                This page is an example of using static navigation. By removing the
-                <code>.sb-nav-fixed</code>
-                class from the
-                <code>body</code>
-                , the top navigation and side navigation will become static on scroll. Scroll down this page to see an
-                example. <i class="bi bi-check-circle"></i>
-              </p>
-            </div>
-          </div>
-          <div style="height: 100vh"></div>
-          <div class="card mb-4">
-            <div class="card-body">When scrolling, the navigation stays at the top of the page. This is the end of the
-              static navigation demo.</div>
-          </div>
+  <div id="layoutSidenav_content">
+    <main>
+      <div class="container-fluid px-4" style="margin-top: 80px;">
+        <h1 class="mt-4">Quản lý sản phẩm</h1>
+        <div class="d-flex justify-content-end mb-3">
+          <button class="btn btn-primary">Add Product</button>
         </div>
-      </main>
-    </div>
+        <div class="card mb-3">
+            <div class="card-header">Danh sách sản phẩm</div>
+            <div class="card-body">
+                <table class="table table-bordered" id="productTable">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Images</th>
+                            <th>Sku Code</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div style="height: 100vh"></div>
+      </div>
+    </main>
+  </div>
 </template>

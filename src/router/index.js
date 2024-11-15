@@ -18,17 +18,17 @@ import AdminDashboard from '@/components/admin/AdminDashboard.vue';
 import AdminProduct from '@/components/admin/AdminProduct.vue';
 
 const routes = [
-  { path: '/', component: Home , meta: { title: 'Home' }},
-  { path: '/san-pham', component: Product , meta: { title: 'Product' }},
-  { path: '/chi-tiet-san-pham', component: Detail_product , meta: { title: 'Detail_product' }},
-  { path: '/lien-he', component: Contact , meta: { title: 'Contact' }},
-  { path: '/gioi-thieu', component: About , meta: { title: 'About' }},
-  { path: '/tin-tuc', component: Blog , meta: { title: 'Blog' }},
-  { path: '/login', component: Login , meta: { title: 'Login' }},
-  { path: '/register', component: Register , meta: { title: 'Register' }},
-  { path: '/gio-hang', component: Cart , meta: { title: 'Cart' }},
-  { path: '/thanh-toan', component: Checkout , meta: { title: 'Checkout' }},
-  { path: '/trang-ca-nhan', component: Profile , meta: { title: 'Profile' }},
+  { path: '/', component: Home , meta: { title: 'Trang chủ' }},
+  { path: '/san-pham', component: Product , meta: { title: 'Sản phẩm' }},
+  { path: '/chi-tiet-san-pham', component: Detail_product , meta: { title: 'Chi tiết sản phẩm' }},
+  { path: '/lien-he', component: Contact , meta: { title: 'Liên hệ' }},
+  { path: '/gioi-thieu', component: About , meta: { title: 'Giới thiệu' }},
+  { path: '/tin-tuc', component: Blog , meta: { title: 'Tin tức' }},
+  { path: '/login', component: Login , meta: { title: 'Đăng nhập' }},
+  { path: '/register', component: Register , meta: { title: 'Đăng ký' }},
+  { path: '/gio-hang', component: Cart , meta: { title: 'Giỏ hàng' }},
+  { path: '/thanh-toan', component: Checkout , meta: { title: 'Thanh toán' }},
+  { path: '/trang-ca-nhan', component: Profile , meta: { title: 'Thông tin cá nhân' }},
   {
     path: '/admin',
     component: AdminLayout,
@@ -46,7 +46,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  document.title = `${to.meta.title} | Shop`;
+  document.title = `${to.meta.title} | Hangsport`;
   next();
 });
 
