@@ -29,13 +29,13 @@
               <div class="row">
                 <div class="col-lg-6">
                   <div class="checkout__input">
-                    <p>Họ<span>*</span></p>
+                    <p><b>Họ</b><span>*</span></p>
                     <input type="text">
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="checkout__input">
-                    <p>Tên<span>*</span></p>
+                    <p><b>Tên</b><span>*</span></p>
                     <input type="text">
                   </div>
                 </div>
@@ -43,13 +43,13 @@
               <div class="row">
                 <div class="col-lg-6">
                   <div class="checkout__input">
-                    <p>Số Điện Thoại<span>*</span></p>
+                    <p> <b>Số Điện Thoại</b><span>*</span></p>
                     <input type="text">
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="checkout__input">
-                    <p>Email<span>*</span></p>
+                    <p><b>Email</b><span>*</span></p>
                     <input type="text">
                   </div>
                 </div>
@@ -87,6 +87,12 @@
                   </select>
                 </div>
               </form>
+              <div class="col-lg-12">
+                  <div class="checkout__input">
+                    <p><b>Thôn/Xóm</b><span>*</span></p>
+                    <input type="text">
+                  </div>
+                </div>
               <div class="checkout__input__checkbox">
                 <label for="acc">
                   Đồng ý với điều khoản & Dịch vụ ?
@@ -96,9 +102,8 @@
               </div>
               <div class="checkout__input">
                 <p>Ghi chú đơn hàng (tùy chọn)<span>*</span></p>
-                <textarea rows="4" style="resize: both; width: 100%;"></textarea>
+                <textarea rows="4" style="width: 100%; padding: 10px; opacity: 0.8"></textarea>
               </div>
-
             </div>
             <div class="col-lg-4 col-md-6">
               <div class="checkout__order">
@@ -116,6 +121,7 @@
                 <div class="checkout__input__checkbox">
                   <label for="cod">
                     Thanh Toán Khi Nhận Hàng
+                    <img src="https://cdn-icons-png.flaticon.com/512/9368/9368523.png" style="width: 25px; height: 25px;" alt="" class="">
                     <input type="radio" name="payment" id="cod" value="cod">
                     <span class="checkmark"></span>
                   </label>
@@ -123,13 +129,15 @@
                 <div class="checkout__input__checkbox">
                   <label for="banking">
                     Thanh Toán Bằng Banking
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9EtT711vIcfJWlsFu2NWU1fq-UY-S4igEpPFbIDcPkYDbXCmiymvKEtyzu54ZmLn5Sg0&usqp=CAU" style="width: 25px; height: 25px;" alt="" class="">
                     <input type="radio" name="payment" id="banking" value="banking">
                     <span class="checkmark"></span>
                   </label>
                 </div>
                 <div class="checkout__input__checkbox">
                   <label for="vnpay">
-                    Thanh Toán Bằng VNPAY
+                    Thanh Toán Bằng VNPAY 
+                    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/62/46/37/62463711-9d15-39bd-d596-6dce575fd1ca/AppIcon-0-0-1x_U007emarketing-0-7-0-0-85-220.png/246x0w.webp" style="width: 25px; height: 25px;" alt="">
                     <input type="radio" name="payment" id="vnpay" value="vnpay">
                     <span class="checkmark"></span>
                   </label>
@@ -199,4 +207,9 @@ import { getProvinces, getDistricts, getWards } from "vietnam-provinces";
   background-color: #ad3939;
   color: #fff;
 }
+.textarea-no-resize {
+  resize: vertical; 
+  width: 100%; 
+}
+
 </style>
