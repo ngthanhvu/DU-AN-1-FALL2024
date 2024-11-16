@@ -72,3 +72,7 @@ npm install vietnam-provinces
 ``` sh
 npm install axios
 ```
+### Thư viện Sweetalert 2
+```sh
+npm install sweetalert2
+```

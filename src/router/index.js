@@ -16,6 +16,9 @@ import Profile from '../components/Profile.vue';
 import AdminLayout from '../components/admin/AdminLayout.vue';
 import AdminDashboard from '@/components/admin/AdminDashboard.vue';
 import AdminProduct from '@/components/admin/AdminProduct.vue';
+import AdminAddProduct from '@/components/admin/products/add.vue';
+import AdminCategory from '@/components/admin/AdminCategory.vue';
+import AdminAddCategory from '@/components/admin/category/add.vue';
 
 const routes = [
   { path: '/', component: Home , meta: { title: 'Trang chủ' }},
@@ -35,6 +38,9 @@ const routes = [
     children: [
       { path: '', component: AdminDashboard , meta: { title: 'Admin Dashboard' }},
       { path: '/admin/products', component: AdminProduct , meta: { title: 'Admin Product' }},
+      { path: '/admin/products/add', component: AdminAddProduct , meta: { title: 'Admin Add Product' }},
+      { path: '/admin/category', component: AdminCategory , meta: { title: 'Admin Category' }},
+      { path: '/admin/category/add', component: AdminAddCategory , meta: { title: 'Admin Add Category' }},
     ],
   }
 
