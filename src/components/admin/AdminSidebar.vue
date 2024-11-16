@@ -18,10 +18,10 @@
           </a>
           <div class="collapse" id="collapseProducts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
             <nav class="sb-sidenav-menu-nested nav">
-              <router-link class="nav-link" to="/admin/products" >Danh sách sản phẩm</router-link>
+              <router-link class="nav-link" to="/admin/products">Danh sách sản phẩm</router-link>
             </nav>
             <nav class="sb-sidenav-menu-nested nav">
-              <router-link class="nav-link" to="/admin/products/add" >Thêm sản phẩm</router-link>
+              <router-link class="nav-link" to="/admin/products/add">Thêm sản phẩm</router-link>
             </nav>
           </div>
 
@@ -39,6 +39,44 @@
             </nav>
           </div>
 
+          <!-- Manage user  -->
+          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUser"
+            aria-expanded="false" aria-controls="collapseUser">
+            <div class="sb-nav-link-icon"><font-awesome-icon :icon="['fas', 'circle-user']" /></div>
+            Quản Lý Người Dùng
+            <div class="sb-sidenav-collapse-arrow"><font-awesome-icon :icon="['fas', 'angle-down']" /></div>
+          </a>
+          <div class="collapse" id="collapseUser" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+            <nav class="sb-sidenav-menu-nested nav">
+              <router-link class="nav-link" to="/admin/user">Danh sách người dùng</router-link>
+            </nav>
+          </div>
+
+          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseBlog"
+            aria-expanded="false" aria-controls="collapseBlog">
+            <div class="sb-nav-link-icon"><font-awesome-icon :icon="['fas', 'newspaper']" /></div>
+            Quản Lý Bài Viết
+            <div class="sb-sidenav-collapse-arrow"><font-awesome-icon :icon="['fas', 'angle-down']" /></div>
+          </a>
+          <div class="collapse" id="collapseBlog" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+            <nav class="sb-sidenav-menu-nested nav">
+              <router-link class="nav-link" to="/admin/blog">Danh sách bài viết</router-link>
+              <router-link class="nav-link" to="/admin/blog/add">Thêm bài viết</router-link>
+            </nav>
+          </div>
+
+          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseCoupon"
+            aria-expanded="false" aria-controls="collapseCoupon">
+            <div class="sb-nav-link-icon"><font-awesome-icon :icon="['fas', 'ticket']" /></div>
+            Quản Lý Mã Giảm Giá
+            <div class="sb-sidenav-collapse-arrow"><font-awesome-icon :icon="['fas', 'angle-down']" /></div>
+          </a>
+          <div class="collapse" id="collapseCoupon" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+            <nav class="sb-sidenav-menu-nested nav">
+              <router-link class="nav-link" to="/admin/coupon">Danh sách mã</router-link>
+              <router-link class="nav-link" to="/admin/coupon/add">Thêm mã</router-link>
+            </nav>
+          </div>
 
         </div>
       </div>
