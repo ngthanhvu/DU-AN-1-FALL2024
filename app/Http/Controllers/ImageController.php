@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
-    // Upload hình ảnh
     public function store(Request $request)
     {
         $request->validate([
@@ -16,6 +15,10 @@ class ImageController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_primary' => 'boolean',
         ]);
+
+        if ($request->input('is_primary', false)) {
+            Images::where('product_id', $request->product_id)->update(['is_primary' => 0]);
+        }
 
         $imagePath = $request->file('image')->store('images', 'public');
         $image = Images::create([
@@ -27,7 +30,7 @@ class ImageController extends Controller
         return response()->json($image, 201);
     }
 
-    // Xóa hình ảnh
+
     public function destroy($id)
     {
         $image = Images::find($id);

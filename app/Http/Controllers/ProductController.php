@@ -30,13 +30,11 @@ class ProductController extends Controller
             'skus.*.stock' => 'required|integer|min:0',
             'images' => 'required|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'primary_image' => 'required|integer|min:0',
+            'primary_image' => 'required|string',
         ]);
 
-        // Tạo Product
         $product = Product::create($request->only('name', 'description', 'price', 'quantity', 'category_id'));
 
-        // Tạo các SKU cho product
         foreach ($request->input('skus', []) as $sku) {
             $product->skus()->create([
                 'sku_code' => $sku['sku_code'],
@@ -46,14 +44,19 @@ class ProductController extends Controller
             ]);
         }
 
-        // Lưu hình ảnh và chỉ định ảnh chính
-        if ($request->hasFile('images')) {
-            $primaryImageIndex = $request->input('primary_image');
-            foreach ($request->file('images') as $index => $image) {
-                $imagePath = $image->store('images', 'public');
-                $isPrimary = ($index === $primaryImageIndex) ? 1 : 0;
+        $primaryImageName = $request->input('primary_image');
 
-                // Lưu ảnh vào database
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imagePath = $image->store('images', 'public');
+                $originalName = $image->getClientOriginalName();
+
+                $isPrimary = ($originalName === $primaryImageName) ? 1 : 0;
+
+                if ($isPrimary) {
+                    Images::where('product_id', $product->id)->update(['is_primary' => 0]);
+                }
+
                 Images::create([
                     'product_id' => $product->id,
                     'image_path' => $imagePath,
@@ -81,23 +84,62 @@ class ProductController extends Controller
             'price' => 'sometimes|numeric|min:0',
             'quantity' => 'sometimes|integer|min:0',
             'category_id' => 'sometimes|exists:categories,id',
-            'sku_id' => 'sometimes|exists:skus,id',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:20048',
+            'primary_image' => 'nullable|string',
         ]);
 
-        // Cập nhật product
-        $product->update($request->all());
 
-        // Upload hình ảnh mới nếu có
+        $product->update($request->only('name', 'description', 'price', 'quantity', 'category_id'));
+
+        if ($request->has('skus')) {
+            $newSkuIds = collect($request->input('skus'))
+                ->pluck('id')
+                ->filter()
+                ->toArray();
+
+            $product->skus()
+                ->whereNotIn('id', $newSkuIds)
+                ->delete();
+
+            foreach ($request->input('skus') as $skuData) {
+                $product->skus()->updateOrCreate(
+                    ['id' => $skuData['id'] ?? null],
+                    [
+                        'sku_code' => $skuData['sku_code'],
+                        'size' => $skuData['size'] ?? null,
+                        'color' => $skuData['color'] ?? null,
+                        'stock' => $skuData['stock'] ?? 0,
+                    ]
+                );
+            }
+        }
+
+        if ($request->has('primary_image')) {
+            $primaryImagePath = $request->input('primary_image');
+
+            Images::where('product_id', $product->id)->update(['is_primary' => 0]);
+
+            Images::where('product_id', $product->id)
+                ->where('image_path', $primaryImagePath)
+                ->update(['is_primary' => 1]);
+        }
+
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $path = $image->store('images', 'public');
-                $product->images()->create(['image_path' => $path]);
+                $imagePath = $image->store('images', 'public');
+                $originalName = $image->getClientOriginalName();
+
+                Images::create([
+                    'product_id' => $product->id,
+                    'image_path' => $imagePath,
+                    'is_primary' => 0,
+                ]);
             }
         }
 
         return response()->json($product->load('category', 'skus', 'images'), 200);
     }
+
 
     public function destroy(Product $product)
     {
