@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SkuController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,10 @@ Route::apiResource('products', ProductController::class);
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('skus', SkuController::class);
 Route::apiResource('images', ImageController::class);
+Route::apiResource('users', UserController::class);
+
+Route::post('register', [UserController::class, 'register']);
+Route::post('login', [UserController::class, 'login']);
+Route::get('user', [UserController::class, 'getUser'])->middleware('auth:api');
+Route::post('logout', [UserController::class, 'logout'])->middleware('auth:api');
+
