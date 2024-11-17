@@ -19,23 +19,22 @@
         <li><router-link to="/tin-tuc">Tin Tức</router-link></li>
         <li><router-link to="/lien-he">Liên Hệ</router-link></li>
 
-        <li class="admin-link"><a href="/admin">Admin</a></li>
+        <li v-if="isAdmin" class="admin-link"><a href="/admin">Admin</a></li>
       </ul>
 
       <!-- Cart and Login Icons -->
       <ul class="navicon">
         <li><a style="color: #333;" href="/gio-hang"><font-awesome-icon :icon="['fas', 'bag-shopping']" /> <span>{{
-              cartCount }}</span></a></li>
+          cartCount }}</span></a></li>
 
         <!-- Kiểm tra trạng thái đăng nhập -->
-        <li v-if="isLoggedIn" class="dropdown">
-          <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <font-awesome-icon :icon="['fas', 'user']" /> {{ username }}
+        <li v-if="isLogin" class="dropdown">
+          <a href="#" class="dropdown-toggle" style="color: #333;" data-bs-toggle="dropdown" aria-expanded="false">
+            <font-awesome-icon :icon="['fas', 'circle-user']" /> {{ username }}
           </a>
           <ul class="dropdown-menu">
-            <li><router-link class="dropdown-item" to="/trang-ca-nhan">Hồ sơ cá nhân</router-link></li>
-
-            <li><a class="dropdown-item" href="/logout" @click="logout">Đăng xuất</a></li>
+            <li><router-link to="/trang-ca-nhan" class="dropdown-item text-black  mx-auto" >Thông tin cá nhân</router-link></li>
+            <li><button class="dropdown-item" style="font-weight: 500;" @click="logout">Đăng xuất</button></li>
           </ul>
         </li>
 
@@ -69,13 +68,15 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const isLogin = ref(localStorage.getItem('isLogin') === 'true');
-
 const isSidenavOpen = ref(false);
 const cartCount = ref(localStorage.getItem('cartCount') || '0');
-const isAdmin = ref(localStorage.getItem('isAdmin') === 'true');
+const isAdmin = ref(localStorage.getItem('role') === 'admin');
+// const role = ref(localStorage.getItem('role') || '');
 
 const openNav = () => {
   isSidenavOpen.value = true;
@@ -85,8 +86,24 @@ const closeNav = () => {
   isSidenavOpen.value = false;
 };
 
+const logout = () => {
+  localStorage.removeItem('isLogin');
+  localStorage.removeItem('token');
+  localStorage.removeItem('role');
+  isLogin.value = false;
+  router.push('/');
+};
+
+watch(() => localStorage.getItem('isLogin'), (newVal) => {
+  isLogin.value = newVal === 'true';
+});
+
+// watch(() => localStorage.getItem('role'), (newVal) => {
+//   role.value = newVal || '';
+// });
 
 </script>
+
 
 
 <style scoped>

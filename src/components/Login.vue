@@ -120,7 +120,7 @@ const handleSubmit = async () => {
           localStorage.setItem('isLogin', 'true');
 
           alert('Đăng nhập thành công!');
-          router.push('/'); // hoặc trang bạn muốn chuyển đến sau khi đăng nhập
+          window.location.href = '/';
       }
   } catch (error) {
       console.log('Error response:', error.response?.data);
