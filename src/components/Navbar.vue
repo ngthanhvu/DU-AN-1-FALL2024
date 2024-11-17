@@ -24,8 +24,23 @@
 
       <!-- Cart and Login Icons -->
       <ul class="navicon">
-        <li><a style="color: #333;" href="/gio-hang"><font-awesome-icon :icon="['fas', 'bag-shopping']" /> <span>{{ cartCount }}</span></a></li>
-        <li><a href="/login" class="login-button">Đăng nhập</a></li>
+        <li><a style="color: #333;" href="/gio-hang"><font-awesome-icon :icon="['fas', 'bag-shopping']" /> <span>{{
+              cartCount }}</span></a></li>
+
+        <!-- Kiểm tra trạng thái đăng nhập -->
+        <li v-if="isLoggedIn" class="dropdown">
+          <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <font-awesome-icon :icon="['fas', 'user']" /> {{ username }}
+          </a>
+          <ul class="dropdown-menu">
+            <li><router-link class="dropdown-item" to="/trang-ca-nhan">Hồ sơ cá nhân</router-link></li>
+
+            <li><a class="dropdown-item" href="/logout" @click="logout">Đăng xuất</a></li>
+          </ul>
+        </li>
+
+        <!-- Nếu chưa đăng nhập, hiển thị nút đăng nhập -->
+        <li v-else><router-link to="/login" class="login-button">Đăng nhập</router-link></li>
       </ul>
     </div>
 
@@ -135,5 +150,10 @@ const closeNav = () => {
 
 .content_menu_mb .ct-mobile li a:hover {
   color: #f1f1f1;
+}
+
+.navicon .dropdown-menu {
+  right: 0;
+  left: auto;
 }
 </style>
