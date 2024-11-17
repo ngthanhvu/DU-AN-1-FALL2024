@@ -53,25 +53,26 @@
   </header>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      isSidenavOpen: false,
-      cartCount: localStorage.getItem("cartCount") || "0",
-      isAdmin: localStorage.getItem("isAdmin") === "true"
-    };
-  },
-  methods: {
-    openNav() {
-      this.isSidenavOpen = true;
-    },
-    closeNav() {
-      this.isSidenavOpen = false;
-    }
-  }
+<script setup>
+import { ref } from 'vue';
+
+const isLogin = ref(localStorage.getItem('isLogin') === 'true');
+
+const isSidenavOpen = ref(false);
+const cartCount = ref(localStorage.getItem('cartCount') || '0');
+const isAdmin = ref(localStorage.getItem('isAdmin') === 'true');
+
+const openNav = () => {
+  isSidenavOpen.value = true;
 };
+
+const closeNav = () => {
+  isSidenavOpen.value = false;
+};
+
+
 </script>
+
 
 <style scoped>
 /* Style for navbar */

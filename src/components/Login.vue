@@ -114,6 +114,11 @@ const handleSubmit = async () => {
           // Thêm token vào header mặc định của axios
           axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
 
+          //lưu role vào localStorage
+          const UserResponse = await axios.get(`${API_URL}/api/user`);
+          localStorage.setItem('role', UserResponse.data.role);
+          localStorage.setItem('isLogin', 'true');
+
           alert('Đăng nhập thành công!');
           router.push('/'); // hoặc trang bạn muốn chuyển đến sau khi đăng nhập
       }
