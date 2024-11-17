@@ -12,6 +12,7 @@ import Register from '../components/Register.vue';
 import Cart from '../components/Cart.vue';
 import Checkout from '../components/Checkout.vue';
 import Profile from '../components/Profile.vue';
+import Detail_post from '../components/Detail_post.vue';
 
 import AdminLayout from '../components/admin/AdminLayout.vue';
 import AdminDashboard from '@/components/admin/AdminDashboard.vue';
@@ -32,7 +33,8 @@ const routes = [
   { path: '/gio-hang', component: Cart , meta: { title: 'Giỏ hàng' }},
   { path: '/thanh-toan', component: Checkout , meta: { title: 'Thanh toán' }},
   { path: '/trang-ca-nhan', component: Profile , meta: { title: 'Thông tin cá nhân' }},
-  {
+  { path: '/chi-tiet-tin-tuc', component: Detail_post , meta: { title: 'Tin tức' }},
+  { 
     path: '/admin',
     component: AdminLayout,
     children: [

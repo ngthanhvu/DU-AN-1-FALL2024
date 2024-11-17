@@ -57,13 +57,13 @@
       <span><font-awesome-icon :icon="['fas', 'sliders']" /> <b>Bộ lọc</b></span>
       <div class="col-md-2 sidebar">
         <h5><b>Danh Mục</b></h5>
-        <router-link to="/product" class="text-decoration-none text-black text-muted">Danh mục 1</router-link>
-        <router-link to="/product" class="text-decoration-none text-black text-muted">Danh mục 2</router-link>
-        <router-link to="/product" class="text-decoration-none text-black text-muted">Danh mục 3</router-link>
+        <router-link to="/san-pham" class="text-decoration-none text-black text-muted">Danh mục 1</router-link>
+        <router-link to="/san-pham" class="text-decoration-none text-black text-muted">Danh mục 2</router-link>
+        <router-link to="/san-pham" class="text-decoration-none text-black text-muted">Danh mục 3</router-link>
         <hr>
         <h5><b>Loại sản phẩm</b></h5>
-        <router-link to="/product" class="text-decoration-none text-black text-muted">Danh mục 1</router-link>
-        <router-link to="/product" class="text-decoration-none text-black text-muted">Danh mục 2</router-link>
+        <router-link to="/san-pham" class="text-decoration-none text-black text-muted">Danh mục 1</router-link>
+        <router-link to="/san-pham" class="text-decoration-none text-black text-muted">Danh mục 2</router-link>
       </div>
       <div class="col-md-10 main-product">
         <div class="d-flex justify-content-between mb-3">

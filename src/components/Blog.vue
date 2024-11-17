@@ -22,7 +22,7 @@
           <!-- Tin Tức 1 -->
           <div class="col-md-4 mb-4">
             <div class="news-item">
-              <a href="#" class="text-decoration-none">
+              <router-link to="/chi-tiet-tin-tuc" class="text-decoration-none">
                 <img
                   src="https://cafefcdn.com/203337114487263232/2021/9/5/sport17bab263cf1original-ratio-1630800402561676628516.jpeg"
                   class="img-fluid" alt="News Image 1">
@@ -31,13 +31,13 @@
                 <p class="text-muted">Theo LovetheSales.com, 12h sau khi áo đấu của Cristiano Ronaldo
                   phát hành, fan đã bỏ ra tổng cộng 32,5 triệu bảng (60 triệu USD – khoảng 1.366 tỷ
                 </p>
-              </a>
+              </router-link>
             </div>
           </div>
           <!-- Tin Tức 2 -->
           <div class="col-md-4 mb-4">
             <div class="news-item">
-              <a href="#" class="text-decoration-none">
+              <router-link to="/chi-tiet-tin-tuc" class="text-decoration-none">
                 <img
                   src="https://cafefcdn.com/203337114487263232/2021/9/5/sport17bab263cf1original-ratio-1630800402561676628516.jpeg"
                   class="img-fluid" alt="News Image 2">
@@ -46,13 +46,13 @@
                 <p class="text-muted">Theo LovetheSales.com, 12h sau khi áo đấu của Cristiano Ronaldo
                   phát hành, fan đã bỏ ra tổng cộng 32,5 triệu bảng (60 triệu USD – khoảng 1.366 tỷ
                 </p>
-              </a>
+              </router-link>
             </div>
           </div>
           <!-- Tin Tức 3 -->
           <div class="col-md-4 mb-4">
             <div class="news-item">
-              <a href="#" class="text-decoration-none">
+              <router-link to="/chi-tiet-tin-tuc" class="text-decoration-none">
                 <img
                   src="https://cafefcdn.com/203337114487263232/2021/9/5/sport17bab263cf1original-ratio-1630800402561676628516.jpeg"
                   class="img-fluid" alt="News Image 3">
@@ -61,7 +61,7 @@
                 <p class="text-muted">Theo LovetheSales.com, 12h sau khi áo đấu của Cristiano Ronaldo
                   phát hành, fan đã bỏ ra tổng cộng 32,5 triệu bảng (60 triệu USD – khoảng 1.366 tỷ
                 </p>
-              </a>
+              </router-link>
             </div>
           </div>
         </div>
