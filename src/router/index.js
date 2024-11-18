@@ -21,6 +21,7 @@ import AdminProduct from '@/components/admin/AdminProduct.vue';
 import AdminAddProduct from '@/components/admin/products/add.vue';
 import AdminCategory from '@/components/admin/AdminCategory.vue';
 import AdminAddCategory from '@/components/admin/category/add.vue';
+import OrderHistory from '@/components/OrderHistory.vue';
 
 const routes = [
   { path: '/', component: Home, meta: { title: 'Trang chủ' } },
@@ -36,6 +37,7 @@ const routes = [
   { path: '/trang-ca-nhan', component: Profile, meta: { title: 'Thông tin cá nhân' } },
   { path: '/chi-tiet-tin-tuc', component: Detail_post, meta: { title: 'Tin tức' } },
   { path: '/quen-mat-khau', component: Reset, meta: { title: 'Quên mật khẩu' } },
+  { path: '/lich-su-mua-hang', component: OrderHistory, meta: { title: 'Lịch sử mua hàng' } },
   {
     path: '/admin',
     component: AdminLayout,
