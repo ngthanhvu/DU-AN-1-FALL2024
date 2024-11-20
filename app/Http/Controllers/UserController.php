@@ -39,13 +39,13 @@ class UserController extends Controller
     public function register(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
         $user = Users::create([
-            'name' => $validatedData['name'],
+            'username' => $validatedData['username'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
             'role' => 'user', // Bạn có thể đặt giá trị mặc định cho role
@@ -91,7 +91,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
             'role' => 'sometimes|string|max:255',
@@ -99,7 +99,7 @@ class UserController extends Controller
         ]);
 
         $user = Users::create([
-            'name' => $validatedData['name'],
+            'username' => $validatedData['username'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
             'role' => $request->input('role', 'user'),
