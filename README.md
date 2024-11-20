@@ -14,3 +14,7 @@ composer require tymon/jwt-auth
 ```sh
 php artisan jwt:secret
 ```
+### Public cái storge
+```sh
+php artisan storage:link
+```
