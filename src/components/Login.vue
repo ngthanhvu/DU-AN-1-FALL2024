@@ -1,56 +1,38 @@
 <template>
-  <div class="container" style="height: 55vh;">
-      <div class="login-form">
-          <h2 class="text-center text-bold">ĐĂNG NHẬP</h2>
-          <form @submit.prevent="handleSubmit">
-              <div class="mb-3">
-                  <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                  <input
-                      type="email"
-                      class="form-control"
-                      id="email"
-                      v-model="formData.email"
-                      :class="{ 'is-invalid': errors.email }"
-                      placeholder="Email"
-                      required
-                  >
-                  <div class="invalid-feedback" v-if="errors.email">
-                      {{ errors.email }}
-                  </div>
-              </div>
-              <div class="mb-3">
-                  <label for="password" class="form-label">Mật khẩu <span class="text-danger">*</span></label>
-                  <input
-                      type="password"
-                      class="form-control"
-                      id="password"
-                      v-model="formData.password"
-                      :class="{ 'is-invalid': errors.password }"
-                      placeholder="Mật khẩu"
-                      required
-                  >
-                  <div class="invalid-feedback" v-if="errors.password">
-                      {{ errors.password }}
-                  </div>
-              </div>
-              <div class="mb-3 text-center">
-                  <a href="#" class="text-decoration-none text-dark">Quên mật khẩu? Nhấn vào đây</a>
-              </div>
-              <button
-                  type="submit"
-                  class="btn btn-login w-100"
-                  :disabled="isLoading"
-              >
-                  {{ isLoading ? 'Đang xử lý...' : 'Đăng nhập' }}
-              </button>
-              <div class="text-center mt-3">
-                  <router-link to="/register" class="text-decoration-none text-dark">
-                      Chưa có tài khoản? Đăng ký
-                  </router-link>
-              </div>
-          </form>
-      </div>
-  </div>
+    <div class="container" style="height: 55vh;">
+        <div class="login-form">
+            <h2 class="text-center text-bold">ĐĂNG NHẬP</h2>
+            <form @submit.prevent="handleSubmit">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                    <input type="email" class="form-control" id="email" v-model="formData.email"
+                        :class="{ 'is-invalid': errors.email }" placeholder="Email" required>
+                    <div class="invalid-feedback" v-if="errors.email">
+                        {{ errors.email }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Mật khẩu <span class="text-danger">*</span></label>
+                    <input type="password" class="form-control" id="password" v-model="formData.password"
+                        :class="{ 'is-invalid': errors.password }" placeholder="Mật khẩu" required>
+                    <div class="invalid-feedback" v-if="errors.password">
+                        {{ errors.password }}
+                    </div>
+                </div>
+                <div class="mb-3 text-center">
+                    <a href="#" class="text-decoration-none text-dark">Quên mật khẩu? Nhấn vào đây</a>
+                </div>
+                <button type="submit" class="btn btn-login w-100" :disabled="isLoading">
+                    {{ isLoading ? 'Đang xử lý...' : 'Đăng nhập' }}
+                </button>
+                <div class="text-center mt-3">
+                    <router-link to="/register" class="text-decoration-none text-dark">
+                        Chưa có tài khoản? Đăng ký
+                    </router-link>
+                </div>
+            </form>
+        </div>
+    </div>
 </template>
 
 <script setup>
@@ -63,114 +45,114 @@ const API_URL = 'http://127.0.0.1:8000';
 const isLoading = ref(false);
 
 const formData = reactive({
-  email: '',
-  password: ''
+    email: '',
+    password: ''
 });
 
 const errors = reactive({
-  email: '',
-  password: ''
+    email: '',
+    password: ''
 });
 
 const validateForm = () => {
-  let isValid = true;
+    let isValid = true;
 
-  // Reset errors
-  Object.keys(errors).forEach(key => errors[key] = '');
+    // Reset errors
+    Object.keys(errors).forEach(key => errors[key] = '');
 
-  // Email validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(formData.email)) {
-      errors.email = 'Email không hợp lệ';
-      isValid = false;
-  }
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+        errors.email = 'Email không hợp lệ';
+        isValid = false;
+    }
 
-  // Password validation
-  if (!formData.password) {
-      errors.password = 'Vui lòng nhập mật khẩu';
-      isValid = false;
-  }
+    // Password validation
+    if (!formData.password) {
+        errors.password = 'Vui lòng nhập mật khẩu';
+        isValid = false;
+    }
 
-  return isValid;
+    return isValid;
 };
 
 const handleSubmit = async () => {
-  if (!validateForm()) {
-      return;
-  }
+    if (!validateForm()) {
+        return;
+    }
 
-  isLoading.value = true;
+    isLoading.value = true;
 
-  try {
-      const response = await axios.post(`${API_URL}/api/login`, {
-          email: formData.email,
-          password: formData.password
-      });
+    try {
+        const response = await axios.post(`${API_URL}/api/login`, {
+            email: formData.email,
+            password: formData.password
+        });
 
-      if (response.data.token) {
-          // Lưu token vào localStorage
-          localStorage.setItem('token', response.data.token);
+        if (response.data.token) {
+            // Lưu token vào localStorage
+            localStorage.setItem('token', response.data.token);
 
-          // Thêm token vào header mặc định của axios
-          axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+            // Thêm token vào header mặc định của axios
+            axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
 
-          //lưu role vào localStorage
-          const UserResponse = await axios.get(`${API_URL}/api/user`);
-          localStorage.setItem('role', UserResponse.data.role);
-          localStorage.setItem('isLogin', 'true');
+            //lưu role vào localStorage
+            const UserResponse = await axios.get(`${API_URL}/api/user`);
+            localStorage.setItem('role', UserResponse.data.role);
+            localStorage.setItem('isLogin', 'true');
 
-          alert('Đăng nhập thành công!');
-          window.location.href = '/';
-      }
-  } catch (error) {
-      console.log('Error response:', error.response?.data);
+            alert('Đăng nhập thành công!');
+            window.location.href = '/';
+        }
+    } catch (error) {
+        console.log('Error response:', error.response?.data);
 
-      if (error.response?.data?.errors) {
-          Object.keys(error.response.data.errors).forEach(key => {
-              errors[key] = error.response.data.errors[key][0];
-          });
-      } else if (error.response?.data?.message) {
-          alert(error.response.data.message);
-      } else {
-          alert('Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin!');
-      }
-  } finally {
-      isLoading.value = false;
-  }
+        if (error.response?.data?.errors) {
+            Object.keys(error.response.data.errors).forEach(key => {
+                errors[key] = error.response.data.errors[key][0];
+            });
+        } else if (error.response?.data?.message) {
+            alert(error.response.data.message);
+        } else {
+            alert('Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin!');
+        }
+    } finally {
+        isLoading.value = false;
+    }
 };
 </script>
 
 <style scoped>
 .login-form {
-  max-width: 800px;
-  margin: 50px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  margin-top: 175px;
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 175px;
 }
 
 .btn-login {
-  background: #FF0000;
-  color: #fff;
+    background: #FF0000;
+    color: #fff;
 }
 
 .btn-login:hover {
-  background: #f63905;
-  color: #fff;
+    background: #f63905;
+    color: #fff;
 }
 
 .btn-login:disabled {
-  background: #ccc;
-  cursor: not-allowed;
+    background: #ccc;
+    cursor: not-allowed;
 }
 
 .text-dark:hover {
-  color: #FF0000 !important;
+    color: #FF0000 !important;
 }
 
 .invalid-feedback {
-  display: block;
+    display: block;
 }
 </style>
