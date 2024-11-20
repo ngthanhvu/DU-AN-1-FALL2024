@@ -189,210 +189,74 @@
         </section>
     </div>
 </template>
-
-<script>
+<script setup>
+import { ref, computed } from 'vue';
 import ProductSlider from '../components/ProductSlider.vue';
 
-export default {
-    components: {
-        ProductSlider
-    },
-    data() {
-        return {
-            carouselImages: [
-                { desktop: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_1.jpg?1720275862057", mobile: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_1.png?1717181462123" },
-                { desktop: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_2.jpg?1722078914172", mobile: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_2.png?1717181462123" },
-                { desktop: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_3.jpg?1722078914172", mobile: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_3.png?1717181462123" },
-                { desktop: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_4.jpg?1722078914172", mobile: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_4.png?1717181462123" }
-            ],
+const API_URL = 'http://127.0.0.1:8000';
 
-            currentSlide: 0,
-            euroProducts: [
-                {
-                    name: 'MU Home (2012/2013) Màu đỏ + Cộc tay | Bản CLASSIC [Không có quần]',
-                    price: '250.000đ',
-                    oldPrice: '300.000đ',
-                    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg'
-                },
-                {
-                    name: 'Product 2',
-                    price: '200.000đ',
-                    oldPrice: '250.000đ',
-                    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/photo-2024-09-11-22-53-26.jpg?v=1726070058243'
-                },
-                {
-                    name: 'Product 3',
-                    price: '150.000đ',
-                    oldPrice: '200.000đ',
-                    image: 'https://via.placeholder.com/150'
-                },
-                {
-                    name: 'Product 4',
-                    price: '300.000đ',
-                    oldPrice: '350.000đ',
-                    image: 'https://via.placeholder.com/150'
-                },
-                {
-                    name: 'Product 5',
-                    price: '100.000đ',
-                    oldPrice: '150.000đ',
-                    image: 'https://via.placeholder.com/150'
-                },
-                {
-                    name: 'Product 5',
-                    price: '100.000đ',
-                    oldPrice: '150.000đ',
-                    image: 'https://via.placeholder.com/150'
-                }, {
-                    name: 'Product 5',
-                    price: '100.000đ',
-                    oldPrice: '150.000đ',
-                    image: 'https://via.placeholder.com/150'
-                }, {
-                    name: 'Product 5',
-                    price: '100.000đ',
-                    oldPrice: '150.000đ',
-                    image: 'https://via.placeholder.com/150'
-                },
-            ],
-            clubShirtProducts: [
-                {
-                    name: 'MU Home (2012/2013) Màu đỏ + Cộc tay | Bản CLASSIC [Không có quần]',
-                    price: '250.000đ',
-                    oldPrice: '300.000đ',
-                    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg'
-                },
-                {
-                    name: 'Product 2',
-                    price: '200.000đ',
-                    oldPrice: '250.000đ',
-                    image: 'https://via.placeholder.com/150'
-                },
-                {
-                    name: 'Product 3',
-                    price: '150.000đ',
-                    oldPrice: '200.000đ',
-                    image: 'https://via.placeholder.com/150'
-                },
-                {
-                    name: 'Product 4',
-                    price: '300.000đ',
-                    oldPrice: '350.000đ',
-                    image: 'https://via.placeholder.com/150'
-                },
-                {
-                    name: 'Product 5',
-                    price: '100.000đ',
-                    oldPrice: '150.000đ',
-                    image: 'https://via.placeholder.com/150'
-                },
-                {
-                    name: 'Product 5',
-                    price: '100.000đ',
-                    oldPrice: '150.000đ',
-                    image: 'https://via.placeholder.com/150'
-                }, {
-                    name: 'Product 5',
-                    price: '100.000đ',
-                    oldPrice: '150.000đ',
-                    image: 'https://via.placeholder.com/150'
-                }, {
-                    name: 'Product 5',
-                    price: '100.000đ',
-                    oldPrice: '150.000đ',
-                    image: 'https://via.placeholder.com/150'
-                },
-            ],
-            soccerShoesProducts: [
-                {
-                    name: 'MU Home (2012/2013) Màu đỏ + Cộc tay | Bản CLASSIC [Không có quần]',
-                    price: '250.000đ',
-                    oldPrice: '300.000đ',
-                    image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg'
-                },
-                {
-                    name: 'Product 2',
-                    price: '200.000đ',
-                    oldPrice: '250.000đ',
-                    image: 'https://via.placeholder.com/150'
-                },
-                {
-                    name: 'Product 3',
-                    price: '150.000đ',
-                    oldPrice: '200.000đ',
-                    image: 'https://via.placeholder.com/150'
-                },
-                {
-                    name: 'Product 4',
-                    price: '300.000đ',
-                    oldPrice: '350.000đ',
-                    image: 'https://via.placeholder.com/150'
-                },
-                {
-                    name: 'Product 5',
-                    price: '100.000đ',
-                    oldPrice: '150.000đ',
-                    image: 'https://via.placeholder.com/150'
-                },
-                {
-                    name: 'Product 5',
-                    price: '100.000đ',
-                    oldPrice: '150.000đ',
-                    image: 'https://via.placeholder.com/150'
-                }, {
-                    name: 'Product 5',
-                    price: '100.000đ',
-                    oldPrice: '150.000đ',
-                    image: 'https://via.placeholder.com/150'
-                }, {
-                    name: 'Product 5',
-                    price: '100.000đ',
-                    oldPrice: '150.000đ',
-                    image: 'https://via.placeholder.com/150'
-                },
-            ],
+// Declare reactive variables
+const carouselImages = ref([
+    { desktop: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_1.jpg?1720275862057", mobile: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_1.png?1717181462123" },
+    { desktop: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_2.jpg?1722078914172", mobile: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_2.png?1717181462123" },
+    { desktop: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_3.jpg?1722078914172", mobile: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_3.png?1717181462123" },
+    { desktop: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_4.jpg?1722078914172", mobile: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_4.png?1717181462123" }
+]);
 
-            categories: [],
-            banner1: "//bizweb.dktcdn.net/100/483/998/themes/904984/assets/twobanner_1.png?1720275862057",
-            banner2: "//bizweb.dktcdn.net/100/483/998/themes/904984/assets/twobanner_2.png?1720275862057"
-        };
-    },
-    computed: {
-        isDesktop() {
-            return window.innerWidth > 768;
-        },
-        currentSlideProducts() {
-            const perPage = 5;
-            const start = this.currentIndex * perPage;
-            return this.products.slice(start, start + perPage);
-        }
-    },
-    methods: {
-        formatVND(number) {
-            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
-        },
-        changeImage(image) {
-            this.largeImage = image;
-        },
-        increaseQuantity() {
-            this.quantity++;
-        },
-        nextSlide() {
-            if (this.currentSlide < this.products.length - 1) {
-                this.currentSlide++;
-            } else {
-                this.currentSlide = 0;
-            }
-        },
-        prevSlide() {
-            if (this.currentSlide > 0) {
-                this.currentSlide--;
-            } else {
-                this.currentSlide = this.products.length - 1;
-            }
-        }
+const currentSlide = ref(0);
+
+const euroProducts = ref([
+    { name: 'MU Home (2012/2013) Màu đỏ + Cộc tay | Bản CLASSIC [Không có quần]', price: '250.000đ', oldPrice: '300.000đ', image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg' },
+    { name: 'Product 2', price: '200.000đ', oldPrice: '250.000đ', image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/photo-2024-09-11-22-53-26.jpg?v=1726070058243' },
+    { name: 'Product 3', price: '150.000đ', oldPrice: '200.000đ', image: 'https://via.placeholder.com/150' },
+    { name: 'Product 4', price: '300.000đ', oldPrice: '350.000đ', image: 'https://via.placeholder.com/150' },
+    { name: 'Product 5', price: '100.000đ', oldPrice: '150.000đ', image: 'https://via.placeholder.com/150' }
+]);
+
+const clubShirtProducts = ref([...euroProducts.value]); // Copy the data for now
+const soccerShoesProducts = ref([...euroProducts.value]); // Same here
+
+const categories = ref([]);
+const banner1 = "//bizweb.dktcdn.net/100/483/998/themes/904984/assets/twobanner_1.png?1720275862057";
+const banner2 = "//bizweb.dktcdn.net/100/483/998/themes/904984/assets/twobanner_2.png?1720275862057";
+
+// Computed properties
+const isDesktop = computed(() => window.innerWidth > 768);
+
+const currentSlideProducts = computed(() => {
+    const perPage = 5;
+    const start = currentSlide.value * perPage;
+    return euroProducts.value.slice(start, start + perPage);
+});
+
+// Methods
+function formatVND(number) {
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+}
+
+function changeImage(image) {
+    // Placeholder function for changing image (can add logic as needed)
+}
+
+function increaseQuantity() {
+    // Placeholder function to increase quantity
+}
+
+function nextSlide() {
+    if (currentSlide.value < euroProducts.value.length - 1) {
+        currentSlide.value++;
+    } else {
+        currentSlide.value = 0;
     }
-};
+}
+
+function prevSlide() {
+    if (currentSlide.value > 0) {
+        currentSlide.value--;
+    } else {
+        currentSlide.value = euroProducts.value.length - 1;
+    }
+}
 </script>
 
 <style scoped>
