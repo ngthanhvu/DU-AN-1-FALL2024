@@ -13,7 +13,7 @@
               <router-link to="/product"><b>Sản Phẩm </b></router-link>
               <span class="icon-arrow-right text-danger"><font-awesome-icon :icon="['fas', 'arrow-right']" /> </span>
             </li>
-            <li><strong><span class="text-danger"> Áo Khoác Thể Thao</span></strong></li>
+            <li><strong><span class="text-danger"> {{ product.name }}</span></strong></li>
           </ul>
         </div>
       </div>
@@ -28,60 +28,43 @@
         <div class="col-lg-6 col-md-6">
           <div class="product__details__pic">
             <div class="product__details__pic__item">
-              <img
-                src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/photo-2024-09-11-22-53-27.jpg?v=1726070059660"
-                class="product__details__pic__item--large" alt="">
+              <img :src="`${API_URL}/storage/${largeImage}`" class="product__details__pic__item--large"
+                :alt="product.name">
             </div>
             <div class="product__details__pic__slider">
-              <div class="thumbnail"
-                style="background-image: url('https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/photo-2024-09-11-22-53-27.jpg?v=1726070059660')">
-              </div>
-              <div class="thumbnail"
-                style="background-image: url('https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/photo-2024-09-11-22-53-28.jpg?v=1726070063893')">
-              </div>
-              <div class="thumbnail"
-                style="background-image: url('https://bizweb.dktcdn.net/thumb/compact/100/483/998/products/photo-2024-09-11-22-53-29-2.jpg?v=1726070065717')">
-              </div>
-              <div class="thumbnail"
-                style="background-image: url('https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/photo-2024-09-11-22-53-31-2.jpg?v=1726070069620')">
-              </div>
+              <div v-for="image in product.images" :key="image.id" class="thumbnail"
+                :style="{ backgroundImage: `url(${API_URL}/storage/${image.image_path})` }"
+                @click="changeImage(image.image_path)"></div>
             </div>
           </div>
         </div>
 
         <div class="col-lg-6 col-md-6">
           <div class="product__details__text">
-            <h3>Áo Khoác Thể Thao</h3>
+            <h3>{{ product.name }}</h3>
             <div class="swatch clearfix mb-3">
               <div class="mb-3"><strong>Hãng: </strong><label for="hang_sp">Đang cập nhật</label></div>
               <div class="header"><strong>Size:</strong></div>
               <div class="size-options">
-                <label>
-                  <input type="radio" name="size" value="S">
-                  <span>S</span>
-                </label>
-                <label>
-                  <input type="radio" name="size" value="M">
-                  <span>M</span>
-                </label>
-                <label>
-                  <input type="radio" name="size" value="L">
-                  <span>L</span>
+                <label v-for="sku in product.skus" :key="sku.id">
+                  <input type="radio" name="size" :value="sku.size">
+                  <span>{{ sku.size }}</span>
                 </label>
               </div>
 
-              <div class="mb-3"><strong>Số lượng trong kho: </strong><b><span class="badge text-bg-danger">0</span></b>
+              <div class="mb-3"><strong>Số lượng trong kho: </strong><b><span class="badge text-bg-danger">{{
+                    product.quantity }}</span></b>
               </div>
-              <div class="mb-3"><strong>Giá sản phẩm: </strong><b><span
-                    class="text-danger text-nowrap fs-5">257.000đ</span></b></div>
+              <div class="mb-3"><strong>Giá sản phẩm: </strong><b><span class="text-danger text-nowrap fs-5">{{
+                product.price }}</span></b></div>
             </div>
 
             <div class="product__details__quantity mb-3">
               <div><strong>Số Lượng:</strong></div>
               <div class="quantity d-flex align-items-center">
-                <button class="qty-btn qty-decrease me-2">-</button>
-                <input type="text" value="1" class="qty-input text-center" readonly>
-                <button class="qty-btn qty-increase ms-2">+</button>
+                <button class="qty-btn qty-decrease me-2" @click="decreaseQuantity">-</button>
+                <input type="text" :value="quantity" class="qty-input text-center" readonly>
+                <button class="qty-btn qty-increase ms-2" @click="increaseQuantity">+</button>
               </div>
             </div>
 
@@ -203,47 +186,51 @@
 
 
 <script setup>
-import { ref, computed, reactive } from 'vue';
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import { useRoute } from 'vue-router';
 
-// Hàm chuyển đổi giá thành VND
+const route = useRoute();
+const API_URL = 'http://127.0.0.1:8000';
+
+const product = ref({
+  name: '',
+  description: '',
+  price: '',
+  quantity: 0,
+  category: null,
+  skus: [],
+  images: []
+});
+
+const largeImage = ref('');
+const quantity = ref(1);
+
+// Lấy sản phẩm theo ID
+const fetchProduct = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/products/${route.params.id}`);
+    product.value = response.data;
+
+    // Tìm ảnh chính hoặc ảnh đầu tiên
+    const primaryImage = product.value.images.find(image => image.is_primary) || product.value.images[0];
+    largeImage.value = primaryImage ? primaryImage.image_path : '';
+  } catch (error) {
+    console.error('Error fetching product:', error);
+  }
+};
+
+// Chuyển đổi giá thành VND
 const formatVND = (price) => {
   return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
 };
 
-
-const changeImage = (image) => {
-  largeImage.value = image;
+// Thay đổi ảnh lớn
+const changeImage = (imagePath) => {
+  largeImage.value = imagePath;
 };
-
-// Tabs mô tả sản phẩm
-const selectedTab = ref('tabs-1');
-const tabs = ref([
-  { id: 'tabs-1', name: 'MÔ TẢ', content: 'Nội dung mô tả sản phẩm tại đây.' },
-  { id: 'tabs-2', name: 'XUẤT XỨ', content: 'Nội dung thông tin sản phẩm tại đây.' },
-  { id: 'tabs-3', name: 'BÌNH LUẬN', content: '' }
-]);
-
-// Dữ liệu và chức năng bình luận
-const commentData = reactive({
-  name: '',
-  email: '',
-  rating: '5',
-  comment: ''
-});
-
-const submitComment = () => {
-  comments.value.push({ ...commentData });
-  commentData.name = '';
-  commentData.email = '';
-  commentData.rating = '5';
-  commentData.comment = '';
-};
-
-const comments = ref([]);
 
 // Quản lý số lượng sản phẩm
-const quantity = ref(1);
-
 const increaseQuantity = () => {
   quantity.value++;
 };
@@ -253,6 +240,9 @@ const decreaseQuantity = () => {
     quantity.value--;
   }
 };
+onMounted(() => {
+  fetchProduct();
+});
 </script>
 
 
