@@ -104,7 +104,9 @@
             </ul>
           </div>
         </div>
+
         <!-- Product Details Section End -->
+
         <div class="col-lg-12">
           <div class="product__details__tab">
             <!-- Tab Navigation -->
@@ -117,6 +119,7 @@
                 </a>
               </li>
             </ul>
+
             <!-- Tab Content -->
             <div class="tab-content">
               <div v-for="(tab, index) in tabs" :key="index" :id="tab.id" class="tab-pane" role="tabpanel"
@@ -153,6 +156,7 @@
                 </div>
               </div>
             </div>
+            
           </div>
         </div>
       </div>
