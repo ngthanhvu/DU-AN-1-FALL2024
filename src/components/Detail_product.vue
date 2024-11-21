@@ -53,7 +53,7 @@
               </div>
 
               <div class="mb-3"><strong>Số lượng trong kho: </strong><b><span class="badge text-bg-danger">{{
-                    product.quantity }}</span></b>
+                product.quantity }}</span></b>
               </div>
               <div class="mb-3"><strong>Giá sản phẩm: </strong><b><span class="text-danger text-nowrap fs-5">{{
                 product.price }}</span></b></div>
@@ -91,57 +91,76 @@
         <!-- Product Details Section End -->
 
         <div class="col-lg-12">
-          <div class="product__details__tab">
-            <!-- Tab Navigation -->
-            <ul class="nav nav-tabs" role="tablist">
-              <li class="nav-item" v-for="(tab, index) in tabs" :key="index">
-                <a :class="['nav-link', { active: selectedTab === tab.id }]" @click="selectedTab = tab.id"
-                  href="javascript:void(0)" role="tab" :aria-selected="selectedTab === tab.id ? 'true' : 'false'">
-                  {{ tab.name }}
-                  <span v-if="tab.count">({{ tab.count }})</span>
-                </a>
-              </li>
-            </ul>
+    <div class="product__details__tab">
+      <!-- Tab Navigation -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link" :class="{ active: selectedTab === 'tabs-1' }" @click="preiew('tabs-1')" role="tab">
+            MÔ TẢ
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" :class="{ active: selectedTab === 'tabs-2' }" @click="preiew('tabs-2')" role="tab">
+            XUẤT XỨ
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" :class="{ active: selectedTab === 'tabs-3' }" @click="preiew('tabs-3')" role="tab">
+            BÌNH LUẬN
+          </a>
+        </li>
+      </ul>
 
-            <!-- Tab Content -->
-            <div class="tab-content">
-              <div v-for="(tab, index) in tabs" :key="index" :id="tab.id" class="tab-pane" role="tabpanel"
-                :class="{ active: selectedTab === tab.id }">
-                <div class="product__details__tab__desc">
-                  <h6>{{ tab.name }}</h6>
-                  <p>{{ tab.content }}</p>
-
-                  <!-- Hiển thị form bình luận khi chọn tab ĐÁNH GIÁ -->
-                  <div v-if="tab.id === 'tabs-3'">
-                    <h6>Viết bình luận của bạn</h6>
-                    <form @submit.prevent="submitComment">
-                      <div class="form-group">
-                        <label for="name">Tên của bạn:</label>
-                        <input type="text" id="name" v-model="commentData.name" required />
-                      </div>
-
-                      <div class="form-group">
-                        <label for="comment">Bình luận:</label>
-                        <textarea id="comment" v-model="commentData.comment" required></textarea>
-                      </div>
-                      <button type="submit" class="btn-comment">Gửi bình luận</button>
-                    </form>
-
-                    <!-- Hiển thị danh sách bình luận -->
-                    <div class="comments-list" v-if="comments.length">
-                      <h6>Các bình luận</h6>
-                      <div v-for="(comment, idx) in comments" :key="idx" class="comment-item">
-                        <p><strong>{{ comment.name }}</strong> 🥰 </p>
-                        <p>{{ comment.comment }}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
+      <!-- Tab Content -->
+      <div class="tab-content">
+        <!-- Tab 1: MÔ TẢ -->
+        <div v-if="selectedTab === 'tabs-1'" id="tabs-1" class="tab-pane" role="tabpanel">
+          <div class="product__details__tab__desc">
+            <h6>MÔ TẢ</h6>
+            <p>Nội dung mô tả sản phẩm tại đây.</p>
           </div>
         </div>
+
+        <!-- Tab 2: XUẤT XỨ -->
+        <div v-if="selectedTab === 'tabs-2'" id="tabs-2" class="tab-pane" role="tabpanel">
+          <div class="product__details__tab__desc">
+            <h6>XUẤT XỨ</h6>
+            <p>Nội dung thông tin sản phẩm tại đây.</p>
+          </div>
+        </div>
+
+        <!-- Tab 3: BÌNH LUẬN -->
+        <div v-if="selectedTab === 'tabs-3'" id="tabs-3" class="tab-pane" role="tabpanel">
+          <div class="product__details__tab__desc">
+            <h6>BÌNH LUẬN</h6>
+            <h6>Viết bình luận của bạn</h6>
+            <form @submit.prevent="submitComment">
+              <div class="form-group">
+                <label for="name">Tên của bạn:</label>
+                <input type="text" id="name" v-model="commentData.name" required />
+              </div>
+
+              <div class="form-group">
+                <label for="comment">Bình luận:</label>
+                <textarea id="comment" v-model="commentData.comment" required></textarea>
+              </div>
+              <button type="submit" class="btn-comment">Gửi bình luận</button>
+            </form>
+
+            <!-- Hiển thị danh sách bình luận -->
+            <div class="comments-list" v-if="comments.length">
+              <h6>Các bình luận</h6>
+              <div v-for="(comment, idx) in comments" :key="idx" class="comment-item">
+                <p><strong>{{ comment.name }}</strong> 🥰</p>
+                <p>{{ comment.comment }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
       </div>
     </div>
   </section>
@@ -193,9 +212,27 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRoute } from 'vue-router';
+const selectedTab = ref('tabs-1');
+const commentData = ref({
+  name: '',
+  comment: ''
+});
+const comments = ref([]);
 
+function preiew(tab) {
+  selectedTab.value = tab;
+}
+
+function submitComment() {
+  comments.value.push({
+    name: commentData.value.name,
+    comment: commentData.value.comment
+  });
+  commentData.value.name = '';
+  commentData.value.comment = '';
+}
 const route = useRoute();
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = 'https://b5a3-14-243-90-84.ngrok-free.app';
 
 const product = ref({
   name: '',
@@ -396,5 +433,12 @@ onMounted(() => {
 .size-options span:hover {
   border-color: #ff0000;
   background-color: #e6f0ff;
+}
+.tab-content>.tab-pane {
+    display: block;
+}
+
+.tab-content>.active {
+    display: block;
 }
 </style>

@@ -4354,13 +4354,13 @@ fieldset:disabled .btn {
     width: 100%;
 }
 
-.tab-content>.tab-pane {
-    display: none;
+/* .tab-content>.tab-pane {
+    display: block;
 }
 
 .tab-content>.active {
     display: block;
-}
+} */
 
 .navbar {
     --bs-navbar-padding-x: 0;
