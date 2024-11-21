@@ -1,22 +1,27 @@
 <template>
     <div>
-        <!-- Section 1: Carousel -->
         <section class="section-1">
             <div class="container">
                 <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                    <!-- Indicators -->
                     <div class="carousel-indicators">
                         <button v-for="(slide, index) in carouselImages" :key="index" type="button"
                             data-bs-target="#carouselExampleIndicators" :data-bs-slide-to="index"
                             :class="{ active: index === 0 }" :aria-current="index === 0"
-                            :aria-label="'Slide ' + (index + 1)"></button>
+                            :aria-label="'Slide ' + (index + 1)">
+                        </button>
                     </div>
+
+                    <!-- Slides -->
                     <div class="carousel-inner">
                         <div v-for="(slide, index) in carouselImages" :key="index"
                             :class="['carousel-item', { active: index === 0 }]">
-                            <img v-if="isDesktop" :src="slide.desktop" class="d-block w-100" alt="...">
-                            <img v-else :src="slide.mobile" class="d-block w-100" alt="...">
+                            <img v-if="isDesktop" :src="slide.desktop" class="d-block w-100" alt="Desktop Slide">
+                            <img v-else :src="slide.mobile" class="d-block w-100" alt="Mobile Slide">
                         </div>
                     </div>
+
+                    <!-- Controls -->
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
                         data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -85,25 +90,86 @@
             </div>
         </section>
 
-        <div>
-            <ProductSlider title="Cháy cùng Euro/Copa" :products="euroProducts" />
-            <ProductSlider title="ÁO CLB" :products="clubShirtProducts" />
-            <section class="section awe-section-4">
-                <div class="section_banner_adv">
-                    <div class="container">
-                        <div class="text-center row mb-3">
-                            <a class="col-12 px-md-0" href="https://b2b.farmersmarket.vn/" title="Quà Tết Doanh Nghiệp">
-                                <img class="img-fluid lazyload loaded"
-                                    src="//theme.hstatic.net/1000141988/1001239110/14/section_hot_banner.png?v=343"
-                                    data-src="//theme.hstatic.net/1000141988/1001239110/14/section_hot_banner.png?v=343"
-                                    alt="Quà Tết Doanh Nghiệp" data-was-processed="true">
-                            </a>
-                        </div>
+        <!-- product1 -->
+
+        <section class="section-3 mt-5">
+            <div class="container">
+                <h2 class="text-left">Sản phẩm mới nhất</h2>
+                <div class="row justify-content">
+                    <!-- Loop through the first 6 products -->
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-3" v-for="(item, index) in displayedProducts"
+                        :key="index">
+                        <a href="/chi-tiet-san-pham" class="text-decoration-none text-black">
+                            <div class="card border-0">
+                                <img :src="item.image" class="border" alt="Product Image" style="width: 200px" />
+                                <div class="card-body">
+                                    <div class="rating">
+                                        <font-awesome-icon :icon="['far', 'star']" class="star-icon" v-for="i in 5"
+                                            :key="i" />
+                                    </div>
+                                    <h5 class="card-title text-left">
+                                        <b>{{ item.name }}</b>
+                                    </h5>
+                                    <p class="card-text text-left">
+                                        <span class="text-danger me-2"><b>{{ formatVND(item.price) }}</b></span>
+                                        <span class="text-decoration-line-through">{{ formatVND(item.oldPrice) }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
                     </div>
                 </div>
-            </section>
-            <ProductSlider title="Giày Đá Bóng" :products="soccerShoesProducts" />
-        </div>
+            </div>
+        </section>
+        <!-- end -->
+
+        <section class="section awe-section-4 mt-5">
+            <div class="section_banner_adv">
+                <div class="container">
+                    <div class="text-center row mb-3">
+                        <a class="col-12 px-md-0" href="https://b2b.farmersmarket.vn/" title="Quà Tết Doanh Nghiệp">
+                            <img class="img-fluid lazyload loaded"
+                                src="//theme.hstatic.net/1000141988/1001239110/14/section_hot_banner.png?v=343"
+                                data-src="//theme.hstatic.net/1000141988/1001239110/14/section_hot_banner.png?v=343"
+                                alt="Quà Tết Doanh Nghiệp" data-was-processed="true">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- product2 -->
+
+        <section class="section-3 mt-5">
+            <div class="container">
+                <h2 class="text-left">Sản phẩm mới nhất</h2>
+                <div class="row justify-content">
+                    <!-- Loop through the first 6 products -->
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-3" v-for="(item, index) in displayedProducts"
+                        :key="index">
+                        <a href="/chi-tiet-san-pham" class="text-decoration-none text-black">
+                            <div class="card border-0">
+                                <img :src="item.image" class="border" alt="Product Image" style="width: 200px" />
+                                <div class="card-body">
+                                    <div class="rating">
+                                        <font-awesome-icon :icon="['far', 'star']" class="star-icon" v-for="i in 5"
+                                            :key="i" />
+                                    </div>
+                                    <h5 class="card-title text-left">
+                                        <b>{{ item.name }}</b>
+                                    </h5>
+                                    <p class="card-text text-left">
+                                        <span class="text-danger me-2"><b>{{ formatVND(item.price) }}</b></span>
+                                        <span class="text-decoration-line-through">{{ formatVND(item.oldPrice) }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- end -->
 
         <!-- Section: Tin Tức -->
         <section class="section-news mt-5">
@@ -190,79 +256,63 @@
     </div>
 </template>
 <script setup>
-import { ref, computed } from 'vue';
-import ProductSlider from '../components/ProductSlider.vue';
+import { ref, computed, onMounted } from 'vue';
 
-const API_URL = 'http://127.0.0.1:8000';
-
-// Declare reactive variables
-const carouselImages = ref([
-    { desktop: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_1.jpg?1720275862057", mobile: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_1.png?1717181462123" },
-    { desktop: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_2.jpg?1722078914172", mobile: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_2.png?1717181462123" },
-    { desktop: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_3.jpg?1722078914172", mobile: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_3.png?1717181462123" },
-    { desktop: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_4.jpg?1722078914172", mobile: "https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_4.png?1717181462123" }
-]);
-
-const currentSlide = ref(0);
-
+// Danh sách sản phẩm mẫu
 const euroProducts = ref([
-    { name: 'MU Home (2012/2013) Màu đỏ + Cộc tay | Bản CLASSIC [Không có quần]', price: '250.000đ', oldPrice: '300.000đ', image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg' },
-    { name: 'Product 2', price: '200.000đ', oldPrice: '250.000đ', image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/photo-2024-09-11-22-53-26.jpg?v=1726070058243' },
-    { name: 'Product 3', price: '150.000đ', oldPrice: '200.000đ', image: 'https://via.placeholder.com/150' },
-    { name: 'Product 4', price: '300.000đ', oldPrice: '350.000đ', image: 'https://via.placeholder.com/150' },
-    { name: 'Product 5', price: '100.000đ', oldPrice: '150.000đ', image: 'https://via.placeholder.com/150' }
+    { name: 'MU Home (2012/2013) Màu đỏ + Cộc tay | Bản CLASSIC [Không có quần]', price: 250000, oldPrice: 300000, image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg' },
+    { name: 'Product 2', price: 200000, oldPrice: 250000, image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/photo-2024-09-11-22-53-26.jpg?v=1726070058243' },
+    { name: 'Product 3', price: 150000, oldPrice: 200000, image: 'https://via.placeholder.com/150' },
+    { name: 'Product 4', price: 300000, oldPrice: 350000, image: 'https://via.placeholder.com/150' },
+    { name: 'Product 5', price: 300000, oldPrice: 350000, image: 'https://via.placeholder.com/150' },
+    { name: 'Product 6', price: 100000, oldPrice: 150000, image: 'https://via.placeholder.com/150' },
 ]);
 
-const clubShirtProducts = ref([...euroProducts.value]); // Copy the data for now
-const soccerShoesProducts = ref([...euroProducts.value]); // Same here
+// Hiển thị 6 sản phẩm đầu tiên
+const displayedProducts = computed(() => euroProducts.value.slice(0, 6));
 
-const categories = ref([]);
-const banner1 = "//bizweb.dktcdn.net/100/483/998/themes/904984/assets/twobanner_1.png?1720275862057";
-const banner2 = "//bizweb.dktcdn.net/100/483/998/themes/904984/assets/twobanner_2.png?1720275862057";
-
-// Computed properties
-const isDesktop = computed(() => window.innerWidth > 768);
-
-const currentSlideProducts = computed(() => {
-    const perPage = 5;
-    const start = currentSlide.value * perPage;
-    return euroProducts.value.slice(start, start + perPage);
-});
-
-// Methods
+// Hàm định dạng giá tiền
 function formatVND(number) {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
 }
 
-function changeImage(image) {
-    // Placeholder function for changing image (can add logic as needed)
+const carouselImages = ref([
+    {
+        desktop: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_2.jpg?1722078914172',
+        mobile: 'https://via.placeholder.com/768x400?text=Mobile+Slide+1',
+    },
+    {
+        desktop: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_1.jpg?1722078914172',
+        mobile: 'https://via.placeholder.com/768x400?text=Mobile+Slide+2',
+    },
+    {
+        desktop: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_4.jpg?1722078914172',
+        mobile: 'https://via.placeholder.com/768x400?text=Mobile+Slide+3',
+    },
+    {
+        desktop: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_3.jpg?1722078914172',
+        mobile: 'https://via.placeholder.com/768x400?text=Mobile+Slide+4',
+    },
+]);
+
+// Kiểm tra kích thước màn hình
+const isDesktop = ref(window.innerWidth > 768);
+
+// Cập nhật trạng thái khi thay đổi kích thước màn hình
+function updateIsDesktop() {
+    isDesktop.value = window.innerWidth > 768;
 }
 
-function increaseQuantity() {
-    // Placeholder function to increase quantity
-}
-
-function nextSlide() {
-    if (currentSlide.value < euroProducts.value.length - 1) {
-        currentSlide.value++;
-    } else {
-        currentSlide.value = 0;
-    }
-}
-
-function prevSlide() {
-    if (currentSlide.value > 0) {
-        currentSlide.value--;
-    } else {
-        currentSlide.value = euroProducts.value.length - 1;
-    }
-}
+onMounted(() => {
+    window.addEventListener('resize', updateIsDesktop);
+});
 </script>
+
 
 <style scoped>
 .star-icon {
     color: gold;
-    font-size: 18px;
+    font-size: 15px;
 }
 
 .slider-slide img {
@@ -279,5 +329,29 @@ function prevSlide() {
 
 .card-title:hover {
     color: #ff0000;
+}
+
+.card img {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-body h5:hover {
+    color: rgb(253, 0, 0);
+    /* Change text color on hover */
+}
+
+.card-body h5 {
+    font-size: 14px;
+    /* Set font size for product title */
+}
+
+.rating {
+    color: gold;
+    /* Star color */
 }
 </style>

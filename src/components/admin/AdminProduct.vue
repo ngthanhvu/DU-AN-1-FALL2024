@@ -26,6 +26,7 @@
               <td>{{ categories.find(category => category.id === product.category_id)?.name }}</td>
               <td>{{ formatPrice(product.price) }}</td>
               <td>{{ product.quantity }}</td>
+              
               <td>
                 <img v-if="product.images && product.images.length"
                   :src="`${API_URL}/storage/${getPrimaryImage(product.images)}`" alt="Primary Image"
