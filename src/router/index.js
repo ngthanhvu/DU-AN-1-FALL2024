@@ -26,7 +26,7 @@ import OrderHistory from '@/components/OrderHistory.vue';
 const routes = [
   { path: '/', component: Home, meta: { title: 'Trang chủ' } },
   { path: '/san-pham', component: Product, meta: { title: 'Sản phẩm' } },
-  { path: '/chi-tiet-san-pham', component: Detail_product, meta: { title: 'Chi tiết sản phẩm' } },
+  { path: '/chi-tiet-san-pham/:id', component: Detail_product, meta: { title: 'Chi tiết sản phẩm' } },
   { path: '/lien-he', component: Contact, meta: { title: 'Liên hệ' } },
   { path: '/gioi-thieu', component: About, meta: { title: 'Giới thiệu' } },
   { path: '/tin-tuc', component: Blog, meta: { title: 'Tin tức' } },

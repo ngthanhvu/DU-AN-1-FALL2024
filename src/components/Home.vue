@@ -1,308 +1,337 @@
 <template>
-    <div>
-        <section class="section-1">
-            <div class="container">
-                <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
-                    <!-- Indicators -->
-                    <div class="carousel-indicators">
-                        <button v-for="(slide, index) in carouselImages" :key="index" type="button"
-                            data-bs-target="#carouselExampleIndicators" :data-bs-slide-to="index"
-                            :class="{ active: index === 0 }" :aria-current="index === 0"
-                            :aria-label="'Slide ' + (index + 1)">
-                        </button>
-                    </div>
+  <div>
+    <section class="section-1">
+      <div class="container">
+        <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
+          <!-- Indicators -->
+          <div class="carousel-indicators">
+            <button v-for="(slide, index) in carouselImages" :key="index" type="button"
+              data-bs-target="#carouselExampleIndicators" :data-bs-slide-to="index" :class="{ active: index === 0 }"
+              :aria-current="index === 0" :aria-label="'Slide ' + (index + 1)">
+            </button>
+          </div>
 
-                    <!-- Slides -->
-                    <div class="carousel-inner">
-                        <div v-for="(slide, index) in carouselImages" :key="index"
-                            :class="['carousel-item', { active: index === 0 }]">
-                            <img v-if="isDesktop" :src="slide.desktop" class="d-block w-100" alt="Desktop Slide">
-                            <img v-else :src="slide.mobile" class="d-block w-100" alt="Mobile Slide">
-                        </div>
-                    </div>
-
-                    <!-- Controls -->
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                        data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                        data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
+          <!-- Slides -->
+          <div class="carousel-inner">
+            <div v-for="(slide, index) in carouselImages" :key="index"
+              :class="['carousel-item', { active: index === 0 }]">
+              <img v-if="isDesktop" :src="slide.desktop" class="d-block w-100" alt="Desktop Slide">
+              <img v-else :src="slide.mobile" class="d-block w-100" alt="Mobile Slide">
             </div>
-        </section>
+          </div>
 
-        <!-- Section 2: Product Categories -->
-        <section class="section-2 mt-5">
-            <div class="container">
-                <div class="row">
-                    <!-- Category Card 1 -->
-                    <div class="col-md-4">
-                        <div class="product-card">
-                            <div class="product-info">
-                                <h3>Đồ bóng đá</h3>
-                                <p>Áo bóng đá, giày bóng đá, tất bóng đá,...</p>
-                                <a href="#" class="btn btn-custom">Mua Ngay</a>
-                            </div>
-                            <div class="product-image">
-                                <img src="https://bizweb.dktcdn.net/thumb/large/100/483/998/products/photo-2024-07-01-20-38-03-3.jpg?v=1719845875673"
-                                    alt="Đồ bóng đá">
-                            </div>
-                        </div>
-                    </div>
+          <!-- Controls -->
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+    </section>
 
-                    <!-- Category Card 2 -->
-                    <div class="col-md-4">
-                        <div class="product-card">
-                            <div class="product-info">
-                                <h3>Đồ thể thao</h3>
-                                <p>Áo thể thao, giày thể thao, tất thể thao,...</p>
-                                <a href="#" class="btn btn-custom">Mua Ngay</a>
-                            </div>
-                            <div class="product-image">
-                                <img src="https://bizweb.dktcdn.net/thumb/large/100/483/998/products/photo-2024-07-01-20-38-03-3.jpg?v=1719845875673"
-                                    alt="Đồ thể thao">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Category Card 3 -->
-                    <div class="col-md-4">
-                        <div class="product-card">
-                            <div class="product-info">
-                                <h3>Phụ kiện thể thao</h3>
-                                <p>Băng đầu gối, băng cổ tay, băng mắt cá chân,...</p>
-                                <a href="#" class="btn btn-custom">Mua Ngay</a>
-                            </div>
-                            <div class="product-image">
-                                <img src="https://bizweb.dktcdn.net/thumb/large/100/483/998/products/photo-2024-07-01-20-38-03-3.jpg?v=1719845875673"
-                                    alt="Phụ kiện thể thao">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Thêm các thẻ sản phẩm khác nếu cần -->
-                </div>
+    <!-- Section 2: Product Categories -->
+    <section class="section-2 mt-5">
+      <div class="container">
+        <div class="row">
+          <!-- Category Card 1 -->
+          <div class="col-md-4">
+            <div class="product-card">
+              <div class="product-info">
+                <h3>Đồ bóng đá</h3>
+                <p>Áo bóng đá, giày bóng đá, tất bóng đá,...</p>
+                <a href="#" class="btn btn-custom">Mua Ngay</a>
+              </div>
+              <div class="product-image">
+                <img
+                  src="https://bizweb.dktcdn.net/thumb/large/100/483/998/products/photo-2024-07-01-20-38-03-3.jpg?v=1719845875673"
+                  alt="Đồ bóng đá">
+              </div>
             </div>
-        </section>
+          </div>
 
-        <!-- product1 -->
-
-        <section class="section-3 mt-5">
-            <div class="container">
-                <h2 class="text-left">Sản phẩm mới nhất</h2>
-                <div class="row justify-content">
-                    <!-- Sản phẩm 1 -->
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-3">
-                        <a href="/chi-tiet-san-pham" class="text-decoration-none text-black">
-                            <div class="card border-0">
-                                <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg"
-                                    class="border" alt="MU Home" style="width: 200px" />
-                                <div class="card-body">
-                                    <div class="rating" style="color: #ffcc00">
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-                                    <h5 class="card-title text-left">
-                                        <b style="font-size: 14px">MU Home (2012/2013) Màu đỏ + Cộc tay | Bản CLASSIC
-                                            [Không có quần]</b>
-                                    </h5>
-                                    <p class="card-text text-left">
-                                        <span class="text-danger me-2"><b>250.000đ</b></span>
-                                        <span class="text-decoration-line-through">300.000đ</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <!-- Sản phẩm 2 -->
-
-
-                    <!-- Thêm sản phẩm khác tương tự -->
-                </div>
+          <!-- Category Card 2 -->
+          <div class="col-md-4">
+            <div class="product-card">
+              <div class="product-info">
+                <h3>Đồ thể thao</h3>
+                <p>Áo thể thao, giày thể thao, tất thể thao,...</p>
+                <a href="#" class="btn btn-custom">Mua Ngay</a>
+              </div>
+              <div class="product-image">
+                <img
+                  src="https://bizweb.dktcdn.net/thumb/large/100/483/998/products/photo-2024-07-01-20-38-03-3.jpg?v=1719845875673"
+                  alt="Đồ thể thao">
+              </div>
             </div>
-        </section>
-        <!-- end -->
+          </div>
 
-        <section class="section awe-section-4 mt-5">
-            <div class="section_banner_adv">
-                <div class="container">
-                    <div class="text-center row mb-3">
-                        <a class="col-12 px-md-0" href="https://b2b.farmersmarket.vn/" title="Quà Tết Doanh Nghiệp">
-                            <img class="img-fluid lazyload loaded"
-                                src="//theme.hstatic.net/1000141988/1001239110/14/section_hot_banner.png?v=343"
-                                data-src="//theme.hstatic.net/1000141988/1001239110/14/section_hot_banner.png?v=343"
-                                alt="Quà Tết Doanh Nghiệp" data-was-processed="true">
-                        </a>
-                    </div>
-                </div>
+          <!-- Category Card 3 -->
+          <div class="col-md-4">
+            <div class="product-card">
+              <div class="product-info">
+                <h3>Phụ kiện thể thao</h3>
+                <p>Băng đầu gối, băng cổ tay, băng mắt cá chân,...</p>
+                <a href="#" class="btn btn-custom">Mua Ngay</a>
+              </div>
+              <div class="product-image">
+                <img
+                  src="https://bizweb.dktcdn.net/thumb/large/100/483/998/products/photo-2024-07-01-20-38-03-3.jpg?v=1719845875673"
+                  alt="Phụ kiện thể thao">
+              </div>
             </div>
-        </section>
+          </div>
 
-        <!-- product2 -->
-        <section class="section-3 mt-5">
-            <div class="container">
-                <h2 class="text-left">Sản phẩm mới nhất</h2>
-                <div class="row justify-content">
-                    <!-- Sản phẩm 1 -->
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-3">
-                        <a href="/chi-tiet-san-pham" class="text-decoration-none text-black">
-                            <div class="card border-0">
-                                <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg"
-                                    class="border" alt="MU Home" style="width: 200px" />
-                                <div class="card-body">
-                                    <div class="rating" style="color: #ffcc00">
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-                                    <h5 class="card-title text-left">
-                                        <b style="font-size: 14px">MU Home (2012/2013) Màu đỏ + Cộc tay | Bản CLASSIC
-                                            [Không có quần]</b>
-                                    </h5>
-                                    <p class="card-text text-left">
-                                        <span class="text-danger me-2"><b>250.000đ</b></span>
-                                        <span class="text-decoration-line-through">300.000đ</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+          <!-- Thêm các thẻ sản phẩm khác nếu cần -->
+        </div>
+      </div>
+    </section>
 
-                    <!-- Sản phẩm 2 -->
+    <!-- product1 -->
 
-
-                    <!-- Thêm sản phẩm khác tương tự -->
+    <section class="section-3 mt-5">
+      <div class="container">
+        <h2 class="text-left">Sản phẩm mới nhất</h2>
+        <div class="row justify-content">
+          <!-- Sản phẩm 1 -->
+          <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-3" v-for="product in products" :key="product.id">
+            <router-link :to="`/chi-tiet-san-pham/${product.id}`" class="text-decoration-none text-black">
+              <div class="card border-0">
+                <img :src="`${API_URL}/storage/${product.images.find(img => img.is_primary === 1)?.image_path}`"
+                  class="border" alt="MU Home" style="width: 200px" />
+                <div class="card-body">
+                  <div class="rating" style="color: #ffcc00">
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                  </div>
+                  <h5 class="card-title text-left">
+                    <b style="font-size: 14px">{{ product.name }}</b>
+                  </h5>
+                  <p class="card-text text-left">
+                    <span class="text-danger me-2"><b>{{ product.price }}đ</b></span>
+                    <span class="text-decoration-line-through">300.000đ</span>
+                  </p>
                 </div>
-            </div>
-        </section>
-        <!-- end -->
+              </div>
+            </router-link>
+          </div>
 
-        <!-- Section: Tin Tức -->
-        <section class="section-news mt-5">
-            <div class="container">
-                <h2 class="section-title mb-4">Tin Tức Mới Nhất</h2>
-                <div class="row">
-                    <!-- Tin Tức 1 -->
-                    <div class="col-md-4 mb-4">
-                        <div class="news-item">
-                            <a href="#" class="text-decoration-none">
-                                <img src="https://cafefcdn.com/203337114487263232/2021/9/5/sport17bab263cf1original-ratio-1630800402561676628516.jpeg"
-                                    class="img-fluid" alt="News Image 1">
-                                <h4 class="mt-3">Man United lập kỷ lục thu về 1.366 tỷ từ bán áo đấu Ronaldo sau 12h,
-                                    bao giờ thu hồi "vốn"?</h4>
-                                <p class="text-muted">Theo LovetheSales.com, 12h sau khi áo đấu của Cristiano Ronaldo
-                                    phát hành, fan đã bỏ ra tổng cộng 32,5 triệu bảng (60 triệu USD – khoảng 1.366 tỷ
-                                </p>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- Tin Tức 2 -->
-                    <div class="col-md-4 mb-4">
-                        <div class="news-item">
-                            <a href="#" class="text-decoration-none">
-                                <img src="https://cafefcdn.com/203337114487263232/2021/9/5/sport17bab263cf1original-ratio-1630800402561676628516.jpeg"
-                                    class="img-fluid" alt="News Image 2">
-                                <h4 class="mt-3">Man United lập kỷ lục thu về 1.366 tỷ từ bán áo đấu Ronaldo sau 12h,
-                                    bao giờ thu hồi "vốn"?</h4>
-                                <p class="text-muted">Theo LovetheSales.com, 12h sau khi áo đấu của Cristiano Ronaldo
-                                    phát hành, fan đã bỏ ra tổng cộng 32,5 triệu bảng (60 triệu USD – khoảng 1.366 tỷ
-                                </p>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- Tin Tức 3 -->
-                    <div class="col-md-4 mb-4">
-                        <div class="news-item">
-                            <a href="#" class="text-decoration-none">
-                                <img src="https://cafefcdn.com/203337114487263232/2021/9/5/sport17bab263cf1original-ratio-1630800402561676628516.jpeg"
-                                    class="img-fluid" alt="News Image 3">
-                                <h4 class="mt-3">Man United lập kỷ lục thu về 1.366 tỷ từ bán áo đấu Ronaldo sau 12h,
-                                    bao giờ thu hồi "vốn"?</h4>
-                                <p class="text-muted">Theo LovetheSales.com, 12h sau khi áo đấu của Cristiano Ronaldo
-                                    phát hành, fan đã bỏ ra tổng cộng 32,5 triệu bảng (60 triệu USD – khoảng 1.366 tỷ
-                                </p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+          <!-- Sản phẩm 2 -->
 
-        <!-- Section 6: Banner -->
-        <section class="section-6 mt-5">
-            <div class="home-two-banner">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 content_banner">
-                            <div class="title_banner">
-                                <h3>ĐẶT IN ÁO LIÊN HỆ NGAY</h3>
-                                <span>Khách hàng có nhu cầu IN TÊN SỐ, đặt đội hoặc mua số lượng lớn từ 7 bộ vui lòng
-                                    inbox để SHOP hỗ trợ với giá tốt nhất cùng nhiều ưu đãi quà tặng đặc biệt</span>
-                            </div>
-                            <div class="group-banner">
-                                <a class="banner-1" href="#" title="ĐẶT IN ÁO LIÊN HỆ NGAY">
-                                    <img class="img-responsive"
-                                    src="https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/twobanner_1.png?1722078914172"
-                                    alt="Hang Thể Thao" style="width: 100%;">
-                                </a>
-                                <div class="des">
-                                    <a href="#" class="lien-he btn btn-danger mb-4 btn-lg" title="Xem thêm">Liên hệ
-                                        ngay</a>
-                                    <p>Hỗ trợ, tư vấn ngay qua messenger FB hoặc qua SĐT: 0987654321</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 content_banner_2">
-                            <a href="#" title="">
-                                <img class="img-responsive"
-                                    src="https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/twobanner_2.png?1722078914172"
-                                    alt="Hang Thể Thao" style="width: 100%;">
-                            </a>
-                        </div>
-                    </div>
+
+          <!-- Thêm sản phẩm khác tương tự -->
+        </div>
+      </div>
+    </section>
+    <!-- end -->
+
+    <section class="section awe-section-4 mt-5">
+      <div class="section_banner_adv">
+        <div class="container">
+          <div class="text-center row mb-3">
+            <a class="col-12 px-md-0" href="https://b2b.farmersmarket.vn/" title="Quà Tết Doanh Nghiệp">
+              <img class="img-fluid lazyload loaded"
+                src="//theme.hstatic.net/1000141988/1001239110/14/section_hot_banner.png?v=343"
+                data-src="//theme.hstatic.net/1000141988/1001239110/14/section_hot_banner.png?v=343"
+                alt="Quà Tết Doanh Nghiệp" data-was-processed="true">
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- product2 -->
+    <section class="section-3 mt-5">
+      <div class="container">
+        <h2 class="text-left">Sản phẩm mới nhất</h2>
+        <div class="row justify-content">
+          <!-- Sản phẩm 1 -->
+          <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-3">
+            <a href="/chi-tiet-san-pham" class="text-decoration-none text-black">
+              <div class="card border-0">
+                <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg"
+                  class="border" alt="MU Home" style="width: 200px" />
+                <div class="card-body">
+                  <div class="rating" style="color: #ffcc00">
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                  </div>
+                  <h5 class="card-title text-left">
+                    <b style="font-size: 14px">MU Home (2012/2013) Màu đỏ + Cộc tay | Bản CLASSIC
+                      [Không có quần]</b>
+                  </h5>
+                  <p class="card-text text-left">
+                    <span class="text-danger me-2"><b>250.000đ</b></span>
+                    <span class="text-decoration-line-through">300.000đ</span>
+                  </p>
                 </div>
+              </div>
+            </a>
+          </div>
+
+          <!-- Sản phẩm 2 -->
+
+
+          <!-- Thêm sản phẩm khác tương tự -->
+        </div>
+      </div>
+    </section>
+    <!-- end -->
+
+    <!-- Section: Tin Tức -->
+    <section class="section-news mt-5">
+      <div class="container">
+        <h2 class="section-title mb-4">Tin Tức Mới Nhất</h2>
+        <div class="row">
+          <!-- Tin Tức 1 -->
+          <div class="col-md-4 mb-4">
+            <div class="news-item">
+              <a href="#" class="text-decoration-none">
+                <img
+                  src="https://cafefcdn.com/203337114487263232/2021/9/5/sport17bab263cf1original-ratio-1630800402561676628516.jpeg"
+                  class="img-fluid" alt="News Image 1">
+                <h4 class="mt-3">Man United lập kỷ lục thu về 1.366 tỷ từ bán áo đấu Ronaldo sau 12h,
+                  bao giờ thu hồi "vốn"?</h4>
+                <p class="text-muted">Theo LovetheSales.com, 12h sau khi áo đấu của Cristiano Ronaldo
+                  phát hành, fan đã bỏ ra tổng cộng 32,5 triệu bảng (60 triệu USD – khoảng 1.366 tỷ
+                </p>
+              </a>
             </div>
-        </section>
-    </div>
+          </div>
+          <!-- Tin Tức 2 -->
+          <div class="col-md-4 mb-4">
+            <div class="news-item">
+              <a href="#" class="text-decoration-none">
+                <img
+                  src="https://cafefcdn.com/203337114487263232/2021/9/5/sport17bab263cf1original-ratio-1630800402561676628516.jpeg"
+                  class="img-fluid" alt="News Image 2">
+                <h4 class="mt-3">Man United lập kỷ lục thu về 1.366 tỷ từ bán áo đấu Ronaldo sau 12h,
+                  bao giờ thu hồi "vốn"?</h4>
+                <p class="text-muted">Theo LovetheSales.com, 12h sau khi áo đấu của Cristiano Ronaldo
+                  phát hành, fan đã bỏ ra tổng cộng 32,5 triệu bảng (60 triệu USD – khoảng 1.366 tỷ
+                </p>
+              </a>
+            </div>
+          </div>
+          <!-- Tin Tức 3 -->
+          <div class="col-md-4 mb-4">
+            <div class="news-item">
+              <a href="#" class="text-decoration-none">
+                <img
+                  src="https://cafefcdn.com/203337114487263232/2021/9/5/sport17bab263cf1original-ratio-1630800402561676628516.jpeg"
+                  class="img-fluid" alt="News Image 3">
+                <h4 class="mt-3">Man United lập kỷ lục thu về 1.366 tỷ từ bán áo đấu Ronaldo sau 12h,
+                  bao giờ thu hồi "vốn"?</h4>
+                <p class="text-muted">Theo LovetheSales.com, 12h sau khi áo đấu của Cristiano Ronaldo
+                  phát hành, fan đã bỏ ra tổng cộng 32,5 triệu bảng (60 triệu USD – khoảng 1.366 tỷ
+                </p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: Banner -->
+    <section class="section-6 mt-5">
+      <div class="home-two-banner">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 content_banner">
+              <div class="title_banner">
+                <h3>ĐẶT IN ÁO LIÊN HỆ NGAY</h3>
+                <span>Khách hàng có nhu cầu IN TÊN SỐ, đặt đội hoặc mua số lượng lớn từ 7 bộ vui lòng
+                  inbox để SHOP hỗ trợ với giá tốt nhất cùng nhiều ưu đãi quà tặng đặc biệt</span>
+              </div>
+              <div class="group-banner">
+                <a class="banner-1" href="#" title="ĐẶT IN ÁO LIÊN HỆ NGAY">
+                  <img class="img-responsive"
+                    src="https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/twobanner_1.png?1722078914172"
+                    alt="Hang Thể Thao" style="width: 100%;">
+                </a>
+                <div class="des">
+                  <a href="#" class="lien-he btn btn-danger mb-4 btn-lg" title="Xem thêm">Liên hệ
+                    ngay</a>
+                  <p>Hỗ trợ, tư vấn ngay qua messenger FB hoặc qua SĐT: 0987654321</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 content_banner_2">
+              <a href="#" title="">
+                <img class="img-responsive"
+                  src="https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/twobanner_2.png?1722078914172"
+                  alt="Hang Thể Thao" style="width: 100%;">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </template>
 <script setup>
 import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import router from '@/router';
 
+const API_URL = 'http://127.0.0.1:8000';
+const products = ref([]);
+const categories = ref([]);
 
+const fetchProducts = async () => {
+  try {
+    const response = await axios.get('http://127.0.0.1:8000/api/products');
+    products.value = response.data.map(product => ({
+      ...product,
+      image: `http://127.0.0.1:8000/${product.images[0]?.image_path}` // Cập nhật đường dẫn hình ảnh
+    }));
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  }
+};
+
+const fetchCategories = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/categories`);
+    categories.value = response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 // Hàm định dạng giá tiền
 function formatVND(number) {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
 }
 
 const carouselImages = ref([
-    {
-        desktop: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_2.jpg?1722078914172',
-        mobile: 'https://via.placeholder.com/768x400?text=Mobile+Slide+1',
-    },
-    {
-        desktop: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_1.jpg?1722078914172',
-        mobile: 'https://via.placeholder.com/768x400?text=Mobile+Slide+2',
-    },
-    {
-        desktop: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_4.jpg?1722078914172',
-        mobile: 'https://via.placeholder.com/768x400?text=Mobile+Slide+3',
-    },
-    {
-        desktop: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_3.jpg?1722078914172',
-        mobile: 'https://via.placeholder.com/768x400?text=Mobile+Slide+4',
-    },
+  {
+    desktop: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_2.jpg?1722078914172',
+    mobile: 'https://via.placeholder.com/768x400?text=Mobile+Slide+1',
+  },
+  {
+    desktop: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_1.jpg?1722078914172',
+    mobile: 'https://via.placeholder.com/768x400?text=Mobile+Slide+2',
+  },
+  {
+    desktop: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_4.jpg?1722078914172',
+    mobile: 'https://via.placeholder.com/768x400?text=Mobile+Slide+3',
+  },
+  {
+    desktop: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_3.jpg?1722078914172',
+    mobile: 'https://via.placeholder.com/768x400?text=Mobile+Slide+4',
+  },
 ]);
 
 // Kiểm tra kích thước màn hình
@@ -310,64 +339,68 @@ const isDesktop = ref(window.innerWidth > 768);
 
 // Cập nhật trạng thái khi thay đổi kích thước màn hình
 function updateIsDesktop() {
-    isDesktop.value = window.innerWidth > 768;
+  isDesktop.value = window.innerWidth > 768;
 }
 
 onMounted(() => {
-    window.addEventListener('resize', updateIsDesktop);
+  window.addEventListener('resize', updateIsDesktop);
+  fetchProducts();
+  fetchCategories();
 });
 </script>
 
 
 <style scoped>
 .star-icon {
-    color: gold;
-    font-size: 15px;
+  color: gold;
+  font-size: 15px;
 }
 
 .slider-slide img {
-    transition: transform 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .slider-slide:hover img {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 .card-title {
-    transition: color 0.3s ease, transform 0.3s ease;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .card-title:hover {
-    color: #ff0000;
+  color: #ff0000;
 }
 
 .card img {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card img:hover {
-    transform: scale(1.1);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transform: scale(1.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .card-body h5:hover {
-    color: rgb(253, 0, 0);
-    /* Change text color on hover */
+  color: rgb(253, 0, 0);
+  /* Change text color on hover */
 }
 
 .card-body h5 {
-    font-size: 14px;
-    /* Set font size for product title */
+  font-size: 14px;
+  /* Set font size for product title */
 }
 
 .rating {
-    color: gold;
-    /* Star color */
+  color: gold;
+  /* Star color */
 }
+
 .news-item h4 {
-    color: #000000;
+  color: #000000;
 }
+
 .news-item h4 :hover {
-    color: #ff0000;
+  color: #ff0000;
 }
 </style>
