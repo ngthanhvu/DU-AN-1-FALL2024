@@ -1,5 +1,4 @@
 <template>
-
   <section class="shop1 text-center">
     <span class="crumb-border"></span>
     <div class="container">
@@ -79,13 +78,12 @@
           </select>
         </div>
 
-
         <div class="row">
           <div v-for="product in filteredProducts" :key="product.id" class="col-md-3 col-sm-6 mb-5 product-col">
             <div class="product-box">
               <div class="product-thumbnail">
                 <router-link :to="'/chi-tiet-san-pham/' + product.id" class="image_link">
-                  <img :src="product.image" class="lazyload" :alt="product.name" width="100%">
+                  <img :src="`${API_URL}/storage/${product.images.find(img => img.is_primary === 1)?.image_path}`" class="lazyload" :alt="product.name" width="100%">
                 </router-link>
                 <div v-if="product.isOnSale" class="product-label">
                   <strong class="label">Sale</strong>
@@ -112,7 +110,6 @@
           </div>
         </div>
 
-
         <!-- Phân trang -->
         <ul class="pagination">
           <li v-for="page in pages" :key="page" class="page-item">
@@ -124,51 +121,59 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      searchQuery: '',
-      sortOption: '',
-      isSidebarOpen: false,
-      products: [
-        { id: 1, name: 'BĐN Home (2024 - 2025) Màu đỏ + Cộc tay | Bản PLAYER [Có quần]', price: '100.000đ', oldPrice: '150.000đ', image: 'https://bizweb.dktcdn.net/thumb/large/100/483/998/products/photo-2024-06-26-13-23-57-2.jpg?v=1719386766340' },
-        { id: 2, name: 'BĐN Home (2024 - 2025) Màu đỏ + Cộc tay | Bản PLAYER [Có quần]', price: '120.000đ', oldPrice: '180.000đ', image: 'https://bizweb.dktcdn.net/thumb/large/100/483/998/products/photo-2024-06-26-13-23-57-2.jpg?v=1719386766340' },
-        { id: 3, name: 'BĐN Home (2024 - 2025) Màu đỏ + Cộc tay | Bản PLAYER [Có quần]', price: '110.000đ', oldPrice: '160.000đ', image: 'https://bizweb.dktcdn.net/thumb/large/100/483/998/products/photo-2024-06-26-13-23-57-2.jpg?v=1719386766340' },
-        { id: 4, name: 'BĐN Home (2024 - 2025) Màu đỏ + Cộc tay | Bản PLAYER [Có quần]', price: '110.000đ', oldPrice: '160.000đ', image: 'https://bizweb.dktcdn.net/thumb/large/100/483/998/products/photo-2024-06-26-13-23-57-2.jpg?v=1719386766340' },
-        // Thêm sản phẩm khác ở đây
-        // Thêm sản phẩm khác ở đây
-      ]
-    };
-  },
-  computed: {
-    filteredProducts() {
-      let filtered = this.products.filter(product =>
-        product.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+import axios from 'axios';
 
-      if (this.sortOption === 'az') {
-        filtered = filtered.sort((a, b) => a.name.localeCompare(b.name));
-      } else if (this.sortOption === 'za') {
-        filtered = filtered.sort((a, b) => b.name.localeCompare(a.name));
-      }
+const searchQuery = ref('');
+const sortOption = ref('');
+const isSidebarOpen = ref(false);
+const products = ref([]);  // Dữ liệu sản phẩm ban đầu là một mảng rỗng
 
-      return filtered;
-    },
-    pages() {
-      const totalPages = Math.ceil(this.products.length / 4); 
-      return Array.from({ length: totalPages }, (_, i) => i + 1);
-    }
-  },
-  methods: {
-    toggleSidebar() {
-      this.isSidebarOpen = !this.isSidebarOpen;
-    },
-    closeSidebar() {
-      this.isSidebarOpen = false;
-    }
+const API_URL = 'http://127.0.0.1:8000';
+// Hàm để gọi API và lấy dữ liệu sản phẩm
+const fetchProducts = async () => {
+  try {
+    const response = await axios.get('http://127.0.0.1:8000/api/products');
+    products.value = response.data.map(product => ({
+      ...product,
+      image: `http://127.0.0.1:8000/${product.images[0]?.image_path}` // Cập nhật đường dẫn hình ảnh
+    }));
+  } catch (error) {
+    console.error('Error fetching products:', error);
   }
 };
+
+onMounted(() => {
+  fetchProducts();  // Gọi hàm fetchProducts khi component được mount
+});
+
+const toggleSidebar = () => {
+  isSidebarOpen.value = !isSidebarOpen.value;
+};
+
+const closeSidebar = () => {
+  isSidebarOpen.value = false;
+};
+
+const filteredProducts = computed(() => {
+  let filtered = products.value.filter(product =>
+    product.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+
+  if (sortOption.value === 'az') {
+    filtered = filtered.sort((a, b) => a.name.localeCompare(b.name));
+  } else if (sortOption.value === 'za') {
+    filtered = filtered.sort((a, b) => b.name.localeCompare(a.name));
+  }
+
+  return filtered;
+});
+
+const pages = computed(() => {
+  const totalPages = Math.ceil(products.value.length / 4);
+  return Array.from({ length: totalPages }, (_, i) => i + 1);
+});
 </script>
 
 <style scoped>
@@ -186,7 +191,7 @@ export default {
 }
 
 .product-name a:hover {
-  color: #ff0000; 
+  color: #ff0000;
 }
 
 .price-box {
@@ -199,7 +204,7 @@ export default {
 .price.product-price {
   font-size: 17px;
   font-weight: bold;
-  color: #e53935; 
+  color: #e53935;
 }
 
 .price.product-price-old {
