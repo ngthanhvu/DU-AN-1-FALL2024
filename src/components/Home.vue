@@ -96,28 +96,37 @@
             <div class="container">
                 <h2 class="text-left">Sản phẩm mới nhất</h2>
                 <div class="row justify-content">
-                    <!-- Loop through the first 6 products -->
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-3" v-for="(item, index) in displayedProducts"
-                        :key="index">
+                    <!-- Sản phẩm 1 -->
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-3">
                         <a href="/chi-tiet-san-pham" class="text-decoration-none text-black">
                             <div class="card border-0">
-                                <img :src="item.image" class="border" alt="Product Image" style="width: 200px" />
+                                <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg"
+                                    class="border" alt="MU Home" style="width: 200px" />
                                 <div class="card-body">
-                                    <div class="rating">
-                                        <font-awesome-icon :icon="['far', 'star']" class="star-icon" v-for="i in 5"
-                                            :key="i" />
+                                    <div class="rating" style="color: #ffcc00">
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
                                     </div>
                                     <h5 class="card-title text-left">
-                                        <b>{{ item.name }}</b>
+                                        <b style="font-size: 14px">MU Home (2012/2013) Màu đỏ + Cộc tay | Bản CLASSIC
+                                            [Không có quần]</b>
                                     </h5>
                                     <p class="card-text text-left">
-                                        <span class="text-danger me-2"><b>{{ formatVND(item.price) }}</b></span>
-                                        <span class="text-decoration-line-through">{{ formatVND(item.oldPrice) }}</span>
+                                        <span class="text-danger me-2"><b>250.000đ</b></span>
+                                        <span class="text-decoration-line-through">300.000đ</span>
                                     </p>
                                 </div>
                             </div>
                         </a>
                     </div>
+
+                    <!-- Sản phẩm 2 -->
+
+
+                    <!-- Thêm sản phẩm khác tương tự -->
                 </div>
             </div>
         </section>
@@ -139,33 +148,41 @@
         </section>
 
         <!-- product2 -->
-
         <section class="section-3 mt-5">
             <div class="container">
                 <h2 class="text-left">Sản phẩm mới nhất</h2>
                 <div class="row justify-content">
-                    <!-- Loop through the first 6 products -->
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-3" v-for="(item, index) in displayedProducts"
-                        :key="index">
+                    <!-- Sản phẩm 1 -->
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-3">
                         <a href="/chi-tiet-san-pham" class="text-decoration-none text-black">
                             <div class="card border-0">
-                                <img :src="item.image" class="border" alt="Product Image" style="width: 200px" />
+                                <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg"
+                                    class="border" alt="MU Home" style="width: 200px" />
                                 <div class="card-body">
-                                    <div class="rating">
-                                        <font-awesome-icon :icon="['far', 'star']" class="star-icon" v-for="i in 5"
-                                            :key="i" />
+                                    <div class="rating" style="color: #ffcc00">
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
                                     </div>
                                     <h5 class="card-title text-left">
-                                        <b>{{ item.name }}</b>
+                                        <b style="font-size: 14px">MU Home (2012/2013) Màu đỏ + Cộc tay | Bản CLASSIC
+                                            [Không có quần]</b>
                                     </h5>
                                     <p class="card-text text-left">
-                                        <span class="text-danger me-2"><b>{{ formatVND(item.price) }}</b></span>
-                                        <span class="text-decoration-line-through">{{ formatVND(item.oldPrice) }}</span>
+                                        <span class="text-danger me-2"><b>250.000đ</b></span>
+                                        <span class="text-decoration-line-through">300.000đ</span>
                                     </p>
                                 </div>
                             </div>
                         </a>
                     </div>
+
+                    <!-- Sản phẩm 2 -->
+
+
+                    <!-- Thêm sản phẩm khác tương tự -->
                 </div>
             </div>
         </section>
@@ -235,7 +252,9 @@
                             </div>
                             <div class="group-banner">
                                 <a class="banner-1" href="#" title="ĐẶT IN ÁO LIÊN HỆ NGAY">
-                                    <img class="img-responsive" :src="banner1" width="350" height="204" alt="Handmade">
+                                    <img class="img-responsive"
+                                    src="https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/twobanner_1.png?1722078914172"
+                                    alt="Hang Thể Thao" style="width: 100%;">
                                 </a>
                                 <div class="des">
                                     <a href="#" class="lien-he btn btn-danger mb-4 btn-lg" title="Xem thêm">Liên hệ
@@ -246,7 +265,9 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 content_banner_2">
                             <a href="#" title="">
-                                <img class="img-responsive" :src="banner2" alt="Hang Thể Thao" width="100%">
+                                <img class="img-responsive"
+                                    src="https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/twobanner_2.png?1722078914172"
+                                    alt="Hang Thể Thao" style="width: 100%;">
                             </a>
                         </div>
                     </div>
@@ -256,20 +277,9 @@
     </div>
 </template>
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 
-// Danh sách sản phẩm mẫu
-const euroProducts = ref([
-    { name: 'MU Home (2012/2013) Màu đỏ + Cộc tay | Bản CLASSIC [Không có quần]', price: 250000, oldPrice: 300000, image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg' },
-    { name: 'Product 2', price: 200000, oldPrice: 250000, image: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/photo-2024-09-11-22-53-26.jpg?v=1726070058243' },
-    { name: 'Product 3', price: 150000, oldPrice: 200000, image: 'https://via.placeholder.com/150' },
-    { name: 'Product 4', price: 300000, oldPrice: 350000, image: 'https://via.placeholder.com/150' },
-    { name: 'Product 5', price: 300000, oldPrice: 350000, image: 'https://via.placeholder.com/150' },
-    { name: 'Product 6', price: 100000, oldPrice: 150000, image: 'https://via.placeholder.com/150' },
-]);
 
-// Hiển thị 6 sản phẩm đầu tiên
-const displayedProducts = computed(() => euroProducts.value.slice(0, 6));
 
 // Hàm định dạng giá tiền
 function formatVND(number) {
@@ -353,5 +363,11 @@ onMounted(() => {
 .rating {
     color: gold;
     /* Star color */
+}
+.news-item h4 {
+    color: #000000;
+}
+.news-item h4 :hover {
+    color: #ff0000;
 }
 </style>
