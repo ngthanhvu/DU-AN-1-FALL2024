@@ -38,30 +38,28 @@
     </section>
 </template>
 
-<script>
-export default {
-    props: {
-        title: String,
-        products: Array
-    },
-    data() {
-        return {
-            currentSlide: 0
-        };
-    },
-    methods: {
-        prevSlide() {
-            if (this.currentSlide > 0) {
-                this.currentSlide--;
-            }
-        },
-        nextSlide() {
-            if (this.currentSlide < this.products.length - 5) {
-                this.currentSlide++;
-            } else {
-                this.currentSlide = 0;
-            }
-        }
+<script setup>
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
+
+const props = defineProps({
+    title: String,
+    products: Array
+});
+
+const currentSlide = ref(0);
+
+const prevSlide = () => {
+    if (currentSlide.value > 0) {
+        currentSlide.value--;
+    }
+};
+
+const nextSlide = () => {
+    if (currentSlide.value < props.products.length - 5) {
+        currentSlide.value++;
+    } else {
+        currentSlide.value = 0;
     }
 };
 </script>
@@ -78,13 +76,13 @@ export default {
 .card-body h5:hover {
     color:rgb(253, 0, 0);
 }
-.card-body h5{
+.card-body h5 {
     font-size: 16px;
 }
 .heading-container a:hover {
     
 }
-.rating{
+.rating {
     color: gold;
 }
 </style>
