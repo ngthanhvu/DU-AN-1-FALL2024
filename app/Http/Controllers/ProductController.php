@@ -26,10 +26,9 @@ class ProductController extends Controller
             'skus' => 'required|array',
             'skus.*.sku_code' => 'required|string',
             'skus.*.size' => 'nullable|string',
-            'skus.*.color' => 'nullable|string',
             'skus.*.stock' => 'required|integer|min:0',
             'images' => 'required|array',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:20048',
             'primary_image' => 'required|string',
         ]);
 
@@ -39,7 +38,6 @@ class ProductController extends Controller
             $product->skus()->create([
                 'sku_code' => $sku['sku_code'],
                 'size' => $sku['size'] ?? null,
-                'color' => $sku['color'] ?? null,
                 'stock' => $sku['stock'] ?? 0,
             ]);
         }
@@ -107,7 +105,6 @@ class ProductController extends Controller
                     [
                         'sku_code' => $skuData['sku_code'],
                         'size' => $skuData['size'] ?? null,
-                        'color' => $skuData['color'] ?? null,
                         'stock' => $skuData['stock'] ?? 0,
                     ]
                 );

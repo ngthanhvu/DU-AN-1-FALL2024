@@ -19,11 +19,10 @@ class SkuController extends Controller
         $request->validate([
             'sku_code' => 'required|string|unique:skus,sku_code',
             'size' => 'nullable|string',
-            'color' => 'nullable|string',
             'stock' => 'required|integer',
         ]);
 
-        $sku = Skus::create($request->all());
+        $sku = Skus::create($request->only(['sku_code', 'size', 'stock']));
 
         return response()->json($sku, 201);
     }
