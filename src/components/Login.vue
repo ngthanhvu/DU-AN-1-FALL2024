@@ -96,9 +96,13 @@ const handleSubmit = async () => {
             // Thêm token vào header mặc định của axios
             axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
 
-            //lưu role vào localStorage
-            const UserResponse = await axios.get(`${API_URL}/api/user`);
-            localStorage.setItem('role', UserResponse.data.role);
+            // Lấy thông tin người dùng sau khi đăng nhập
+            const userResponse = await axios.get(`${API_URL}/api/user`);
+            const userId = userResponse.data.id;  // Lấy user_id từ response
+            localStorage.setItem('user_id', userId);  // Lưu user_id vào localStorage
+
+            // Lưu role vào localStorage (nếu cần)
+            localStorage.setItem('role', userResponse.data.role);
             localStorage.setItem('isLogin', 'true');
 
             alert('Đăng nhập thành công!');
@@ -120,6 +124,7 @@ const handleSubmit = async () => {
         isLoading.value = false;
     }
 };
+
 </script>
 
 <style scoped>

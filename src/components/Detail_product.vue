@@ -10,7 +10,7 @@
               <span class="icon-arrow-right text-danger"><font-awesome-icon :icon="['fas', 'arrow-right']" /> </span>
             </li>
             <li class="home">
-              <router-link to="/product"><b>Sản Phẩm </b></router-link>
+              <router-link to="/san-pham"><b>Sản Phẩm </b></router-link>
               <span class="icon-arrow-right text-danger"><font-awesome-icon :icon="['fas', 'arrow-right']" /> </span>
             </li>
             <li><strong><span class="text-danger"> {{ product.name }}</span></strong></li>
@@ -47,7 +47,7 @@
               <div class="header"><strong>Size:</strong></div>
               <div class="size-options">
                 <label v-for="sku in product.skus" :key="sku.id">
-                  <input type="radio" name="size" :value="sku.size">
+                  <input type="radio" name="size" :value="sku.size" v-model="selectedSize">
                   <span>{{ sku.size }}</span>
                 </label>
               </div>
@@ -56,7 +56,7 @@
                 product.quantity }}</span></b>
               </div>
               <div class="mb-3"><strong>Giá sản phẩm: </strong><b><span class="text-danger text-nowrap fs-5">{{
-                product.price }}</span></b></div>
+                product.price.toLocaleString('vi-VN') }}đ</span></b></div>
             </div>
 
             <div class="product__details__quantity mb-3">
@@ -69,7 +69,8 @@
             </div>
 
             <div class="mb-3">
-              <a href="/cart" class="btn btn-danger mt-3">ADD TO CART</a>
+              <button type="button" @click="addToCart" class="btn btn-danger mt-3">Thêm vào giỏ hàng<font-awesome-icon
+                  :icon="['fas', 'cart-plus']" /></button>
             </div>
 
             <ul>
@@ -91,75 +92,75 @@
         <!-- Product Details Section End -->
 
         <div class="col-lg-12">
-    <div class="product__details__tab">
-      <!-- Tab Navigation -->
-      <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item">
-          <a class="nav-link" :class="{ active: selectedTab === 'tabs-1' }" @click="preiew('tabs-1')" role="tab">
-            MÔ TẢ
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" :class="{ active: selectedTab === 'tabs-2' }" @click="preiew('tabs-2')" role="tab">
-            XUẤT XỨ
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" :class="{ active: selectedTab === 'tabs-3' }" @click="preiew('tabs-3')" role="tab">
-            BÌNH LUẬN
-          </a>
-        </li>
-      </ul>
+          <div class="product__details__tab">
+            <!-- Tab Navigation -->
+            <ul class="nav nav-tabs" role="tablist">
+              <li class="nav-item" style="cursor: pointer;">
+                <a class="nav-link" :class="{ active: selectedTab === 'tabs-1' }" @click="preiew('tabs-1')" role="tab">
+                  MÔ TẢ
+                </a>
+              </li>
+              <li class="nav-item" style="cursor: pointer;">
+                <a class="nav-link" :class="{ active: selectedTab === 'tabs-2' }" @click="preiew('tabs-2')" role="tab">
+                  XUẤT XỨ
+                </a>
+              </li>
+              <li class="nav-item" style="cursor: pointer;">
+                <a class="nav-link" :class="{ active: selectedTab === 'tabs-3' }" @click="preiew('tabs-3')" role="tab">
+                  BÌNH LUẬN
+                </a>
+              </li>
+            </ul>
 
-      <!-- Tab Content -->
-      <div class="tab-content">
-        <!-- Tab 1: MÔ TẢ -->
-        <div v-if="selectedTab === 'tabs-1'" id="tabs-1" class="tab-pane" role="tabpanel">
-          <div class="product__details__tab__desc">
-            <h6>MÔ TẢ</h6>
-            <p>Nội dung mô tả sản phẩm tại đây.</p>
-          </div>
-        </div>
-
-        <!-- Tab 2: XUẤT XỨ -->
-        <div v-if="selectedTab === 'tabs-2'" id="tabs-2" class="tab-pane" role="tabpanel">
-          <div class="product__details__tab__desc">
-            <h6>XUẤT XỨ</h6>
-            <p>Nội dung thông tin sản phẩm tại đây.</p>
-          </div>
-        </div>
-
-        <!-- Tab 3: BÌNH LUẬN -->
-        <div v-if="selectedTab === 'tabs-3'" id="tabs-3" class="tab-pane" role="tabpanel">
-          <div class="product__details__tab__desc">
-            <h6>BÌNH LUẬN</h6>
-            <h6>Viết bình luận của bạn</h6>
-            <form @submit.prevent="submitComment">
-              <div class="form-group">
-                <label for="name">Tên của bạn:</label>
-                <input type="text" id="name" v-model="commentData.name" required />
+            <!-- Tab Content -->
+            <div class="tab-content">
+              <!-- Tab 1: MÔ TẢ -->
+              <div v-if="selectedTab === 'tabs-1'" id="tabs-1" class="tab-pane" role="tabpanel">
+                <div class="product__details__tab__desc">
+                  <h6>MÔ TẢ</h6>
+                  <p>{{ product.description }}</p>
+                </div>
               </div>
 
-              <div class="form-group">
-                <label for="comment">Bình luận:</label>
-                <textarea id="comment" v-model="commentData.comment" required></textarea>
+              <!-- Tab 2: XUẤT XỨ -->
+              <div v-if="selectedTab === 'tabs-2'" id="tabs-2" class="tab-pane" role="tabpanel">
+                <div class="product__details__tab__desc">
+                  <h6>XUẤT XỨ</h6>
+                  <p>Nội dung thông tin sản phẩm tại đây.</p>
+                </div>
               </div>
-              <button type="submit" class="btn-comment">Gửi bình luận</button>
-            </form>
 
-            <!-- Hiển thị danh sách bình luận -->
-            <div class="comments-list" v-if="comments.length">
-              <h6>Các bình luận</h6>
-              <div v-for="(comment, idx) in comments" :key="idx" class="comment-item">
-                <p><strong>{{ comment.name }}</strong> 🥰</p>
-                <p>{{ comment.comment }}</p>
+              <!-- Tab 3: BÌNH LUẬN -->
+              <div v-if="selectedTab === 'tabs-3'" id="tabs-3" class="tab-pane" role="tabpanel">
+                <div class="product__details__tab__desc">
+                  <h6>BÌNH LUẬN</h6>
+                  <h6>Viết bình luận của bạn</h6>
+                  <form @submit.prevent="submitComment">
+                    <div class="form-group">
+                      <label for="name">Tên của bạn:</label>
+                      <input type="text" id="name" v-model="commentData.name" required />
+                    </div>
+
+                    <div class="form-group">
+                      <label for="comment">Bình luận:</label>
+                      <textarea id="comment" v-model="commentData.comment" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-comment">Gửi bình luận</button>
+                  </form>
+
+                  <!-- Hiển thị danh sách bình luận -->
+                  <div class="comments-list" v-if="comments.length">
+                    <h6>Các bình luận</h6>
+                    <div v-for="(comment, idx) in comments" :key="idx" class="comment-item">
+                      <p><strong>{{ comment.name }}</strong> 🥰</p>
+                      <p>{{ comment.comment }}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
 
       </div>
     </div>
@@ -218,6 +219,7 @@ const commentData = ref({
   comment: ''
 });
 const comments = ref([]);
+const selectedSize = ref(null); // Lưu size được chọn
 
 function preiew(tab) {
   selectedTab.value = tab;
@@ -232,7 +234,7 @@ function submitComment() {
   commentData.value.comment = '';
 }
 const route = useRoute();
-const API_URL = 'https://b5a3-14-243-90-84.ngrok-free.app';
+const API_URL = 'http://127.0.0.1:8000';
 
 const product = ref({
   name: '',
@@ -281,6 +283,43 @@ const decreaseQuantity = () => {
     quantity.value--;
   }
 };
+
+const addToCart = async () => {
+  let userId = localStorage.getItem('user_id');
+  let guestId = localStorage.getItem('guest_id');
+
+  // Nếu cả userId và guestId đều không tồn tại, tạo guestId mới
+  if (!userId && !guestId) {
+    guestId = 'guest_' + Math.random().toString(36).substring(2, 9);
+    localStorage.setItem('guest_id', guestId);
+  }
+
+  const payload = {
+    product_id: route.params.id,
+    quantity: quantity.value,
+    size: selectedSize.value
+  };
+
+  if (userId) {
+    payload.user_id = userId;
+  } else {
+    payload.guest_id = guestId;
+  }
+
+  try {
+    const response = await axios.post(`${API_URL}/api/cart/add`, payload);
+
+    if (response.data.message === 'Product added to cart successfully') {
+      alert('Sản phẩm đã được thêm vào giỏ hàng');
+    }
+  } catch (error) {
+    console.error('Error adding product to cart:', error);
+    alert('Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng');
+  }
+};
+
+
+
 onMounted(() => {
   fetchProduct();
 });
@@ -315,7 +354,7 @@ onMounted(() => {
 
 .product__details__pic__slider .thumbnail {
   width: 150px;
-  height: 130px;
+  height: 150px;
   background-size: cover;
   background-position: center;
   object-fit: cover;
@@ -434,11 +473,12 @@ onMounted(() => {
   border-color: #ff0000;
   background-color: #e6f0ff;
 }
+
 .tab-content>.tab-pane {
-    display: block;
+  display: block;
 }
 
 .tab-content>.active {
-    display: block;
+  display: block;
 }
 </style>

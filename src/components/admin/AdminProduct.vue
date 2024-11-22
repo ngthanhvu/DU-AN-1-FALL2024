@@ -26,7 +26,7 @@
               <td>{{ categories.find(category => category.id === product.category_id)?.name }}</td>
               <td>{{ formatPrice(product.price) }}</td>
               <td>{{ product.quantity }}</td>
-              
+
               <td>
                 <img v-if="product.images && product.images.length"
                   :src="`${API_URL}/storage/${getPrimaryImage(product.images)}`" alt="Primary Image"
@@ -112,10 +112,10 @@
                           <label class="form-label">Size:</label>
                           <input v-model="sku.size" type="text" class="form-control" />
                         </div>
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                           <label class="form-label">Màu sắc:</label>
                           <input v-model="sku.color" type="text" class="form-control" />
-                        </div>
+                        </div> -->
                         <div class="col-md-6">
                           <label class="form-label">Số lượng tồn:</label>
                           <input v-model="sku.stock" type="number" class="form-control" required />
@@ -267,7 +267,6 @@ const addSku = () => {
   formData.skus.push({
     sku_code: '',
     size: '',
-    color: '',
     stock: 0
   });
 };

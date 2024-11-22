@@ -9,7 +9,7 @@
               <router-link to="/"><b>Trang chủ </b></router-link>
               <span class="icon-arrow-right text-danger"><font-awesome-icon :icon="['fas', 'arrow-right']" /> </span>
             </li>
-            <li><strong><span class="text-danger"> Áo Tuyển Quốc Gia</span></strong></li>
+            <li><strong><span class="text-danger"> Sản phẩm</span></strong></li>
           </ul>
         </div>
       </div>

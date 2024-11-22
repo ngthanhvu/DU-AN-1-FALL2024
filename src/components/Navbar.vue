@@ -90,6 +90,7 @@ const logout = () => {
   localStorage.removeItem('isLogin');
   localStorage.removeItem('token');
   localStorage.removeItem('role');
+  localStorage.removeItem('user_id');
   isLogin.value = false;
   router.push('/');
 };

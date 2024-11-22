@@ -46,10 +46,10 @@
                           <label class="form-label">Size:</label>
                           <input v-model="sku.size" type="text" class="form-control" />
                         </div>
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                           <label class="form-label">Màu sắc:</label>
                           <input v-model="sku.color" type="text" class="form-control" />
-                        </div>
+                        </div> -->
                         <div class="col-md-6">
                           <label class="form-label">Số lượng tồn:</label>
                           <input v-model="sku.stock" type="number" class="form-control" required />
@@ -114,7 +114,7 @@ const loadCategories = async () => {
 };
 
 const addSku = () => {
-  formData.skus.push({ sku_code: '', size: '', color: '', stock: 0 });
+  formData.skus.push({ sku_code: '', size: '', stock: 0 });
 };
 
 const handleFileChange = (event) => {
