@@ -51,8 +51,7 @@
   </div>
 
   <div class="container">
-    <div class="row">
-      <h3><b>Áo Bóng Đá</b></h3>
+    <div class="row mt-3">
       <span><font-awesome-icon :icon="['fas', 'sliders']" /> <b>Bộ lọc</b></span>
       <div class="col-md-2 sidebar">
         <h5><b>Danh Mục</b></h5>
@@ -83,24 +82,19 @@
             <div class="product-box">
               <div class="product-thumbnail">
                 <router-link :to="'/chi-tiet-san-pham/' + product.id" class="image_link">
-                  <img :src="`${API_URL}/storage/${product.images.find(img => img.is_primary === 1)?.image_path}`" class="lazyload" :alt="product.name" width="100%">
+                  <img :src="`${API_URL}/storage/${product.images.find(img => img.is_primary === 1)?.image_path}`"
+                    class="lazyload" :alt="product.name" width="100%">
                 </router-link>
                 <div v-if="product.isOnSale" class="product-label">
                   <strong class="label">Sale</strong>
                 </div>
               </div>
               <div class="product-info a-left">
-                <div class="sapo-product-reviews-badge">
-                  <div class="sapo-product-reviews-star" style="color: #ffbe00; font-size: 24px;">
-                    <span v-for="n in 5" :key="n" class="bi-star"
-                      :class="{ 'text-warning': n <= product.rating }"></span>
-                  </div>
-                </div>
                 <h3 class="product-name">
                   <router-link :to="'/chi-tiet-san-pham/' + product.id">{{ product.name }}</router-link>
                 </h3>
                 <div class="price-box clearfix">
-                  <span class="price product-price">{{ product.price }}₫</span>
+                  <span class="price product-price">{{ formatVND(product.price) }}</span>
                   <span v-if="product.oldPrice" class="price product-price-old">
                     <del>{{ product.oldPrice }}₫</del>
                   </span>
@@ -174,6 +168,9 @@ const pages = computed(() => {
   const totalPages = Math.ceil(products.value.length / 4);
   return Array.from({ length: totalPages }, (_, i) => i + 1);
 });
+
+const formatVND = value => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+
 </script>
 
 <style scoped>
@@ -228,6 +225,4 @@ const pages = computed(() => {
 .sidebar a:hover {
   color: #007bff;
 }
-
-
 </style>

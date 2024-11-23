@@ -25,7 +25,7 @@
       <!-- Cart and Login Icons -->
       <ul class="navicon">
         <li><a style="color: #333;" href="/gio-hang"><font-awesome-icon :icon="['fas', 'bag-shopping']" /> <span>{{
-          cartCount }}</span></a></li>
+            cartCount.length }}</span></a></li>
 
         <!-- Kiểm tra trạng thái đăng nhập -->
         <li v-if="isLogin" class="dropdown">
@@ -33,7 +33,8 @@
             <font-awesome-icon :icon="['fas', 'circle-user']" /> {{ username }}
           </a>
           <ul class="dropdown-menu">
-            <li><router-link to="/trang-ca-nhan" class="dropdown-item text-black  mx-auto" >Thông tin cá nhân</router-link></li>
+            <li><router-link to="/trang-ca-nhan" class="dropdown-item text-black  mx-auto">Thông tin cá
+                nhân</router-link></li>
             <li><button class="dropdown-item" style="font-weight: 500;" @click="logout">Đăng xuất</button></li>
           </ul>
         </li>
@@ -68,13 +69,16 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
+
+const API_URL = 'http://127.0.0.1:8000';
 
 const router = useRouter();
 const isLogin = ref(localStorage.getItem('isLogin') === 'true');
 const isSidenavOpen = ref(false);
-const cartCount = ref(localStorage.getItem('cartCount') || '0');
+const cartCount = ref(0);
 const isAdmin = ref(localStorage.getItem('role') === 'admin');
 // const role = ref(localStorage.getItem('role') || '');
 
@@ -84,6 +88,15 @@ const openNav = () => {
 
 const closeNav = () => {
   isSidenavOpen.value = false;
+};
+
+const getCountCart = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/carts`);
+    cartCount.value = response.data;
+  } catch (error) {
+    console.error('Error fetching cart count:', error);
+  }
 };
 
 const logout = () => {
@@ -99,6 +112,9 @@ watch(() => localStorage.getItem('isLogin'), (newVal) => {
   isLogin.value = newVal === 'true';
 });
 
+onMounted(() => {
+  getCountCart();
+})
 // watch(() => localStorage.getItem('role'), (newVal) => {
 //   role.value = newVal || '';
 // });

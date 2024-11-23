@@ -105,18 +105,11 @@
                 <img :src="`${API_URL}/storage/${product.images.find(img => img.is_primary === 1)?.image_path}`"
                   class="border" alt="MU Home" style="width: 200px" />
                 <div class="card-body">
-                  <div class="rating" style="color: #ffcc00">
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                  </div>
                   <h5 class="card-title text-left">
                     <b style="font-size: 14px">{{ product.name }}</b>
                   </h5>
                   <p class="card-text text-left">
-                    <span class="text-danger me-2"><b>{{ product.price }}đ</b></span>
+                    <span class="text-danger me-2"><b>{{ formatVND(product.price) }}</b></span>
                     <span class="text-decoration-line-through">300.000đ</span>
                   </p>
                 </div>
@@ -283,7 +276,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import router from '@/router';
 
 const API_URL = 'http://127.0.0.1:8000';
 const products = ref([]);
@@ -311,9 +303,8 @@ const fetchCategories = async () => {
 };
 
 // Hàm định dạng giá tiền
-function formatVND(number) {
-  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
-}
+const formatVND = value => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+
 
 const carouselImages = ref([
   {

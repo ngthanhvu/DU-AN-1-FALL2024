@@ -56,7 +56,7 @@
                 product.quantity }}</span></b>
               </div>
               <div class="mb-3"><strong>Giá sản phẩm: </strong><b><span class="text-danger text-nowrap fs-5">{{
-                product.price.toLocaleString('vi-VN') }}đ</span></b></div>
+                formatVND(product.price) }}</span></b></div>
             </div>
 
             <div class="product__details__quantity mb-3">
@@ -317,7 +317,6 @@ const addToCart = async () => {
     alert('Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng');
   }
 };
-
 
 
 onMounted(() => {
