@@ -6,7 +6,7 @@
                 <div class="mb-3">
                     <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                     <input type="email" class="form-control" id="email" v-model="formData.email"
-                        :class="{ 'is-invalid': errors.email }" placeholder="Email" required>
+                        :class="{ 'is-invalid': errors.email }" placeholder="Email">
                     <div class="invalid-feedback" v-if="errors.email">
                         {{ errors.email }}
                     </div>
@@ -14,7 +14,7 @@
                 <div class="mb-3">
                     <label for="password" class="form-label">Mật khẩu <span class="text-danger">*</span></label>
                     <input type="password" class="form-control" id="password" v-model="formData.password"
-                        :class="{ 'is-invalid': errors.password }" placeholder="Mật khẩu" required>
+                        :class="{ 'is-invalid': errors.password }" placeholder="Mật khẩu">
                     <div class="invalid-feedback" v-if="errors.password">
                         {{ errors.password }}
                     </div>
@@ -39,6 +39,7 @@
 import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const router = useRouter();
 const API_URL = 'http://127.0.0.1:8000';
@@ -105,8 +106,13 @@ const handleSubmit = async () => {
             localStorage.setItem('role', userResponse.data.role);
             localStorage.setItem('isLogin', 'true');
 
-            alert('Đăng nhập thành công!');
-            window.location.href = '/';
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: 'Đăng nhập thành công!'
+            }).then(() => {
+              window.location.href = '/';
+            })
         }
     } catch (error) {
         console.log('Error response:', error.response?.data);
@@ -116,9 +122,17 @@ const handleSubmit = async () => {
                 errors[key] = error.response.data.errors[key][0];
             });
         } else if (error.response?.data?.message) {
-            alert(error.response.data.message);
+            Swal.fire({
+                icon: 'error',
+                title: 'Đăng nhập thất bại!',
+                text: error.response.data.message
+            })
         } else {
-            alert('Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin!');
+            Swal.fire({
+                icon: 'error',
+                title: 'Đăng nhập thất bại!',
+                text: 'Vui lòng kiểm tra lại thông tin!'
+            })
         }
     } finally {
         isLoading.value = false;

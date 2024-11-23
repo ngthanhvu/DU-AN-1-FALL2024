@@ -1,12 +1,12 @@
 <template>
-  <div class="container" style="height: 70vh;">
+  <div class="container" style="height: 100vh;">
     <div class="register-form">
       <h2 class="text-center text-bold">ĐĂNG KÝ</h2>
       <form @submit.prevent="handleSubmit">
         <div class="mb-3">
           <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
           <input type="text" class="form-control" id="username" v-model="formData.username"
-            :class="{ 'is-invalid': errors.username }" placeholder="Username" required>
+            :class="{ 'is-invalid': errors.username }" placeholder="Username">
           <div class="invalid-feedback" v-if="errors.username">
             {{ errors.username }}
           </div>
@@ -14,7 +14,7 @@
         <div class="mb-3">
           <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
           <input type="email" class="form-control" id="email" v-model="formData.email"
-            :class="{ 'is-invalid': errors.email }" placeholder="Email" required>
+            :class="{ 'is-invalid': errors.email }" placeholder="Email">
           <div class="invalid-feedback" v-if="errors.email">
             {{ errors.email }}
           </div>
@@ -22,7 +22,7 @@
         <div class="mb-3">
           <label for="password" class="form-label">Mật khẩu <span class="text-danger">*</span></label>
           <input type="password" class="form-control" id="password" v-model="formData.password"
-            :class="{ 'is-invalid': errors.password }" placeholder="Mật khẩu" required>
+            :class="{ 'is-invalid': errors.password }" placeholder="Mật khẩu">
           <div class="invalid-feedback" v-if="errors.password">
             {{ errors.password }}
           </div>
@@ -30,7 +30,7 @@
         <div class="mb-3">
           <label for="confirmPassword" class="form-label">Xác nhận mật khẩu <span class="text-danger">*</span></label>
           <input type="password" class="form-control" id="confirmPassword" v-model="formData.confirmPassword"
-            :class="{ 'is-invalid': errors.confirmPassword }" placeholder="Xác nhận mật khẩu" required>
+            :class="{ 'is-invalid': errors.confirmPassword }" placeholder="Xác nhận mật khẩu">
           <div class="invalid-feedback" v-if="errors.confirmPassword">
             {{ errors.confirmPassword }}
           </div>
@@ -60,6 +60,7 @@
 import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const router = useRouter();
 const API_URL = 'http://127.0.0.1:8000';
@@ -137,7 +138,11 @@ const handleSubmit = async () => {
     });
 
     if (response.data) {
-      alert('Đăng ký thành công!');
+      Swal.fire({
+        icon: 'success',
+        title: 'Thành công!',
+        text: 'Đăng ký thành công!'
+      })
       router.push('/login');
     }
   } catch (error) {
@@ -151,9 +156,17 @@ const handleSubmit = async () => {
       });
     } else if (error.response?.data?.message) {
       // Hiển thị message lỗi chung nếu có
-      alert(error.response.data.message);
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi!',
+        text: error.response.data.message
+      });
     } else {
-      alert('Có lỗi xảy ra. Vui lòng thử lại sau!');
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi!',
+        text: 'Có lỗi xảy ra. Vui lòng thử lại sau!'
+      });
     }
   } finally {
     isLoading.value = false;
