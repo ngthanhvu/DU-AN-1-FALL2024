@@ -76,4 +76,27 @@ class CartController extends Controller
 
         return response()->json($cartItems, 200);
     }
+
+    public function index()
+    {
+        return response()->json(Cart::all(), 200);
+    }
+
+    public function removeFromCart(Request $request)
+    {
+        $product_id = $request->input('product_id');
+        $user_id = $request->input('user_id');
+        $guest_id = $request->input('guest_id');
+
+        // Xóa dữ liệu giỏ hàng cho user_id hoặc guest_id
+        if ($user_id) {
+            Cart::where('user_id', $user_id)->where('product_id', $product_id)->delete();
+        } elseif ($guest_id) {
+            Cart::where('guest_id', $guest_id)->where('product_id', $product_id)->delete();
+        } else {
+            return response()->json(['message' => 'No cart found'], 404);
+        }
+
+        return response()->json(['message' => 'Product removed from cart successfully'], 200);
+    }
 }

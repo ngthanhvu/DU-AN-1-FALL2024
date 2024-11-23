@@ -39,3 +39,6 @@ Route::post('logout', [UserController::class, 'logout'])->middleware('auth:api')
 
 Route::post('/cart/add', [CartController::class, 'addToCart']);
 Route::get('/cart', [CartController::class, 'getCart']);
+Route::post('/cart/remove', [CartController::class, 'removeFromCart']);
+
+Route::apiResource('carts', CartController::class);
