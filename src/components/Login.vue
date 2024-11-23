@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div class="mb-3 text-center">
-                    <a href="#" class="text-decoration-none text-dark">Quên mật khẩu? Nhấn vào đây</a>
+                    <router-link to="/quen-mat-khau" class="text-decoration-none text-dark">Quên mật khẩu? Nhấn vào đây</router-link>
                 </div>
                 <button type="submit" class="btn btn-login w-100" :disabled="isLoading">
                     {{ isLoading ? 'Đang xử lý...' : 'Đăng nhập' }}
@@ -58,17 +58,14 @@ const errors = reactive({
 const validateForm = () => {
     let isValid = true;
 
-    // Reset errors
     Object.keys(errors).forEach(key => errors[key] = '');
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
         errors.email = 'Email không hợp lệ';
         isValid = false;
     }
 
-    // Password validation
     if (!formData.password) {
         errors.password = 'Vui lòng nhập mật khẩu';
         isValid = false;
@@ -91,18 +88,13 @@ const handleSubmit = async () => {
         });
 
         if (response.data.token) {
-            // Lưu token vào localStorage
             localStorage.setItem('token', response.data.token);
-
-            // Thêm token vào header mặc định của axios
             axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
 
-            // Lấy thông tin người dùng sau khi đăng nhập
             const userResponse = await axios.get(`${API_URL}/api/user`);
-            const userId = userResponse.data.id;  // Lấy user_id từ response
-            localStorage.setItem('user_id', userId);  // Lưu user_id vào localStorage
+            const userId = userResponse.data.id;
+            localStorage.setItem('user_id', userId);
 
-            // Lưu role vào localStorage (nếu cần)
             localStorage.setItem('role', userResponse.data.role);
             localStorage.setItem('isLogin', 'true');
 

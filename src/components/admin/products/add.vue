@@ -7,12 +7,12 @@
         <form @submit.prevent="handleSubmit">
           <div class="mb-3">
             <label class="form-label">Tên sản phẩm:</label>
-            <input v-model="formData.name" type="text" class="form-control" required placeholder="Nhập tên sản phẩm" />
+            <input v-model="formData.name" type="text" class="form-control" placeholder="Nhập tên sản phẩm" />
           </div>
 
           <div class="mb-3">
             <label class="form-label">Giá sản phẩm:</label>
-            <input v-model="formData.price" type="number" class="form-control" required
+            <input v-model="formData.price" type="number" class="form-control"
               placeholder="Nhập giá sản phẩm" />
           </div>
 
@@ -23,13 +23,13 @@
 
           <div class="mb-3">
             <label class="form-label">Số lượng:</label>
-            <input v-model="formData.quantity" type="number" class="form-control" required
-              placeholder="Nhập số lượng" />
+            <input v-model="formData.quantity" type="number" class="form-control"
+              placeholder="Nhập số lượng" value="1" />
           </div>
 
           <div class="mb-3">
             <label class="form-label">Chọn Category:</label>
-            <select v-model="formData.category_id" class="form-select" required>
+            <select v-model="formData.category_id" class="form-select">
               <option value="" disabled>Chọn Category</option>
               <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
             </select>
@@ -40,7 +40,7 @@
                       <div class="row g-3">
                         <div class="col-md-6">
                           <label class="form-label">Mã SKU:</label>
-                          <input v-model="sku.sku_code" type="text" class="form-control" required />
+                          <input v-model="sku.sku_code" type="text" class="form-control" />
                         </div>
                         <div class="col-md-6">
                           <label class="form-label">Size:</label>
@@ -52,7 +52,7 @@
                         </div> -->
                         <div class="col-md-6">
                           <label class="form-label">Số lượng tồn:</label>
-                          <input v-model="sku.stock" type="number" class="form-control" required />
+                          <input v-model="sku.stock" type="number" class="form-control" />
                         </div>
                       </div>
                     </div>
@@ -101,6 +101,16 @@ const formData = reactive({
   category_id: '',
   skus: [],
   images: [],
+  primary_image: ''
+});
+
+const errors = reactive({
+  name: '',
+  price: '',
+  description: '',
+  quantity: '',
+  category_id: '',
+  images: '',
   primary_image: ''
 });
 

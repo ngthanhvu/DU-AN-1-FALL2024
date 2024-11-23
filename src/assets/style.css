@@ -823,9 +823,10 @@ footer .footer .logo {
 
 .image_link img {
     width: 100%;
-    height: auto;
+    height: 240px;
     border-radius: 4px;
     transition: transform 0.3s ease;
+    object-fit: cover;
 }
 
 .image_link img:hover {

@@ -25,7 +25,7 @@
       <!-- Cart and Login Icons -->
       <ul class="navicon">
         <li><a style="color: #333;" href="/gio-hang"><font-awesome-icon :icon="['fas', 'bag-shopping']" /> <span>{{
-            cartCount.length }}</span></a></li>
+            cartCount.length > 0 ? cartCount.length : 0 }}</span></a></li>
 
         <!-- Kiểm tra trạng thái đăng nhập -->
         <li v-if="isLogin" class="dropdown">
@@ -80,7 +80,6 @@ const isLogin = ref(localStorage.getItem('isLogin') === 'true');
 const isSidenavOpen = ref(false);
 const cartCount = ref(0);
 const isAdmin = ref(localStorage.getItem('role') === 'admin');
-// const role = ref(localStorage.getItem('role') || '');
 
 const openNav = () => {
   isSidenavOpen.value = true;
@@ -92,7 +91,12 @@ const closeNav = () => {
 
 const getCountCart = async () => {
   try {
-    const response = await axios.get(`${API_URL}/api/carts`);
+    const response = await axios.get(`${API_URL}/api/cart`, {
+      params: {
+        guest_id: localStorage.getItem('guest_id'),
+        user_id: localStorage.getItem('user_id'),
+      }
+    });
     cartCount.value = response.data;
   } catch (error) {
     console.error('Error fetching cart count:', error);
@@ -113,12 +117,11 @@ watch(() => localStorage.getItem('isLogin'), (newVal) => {
 });
 
 onMounted(() => {
+  if (!localStorage.getItem('guest_id')) {
+    localStorage.setItem('guest_id', `guest_${Date.now()}`);
+  };
   getCountCart();
-})
-// watch(() => localStorage.getItem('role'), (newVal) => {
-//   role.value = newVal || '';
-// });
-
+});
 </script>
 
 
