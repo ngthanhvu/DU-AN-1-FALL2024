@@ -113,7 +113,7 @@ class UserController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'sometimes|string|max:255',
-            'email' => 'sometimes|string|email|max:255|unique:users,email,'.$id,
+            'email' => 'sometimes|string|email|max:255|unique:users,email,' . $id,
             'password' => 'sometimes|string|min:6',
             'role' => 'sometimes|string|max:255',
             'address_id' => 'nullable|integer'
@@ -147,5 +147,19 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json(['message' => 'User deleted successfully'], 200);
+    }
+    public function getAllUsers(Request $request)
+    {
+        $user = auth()->user();
+
+        // Kiểm tra nếu user không phải là admin
+        if (!$user || $user->role !== 'admin') {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        // Lấy danh sách users
+        $users = Users::all();
+
+        return response()->json($users, 200);
     }
 }

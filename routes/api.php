@@ -23,6 +23,7 @@ use App\Http\Controllers\CartController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::middleware('auth:api')->get('/admin/users', [UserController::class, 'getAllUsers']);
 
 // Các API khác vẫn cần xác thực
 Route::apiResource('products', ProductController::class);
@@ -33,12 +34,13 @@ Route::apiResource('users', UserController::class);
 
 // Routes đăng ký, đăng nhập, lấy thông tin người dùng, và logout
 Route::post('register', [UserController::class, 'register']);
-Route::post('login', [UserController::class, 'login']);
+Route::post('login', [UserController::class, 'login'])->name('login');
 Route::get('user', [UserController::class, 'getUser'])->middleware('auth:api');
 Route::post('logout', [UserController::class, 'logout'])->middleware('auth:api');
 
 Route::post('/cart/add', [CartController::class, 'addToCart']);
 Route::get('/cart', [CartController::class, 'getCart']);
 Route::post('/cart/remove', [CartController::class, 'removeFromCart']);
+Route::post('/cart/update', [CartController::class, 'updateQuantity']);
 
 Route::apiResource('carts', CartController::class);

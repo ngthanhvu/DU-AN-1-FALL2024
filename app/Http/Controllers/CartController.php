@@ -11,10 +11,8 @@ class CartController extends Controller
 {
     public function addToCart(Request $request)
     {
-        // In ra dữ liệu nhận được từ request
         Log::info('Request data:', $request->all());
 
-        // Validate the request data
         $validatedData = $request->validate([
             'product_id' => 'required|integer|exists:products,id',
             'user_id' => 'nullable|integer|exists:users,id',
@@ -25,7 +23,6 @@ class CartController extends Controller
 
         Log::info('Validated data:', $validatedData);
 
-        // Xác nhận user_id hoặc guest_id
         if (isset($validatedData['user_id'])) {
             $user = Users::find($validatedData['user_id']);
             if (!$user) {
@@ -34,7 +31,6 @@ class CartController extends Controller
             }
         }
 
-        // Check if the cart item already exists for the user or guest
         $cartItemQuery = Cart::where('product_id', $validatedData['product_id'])
             ->where('size', $validatedData['size']);
 
@@ -47,14 +43,11 @@ class CartController extends Controller
         $cartItem = $cartItemQuery->first();
 
         if ($cartItem) {
-            // If the item exists, update the quantity
             $cartItem->quantity += $validatedData['quantity'];
         } else {
-            // If the item does not exist, create a new record
             $cartItem = new Cart($validatedData);
         }
 
-        // Save the cart item
         $cartItem->save();
 
         return response()->json(['message' => 'Product added to cart successfully'], 200);
@@ -65,7 +58,6 @@ class CartController extends Controller
         $userId = $request->input('user_id');
         $guestId = $request->input('guest_id');
 
-        // Lấy dữ liệu giỏ hàng cho user_id hoặc guest_id
         if ($userId) {
             $cartItems = Cart::where('user_id', $userId)->get();
         } elseif ($guestId) {
@@ -85,18 +77,35 @@ class CartController extends Controller
     public function removeFromCart(Request $request)
     {
         $product_id = $request->input('product_id');
-        $user_id = $request->input('user_id');
         $guest_id = $request->input('guest_id');
 
-        // Xóa dữ liệu giỏ hàng cho user_id hoặc guest_id
-        if ($user_id) {
-            Cart::where('user_id', $user_id)->where('product_id', $product_id)->delete();
-        } elseif ($guest_id) {
+        if ($guest_id) {
             Cart::where('guest_id', $guest_id)->where('product_id', $product_id)->delete();
         } else {
-            return response()->json(['message' => 'No cart found'], 404);
+            Cart::where('product_id', $product_id)->delete();
         }
 
         return response()->json(['message' => 'Product removed from cart successfully'], 200);
+    }
+
+    public function updateQuantity(Request $request)
+    {
+        $validatedData = $request->validate([
+            'cart_id' => 'required|integer|exists:cart_items,id', // ID của sản phẩm trong giỏ hàng
+            'quantity' => 'required|integer|min:1' // Số lượng muốn cập nhật
+        ]);
+
+        // Tìm sản phẩm trong giỏ hàng
+        $cartItem = Cart::find($validatedData['cart_id']);
+
+        if ($cartItem) {
+            // Cập nhật số lượng sản phẩm
+            $cartItem->quantity = $validatedData['quantity'];
+            $cartItem->save();
+
+            return response()->json(['message' => 'Quantity updated successfully'], 200);
+        }
+
+        return response()->json(['message' => 'Cart item not found'], 404);
     }
 }
