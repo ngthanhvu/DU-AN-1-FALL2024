@@ -14,6 +14,7 @@ import Checkout from '../components/Checkout.vue';
 import Profile from '../components/Profile.vue';
 import Detail_post from '../components/Detail_post.vue';
 import Forgot from '../components/Forgot.vue'
+import OrderHistory from '@/components/OrderHistory.vue';
 
 import AdminLayout from '../components/admin/AdminLayout.vue';
 import AdminDashboard from '@/components/admin/AdminDashboard.vue';
@@ -21,7 +22,7 @@ import AdminProduct from '@/components/admin/AdminProduct.vue';
 import AdminAddProduct from '@/components/admin/products/add.vue';
 import AdminCategory from '@/components/admin/AdminCategory.vue';
 import AdminAddCategory from '@/components/admin/category/add.vue';
-import OrderHistory from '@/components/OrderHistory.vue';
+import AdminUser from '@/components/admin/AdminUser.vue';
 
 const routes = [
   { path: '/', component: Home, meta: { title: 'Trang chủ' } },
@@ -47,6 +48,7 @@ const routes = [
       { path: '/admin/products/add', component: AdminAddProduct, meta: { title: 'Admin Add Product' } },
       { path: '/admin/category', component: AdminCategory, meta: { title: 'Admin Category' } },
       { path: '/admin/category/add', component: AdminAddCategory, meta: { title: 'Admin Add Category' } },
+      { path: '/admin/user', component: AdminUser, meta: { title: 'Admin User' } },
     ],
   }
 
