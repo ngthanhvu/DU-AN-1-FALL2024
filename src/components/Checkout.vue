@@ -23,96 +23,126 @@
     <div class="container">
       <div class="checkout__form">
         <h4>Thông Tin Thanh Toán</h4>
-        <form action="#">
+        <form @submit.prevent="saveNewAddress">
+
           <div class="row">
             <div class="col-lg-8 col-md-6">
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="checkout__input">
-                    <p><b>Họ</b><span>*</span></p>
-                    <input type="text">
+              <!-- Form thêm địa chỉ nếu không có địa chỉ -->
+              <div class="row" v-if="!address || address.length === 0">
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label for="">Họ tên<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" v-model="newAddress.full_name">
                   </div>
                 </div>
-                <div class="col-lg-6">
-                  <div class="checkout__input">
-                    <p><b>Tên</b><span>*</span></p>
-                    <input type="text">
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label for="">Số Điện Thoại<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" v-model="newAddress.phone">
                   </div>
+                </div>
+                <!-- Các trường khác cho địa chỉ -->
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label for="province" class="form-label">Tỉnh/Thành phố:</label>
+                    <select class="form-select" id="province" v-model="newAddress.province" @change="onProvinceChange">
+                      <option value="">Chọn Tỉnh/Thành phố</option>
+                      <option v-for="province in provinces" :key="province.code" :value="province.code">
+                        {{ province.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="form-group" v-if="districts.length > 0">
+                    <label for="district" class="form-label">Quận/Huyện:</label>
+                    <select class="form-select" id="district" v-model="newAddress.district" @change="onDistrictChange"
+                      :disabled="!newAddress.province">
+                      <option value="">Chọn Quận/Huyện</option>
+                      <option v-for="district in districts" :key="district.code" :value="district.code">
+                        {{ district.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-lg-12">
+                    <div class="form-group" v-if="wards.length > 0">
+                      <label for="ward" class="form-label">Xã/Phường:</label>
+                      <select class="form-select" id="ward" v-model="newAddress.commune"
+                        :disabled="!newAddress.district">
+                        <option value="">Chọn Xã/Phường</option>
+                        <option v-for="ward in wards" :key="ward.code" :value="ward.code">
+                          {{ ward.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label for="hamlet" class="form-label">Thôn/Xóm:</label>
+                    <input type="text" class="form-control" id="hamlet" v-model="newAddress.hamlet" required />
+                  </div>
+                </div>
+                <!-- Button để thêm địa chỉ -->
+                <div class="col-lg-12">
+                  <button type="submit" class="site-btn">Thêm Địa Chỉ</button>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="checkout__input">
-                    <p> <b>Số Điện Thoại</b><span>*</span></p>
-                    <input type="text">
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="checkout__input">
-                    <p><b>Email</b><span>*</span></p>
-                    <input type="text">
-                  </div>
-                </div>
-              </div>
-              <form>
-                <!-- Chọn Tỉnh/Thành -->
-                <div class="form-group">
-                  <label for="province">Tỉnh/Thành:</label>
-                  <select id="province" class="form-control" v-model="selectedProvince" @change="onProvinceChange">
-                    <option value="" disabled>Chọn Tỉnh/Thành</option>
-                    <option v-for="province in provinces" :key="province.code" :value="province.code">
-                      {{ province.name }}
-                    </option>
-                  </select>
-                </div>
 
-                <!-- Chọn Quận/Huyện -->
-                <div class="form-group" v-if="districts.length > 0">
-                  <label for="district">Quận/Huyện:</label>
-                  <select id="district" class="form-control" v-model="selectedDistrict" @change="onDistrictChange">
-                    <option value="" disabled>Chọn Quận/Huyện</option>
-                    <option v-for="district in districts" :key="district.code" :value="district.code">
-                      {{ district.name }}
-                    </option>
-                  </select>
-                </div>
-                <!-- Chọn Xã/Phường -->
-                <div class="form-group" v-if="wards.length > 0">
-                  <label for="ward">Xã/Phường:</label>
-                  <select id="ward" class="form-control" v-model="selectedWard">
-                    <option value="" disabled>Chọn Xã/Phường</option>
-                    <option v-for="ward in wards" :key="ward.code" :value="ward.code">
-                      {{ ward.name }}
-                    </option>
-                  </select>
-                </div>
-              </form>
-              <div class="col-lg-12">
-                  <div class="checkout__input">
-                    <p><b>Thôn/Xóm</b><span>*</span></p>
-                    <input type="text">
+              <!-- Hiển thị thông tin địa chỉ nếu có -->
+              <div class="row" v-if="address && address.length > 0">
+                <div class="card col-lg-12 p-3">
+                  <h4>Địa chỉ</h4>
+                  <div v-for="(addresses, index) in address" :key="index" class="checkout__input">
+                    <div class="row mt-2">
+                      <div class="col-md-6">
+                        <label for="fullName" class="form-label">Họ tên:</label>
+                        <input type="text" class="form-control bg-light" v-model="addresses.full_name" id="fullName"
+                          readonly />
+                      </div>
+                      <div class="col-md-6">
+                        <label for="phone" class="form-label">Số điện thoại:</label>
+                        <input type="text" class="form-control bg-light" v-model="addresses.phone" id="phone"
+                          readonly />
+                      </div>
+                    </div>
+                    <div class="row mt-2">
+                      <div class="col-md-6">
+                        <label for="province" class="form-label">Tỉnh/Thành phố:</label>
+                        <input type="text" class="form-control bg-light" v-model="addresses.tinh_thanh" id="province"
+                          readonly>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="district" class="form-label">Quận/Huyện:</label>
+                        <input type="text" class="form-control bg-light" v-model="addresses.quan_huyen" id="district"
+                          readonly>
+                      </div>
+                    </div>
+                    <div class="row mt-2">
+                      <div class="col-md-6">
+                        <label for="ward" class="form-label">Xã/Phường:</label>
+                        <input type="text" class="form-control bg-light" v-model="addresses.xa_phuong" id="ward"
+                          readonly>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="hamlet" class="form-label">Thôn/Xóm:</label>
+                        <input type="text" class="form-control bg-light" v-model="addresses.thon_xom" id="hamlet"
+                          readonly />
+                      </div>
+                    </div>
                   </div>
                 </div>
-              <div class="checkout__input__checkbox">
-                <label for="acc">
-                  Đồng ý với điều khoản & Dịch vụ ?
-                  <input type="checkbox" id="acc">
-                  <span class="checkmark"></span>
-                </label>
-              </div>
-              <div class="checkout__input">
-                <p>Ghi chú đơn hàng (tùy chọn)<span>*</span></p>
-                <textarea rows="4" style="width: 100%; padding: 10px; opacity: 0.8"></textarea>
               </div>
             </div>
+            <!-- Phần bên phải, đơn hàng -->
             <div class="col-lg-4 col-md-6">
               <div class="checkout__order">
                 <h4>ĐƠN HÀNG</h4>
                 <div class="checkout__order__products">Sản phẩm <span>Giá tiền</span></div>
                 <ul>
-                  <li>Áo MU đỏ <span>350.000đ</span></li>
-                  <li>Áo MU Away (2024-2025) Màu xanh <span>250.000đ</span></li>
-                  <li>Áo Đức Home (2024 - 2025) Màu trắng <span>450.000đ</span></li>
+                  <li v-for="(product, index) in cartItems" :key="index" class="text-truncate">
+                    {{ product.name }} <span>{{ product.price }}đ</span>
+                  </li>
                 </ul>
                 <div class="checkout__order__subtotal">Tạm tính <span>1.000.000đ</span></div>
                 <div class="checkout__order__total">Tổng thanh toán <span>1.100.000đ</span></div>
@@ -121,24 +151,9 @@
                 <div class="checkout__input__checkbox">
                   <label for="cod">
                     Thanh Toán Khi Nhận Hàng
-                    <img src="https://cdn-icons-png.flaticon.com/512/9368/9368523.png" style="width: 25px; height: 25px;" alt="" class="">
+                    <img src="https://cdn-icons-png.flaticon.com/512/9368/9368523.png"
+                      style="width: 25px; height: 25px;" alt="" class="">
                     <input type="radio" name="payment" id="cod" value="cod">
-                    <span class="checkmark"></span>
-                  </label>
-                </div>
-                <div class="checkout__input__checkbox">
-                  <label for="banking">
-                    Thanh Toán Bằng Banking
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9EtT711vIcfJWlsFu2NWU1fq-UY-S4igEpPFbIDcPkYDbXCmiymvKEtyzu54ZmLn5Sg0&usqp=CAU" style="width: 25px; height: 25px;" alt="" class="">
-                    <input type="radio" name="payment" id="banking" value="banking">
-                    <span class="checkmark"></span>
-                  </label>
-                </div>
-                <div class="checkout__input__checkbox">
-                  <label for="vnpay">
-                    Thanh Toán Bằng VNPAY 
-                    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/62/46/37/62463711-9d15-39bd-d596-6dce575fd1ca/AppIcon-0-0-1x_U007emarketing-0-7-0-0-85-220.png/246x0w.webp" style="width: 25px; height: 25px;" alt="">
-                    <input type="radio" name="payment" id="vnpay" value="vnpay">
                     <span class="checkmark"></span>
                   </label>
                 </div>
@@ -153,63 +168,139 @@
   </section>
 </template>
 
-<script>
-export default {
-  name: 'Checkout',
-  data() {
-    return {
-      provinces: [], // Danh sách tỉnh thành
-      districts: [], // Danh sách quận huyện
-      wards: [],     // Danh sách phường xã
-      selectedProvince: "", // Tỉnh được chọn
-      selectedDistrict: "", // Quận được chọn
-      selectedWard: "",     // Xã được chọn
-    };
-  },
-  async created() {
-    // Lấy danh sách tỉnh thành khi khởi tạo
-    this.provinces = await getProvinces();
-  },
-  methods: {
-    async onProvinceChange() {
-      // Lấy danh sách quận huyện khi chọn tỉnh
-      if (this.selectedProvince) {
-        this.districts = await getDistricts(this.selectedProvince);
-        this.wards = []; // Reset danh sách phường xã
-        this.selectedDistrict = "";
-        this.selectedWard = "";
-      }
-    },
-    async onDistrictChange() {
-      // Lấy danh sách phường xã khi chọn quận huyện
-      if (this.selectedDistrict) {
-        this.wards = await getWards(this.selectedDistrict);
-        this.selectedWard = "";
-      }
-    },
-  },
-}
-import { getProvinces, getDistricts, getWards } from "vietnam-provinces";
+<script setup>
+import { ref, onMounted, computed } from 'vue';
+import axios from 'axios';
+import { getProvinces, getDistricts, getWards } from 'vietnam-provinces';
 
+const API_URL = 'http://127.0.0.1:8000';
+const cartItems = ref([]);
+
+const selectedProvince = ref('');
+const selectedDistrict = ref('');
+const selectedWard = ref('');
+
+
+const isAddingNewAddress = ref(false);
+const provinces = ref([]);
+const districts = ref([]);
+const wards = ref([]);
+const newAddress = ref({
+  full_name: '',
+  phone: '',
+  province: '',
+  district: '',
+  commune: '',
+  hamlet: '',
+  houseNumber: '',
+});
+
+const address = ref([]);
+
+
+
+const user_id = localStorage.getItem('user_id');
+
+const loadCart = async () => {
+  const userId = localStorage.getItem('user_id');
+  const guestId = localStorage.getItem('guest_id');
+
+  if (!userId && !guestId) {
+    console.error('No user_id or guest_id found in localStorage');
+    return;
+  }
+
+  try {
+    const response = await axios.get(`${API_URL}/api/cart`, {
+      params: {
+        user_id: userId,
+        guest_id: guestId
+      }
+    });
+
+    const cartItemsWithDetails = await Promise.all(response.data.map(async item => {
+      const productResponse = await axios.get(`${API_URL}/api/products/${item.product_id}`);
+      const productDetails = productResponse.data;
+      return {
+        ...item,
+        name: productDetails.name,
+        price: productDetails.price,
+        image: productDetails.images[0]?.image_path || ''
+      };
+    }));
+
+    cartItems.value = cartItemsWithDetails;
+  } catch (error) {
+    console.error('Error loading cart:', error);
+    alert('Có lỗi xảy ra khi tải giỏ hàng');
+  }
+};
+
+
+
+const onProvinceChange = (event) => {
+  const selectedProvince = event.target.value;
+  if (selectedProvince) {
+    districts.value = getDistricts(selectedProvince);
+    newAddress.value.district = '';
+    newAddress.value.commune = '';
+  } else {
+    districts.value = [];
+    wards.value = [];
+  }
+};
+
+const onDistrictChange = (event) => {
+  const selectedDistrict = event.target.value;
+  if (selectedDistrict) {
+    wards.value = getWards(selectedDistrict);
+  } else {
+    wards.value = [];
+  }
+};
+
+const loadAddress = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/address/${user_id}`);
+    if (response.status === 200) {
+      address.value = response.data;
+    }
+  } catch (error) {
+    console.error("Error loading address:", error);
+  }
+}
+
+const saveNewAddress = async () => {
+  if (newAddress.value.full_name && newAddress.value.phone && newAddress.value.province && newAddress.value.district && newAddress.value.commune && newAddress.value.hamlet) {
+    try {
+      const response = await axios.post(`${API_URL}/api/address`, {
+        full_name: newAddress.value.full_name,
+        phone: newAddress.value.phone,
+        tinh_thanh: newAddress.value.province,
+        quan_huyen: newAddress.value.district,
+        xa_phuong: newAddress.value.commune,
+        thon_xom: newAddress.value.hamlet,
+        user_id: user_id
+      });
+      if (response.status === 201) {
+        alert("Địa chỉ đã được lưu thành công!");
+        isAddingNewAddress.value = false;
+        loadAddress();
+      } else {
+        alert("Có lỗi xảy ra khi lưu địa chỉ!");
+      }
+    } catch (error) {
+      console.error("Error saving address:", error);
+      alert("Lỗi kết nối với máy chủ!");
+    }
+  } else {
+    alert("Vui lòng điền đầy đủ thông tin!");
+  }
+};
+
+
+onMounted(() => {
+  loadCart();
+  provinces.value = getProvinces();
+});
 </script>
-
-<style>
-.site-btn {
-  background-color: #ff0000;
-  color: #fff;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.site-btn:hover {
-  background-color: #ad3939;
-  color: #fff;
-}
-.textarea-no-resize {
-  resize: vertical; 
-  width: 100%; 
-}
-
-</style>
