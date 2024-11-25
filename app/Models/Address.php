@@ -9,7 +9,9 @@ class Address extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['full_name', 'phone', 'tinh_thanh', 'thon_xom', 'xa_phuong', 'quan_huyen'];
+    protected $table = 'address';
+
+    protected $fillable = ['full_name', 'phone', 'tinh_thanh', 'thon_xom', 'xa_phuong', 'quan_huyen', 'user_id'];
 
     public function users()
     {

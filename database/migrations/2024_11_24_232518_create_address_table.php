@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('thon_xom', 255);
             $table->string('xa_phuong', 255);
             $table->string('quan_huyen', 255);
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

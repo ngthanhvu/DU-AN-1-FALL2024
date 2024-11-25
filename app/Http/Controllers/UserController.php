@@ -7,6 +7,9 @@ use App\Models\Users; // Sử dụng model Users
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use App\Notifications\ResetPasswordNotification;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -35,7 +38,6 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    // Phương thức register
     public function register(Request $request)
     {
         $validatedData = $request->validate([
@@ -48,7 +50,7 @@ class UserController extends Controller
             'username' => $validatedData['username'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
-            'role' => 'user', // Bạn có thể đặt giá trị mặc định cho role
+            'role' => 'user',
         ]);
 
         $token = JWTAuth::fromUser($user);
@@ -56,7 +58,6 @@ class UserController extends Controller
         return response()->json(compact('user', 'token'), 201);
     }
 
-    // Phương thức login
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -68,7 +69,6 @@ class UserController extends Controller
         return response()->json(compact('token'));
     }
 
-    // Phương thức logout
     public function logout()
     {
         JWTAuth::invalidate(JWTAuth::getToken());
@@ -76,7 +76,6 @@ class UserController extends Controller
         return response()->json(['message' => 'Successfully logged out']);
     }
 
-    // Các phương thức CRUD khác
     public function show($id)
     {
         $user = Users::find($id);
@@ -152,14 +151,76 @@ class UserController extends Controller
     {
         $user = auth()->user();
 
-        // Kiểm tra nếu user không phải là admin
         if (!$user || $user->role !== 'admin') {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        // Lấy danh sách users
         $users = Users::all();
 
         return response()->json($users, 200);
+    }
+
+    public function updateRole(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'role' => 'required|string|max:255',
+        ]);
+
+        $user = Users::find($id);
+
+        if (is_null($user)) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        $user->update([
+            'role' => $request->input('role'),
+        ]);
+
+        return response()->json($user, 200);
+    }
+
+    // Yêu cầu đặt lại mật khẩu
+    public function forgotPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $user = Users::where('email', $request->email)->first();
+        $token = Password::createToken($user);
+        $user->notify(new ResetPasswordNotification($token));
+
+        return response()->json(['message' => 'Liên kết đặt lại mật khẩu đã được gửi!'], 200);
+    }
+
+    // Đặt lại mật khẩu
+    public function resetPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|string|min:8|confirmed',
+            'token' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->save();
+            }
+        );
+
+        return $status === Password::PASSWORD_RESET
+            ? response()->json(['message' => __($status)], 200)
+            : response()->json(['message' => __($status)], 500);
     }
 }

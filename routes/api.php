@@ -8,7 +8,7 @@ use App\Http\Controllers\SkuController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
-
+use App\Http\Controllers\AddressController;
 /*
 |---------------------------------------------------------------------------
 | API Routes
@@ -31,12 +31,20 @@ Route::apiResource('categories', CategoryController::class);
 Route::apiResource('skus', SkuController::class);
 Route::apiResource('images', ImageController::class);
 Route::apiResource('users', UserController::class);
+Route::apiResource('address', AddressController::class);
 
 // Routes đăng ký, đăng nhập, lấy thông tin người dùng, và logout
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login'])->name('login');
 Route::get('user', [UserController::class, 'getUser'])->middleware('auth:api');
 Route::post('logout', [UserController::class, 'logout'])->middleware('auth:api');
+Route::put('/users/{id}/role', [UserController::class, 'updateRole']);
+Route::middleware('auth:api')->group(function () {
+    Route::delete('/users/{id}', [UserController::class, 'destroy']);
+});
+
+Route::post('password/forgot', [UserController::class, 'forgotPassword']);
+Route::post('password/reset', [UserController::class, 'resetPassword']);
 
 Route::post('/cart/add', [CartController::class, 'addToCart']);
 Route::get('/cart', [CartController::class, 'getCart']);
@@ -44,3 +52,4 @@ Route::post('/cart/remove', [CartController::class, 'removeFromCart']);
 Route::post('/cart/update', [CartController::class, 'updateQuantity']);
 
 Route::apiResource('carts', CartController::class);
+
