@@ -231,7 +231,20 @@ const newAddress = ref({
 
 const address = ref([]);
 
+const selectedProvinceName = computed(() => {
+  const province = provinces.value.find((item) => item.code === newAddress.value.province);
+  return province ? province.name : '';
+});
 
+const selectedDistrictName = computed(() => {
+  const district = districts.value.find((item) => item.code === newAddress.value.district);
+  return district ? district.name : '';
+});
+
+const selectedWardName = computed(() => {
+  const ward = wards.value.find((item) => item.code === newAddress.value.commune);
+  return ward ? ward.name : '';
+});
 
 const onProvinceChange = (event) => {
   const selectedProvince = event.target.value;
@@ -293,16 +306,15 @@ const deleteAddress = async (id) => {
   }
 }
 
-
 const saveNewAddress = async () => {
   if (newAddress.value.full_name && newAddress.value.phone && newAddress.value.province && newAddress.value.district && newAddress.value.commune && newAddress.value.hamlet) {
     try {
       const response = await axios.post(`${API_URL}/api/address`, {
         full_name: newAddress.value.full_name,
         phone: newAddress.value.phone,
-        tinh_thanh: newAddress.value.province,
-        quan_huyen: newAddress.value.district,
-        xa_phuong: newAddress.value.commune,
+        tinh_thanh: selectedProvinceName.value, // Tên của tỉnh thành
+        quan_huyen: selectedDistrictName.value, // Tên của quận huyện
+        xa_phuong: selectedWardName.value, // Tên của xã phường
         thon_xom: newAddress.value.hamlet,
         user_id: user_id
       });
@@ -335,6 +347,7 @@ onMounted(() => {
   loadAddress();
 });
 </script>
+
 
 
 <style scoped>

@@ -76,3 +76,7 @@ npm install axios
 ```sh
 npm install sweetalert2
 ```
+### Thư viện Ckediter
+```sh
+npm install --save @ckeditor/ckeditor5-build-classic
+```

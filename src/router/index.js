@@ -23,6 +23,8 @@ import AdminAddProduct from '@/components/admin/products/add.vue';
 import AdminCategory from '@/components/admin/AdminCategory.vue';
 import AdminAddCategory from '@/components/admin/category/add.vue';
 import AdminUser from '@/components/admin/AdminUser.vue';
+import AdminBlog from '@/components/admin/AdminBlog.vue';
+import AdminAddBlog from '@/components/admin/blogs/add.vue';
 
 const routes = [
   { path: '/', component: Home, meta: { title: 'Trang chủ' } },
@@ -49,6 +51,8 @@ const routes = [
       { path: '/admin/category', component: AdminCategory, meta: { title: 'Admin Category' } },
       { path: '/admin/category/add', component: AdminAddCategory, meta: { title: 'Admin Add Category' } },
       { path: '/admin/user', component: AdminUser, meta: { title: 'Admin User' } },
+      { path: '/admin/blog', component: AdminBlog, meta: { title: 'Admin Blog' } },
+      { path: '/admin/blog/add', component: AdminAddBlog, meta: { title: 'Admin Add Blog' } },
     ],
   }
 
