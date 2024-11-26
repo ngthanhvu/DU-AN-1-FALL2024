@@ -10,6 +10,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\MomoController;
 
 /*
 |---------------------------------------------------------------------------
@@ -56,3 +58,8 @@ Route::post('/cart/update', [CartController::class, 'updateQuantity']);
 Route::apiResource('carts', CartController::class);
 
 Route::apiResource('posts', PostController::class);
+Route::post('/payment', [PaymentController::class, 'create']);
+Route::get('/payment/callback', [PaymentController::class, 'callback']);
+
+Route::post('/momo', [MomoController::class, 'create']);
+Route::get('/momo/callback', [MomoController::class, 'callback']);

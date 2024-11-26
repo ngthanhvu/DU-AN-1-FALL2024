@@ -24,11 +24,10 @@ class PostController extends Controller
                 'title' => 'required|string',
                 'content' => 'required|string',
                 'image' => 'nullable|image|max:10002',
+                'user_id' => 'required|exists:users,id',
             ]);
             if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                $imagePath = $image->store('images', 'public');
-                $validatedData['image'] = $imagePath;
+                $data['image'] = $request->file('image')->store('images', 'public');
             }
             $post = Post::create($validatedData);
             return response()->json([
