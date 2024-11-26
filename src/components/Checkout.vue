@@ -118,11 +118,11 @@
                 <div class="checkout__order__products">Sản phẩm <span>Giá tiền</span></div>
                 <ul>
                   <li v-for="(product, index) in cartItems" :key="index" class="text-truncate">
-                    {{ product.name }} <span>{{ product.price }}đ</span>
+                    {{ product.name }} <span>{{ formatVND(product.price) }}</span>
                   </li>
                 </ul>
-                <div class="checkout__order__subtotal">Tạm tính <span>1.000.000đ</span></div>
-                <div class="checkout__order__total">Tổng thanh toán <span>1.100.000đ</span></div>
+                <div class="checkout__order__subtotal">Tạm tính <span>{{ subtotal }}đ</span></div>
+                <div class="checkout__order__total">Tổng thanh toán <span>{{ subtotal }}đ</span></div>
 
                 <!-- Phương thức thanh toán -->
                 <div class="checkout__input__checkbox">
@@ -207,6 +207,12 @@ const loadCart = async () => {
     alert('Có lỗi xảy ra khi tải giỏ hàng');
   }
 };
+
+const subtotal = computed(() => {
+  return cartItems.value.reduce((total, product) => total + product.price, 0);
+});
+
+console.log(subtotal);
 
 const selectedProvinceName = computed(() => {
   const province = provinces.value.find((item) => item.code === newAddress.value.province);
@@ -299,6 +305,7 @@ const confirmPayment = () => {
   // Xử lý tiếp, như gửi đơn hàng...
 };
 
+const formatVND = value => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
 
 onMounted(() => {
   loadCart();
