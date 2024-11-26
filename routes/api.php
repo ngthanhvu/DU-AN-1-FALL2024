@@ -55,4 +55,4 @@ Route::post('/cart/update', [CartController::class, 'updateQuantity']);
 
 Route::apiResource('carts', CartController::class);
 
-Route::apiResource('posts', PostController::class);
+Route::post('/posts', [PostController::class, 'store']);
