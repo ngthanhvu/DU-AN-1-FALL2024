@@ -78,6 +78,13 @@ class CartController extends Controller
     {
         $product_id = $request->input('product_id');
         $guest_id = $request->input('guest_id');
+        $user_id = $request->input('user_id');
+
+        if ($user_id) {
+            Cart::where('user_id', $user_id)->where('product_id', $product_id)->delete();
+        } else {
+            Cart::where('product_id', $product_id)->delete();
+        }
 
         if ($guest_id) {
             Cart::where('guest_id', $guest_id)->where('product_id', $product_id)->delete();
