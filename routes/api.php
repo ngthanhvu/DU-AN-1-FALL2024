@@ -9,6 +9,8 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\PostController;
+
 /*
 |---------------------------------------------------------------------------
 | API Routes
@@ -53,3 +55,4 @@ Route::post('/cart/update', [CartController::class, 'updateQuantity']);
 
 Route::apiResource('carts', CartController::class);
 
+Route::apiResource('posts', PostController::class);
