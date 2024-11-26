@@ -6,13 +6,12 @@
         <form @submit.prevent="submitForm">
           <div class="mb-3">
             <label for="title" class="form-label">Tiêu đề</label>
-            <input v-model="form.title" type="text" id="title" class="form-control" placeholder="Nhập tiêu đề bài viết"
-              required />
+            <input v-model="form.title" type="text" id="title" class="form-control" placeholder="Nhập tiêu đề bài viết" required />
           </div>
 
           <div class="mb-3">
             <label for="content" class="form-label">Nội dung</label>
-            <textarea ref="editor" id="content" class="form-control"></textarea>
+            <div id="editor"></div>
           </div>
 
           <div class="mb-3">
@@ -29,31 +28,110 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, shallowRef } from "vue";
+import axios from "axios";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 const form = ref({
   title: "",
   content: "",
   image: null,
+  user_id: null,
 });
 
-const editor = ref(null);
+// Sử dụng shallowRef cho editor để tránh làm sập reactive
+const editor = shallowRef(null);
+const editorContent = ref("");
 
 const handleFileUpload = (event) => {
   form.value.image = event.target.files[0];
 };
 
-const submitForm = () => {
-  form.value.content = editor.value.getData();
-  console.log("Form data:", form.value);
-  // Gửi form lên server hoặc xử lý logic khác tại đây
+const submitForm = async () => {
+  // Lấy nội dung từ CKEditor
+  form.value.content = editorContent.value;
+
+  // Validate dữ liệu
+  if (!form.value.title.trim()) {
+    alert("Vui lòng nhập tiêu đề");
+    return;
+  }
+
+  if (!form.value.content.trim()) {
+    alert("Vui lòng nhập nội dung");
+    return;
+  }
+
+  if (!form.value.image) {
+    alert("Vui lòng chọn hình ảnh");
+    return;
+  }
+
+  // Lấy user_id (ví dụ: từ localStorage hoặc Vuex)
+  const userId = localStorage.getItem('user_id'); 
+  if (!userId) {
+    alert("Vui lòng đăng nhập");
+    return;
+  }
+  form.value.user_id = userId;
+
+  try {
+    // Tạo FormData
+    const formData = new FormData();
+    formData.append('title', form.value.title);
+    formData.append('content', form.value.content);
+    formData.append('image', form.value.image);
+    formData.append('user_id', form.value.user_id);
+
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ': ' + pair[1]);
+    }
+
+    // Gửi request
+    const response = await axios.post('http://127.0.0.1:8000/api/posts', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    // Xử lý response thành công
+    console.log('Thêm bài viết thành công:', response.data);
+    alert('Thêm bài viết thành công!');
+    
+    // Reset form sau khi thêm thành công
+    form.value.title = '';
+    editorContent.value = '';
+    editor.value.setData('');
+    document.getElementById('image').value = '';
+    form.value.image = null;
+
+  } catch (error) {
+    // Xử lý lỗi chi tiết
+    console.error('Lỗi thêm bài viết:', error);
+    
+    if (error.response) {
+      // Lỗi từ server
+      console.error('Chi tiết lỗi:', error.response.data);
+      alert(`Lỗi: ${error.response.data.message || 'Có lỗi xảy ra'}`);
+    } else if (error.request) {
+      alert('Không nhận được phản hồi từ server. Kiểm tra kết nối mạng.');
+    } else {
+      alert(`Lỗi: ${error.message}`);
+    }
+  }
 };
 
 onMounted(() => {
-  ClassicEditor.create(document.querySelector("#content"))
+  ClassicEditor.create(document.querySelector("#editor"), {
+    // Các cấu hình bổ sung nếu cần
+  })
     .then((editorInstance) => {
       editor.value = editorInstance;
+
+      // Lắng nghe sự kiện thay đổi nội dung
+      editorInstance.model.document.on('change:data', () => {
+        editorContent.value = editorInstance.getData();
+      });
     })
     .catch((error) => {
       console.error("CKEditor error:", error);

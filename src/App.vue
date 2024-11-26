@@ -4,6 +4,7 @@ import Footer from './components/Footer.vue'
 import AdminHeader from './components/admin/AdminHeader.vue';
 import AdminFooter from './components/admin/AdminFooter.vue';
 import AdminSidebar from './components/admin/AdminSidebar.vue';
+import "quill/dist/quill.snow.css"; // Import Quill's Snow theme CSS
 
 
 export default {
