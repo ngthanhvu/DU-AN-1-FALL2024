@@ -91,48 +91,25 @@
 
               <!-- Hiển thị thông tin địa chỉ nếu có -->
               <div class="row" v-if="address && address.length > 0">
-                <div class="card col-lg-12 p-3">
-                  <h4>Địa chỉ</h4>
+                <div class="card col-lg-12">
                   <div v-for="(addresses, index) in address" :key="index" class="checkout__input">
-                    <div class="row mt-2">
-                      <div class="col-md-6">
-                        <label for="fullName" class="form-label">Họ tên:</label>
-                        <input type="text" class="form-control bg-light" v-model="addresses.full_name" id="fullName"
-                          readonly />
+                    <div class="row align-items-center mt-3">
+                      <div class="col-md-1 text-center">
+                        <input type="radio" :value="addresses" v-model="selectedAddress" name="addressSelection"
+                          class="form-check-input" />
                       </div>
-                      <div class="col-md-6">
-                        <label for="phone" class="form-label">Số điện thoại:</label>
-                        <input type="text" class="form-control bg-light" v-model="addresses.phone" id="phone"
-                          readonly />
-                      </div>
-                    </div>
-                    <div class="row mt-2">
-                      <div class="col-md-6">
-                        <label for="province" class="form-label">Tỉnh/Thành phố:</label>
-                        <input type="text" class="form-control bg-light" v-model="addresses.tinh_thanh" id="province"
-                          readonly>
-                      </div>
-                      <div class="col-md-6">
-                        <label for="district" class="form-label">Quận/Huyện:</label>
-                        <input type="text" class="form-control bg-light" v-model="addresses.quan_huyen" id="district"
-                          readonly>
-                      </div>
-                    </div>
-                    <div class="row mt-2">
-                      <div class="col-md-6">
-                        <label for="ward" class="form-label">Xã/Phường:</label>
-                        <input type="text" class="form-control bg-light" v-model="addresses.xa_phuong" id="ward"
-                          readonly>
-                      </div>
-                      <div class="col-md-6">
-                        <label for="hamlet" class="form-label">Thôn/Xóm:</label>
-                        <input type="text" class="form-control bg-light" v-model="addresses.thon_xom" id="hamlet"
-                          readonly />
+                      <div class="col-lg-11">
+                        <p class="fw-bold fs-6 mb-1">{{ addresses.full_name }}</p>
+                        <p class="mb-1">{{ addresses.tinh_thanh }}, {{ addresses.quan_huyen }}, {{ addresses.xa_phuong
+                          }}, {{
+                            addresses.thon_xom }}</p>
+                        <p class="mb-1">{{ addresses.phone }}</p>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+
             </div>
             <!-- Phần bên phải, đơn hàng -->
             <div class="col-lg-4 col-md-6">
@@ -158,7 +135,7 @@
                   </label>
                 </div>
 
-                <button type="submit" class="site-btn">Xác Nhận Thanh Toán</button>
+                <button type="submit" class="site-btn" @click.prevent="confirmPayment">Xác Nhận Thanh Toán</button>
               </div>
             </div>
           </div>
@@ -176,12 +153,9 @@ import { getProvinces, getDistricts, getWards } from 'vietnam-provinces';
 const API_URL = 'http://127.0.0.1:8000';
 const cartItems = ref([]);
 
-const selectedProvince = ref('');
-const selectedDistrict = ref('');
-const selectedWard = ref('');
-
-
+const selectedAddress = ref(null);
 const isAddingNewAddress = ref(false);
+const isLoadingAddress = ref(true);
 const provinces = ref([]);
 const districts = ref([]);
 const wards = ref([]);
@@ -196,8 +170,6 @@ const newAddress = ref({
 });
 
 const address = ref([]);
-
-
 
 const user_id = localStorage.getItem('user_id');
 
@@ -236,7 +208,20 @@ const loadCart = async () => {
   }
 };
 
+const selectedProvinceName = computed(() => {
+  const province = provinces.value.find((item) => item.code === newAddress.value.province);
+  return province ? province.name : '';
+});
 
+const selectedDistrictName = computed(() => {
+  const district = districts.value.find((item) => item.code === newAddress.value.district);
+  return district ? district.name : '';
+});
+
+const selectedWardName = computed(() => {
+  const ward = wards.value.find((item) => item.code === newAddress.value.commune);
+  return ward ? ward.name : '';
+});
 
 const onProvinceChange = (event) => {
   const selectedProvince = event.target.value;
@@ -260,15 +245,21 @@ const onDistrictChange = (event) => {
 };
 
 const loadAddress = async () => {
+  isLoadingAddress.value = true;
   try {
     const response = await axios.get(`${API_URL}/api/address/${user_id}`);
-    if (response.status === 200) {
+    if (response.status === 200 && Array.isArray(response.data)) {
       address.value = response.data;
+    } else {
+      address.value = [];
     }
   } catch (error) {
     console.error("Error loading address:", error);
+    address.value = [];
+  } finally {
+    isLoadingAddress.value = false;
   }
-}
+};
 
 const saveNewAddress = async () => {
   if (newAddress.value.full_name && newAddress.value.phone && newAddress.value.province && newAddress.value.district && newAddress.value.commune && newAddress.value.hamlet) {
@@ -276,16 +267,16 @@ const saveNewAddress = async () => {
       const response = await axios.post(`${API_URL}/api/address`, {
         full_name: newAddress.value.full_name,
         phone: newAddress.value.phone,
-        tinh_thanh: newAddress.value.province,
-        quan_huyen: newAddress.value.district,
-        xa_phuong: newAddress.value.commune,
+        tinh_thanh: selectedProvinceName.value,
+        quan_huyen: selectedDistrictName.value,
+        xa_phuong: selectedWardName.value,
         thon_xom: newAddress.value.hamlet,
         user_id: user_id
       });
       if (response.status === 201) {
         alert("Địa chỉ đã được lưu thành công!");
         isAddingNewAddress.value = false;
-        loadAddress();
+        await loadAddress();
       } else {
         alert("Có lỗi xảy ra khi lưu địa chỉ!");
       }
@@ -298,9 +289,20 @@ const saveNewAddress = async () => {
   }
 };
 
+const confirmPayment = () => {
+  if (!selectedAddress.value) {
+    alert("Vui lòng chọn địa chỉ nhận hàng!");
+    return;
+  }
+
+  console.log("Địa chỉ đã chọn:", selectedAddress.value);
+  // Xử lý tiếp, như gửi đơn hàng...
+};
+
 
 onMounted(() => {
   loadCart();
   provinces.value = getProvinces();
+  loadAddress();
 });
 </script>
