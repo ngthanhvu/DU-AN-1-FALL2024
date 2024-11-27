@@ -14,6 +14,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\MomoController;
 use App\Http\Controllers\DiscountController;
 
+use App\Http\Controllers\OrderController;
 
 /*
 |---------------------------------------------------------------------------
@@ -73,3 +74,6 @@ Route::post('/discounts', [DiscountController::class, 'createDiscount']);
 Route::get('/discounts', [DiscountController::class, 'getDiscounts']);
 Route::post('/discounts/apply', [DiscountController::class, 'applyDiscount']);
 Route::delete('/discounts/{id}', [DiscountController::class, 'deleteDiscount']);
+
+Route::apiResource('orders', OrderController::class);
+ //new
