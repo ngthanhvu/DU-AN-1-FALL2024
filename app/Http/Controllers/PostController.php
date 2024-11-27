@@ -44,7 +44,24 @@ class PostController extends Controller
     }
     public function show(string $id)
     {
-        //
+        try {
+            $post = Post::with('user')->findOrFail($id);
+            return response()->json([
+                'message' => 'Post fetched successfully',
+                'post' => $post
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to fetch post',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getRelatedArticles($categoryId)
+    {
+        $relatedArticles = Post::where('category_id', $categoryId)->limit(3)->get();
+        return response()->json(['articles' => $relatedArticles]);
     }
 
     public function edit(string $id)
