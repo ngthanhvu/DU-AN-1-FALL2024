@@ -100,9 +100,8 @@
                       </div>
                       <div class="col-lg-11">
                         <p class="fw-bold fs-6 mb-1">{{ addresses.full_name }}</p>
-                        <p class="mb-1">{{ addresses.tinh_thanh }}, {{ addresses.quan_huyen }}, {{ addresses.xa_phuong
-                          }}, {{
-                            addresses.thon_xom }}</p>
+                        <p class="mb-1">{{ addresses.province }}, {{ addresses.district }}, {{ addresses.commune }}, {{
+                          addresses.hamlet }}</p>
                         <p class="mb-1">{{ addresses.phone }}</p>
                       </div>
                     </div>
@@ -111,7 +110,6 @@
               </div>
 
             </div>
-            <!-- Phần bên phải, đơn hàng -->
             <div class="col-lg-4 col-md-6">
               <div class="checkout__order">
                 <h4>ĐƠN HÀNG</h4>
@@ -121,21 +119,36 @@
                     {{ product.name }} <span>{{ formatVND(product.price) }}</span>
                   </li>
                 </ul>
-                <div class="checkout__order__subtotal">Tạm tính <span>{{ subtotal }}đ</span></div>
-                <div class="checkout__order__total">Tổng thanh toán <span>{{ subtotal }}đ</span></div>
+                <div class="checkout__order__subtotal">Tạm tính <span>{{ formatVND(subtotal) }}</span></div>
+                <div class="checkout__order__total">Tổng thanh toán <span>{{ formatVND(subtotal) }}</span></div>
 
-                <!-- Phương thức thanh toán -->
                 <div class="checkout__input__checkbox">
                   <label for="cod">
                     Thanh Toán Khi Nhận Hàng
-                    <img src="https://cdn-icons-png.flaticon.com/512/9368/9368523.png"
-                      style="width: 25px; height: 25px;" alt="" class="">
-                    <input type="radio" name="payment" id="cod" value="cod">
+                    <input type="radio" name="payment" id="cod" value="cod" v-model="paymentMethod">
                     <span class="checkmark"></span>
                   </label>
                 </div>
 
-                <button type="submit" class="site-btn" @click.prevent="confirmPayment">Xác Nhận Thanh Toán</button>
+                <div class="checkout__input__checkbox">
+                  <label for="payment">
+                    Thanh Toán Qua Thẻ
+                    <input type="radio" name="payment" id="payment" value="vnpay" v-model="paymentMethod">
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+
+                <div class="checkout__input__checkbox">
+                  <label for="momo">
+                    Thanh Toán Qua MoMo
+                    <input type="radio" name="payment" id="momo" value="momo" v-model="paymentMethod">
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+
+                <!-- Nút xác nhận thanh toán -->
+                <button type="button" class="site-btn" @click.prevent="confirmPayment">Xác Nhận Thanh Toán</button>
+                <!-- <button type="submit" class="site-btn" @click.prevent="confirmPayment">Xác Nhận Thanh Toán</button> -->
               </div>
             </div>
           </div>
@@ -149,7 +162,9 @@
 import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import { getProvinces, getDistricts, getWards } from 'vietnam-provinces';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const API_URL = 'http://127.0.0.1:8000';
 const cartItems = ref([]);
 
@@ -209,10 +224,11 @@ const loadCart = async () => {
 };
 
 const subtotal = computed(() => {
-  return cartItems.value.reduce((total, product) => total + product.price, 0);
+  return cartItems.value.reduce((total, product) => {
+    return total + (product.price * product.quantity);
+  }, 0);
 });
 
-console.log(subtotal);
 
 const selectedProvinceName = computed(() => {
   const province = provinces.value.find((item) => item.code === newAddress.value.province);
@@ -255,7 +271,15 @@ const loadAddress = async () => {
   try {
     const response = await axios.get(`${API_URL}/api/address/${user_id}`);
     if (response.status === 200 && Array.isArray(response.data)) {
-      address.value = response.data;
+      address.value = response.data.map(item => ({
+        id: item.id,
+        full_name: item.full_name,
+        phone: item.phone,
+        province: item.tinh_thanh,
+        district: item.quan_huyen,
+        commune: item.xa_phuong,
+        hamlet: item.thon_xom,
+      }));
     } else {
       address.value = [];
     }
@@ -266,6 +290,7 @@ const loadAddress = async () => {
     isLoadingAddress.value = false;
   }
 };
+
 
 const saveNewAddress = async () => {
   if (newAddress.value.full_name && newAddress.value.phone && newAddress.value.province && newAddress.value.district && newAddress.value.commune && newAddress.value.hamlet) {
@@ -295,15 +320,108 @@ const saveNewAddress = async () => {
   }
 };
 
-const confirmPayment = () => {
-  if (!selectedAddress.value) {
-    alert("Vui lòng chọn địa chỉ nhận hàng!");
+const paymentMethod = ref(null);
+
+
+const confirmPayment = async () => {
+  console.log("Selected Address:", selectedAddress.value);
+  console.log("Total Price:", subtotal.value);
+  console.log("Payment Method:", paymentMethod.value);
+
+  if (paymentMethod.value === 'cod' && (
+    !selectedAddress.value ||
+    !selectedAddress.value.full_name ||
+    !selectedAddress.value.phone ||
+    !selectedAddress.value.province ||
+    !selectedAddress.value.district ||
+    !selectedAddress.value.commune ||
+    !selectedAddress.value.hamlet)) {
+    alert("Vui lòng chọn địa chỉ đầy đủ để tiếp tục!");
     return;
   }
 
-  console.log("Địa chỉ đã chọn:", selectedAddress.value);
-  // Xử lý tiếp, như gửi đơn hàng...
+  const orderData = {
+    user_id: user_id,
+    full_name: selectedAddress.value?.full_name,
+    phone: selectedAddress.value?.phone,
+    province: selectedAddress.value?.province,
+    district: selectedAddress.value?.district,
+    commune: selectedAddress.value?.commune,
+    hamlet: selectedAddress.value?.hamlet,
+    total_price: subtotal.value,
+    payment_method: paymentMethod.value,
+  };
+
+  if (paymentMethod.value === 'vnpay' || paymentMethod.value === 'momo') {
+    orderData.amount = subtotal.value;
+  }
+
+  console.log("Order Data:", orderData);
+
+  try {
+    const response = await axios.post(`${API_URL}/api/orders`, orderData);
+    console.log("API /orders Response:", response.data);
+
+    if (response.status === 201 && response.data.order) {
+      console.log("Order Created:", response.data.order);
+
+      if (paymentMethod.value === 'vnpay') {
+        try {
+          const paymentResponse = await axios.post(`${API_URL}/api/payment`, {
+            amount: subtotal.value,
+            order_id: response.data.order.id,
+          }, {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          console.log("API /payment Response:", paymentResponse.data);
+
+          if (paymentResponse.status === 200 && paymentResponse.data.url) {
+            const paymentUrl = paymentResponse.data.url;
+            window.location.replace(paymentUrl);
+          } else {
+            console.error("Không có URL thanh toán!");
+            alert("Không có URL thanh toán!");
+          }
+        } catch (error) {
+          console.error("Lỗi khi thực hiện thanh toán:", error);
+          alert("Có lỗi xảy ra trong quá trình thanh toán.");
+        }
+      } else if (paymentMethod.value === 'momo') {
+        try {
+          const momoResponse = await axios.post(`${API_URL}/api/momo`, {
+            amount: subtotal.value,
+            order_id: response.data.order.id,
+          });
+          console.log("API /momo Response:", momoResponse.data);
+
+          if (momoResponse.status === 200 && momoResponse.data.payUrl) {
+            const momoPaymentUrl = momoResponse.data.payUrl;
+            window.location.href = momoPaymentUrl;
+          } else {
+            console.error("Không có URL thanh toán MoMo!");
+            alert("Không có URL thanh toán MoMo!");
+          }
+        } catch (error) {
+          console.error("Lỗi khi thực hiện thanh toán MoMo:", error);
+          alert("Có lỗi xảy ra trong quá trình thanh toán MoMo.");
+        }
+      } else if (paymentMethod.value === 'cod') {
+        alert("Đơn hàng đã được tạo thành công. Bạn sẽ thanh toán khi nhận hàng.");
+        router.push('/thanh-cong');
+      }
+    } else {
+      console.error("Có lỗi xảy ra trong quá trình tạo đơn hàng.");
+      alert("Có lỗi xảy ra trong quá trình tạo đơn hàng.");
+    }
+  } catch (error) {
+    console.error("Lỗi khi tạo đơn hàng:", error.response?.data || error);
+    alert("Có lỗi xảy ra trong quá trình thanh toán.");
+  }
 };
+
+
 
 const formatVND = value => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
 
