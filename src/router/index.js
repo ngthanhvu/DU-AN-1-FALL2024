@@ -38,7 +38,7 @@ const routes = [
   { path: '/gio-hang', component: Cart, meta: { title: 'Giỏ hàng' } },
   { path: '/thanh-toan', component: Checkout, meta: { title: 'Thanh toán' } },
   { path: '/trang-ca-nhan', component: Profile, meta: { title: 'Thông tin cá nhân' } },
-  { path: '/chi-tiet-tin-tuc', component: Detail_post, meta: { title: 'Tin tức' } },
+  { path: '/chi-tiet-tin-tuc/:id', component: Detail_post, meta: { title: 'Tin tức' } },
   { path: '/quen-mat-khau', component: Forgot, meta: { title: 'Quên mật khẩu' } },
   { path: '/lich-su-mua-hang', component: OrderHistory, meta: { title: 'Lịch sử mua hàng' } },
   {
