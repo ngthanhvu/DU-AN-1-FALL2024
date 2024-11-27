@@ -32,43 +32,30 @@
         <section class="content-section">
             <div class="container">
                 <div class="row">
-                    <!-- Main Content -->
                     <div class="col-md-8">
                         <article class="main-article mb-5">
-                            <!-- Thumbnail -->
-                            <img src="https://via.placeholder.com/800x400" class="img-fluid mb-4"
-                                alt="Article Thumbnail" />
-                            <!-- Title -->
-                            <h1 class="article-title mb-3">Tiêu đề bài viết</h1>
-                            <!-- Meta Information -->
+                            <img v-if="article.image" :src="`${API_URL}/storage/${article.image}`"
+                                alt="Article Thumbnail" class="img-fluid mb-4" style="width: 1000px; height: 500px" />
+                            <h1 class="article-title mb-3">{{ article.title }}</h1>
                             <div class="article-meta text-muted mb-3">
-                                <span><i class="fas fa-user"></i> Tác giả: Admin</span>
+                                <span><i class="fas fa-user"></i> Tác giả: {{ article.author }}</span>
                                 <span class="mx-2">|</span>
-                                <span><i class="fas fa-calendar-alt"></i> Ngày đăng: 17/11/2024</span>
+                                <span><i class="fas fa-calendar-alt"></i> Ngày đăng: {{ article.date }}</span>
                             </div>
-                            <!-- Content -->
-                            <p class="article-content">
-                                Đây là phần nội dung chi tiết của bài viết. Bạn có thể sử dụng văn bản mẫu
-                                hoặc dữ liệu thực tế để hiển thị thông tin. Nội dung bài viết cần được trình bày rõ ràng
-                                với các đoạn văn dễ đọc, sử dụng hình ảnh và tiêu đề phụ nếu cần thiết.
-                            </p>
+                            <p class="article-content" v-html="article.content"></p>
                         </article>
-
-                        <!-- Related Articles Section -->
                         <section class="related-articles">
                             <h3 class="section-title mb-4">Bài viết liên quan</h3>
                             <div class="row">
-                                <div class="col-md-4 mb-3" v-for="i in 3" :key="i">
+                                <div class="col-md-4 mb-3" v-for="relatedArticle in relatedArticles"
+                                    :key="relatedArticle.id">
                                     <div class="card h-100">
-                                        <img src="https://via.placeholder.com/400x200" class="card-img-top"
-                                            alt="Related Article" />
+                                        <img :src="relatedArticle.image" class="card-img-top" alt="Related Article" />
                                         <div class="card-body">
-                                            <h5 class="card-title">Tiêu đề bài viết {{ i }}</h5>
-                                            <p class="card-text text-muted">
-                                                Tóm tắt ngắn gọn nội dung của bài viết liên quan.
-                                            </p>
-                                            <router-link to="/tin-tuc" class="btn btn-primary btn-sm">Xem chi
-                                                tiết</router-link>
+                                            <h5 class="card-title">{{ relatedArticle.title }}</h5>
+                                            <p class="card-text text-muted">{{ relatedArticle.summary }}</p>
+                                            <router-link :to="'/chi-tiet-tin-tuc/' + relatedArticle.id"
+                                                class="btn btn-primary btn-sm">Xem chi tiết</router-link>
                                         </div>
                                     </div>
                                 </div>
@@ -92,25 +79,47 @@
         </section>
     </section>
 </template>
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import axios from 'axios';
 
+const API_URL = 'http://127.0.0.1:8000';
+const article = ref({
+    title: '',
+    author: '',
+    date: '',
+    image: '',
+    content: ''
+});
 
-<script>
-export default {
-    data() {
-        return {
-            categories: ["Thể thao", "Kinh tế", "Xã hội", "Công nghệ"],
-        };
-    },
+const categories = ref(['Category 1', 'Category 2', 'Category 3']);
+const route = useRoute();
+const id = route.params.id;
+
+const fetchArticle = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/posts/${id}`);
+    const post = response.data.post;
+    
+    article.value = {
+      title: post.title,
+      author: post.user.username,
+      date: post.created_at,
+      image: post.image,
+      content: post.content,
+    };
+
+    const relatedResponse = await axios.get(`${API_URL}/api/posts/related/${post.category_id}`);
+    relatedArticles.value = relatedResponse.data.articles;
+
+  } catch (error) {
+    console.error('Failed to fetch article or related articles:', error);
+  }
 };
+
+
+onMounted(() => {
+    fetchArticle();
+});
 </script>
-
-<style scoped>
-.article-title {
-    font-size: 2rem;
-    font-weight: bold;
-}
-
-.related-articles .card-title {
-    font-size: 1rem;
-}
-</style>
