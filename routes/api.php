@@ -76,4 +76,4 @@ Route::post('/discounts/apply', [DiscountController::class, 'applyDiscount']);
 Route::delete('/discounts/{id}', [DiscountController::class, 'deleteDiscount']);
 
 Route::apiResource('orders', OrderController::class);
- //new
+ //new abcxyz
