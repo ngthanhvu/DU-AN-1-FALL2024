@@ -9,8 +9,20 @@ class PostController extends Controller
 {
     public function index()
     {
-        //
+        try {
+            $posts = Post::with('user')->get();
+            return response()->json([
+                'message' => 'Posts fetched successfully',
+                'posts' => $posts
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to fetch posts',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
+
 
     public function create()
     {
@@ -43,8 +55,26 @@ class PostController extends Controller
     }
     public function show(string $id)
     {
-        //
+        try {
+            $post = Post::with('user')->findOrFail($id);
+
+            return response()->json([
+                'message' => 'Post fetched successfully',
+                'post' => $post
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Post not found',
+                'error' => $e->getMessage()
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to fetch post',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
+
 
     public function edit(string $id)
     {

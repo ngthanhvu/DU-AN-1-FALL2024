@@ -58,8 +58,9 @@ Route::post('/cart/update', [CartController::class, 'updateQuantity']);
 Route::apiResource('carts', CartController::class);
 
 Route::post('/posts', [PostController::class, 'store']);
-
+Route::get('posts/{id}', [PostController::class, 'show']);
 Route::apiResource('posts', PostController::class);
+
 Route::post('/payment', [PaymentController::class, 'create']);
 Route::get('/payment/callback', [PaymentController::class, 'callback']);
 
