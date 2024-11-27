@@ -9,7 +9,18 @@ class PostController extends Controller
 {
     public function index()
     {
-        //
+        try {
+            $posts = Post::with('user')->get();
+            return response()->json([
+                'message' => 'Posts fetched successfully',
+                'posts' => $posts
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to fetch posts',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
 
@@ -45,11 +56,17 @@ class PostController extends Controller
     public function show(string $id)
     {
         try {
-            $post = Post::with('user')->findOrFail($id);
+            $post = Post::with('user')->findOrFail($id); // Tìm bài viết với ID
+
             return response()->json([
                 'message' => 'Post fetched successfully',
-                'post' => $post
+                'post' => $post  // Trả về bài viết với thông tin chi tiết
             ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Post not found',
+                'error' => $e->getMessage()
+            ], 404);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Failed to fetch post',
@@ -57,12 +74,13 @@ class PostController extends Controller
             ], 500);
         }
     }
-
+    // In your Laravel controller, for example
     public function getRelatedArticles($categoryId)
     {
         $relatedArticles = Post::where('category_id', $categoryId)->limit(3)->get();
         return response()->json(['articles' => $relatedArticles]);
     }
+
 
     public function edit(string $id)
     {
