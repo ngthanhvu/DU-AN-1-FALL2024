@@ -188,48 +188,15 @@
         <h2 class="section-title mb-4">Tin Tức Mới Nhất</h2>
         <div class="row">
           <!-- Tin Tức 1 -->
-          <div class="col-md-4 mb-4">
+          <div class="col-md-4 mb-4" v-for="post in posts" :key="post.id">
             <div class="news-item">
-              <a href="#" class="text-decoration-none">
-                <img
-                  src="https://cafefcdn.com/203337114487263232/2021/9/5/sport17bab263cf1original-ratio-1630800402561676628516.jpeg"
-                  class="img-fluid" alt="News Image 1">
-                <h4 class="mt-3">Man United lập kỷ lục thu về 1.366 tỷ từ bán áo đấu Ronaldo sau 12h,
-                  bao giờ thu hồi "vốn"?</h4>
-                <p class="text-muted">Theo LovetheSales.com, 12h sau khi áo đấu của Cristiano Ronaldo
-                  phát hành, fan đã bỏ ra tổng cộng 32,5 triệu bảng (60 triệu USD – khoảng 1.366 tỷ
-                </p>
-              </a>
-            </div>
-          </div>
-          <!-- Tin Tức 2 -->
-          <div class="col-md-4 mb-4">
-            <div class="news-item">
-              <a href="#" class="text-decoration-none">
-                <img
-                  src="https://cafefcdn.com/203337114487263232/2021/9/5/sport17bab263cf1original-ratio-1630800402561676628516.jpeg"
-                  class="img-fluid" alt="News Image 2">
-                <h4 class="mt-3">Man United lập kỷ lục thu về 1.366 tỷ từ bán áo đấu Ronaldo sau 12h,
-                  bao giờ thu hồi "vốn"?</h4>
-                <p class="text-muted">Theo LovetheSales.com, 12h sau khi áo đấu của Cristiano Ronaldo
-                  phát hành, fan đã bỏ ra tổng cộng 32,5 triệu bảng (60 triệu USD – khoảng 1.366 tỷ
-                </p>
-              </a>
-            </div>
-          </div>
-          <!-- Tin Tức 3 -->
-          <div class="col-md-4 mb-4">
-            <div class="news-item">
-              <a href="#" class="text-decoration-none">
-                <img
-                  src="https://cafefcdn.com/203337114487263232/2021/9/5/sport17bab263cf1original-ratio-1630800402561676628516.jpeg"
-                  class="img-fluid" alt="News Image 3">
-                <h4 class="mt-3">Man United lập kỷ lục thu về 1.366 tỷ từ bán áo đấu Ronaldo sau 12h,
-                  bao giờ thu hồi "vốn"?</h4>
-                <p class="text-muted">Theo LovetheSales.com, 12h sau khi áo đấu của Cristiano Ronaldo
-                  phát hành, fan đã bỏ ra tổng cộng 32,5 triệu bảng (60 triệu USD – khoảng 1.366 tỷ
-                </p>
-              </a>
+              <router-link :to="`/chi-tiet-tin-tuc/${post.id}`" class="text-decoration-none">
+                <img v-if="post.image" :src="`${API_URL}/storage/${post.image}`" alt="Hình ảnh bài viết"
+                class="img-thumbnail" style="width: 450px; height: 300px " />
+                
+                <h4 class="mt-3" style="font-weight: bold; color: black">{{ post.title }}</h4>
+                <p class="text-muted " v-html="truncateContent(post.content, 100)"></p>
+              </router-link>
             </div>
           </div>
         </div>
@@ -280,6 +247,8 @@ import axios from 'axios';
 const API_URL = 'http://127.0.0.1:8000';
 const products = ref([]);
 const categories = ref([]);
+const posts = ref([]);
+
 
 const fetchProducts = async () => {
   try {
@@ -302,6 +271,22 @@ const fetchCategories = async () => {
   }
 };
 
+onMounted(async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/posts`); 
+    posts.value = response.data.posts;
+  } catch (error) {
+    console.error('Failed to fetch posts:', error);
+  }
+});
+const cleanContent = (content) => {
+  const cleanedContent = content.replace(/<\/?[^>]+(>|$)/g, "");
+  return cleanedContent.length > 100 ? cleanedContent.slice(0, 100) + '...' : cleanedContent;
+};
+
+const truncateContent = (content) => {
+  return cleanContent(content);
+};
 // Hàm định dạng giá tiền
 const formatVND = value => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
 

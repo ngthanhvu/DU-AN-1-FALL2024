@@ -29,7 +29,7 @@
                 class="img-thumbnail" style="width: 450px; height: 300px " />
                 
                 <h4 class="mt-3" style="font-weight: bold; color: black">{{ post.title }}</h4>
-                <p class="text-muted" v-html="truncateContent(post.content, 100)"></p>
+                <p class="text-muted " v-html="truncateContent(post.content, 100)"></p>
               </router-link>
             </div>
           </div>
@@ -63,3 +63,14 @@ const truncateContent = (content) => {
   return cleanContent(content);
 };
 </script>
+<style scoped>
+.text-muted {
+    --bs-text-opacity: 1;
+    color: var(--bs-secondary-color) !important;
+    text-align: left;
+}
+.news-item h4 {
+    font-size: 1.7rem;
+    text-align: left;
+}
+</style>
