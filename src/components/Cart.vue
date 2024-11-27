@@ -1,13 +1,18 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
-
 const API_URL = 'http://127.0.0.1:8000';
-
 const cartItems = ref([]);
+const discountCode = ref('');
+const discountValue = ref(0);
+const discountApplied = ref(false);
 
 const subtotal = computed(() =>
   cartItems.value.reduce((sum, item) => sum + item.price * item.quantity, 0)
+);
+
+const totalAfterDiscount = computed(() =>
+  subtotal.value - discountValue.value
 );
 
 const loadCart = async () => {
@@ -97,6 +102,37 @@ const removeItem = async (index) => {
   } catch (error) {
     console.error('Error removing product from cart:', error);
     alert('Có lỗi xảy ra khi xóa sản phẩm khỏi giỏ hàng');
+  }
+};
+
+//Sử dụng mã giảm giá
+const applyDiscount = async () => {
+  if (!discountCode.value.trim()) {
+    alert('Vui lòng nhập mã giảm giá');
+    return;
+  }
+
+  const userId = localStorage.getItem('user_id');
+  const guestId = localStorage.getItem('guest_id');
+  const totalAmount = subtotal.value;
+
+  try {
+    const response = await axios.post(`${API_URL}/api/discounts/apply`, {
+      code: discountCode.value,
+      user_id: userId,
+      guest_id: guestId,
+      total_amount: totalAmount 
+    });
+
+    if (response.data.success) {
+      discountValue.value = response.data.discount_value;
+      discountApplied.value = true;
+    } else {
+      alert('Mã giảm giá không hợp lệ hoặc đã hết hạn');
+    }
+  } catch (error) {
+    console.error('Error applying discount:', error);
+    alert('Mã giảm giá đã hết lượt sử dụng hoặc không tồn tại');
   }
 };
 
@@ -199,13 +235,14 @@ onMounted(() => {
           <div class="shoping__continue">
             <div class="shoping__discount">
               <h5>ƯU ĐÃI GIẢM GIÁ</h5>
-              <form action="#">
-                <input type="text" placeholder="Nhập mã giảm giá nếu có" />
+              <form @submit.prevent="applyDiscount">
+                <input type="text" v-model="discountCode" placeholder="Nhập mã giảm giá nếu có" />
                 <button type="submit" class="site-btn">
                   ÁP DỤNG
                   <font-awesome-icon :icon="['fas', 'ticket']" />
                 </button>
               </form>
+              <p v-if="discountApplied">Mã giảm giá đã được áp dụng!</p>
             </div>
           </div>
         </div>
@@ -214,7 +251,8 @@ onMounted(() => {
             <h5>TỔNG SẢN PHẨM</h5>
             <ul>
               <li>Tạm tính <span>{{ subtotal.toLocaleString('vi-VN') }}đ</span></li>
-              <li>Tổng thanh toán <span>{{ subtotal.toLocaleString('vi-VN') }}đ</span></li>
+              <li v-if="discountApplied">Giảm giá <span>{{ discountValue.toLocaleString('vi-VN') }}đ</span></li>
+              <li>Tổng thanh toán <span>{{ totalAfterDiscount.toLocaleString('vi-VN') }}đ</span></li>
             </ul>
             <router-link to="/thanh-toan" class="primary-btn">
               TIẾN HÀNH THANH TOÁN
