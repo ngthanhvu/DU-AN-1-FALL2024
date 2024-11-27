@@ -78,5 +78,5 @@ npm install sweetalert2
 ```
 ### Thư viện Ckediter
 ```sh
-npm install --save @ckeditor/ckeditor5-build-classic
+npm install @ckeditor/ckeditor5-vue @ckeditor/ckeditor5-build-classic
 ```

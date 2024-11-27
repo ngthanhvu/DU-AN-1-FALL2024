@@ -15,6 +15,7 @@ import Profile from '../components/Profile.vue';
 import Detail_post from '../components/Detail_post.vue';
 import Forgot from '../components/Forgot.vue'
 import OrderHistory from '@/components/OrderHistory.vue';
+import Success from '@/components/Success.vue';
 
 import AdminLayout from '../components/admin/AdminLayout.vue';
 import AdminDashboard from '@/components/admin/AdminDashboard.vue';
@@ -41,6 +42,7 @@ const routes = [
   { path: '/chi-tiet-tin-tuc', component: Detail_post, meta: { title: 'Tin tức' } },
   { path: '/quen-mat-khau', component: Forgot, meta: { title: 'Quên mật khẩu' } },
   { path: '/lich-su-mua-hang', component: OrderHistory, meta: { title: 'Lịch sử mua hàng' } },
+  { path: '/thanh-cong', component: Success, meta: { title: 'Thành công' } },
   {
     path: '/admin',
     component: AdminLayout,
