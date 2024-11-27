@@ -12,6 +12,8 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\MomoController;
+use App\Http\Controllers\DiscountController;
+
 
 /*
 |---------------------------------------------------------------------------
@@ -66,3 +68,8 @@ Route::get('/payment/callback', [PaymentController::class, 'callback']);
 
 Route::post('/momo', [MomoController::class, 'create']);
 Route::get('/momo/callback', [MomoController::class, 'callback']);
+
+Route::post('/discounts', [DiscountController::class, 'createDiscount']);
+Route::get('/discounts', [DiscountController::class, 'getDiscounts']);
+Route::post('/discounts/apply', [DiscountController::class, 'applyDiscount']);
+Route::delete('/discounts/{id}', [DiscountController::class, 'deleteDiscount']);
