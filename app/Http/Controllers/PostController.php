@@ -9,7 +9,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        //
+        return response()->json(Post::all(), 200);
     }
 
     public function create()
@@ -43,7 +43,17 @@ class PostController extends Controller
     }
     public function show(string $id)
     {
-        //
+        $post = Post::find($id);
+
+        if (!$post) {
+            return response()->json([
+                'message' => 'Post not found'
+            ], 404);
+        } else {
+            return response()->json([
+                'post' => $post
+            ], 200);
+        }
     }
 
     public function edit(string $id)

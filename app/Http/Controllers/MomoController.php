@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use \Illuminate\Support\Facades\Log;
 
 class MomoController extends Controller
 {
@@ -64,49 +65,94 @@ class MomoController extends Controller
     }
 
     public function callback(Request $request)
-    {
-        $secretKey = 'K951B6PE1waDMi640xX08PD3vg6EkVlz';
-        $data = $request->all();
+{
+    // Khai báo khóa bí mật
+    $secretKey = 'K951B6PE1waDMi640xX08PD3vg6EkVlz';
 
-        // Tạo raw data để kiểm tra chữ ký
-        $rawSignature = "accessKey={$data['accessKey']}&"
-            . "amount={$data['amount']}&"
-            . "extraData={$data['extraData']}&"
-            . "orderId={$data['orderId']}&"
-            . "orderInfo={$data['orderInfo']}&"
-            . "orderType={$data['orderType']}&"
-            . "partnerCode={$data['partnerCode']}&"
-            . "payType={$data['payType']}&"
-            . "requestId={$data['requestId']}&"
-            . "responseTime={$data['responseTime']}&"
-            . "resultCode={$data['resultCode']}&"
-            . "transId={$data['transId']}";
+    // Lấy tất cả các tham số từ request
+    $data = $request->all();
 
-        // Tạo chữ ký để kiểm tra
-        $signature = hash_hmac('sha256', $rawSignature, $secretKey);
+    // Log dữ liệu callback từ MoMo
+    Log::info('MoMo Callback Data: ', $data);
 
-        // Kiểm tra chữ ký
-        if ($signature === $data['signature']) {
-            // Chữ ký hợp lệ, xử lý logic khi thanh toán thành công
-            if ($data['resultCode'] == 0) {
-                // Xử lý thanh toán thành công
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Payment successful'
-                ]);
-            } else {
-                // Xử lý thanh toán thất bại
-                return response()->json([
-                    'status' => 'fail',
-                    'message' => 'Payment failed'
-                ]);
-            }
-        } else {
-            // Chữ ký không hợp lệ
+    // Kiểm tra và lấy giá trị từ callback
+    $amount = (string) $data['amount'] ?? null; // Đảm bảo amount là chuỗi
+    $extraData = $data['extraData'] ?? '';  // Giữ chuỗi rỗng nếu extraData là null
+    $orderId = $data['orderId'] ?? null;
+    $orderInfo = $data['orderInfo'] ?? null;
+    $orderType = $data['orderType'] ?? null;
+    $partnerCode = $data['partnerCode'] ?? null;
+    $payType = $data['payType'] ?? null;
+    $requestId = $data['requestId'] ?? null;
+    $responseTime = (string) $data['responseTime'] ?? null;  // Đảm bảo responseTime là chuỗi
+    $resultCode = (string) $data['resultCode'] ?? null;  // Đảm bảo resultCode là chuỗi
+    $transId = $data['transId'] ?? null;
+    $signature = $data['signature'] ?? null;
+
+    // Log các giá trị đã nhận
+    Log::info('Received Data: ', compact(
+        'amount', 'extraData', 'orderId', 'orderInfo',
+        'orderType', 'partnerCode', 'payType', 'requestId',
+        'responseTime', 'resultCode', 'transId', 'signature'
+    ));
+
+    // Tạo raw data để kiểm tra chữ ký (URL encode các tham số)
+    $rawSignature = "amount=" . urlencode($amount) .
+                    "&extraData=" . urlencode($extraData) .
+                    "&orderId=" . urlencode($orderId) .
+                    "&orderInfo=" . urlencode($orderInfo) .
+                    "&orderType=" . urlencode($orderType) .
+                    "&partnerCode=" . urlencode($partnerCode) .
+                    "&payType=" . urlencode($payType) .
+                    "&requestId=" . urlencode($requestId) .
+                    "&responseTime=" . urlencode($responseTime) .
+                    "&resultCode=" . urlencode($resultCode) .
+                    "&transId=" . urlencode($transId);
+
+    // Log rawSignature
+    Log::info('Raw Signature: ', [$rawSignature]);
+
+    // Tạo chữ ký để kiểm tra
+    $calculatedSignature = hash_hmac('sha256', $rawSignature, $secretKey);
+
+    // Log chữ ký đã tính toán
+    Log::info('Calculated Signature: ', [$calculatedSignature]);
+
+    // Kiểm tra chữ ký
+    if ($calculatedSignature === $signature) {
+        // Chữ ký hợp lệ, xử lý logic khi thanh toán thành công
+        if ($resultCode == 0) {
+            // Thanh toán thành công
+            Log::info('Payment success', ['orderId' => $orderId, 'transId' => $transId]);
+
+            // Trả về phản hồi thành công
             return response()->json([
-                'status' => 'error',
-                'message' => 'Invalid signature'
+                'status' => 'success',
+                'message' => 'Payment successful'
+            ]);
+        } else {
+            // Thanh toán thất bại
+            Log::error('Payment failed', ['orderId' => $orderId, 'transId' => $transId, 'resultCode' => $resultCode]);
+
+            // Trả về phản hồi thất bại
+            return response()->json([
+                'status' => 'fail',
+                'message' => 'Payment failed'
             ]);
         }
+    } else {
+        // Chữ ký không hợp lệ
+        Log::error('Invalid signature', [
+            'calculated' => $calculatedSignature,
+            'received' => $signature
+        ]);
+
+        // Trả về phản hồi lỗi
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Invalid signature'
+        ]);
     }
+}
+
 }
