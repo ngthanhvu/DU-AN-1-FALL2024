@@ -25,13 +25,13 @@
       <!-- Cart and Login Icons -->
       <ul class="navicon">
         <li><a style="color: #333;" href="/gio-hang"><font-awesome-icon :icon="['fas', 'bag-shopping']" /> <span>{{
-            cartCount.length > 0 ? cartCount.length : 0 }}</span></a></li>
+          cartCount.length > 0 ? cartCount.length : 0 }}</span></a></li>
 
         <!-- Kiểm tra trạng thái đăng nhập -->
         <li v-if="isLogin" class="dropdown">
           <a href="#" class="dropdown-toggle" style="color: #333;" data-bs-toggle="dropdown" aria-expanded="false">
-            <font-awesome-icon :icon="['fas', 'circle-user']" /> {{ username }}
-          </a>
+            <font-awesome-icon :icon="['fas', 'circle-user']" />
+          </a><span style="padding-left: 10px;">Xin chào, <b>{{ username }}</b> !</span>
           <ul class="dropdown-menu">
             <li><router-link to="/trang-ca-nhan" class="dropdown-item text-black  mx-auto">Thông tin cá
                 nhân</router-link></li>
@@ -80,6 +80,7 @@ const isLogin = ref(localStorage.getItem('isLogin') === 'true');
 const isSidenavOpen = ref(false);
 const cartCount = ref(0);
 const isAdmin = ref(localStorage.getItem('role') === 'admin');
+const username = ref(localStorage.getItem('username'));
 
 const openNav = () => {
   isSidenavOpen.value = true;
@@ -108,6 +109,7 @@ const logout = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('role');
   localStorage.removeItem('user_id');
+  localStorage.removeItem('username');
   isLogin.value = false;
   router.push('/');
 };

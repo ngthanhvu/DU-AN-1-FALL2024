@@ -121,7 +121,7 @@ const applyDiscount = async () => {
       code: discountCode.value,
       user_id: userId,
       guest_id: guestId,
-      total_amount: totalAmount 
+      total_amount: totalAmount
     });
 
     if (response.data.success) {
@@ -232,7 +232,7 @@ onMounted(() => {
           </div>
         </div>
         <div class="col-lg-6">
-          <div class="shoping__continue">
+          <!-- <div class="shoping__continue">
             <div class="shoping__discount">
               <h5>ƯU ĐÃI GIẢM GIÁ</h5>
               <form @submit.prevent="applyDiscount">
@@ -244,7 +244,7 @@ onMounted(() => {
               </form>
               <p v-if="discountApplied">Mã giảm giá đã được áp dụng!</p>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="col-lg-6">
           <div class="shoping__checkout">

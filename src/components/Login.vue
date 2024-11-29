@@ -97,6 +97,7 @@ const handleSubmit = async () => {
 
             localStorage.setItem('role', userResponse.data.role);
             localStorage.setItem('isLogin', 'true');
+            localStorage.setItem('username', userResponse.data.username);
 
             Swal.fire({
                 icon: 'success',

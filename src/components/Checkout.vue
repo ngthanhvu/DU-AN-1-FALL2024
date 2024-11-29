@@ -89,25 +89,22 @@
                 </div>
               </div>
 
-              <!-- Hiển thị thông tin địa chỉ nếu có -->
+              <!-- Dropdown để chọn địa chỉ -->
               <div class="row" v-if="address && address.length > 0">
-                <div class="card col-lg-12">
-                  <div v-for="(addresses, index) in address" :key="index" class="checkout__input">
-                    <div class="row align-items-center mt-3">
-                      <div class="col-md-1 text-center">
-                        <input type="radio" :value="addresses" v-model="selectedAddress" name="addressSelection"
-                          class="form-check-input" />
-                      </div>
-                      <div class="col-lg-11">
-                        <p class="fw-bold fs-6 mb-1">{{ addresses.full_name }}</p>
-                        <p class="mb-1">{{ addresses.province }}, {{ addresses.district }}, {{ addresses.commune }}, {{
-                          addresses.hamlet }}</p>
-                        <p class="mb-1">{{ addresses.phone }}</p>
-                      </div>
-                    </div>
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label for="addressSelect">Chọn Địa Chỉ</label>
+                    <select id="addressSelect" class="form-select" v-model="selectedAddress" style="padding: 20px 20px;">
+                      <option value="">Chọn Địa Chị</option>
+                      <option v-for="(addresses, index) in address" :key="index" :value="addresses">
+                        {{ addresses.full_name }} - {{ addresses.province }}, {{ addresses.district }}, {{
+                          addresses.commune }}, {{ addresses.hamlet }} - {{ addresses.phone }}
+                      </option>
+                    </select>
                   </div>
                 </div>
               </div>
+
 
             </div>
             <div class="col-lg-4 col-md-6">
@@ -117,10 +114,25 @@
                 <ul>
                   <li v-for="(product, index) in cartItems" :key="index" class="text-truncate">
                     {{ product.name }} <span>{{ formatVND(product.price) }}</span>
+                    <p>{{ product.id }}</p>
                   </li>
                 </ul>
                 <div class="checkout__order__subtotal">Tạm tính <span>{{ formatVND(subtotal) }}</span></div>
-                <div class="checkout__order__total">Tổng thanh toán <span>{{ formatVND(subtotal) }}</span></div>
+                <div class="checkout__order__total" v-if="discountApplied">Giảm giá <span>{{ formatVND(discountValue)
+                    }}</span></div>
+                <div class="checkout__order__total">Tổng tiền <span>{{ formatVND(totalAfterDiscount) }}</span></div>
+
+                <!-- Thêm ô input cho mã giảm giá -->
+                <div class="form-group">
+                  <form @submit.prevent="applyDiscount">
+                    <label for="discountCode">Ưu đãi giảm giá:</label>
+                    <input type="text" class="form-control" v-model="discountCode" placeholder="Nhập mã giảm giá">
+                    <button type="submit" class="site-btn mt-2">Áp Dụng <font-awesome-icon
+                        :icon="['fas', 'ticket']" /></button>
+                  </form>
+                </div>
+                <div class="checkout__order__total">Tổng thanh toán <span>{{ formatVND(totalAfterDiscount) }}</span>
+                </div>
 
                 <div class="checkout__input__checkbox">
                   <label for="cod">
@@ -148,7 +160,6 @@
 
                 <!-- Nút xác nhận thanh toán -->
                 <button type="button" class="site-btn" @click.prevent="confirmPayment">Xác Nhận Thanh Toán</button>
-                <!-- <button type="submit" class="site-btn" @click.prevent="confirmPayment">Xác Nhận Thanh Toán</button> -->
               </div>
             </div>
           </div>
@@ -183,7 +194,12 @@ const newAddress = ref({
   hamlet: '',
   houseNumber: '',
 });
-
+const discountApplied = ref(false);
+const discountCode = ref('');
+const discountValue = ref(0);
+const totalAfterDiscount = computed(() =>
+  subtotal.value - discountValue.value
+);
 const address = ref([]);
 
 const user_id = localStorage.getItem('user_id');
@@ -322,10 +338,11 @@ const saveNewAddress = async () => {
 
 const paymentMethod = ref(null);
 
+// console.log(cartItems.product.id);
 
 const confirmPayment = async () => {
   console.log("Selected Address:", selectedAddress.value);
-  console.log("Total Price:", subtotal.value);
+  console.log("Total Price:", totalAfterDiscount.value);
   console.log("Payment Method:", paymentMethod.value);
 
   if (paymentMethod.value === 'cod' && (
@@ -340,6 +357,11 @@ const confirmPayment = async () => {
     return;
   }
 
+  const products = cartItems.value.map(item => ({
+    id: item.product_id,
+    quantity: item.quantity
+  }));
+
   const orderData = {
     user_id: user_id,
     full_name: selectedAddress.value?.full_name,
@@ -348,8 +370,9 @@ const confirmPayment = async () => {
     district: selectedAddress.value?.district,
     commune: selectedAddress.value?.commune,
     hamlet: selectedAddress.value?.hamlet,
-    total_price: subtotal.value,
+    total_price: totalAfterDiscount.value,
     payment_method: paymentMethod.value,
+    products: products
   };
 
   if (paymentMethod.value === 'vnpay' || paymentMethod.value === 'momo') {
@@ -368,7 +391,7 @@ const confirmPayment = async () => {
       if (paymentMethod.value === 'vnpay') {
         try {
           const paymentResponse = await axios.post(`${API_URL}/api/payment`, {
-            amount: subtotal.value,
+            amount: totalAfterDiscount.value,
             order_id: response.data.order.id,
           }, {
             headers: {
@@ -391,7 +414,7 @@ const confirmPayment = async () => {
       } else if (paymentMethod.value === 'momo') {
         try {
           const momoResponse = await axios.post(`${API_URL}/api/momo`, {
-            amount: subtotal.value,
+            amount: totalAfterDiscount.value,
             order_id: response.data.order.id,
           });
           console.log("API /momo Response:", momoResponse.data);
@@ -418,6 +441,36 @@ const confirmPayment = async () => {
   } catch (error) {
     console.error("Lỗi khi tạo đơn hàng:", error.response?.data || error);
     alert("Có lỗi xảy ra trong quá trình thanh toán.");
+  }
+};
+
+const applyDiscount = async () => {
+  if (!discountCode.value.trim()) {
+    alert('Vui lòng nhập mã giảm giá');
+    return;
+  }
+
+  const userId = localStorage.getItem('user_id');
+  const guestId = localStorage.getItem('guest_id');
+  const totalAmount = subtotal.value;
+
+  try {
+    const response = await axios.post(`${API_URL}/api/discounts/apply`, {
+      code: discountCode.value,
+      user_id: userId,
+      guest_id: guestId,
+      total_amount: totalAmount
+    });
+
+    if (response.data.success) {
+      discountValue.value = response.data.discount_value;
+      discountApplied.value = true;
+    } else {
+      alert('Mã giảm giá không hợp lệ hoặc đã hết hạn');
+    }
+  } catch (error) {
+    console.error('Error applying discount:', error);
+    alert('Mã giảm giá đã hết lượt sử dụng hoặc không tồn tại');
   }
 };
 
