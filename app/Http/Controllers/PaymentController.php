@@ -2,29 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Order;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PaymentConfirmation;
 
 class PaymentController extends Controller
 {
     public function create(Request $request)
     {
-        // Định nghĩa thông tin VNPay
-        $vnp_TmnCode = config('services.vnpay.tmn_code'); // TMN Code của bạn
-        $vnp_HashSecret = config('services.vnpay.hash_secret'); // Hash Secret của bạn
-        $vnp_Url = config('services.vnpay.url'); // URL VNPay
-        $vnp_ReturnUrl = url('/api/payment/callback'); // URL trả về
+        $vnp_TmnCode = config('services.vnpay.tmn_code');
+        $vnp_HashSecret = config('services.vnpay.hash_secret');
+        $vnp_Url = config('services.vnpay.url');
+        $vnp_ReturnUrl = url('/api/payment/callback');
 
-        // Khởi tạo các tham số yêu cầu
-        $vnp_TxnRef = $request->order_id; // Số tham chiếu giao dịch
-        $vnp_OrderInfo = 'Thanh toán đơn hàng ' . $vnp_TxnRef; // Thông tin đơn hàng
-        $vnp_OrderType = 'billpayment'; // Loại đơn hàng
-        $vnp_Amount = $request->amount * 100; // Chuyển đổi số tiền sang VND
-        $vnp_Locale = 'vn'; // Ngôn ngữ
-        $vnp_IpAddr = $request->ip(); // Địa chỉ IP của người dùng
-        $vnp_CreateDate = now()->format('YmdHis'); // Thời gian hiện tại
+        $vnp_TxnRef = $request->order_id;
+        $vnp_OrderInfo = 'Thanh toán đơn hàng ' . $vnp_TxnRef;
+        $vnp_OrderType = 'billpayment';
+        $vnp_Amount = $request->amount * 100;
+        $vnp_Locale = 'vn';
+        $vnp_IpAddr = $request->ip();
+        $vnp_CreateDate = now()->format('YmdHis');
 
-        // Tạo mảng dữ liệu yêu cầu
         $inputData = [
             "vnp_Version" => "2.1.0",
             "vnp_TmnCode" => $vnp_TmnCode,
@@ -40,7 +39,6 @@ class PaymentController extends Controller
             "vnp_TxnRef" => $vnp_TxnRef,
         ];
 
-        // Sắp xếp mảng theo thứ tự từ điển và tạo URL thanh toán
         ksort($inputData);
 
         $query = "";
@@ -68,6 +66,7 @@ class PaymentController extends Controller
     }
 
 
+    // VnpayController callback function
     public function callback(Request $request)
     {
         $vnp_HashSecret = config('services.vnpay.hash_secret');
@@ -87,9 +86,27 @@ class PaymentController extends Controller
         $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
 
         if ($secureHash === $vnp_SecureHash) {
-            return response()->json(['status' => 'success']);
+            $order = Order::where('id', $inputData['vnp_TxnRef'])->first();
+
+            if ($order) {
+                $order->status = 'paid';
+                $order->save();
+
+                $user = $order->user;
+
+                if($user && !empty($user->email)) {
+                    $order->email = $user->email;
+                    Mail::to($order->email)->send(new PaymentConfirmation($order));
+                }
+                $frontendUrl = "http://localhost:5173/thanh-cong?status={$inputData['vnp_ResponseCode']}&order_id={$inputData['vnp_TxnRef']}";
+                return redirect()->to($frontendUrl);
+            } else {
+                $frontendUrl = "http://localhost:5173/thanh-cong?status=01&order_id={$inputData['vnp_TxnRef']}";
+                return redirect()->to($frontendUrl);
+            }
         } else {
-            return response()->json(['status' => 'fail']);
+            $frontendUrl = "http://localhost:5173/thanh-cong?status=01&order_id={$inputData['vnp_TxnRef']}";
+            return redirect()->to($frontendUrl);
         }
     }
 }

@@ -13,7 +13,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\MomoController;
 use App\Http\Controllers\DiscountController;
-
+use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\OrderController;
 
 /*
@@ -76,4 +76,10 @@ Route::post('/discounts/apply', [DiscountController::class, 'applyDiscount']);
 Route::delete('/discounts/{id}', [DiscountController::class, 'deleteDiscount']);
 
 Route::apiResource('orders', OrderController::class);
- //new abcxyz
+Route::get('/orders/{orderId}', [OrderController::class, 'getOrderStatus']);
+Route::get('/orders/user/{userId}', [OrderController::class, 'getOrdersByUserId']);
+Route::get('/orders', [OrderController::class, 'getOdersAll']);
+Route::put('/orders/{orderId}', [OrderController::class, 'updateOrderStatus']);
+
+Route::get('orders/{orderId}/details', [OrderDetailController::class, 'index']);
+Route::post('order-details', [OrderDetailController::class, 'store']);
