@@ -411,11 +411,12 @@ const confirmPayment = async () => {
           console.error("Lỗi khi thực hiện thanh toán:", error);
           alert("Có lỗi xảy ra trong quá trình thanh toán.");
         }
-      } else if (paymentMethod.value === 'momo') {
+      }
+      else if (paymentMethod.value === 'momo') {
         try {
           const momoResponse = await axios.post(`${API_URL}/api/momo`, {
             amount: totalAfterDiscount.value,
-            order_id: response.data.order.id,
+            order_id: `momo_${response.data.order.id}`,
           });
           console.log("API /momo Response:", momoResponse.data);
 

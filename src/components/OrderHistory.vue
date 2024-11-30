@@ -17,7 +17,7 @@
       </div>
     </div>
   </section>
-  <div class="order-history container mt-5" style="height: 100vh;">
+  <div class="order-history container mt-5" style="min-height: 100vh;">
     <h2 class="mb-4">Đơn hàng đã mua gần đây</h2>
     <div class="table-responsive">
       <table class="table table-bordered">
