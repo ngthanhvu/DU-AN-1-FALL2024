@@ -27,7 +27,7 @@
               <router-link :to="`/chi-tiet-tin-tuc/${post.id}`" class="text-decoration-none">
                 <img v-if="post.image" :src="`${API_URL}/storage/${post.image}`" alt="Hình ảnh bài viết"
                 class="img-thumbnail" style="width: 450px; height: 300px " />
-                
+
                 <h4 class="mt-3" style="font-weight: bold; color: black">{{ post.title }}</h4>
                 <p class="text-muted " v-html="truncateContent(post.content, 100)"></p>
               </router-link>
@@ -48,7 +48,7 @@ const posts = ref([]);
 
 onMounted(async () => {
   try {
-    const response = await axios.get(`${API_URL}/api/posts`); 
+    const response = await axios.get(`${API_URL}/api/posts`);
     posts.value = response.data.posts;
   } catch (error) {
     console.error('Failed to fetch posts:', error);

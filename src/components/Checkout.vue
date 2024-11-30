@@ -433,15 +433,17 @@ const confirmPayment = async () => {
         }
       } else if (paymentMethod.value === 'cod') {
         alert("Đơn hàng đã được tạo thành công. Bạn sẽ thanh toán khi nhận hàng.");
-        router.push('/thanh-cong');
+        router.push('/thanh-cong?status=00&order_id=' + response.data.order.id);
       }
     } else {
       console.error("Có lỗi xảy ra trong quá trình tạo đơn hàng.");
       alert("Có lỗi xảy ra trong quá trình tạo đơn hàng.");
+      router.push('/thanh-cong?status=01&order_id=' + response.data.order.id);
     }
   } catch (error) {
     console.error("Lỗi khi tạo đơn hàng:", error.response?.data || error);
     alert("Có lỗi xảy ra trong quá trình thanh toán.");
+    router.push('/thanh-cong?status=01&order_id=' + response.data.order.id);
   }
 };
 
