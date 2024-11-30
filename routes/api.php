@@ -15,6 +15,7 @@ use App\Http\Controllers\MomoController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CommentController;
 
 /*
 |---------------------------------------------------------------------------
@@ -85,3 +86,5 @@ Route::get('orders/{orderId}/details', [OrderDetailController::class, 'index']);
 Route::post('order-details', [OrderDetailController::class, 'store']);
 
 Route::get('product/view', [ProductController::class, 'view']);
+Route::get('comments/{productId}', [CommentController::class, 'getComments']);
+Route::post('/comments', [CommentController::class, 'store']);
