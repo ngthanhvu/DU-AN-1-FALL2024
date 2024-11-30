@@ -1,5 +1,5 @@
 <template>
-  <div class="container" style="height: 100vh;">
+  <div class="container" >
     <div class="register-form">
       <h2 class="text-center text-bold">ĐĂNG KÝ</h2>
       <form @submit.prevent="handleSubmit">
@@ -182,7 +182,7 @@ const handleSubmit = async () => {
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  margin-top: 170px;
+  margin-top: 105px;
 }
 
 .btn-register {

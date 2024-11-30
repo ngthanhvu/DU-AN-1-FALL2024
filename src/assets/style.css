@@ -1132,3 +1132,6 @@ footer .footer .logo {
 .home b {
     white-space: nowrap;
 }
+.logo-wrapper {
+    display: none;
+}

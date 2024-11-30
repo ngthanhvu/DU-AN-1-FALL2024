@@ -211,7 +211,7 @@ onMounted(() => {
                     {{ formatVND(item.price * item.quantity) ?? '0' }}
                   </td>
                   <td class="shoping__cart__item__close">
-                    <span class="icon_clos" @click="removeItem(index)">X</span>
+                    <span class="icon_clos" @click="removeItem(index)" style="color: red">X</span>
                   </td>
                 </tr>
                 <tr v-if="cartItems.length === 0">

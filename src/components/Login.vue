@@ -1,5 +1,5 @@
 <template>
-    <div class="container" style="height: 55vh;">
+    <div class="container" >
         <div class="login-form">
             <h2 class="text-center text-bold">ĐĂNG NHẬP</h2>
             <form @submit.prevent="handleSubmit">
@@ -142,7 +142,7 @@ const handleSubmit = async () => {
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 175px;
+    margin-top: 105px;
 }
 
 .btn-login {

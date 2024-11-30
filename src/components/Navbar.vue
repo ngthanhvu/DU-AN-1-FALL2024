@@ -3,15 +3,17 @@
     <div class="container head-container">
       <!-- Mobile Nav Button -->
       <div class="nav-mobile-button hidden-md hidden-lg" @click="openNav">
-        <span class="icon-search-normal-5"><i class="fas fa-bars"></i></span>
+        <span class="icon-search-normal-5"><font-awesome-icon :icon="['fas', 'bars']" /></span>
+        <a href="/" class="logo1">
+          <img src="https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/logo.png?1720275862057" alt="Logo">
+        </a>
+       
       </div>
 
-      <!-- Logo -->
       <a href="/" class="logo">
         <img src="https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/logo.png?1720275862057" alt="Logo">
       </a>
 
-      <!-- Main Navigation Links -->
       <ul class="navmenu">
         <li><router-link to="/">Trang Chủ</router-link></li>
         <li><router-link to="/san-pham">Sản Phẩm</router-link></li>
@@ -27,11 +29,11 @@
         <li><a style="color: #333;" href="/gio-hang"><font-awesome-icon :icon="['fas', 'bag-shopping']" /> <span>{{
           cartCount.length > 0 ? cartCount.length : 0 }}</span></a></li>
 
-        <!-- Kiểm tra trạng thái đăng nhập -->
-        <li v-if="isLogin" class="dropdown">
+        <li v-if="isLogin" class="dropdown desktop-only">
           <a href="#" class="dropdown-toggle" style="color: #333;" data-bs-toggle="dropdown" aria-expanded="false">
             <font-awesome-icon :icon="['fas', 'circle-user']" />
-          </a><span style="padding-left: 10px;">Xin chào, <b>{{ username }}</b> !</span>
+          </a>
+          <span style="padding-left: 10px;">Xin chào, <b>{{ username }}</b>!</span>
           <ul class="dropdown-menu">
             <li><router-link to="/trang-ca-nhan" class="dropdown-item text-black  mx-auto">Thông tin cá
                 nhân</router-link></li>
@@ -39,13 +41,13 @@
           </ul>
         </li>
 
-        <!-- Nếu chưa đăng nhập, hiển thị nút đăng nhập -->
+        <!-- If not logged in, show login button -->
         <li v-else><router-link to="/login" class="login-button">Đăng nhập</router-link></li>
       </ul>
     </div>
 
-    <!-- Mobile Sidenav -->
-    <div v-if="isSidenavOpen" id="mySidenav" class="sidenav menu_mobile hidden-md hidden-lg">
+    <!-- mobile -->
+    <div v-show="isSidenavOpen" id="mySidenav" class="sidenav menu_mobile">
       <a href="javascript:void(0)" class="closebtn" @click="closeNav">&times;</a>
       <div class="logo-mb">
         <a href="/" class="logo-wrapper">
@@ -53,20 +55,37 @@
             alt="logo">
         </a>
       </div>
+      <ul class="navicons">
+        <li v-if="isLogin" class="dropdown mobile-only">
+          <a href="#" class="drop-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <font-awesome-icon :icon="['fas', 'circle-user']" />
+            <span>Xin chào, <b>{{ username }}</b></span>
+          </a>
+        </li>
+        <li v-else><router-link to="/login" class="login-button">Đăng nhập</router-link></li>
+      </ul>
+
       <div class="content_menu_mb">
-        <div class="link_list_mobile">
-          <ul class="ct-mobile">
-            <li><a href="/">Trang Chủ</a></li>
-            <li><a href="/san-pham">Sản Phẩm</a></li>
-            <li><a href="/blog">Tin tức</a></li>
-            <li><a href="/contact">Liên Hệ</a></li>
-            <li v-if="isAdmin" class="admin-link"><a href="/admin">Admin</a></li>
-          </ul>
-        </div>
+        <ul class="ct-mobile">
+          <li><router-link to="/">Trang Chủ</router-link></li>
+          <li><router-link to="/san-pham">Sản Phẩm</router-link></li>
+          <li><router-link to="/tin-tuc">Tin Tức</router-link></li>
+          <li><router-link to="/lien-he">Liên Hệ</router-link></li>
+          <li v-if="isAdmin" class="admin-link"><a href="/admin">Admin</a></li>
+        </ul>
       </div>
+
+      <li v-if="isLogin"><router-link to="/trang-ca-nhan" class="drop-profile">Thông tin cá nhân</router-link></li>
+      <li v-if="isLogin"><button class="drop-logout" @click="logout">Đăng xuất</button></li>
+
     </div>
+
+
+    <div v-show="isSidenavOpen" class="hidden-md hidden-lg opacity_menu" @click="closeNav"></div>
   </header>
 </template>
+
+
 
 <script setup>
 import { ref, watch, onMounted } from 'vue';
@@ -127,7 +146,6 @@ onMounted(() => {
 </script>
 
 
-
 <style scoped>
 /* Style for navbar */
 .navmenu a {
@@ -143,8 +161,7 @@ onMounted(() => {
   color: #000;
 }
 
-/* Sidenav style */
-.sidenav {
+Sidenav style .sidenav {
   height: 100%;
   width: 0;
   position: fixed;
@@ -162,7 +179,9 @@ onMounted(() => {
   top: 0;
   right: 25px;
   font-size: 36px;
-  margin-left: 50px;
+  margin: 0 -30px auto;
+  transition: color 0.3s ease;
+
 }
 
 .logo-mb {
@@ -180,15 +199,16 @@ onMounted(() => {
 }
 
 .content_menu_mb .ct-mobile li a {
-  color: #818181;
+  color: #3e3e3e;
   text-decoration: none;
-  font-size: 25px;
+  margin: 0 0 auto;
+  font-size: 20px;
   display: block;
-  transition: 0.3s;
+  transition: 0.5s;
 }
 
 .content_menu_mb .ct-mobile li a:hover {
-  color: #f1f1f1;
+  color: #8e8e8e;
 }
 
 .navicon .dropdown-menu {

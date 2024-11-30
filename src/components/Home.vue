@@ -294,19 +294,19 @@ const formatVND = value => new Intl.NumberFormat('vi-VN', { style: 'currency', c
 const carouselImages = ref([
   {
     desktop: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_2.jpg?1722078914172',
-    mobile: 'https://via.placeholder.com/768x400?text=Mobile+Slide+1',
+    mobile: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_1.png?1717181462123',
   },
   {
     desktop: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_1.jpg?1722078914172',
-    mobile: 'https://via.placeholder.com/768x400?text=Mobile+Slide+2',
+    mobile: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_2.png?1717181462123',
   },
   {
     desktop: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_4.jpg?1722078914172',
-    mobile: 'https://via.placeholder.com/768x400?text=Mobile+Slide+3',
+    mobile: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_3.png?1717181462123',
   },
   {
     desktop: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_3.jpg?1722078914172',
-    mobile: 'https://via.placeholder.com/768x400?text=Mobile+Slide+4',
+    mobile: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_4.png?1717181462123',
   },
 ]);
 
