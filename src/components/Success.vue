@@ -1,10 +1,10 @@
 <template>
   <div v-if="order" class="container mt-5 text-center" style="height: 100vh; padding-top: 150px;">
-    <font-awesome-icon :icon="['far', 'circle-check']" class="text-success" v-if="status === '00'"
+    <font-awesome-icon :icon="['far', 'circle-check']" class="text-success" v-if="status === '00' || status === '0'"
       style="font-size: 100px;" />
-    <font-awesome-icon :icon="['fas', 'triangle-exclamation']" class="text-danger" v-if="status === '01'"
+    <font-awesome-icon :icon="['fas', 'triangle-exclamation']" class="text-danger" v-if="status == '01'"
       style="font-size: 100px;" />
-    <h2>Thanh toán {{ status === '00' ? 'thành công' : 'thất bại' }}</h2>
+    <h2>Thanh toán {{ status == '00' || status == '0' ? 'thành công' : 'thất bại' }}</h2>
     <div v-if="status === '00'">
       <p>Đơn hàng của bạn đã được thanh toán thành công!</p>
     </div>
