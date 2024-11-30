@@ -131,10 +131,13 @@
               </div>
 
               <!-- Tab 3: BÌNH LUẬN -->
+              <!-- Tab 3: Bình Luận -->
               <div v-if="selectedTab === 'tabs-3'" id="tabs-3" class="tab-pane" role="tabpanel">
                 <div class="product__details__tab__desc">
                   <h6>BÌNH LUẬN</h6>
                   <h6>Viết bình luận của bạn</h6>
+
+                  <!-- Comment Form -->
                   <form @submit.prevent="submitComment">
                     <div class="form-group">
                       <label for="name">Tên của bạn:</label>
@@ -148,13 +151,17 @@
                     <button type="submit" class="btn-comment">Gửi bình luận</button>
                   </form>
 
-                  <!-- Hiển thị danh sách bình luận -->
-                  <div class="comments-list" v-if="comments.length">
+                  <!-- Comments List -->
+                  <div v-if="comments.length" class="comments-list">
                     <h6>Các bình luận</h6>
                     <div v-for="(comment, idx) in comments" :key="idx" class="comment-item">
-                      <p><strong>{{ comment.name }}</strong> 🥰</p>
+                      <p><strong>{{ comment.name }}</strong> <i class="bi bi-check-circle-fill"
+                          style="color: blue;"></i></p>
                       <p>{{ comment.comment }}</p>
                     </div>
+                  </div>
+                  <div v-else>
+                    <p>Chưa có bình luận nào.</p>
                   </div>
                 </div>
               </div>
@@ -198,9 +205,6 @@
         </div>
 
         <!-- Sản phẩm 2 -->
-
-
-        <!-- Thêm sản phẩm khác tương tự -->
       </div>
     </div>
   </section>
@@ -212,6 +216,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import swal from 'sweetalert2';
 import { useRoute } from 'vue-router';
 const selectedTab = ref('tabs-1');
 const commentData = ref({
@@ -219,20 +224,12 @@ const commentData = ref({
   comment: ''
 });
 const comments = ref([]);
-const selectedSize = ref(null); // Lưu size được chọn
+const selectedSize = ref(null);
 
 function preiew(tab) {
   selectedTab.value = tab;
 }
 
-function submitComment() {
-  comments.value.push({
-    name: commentData.value.name,
-    comment: commentData.value.comment
-  });
-  commentData.value.name = '';
-  commentData.value.comment = '';
-}
 const route = useRoute();
 const API_URL = 'http://127.0.0.1:8000';
 
@@ -249,17 +246,51 @@ const product = ref({
 const largeImage = ref('');
 const quantity = ref(1);
 
-// Lấy sản phẩm theo ID
 const fetchProduct = async () => {
   try {
     const response = await axios.get(`${API_URL}/api/products/${route.params.id}`);
     product.value = response.data;
-
-    // Tìm ảnh chính hoặc ảnh đầu tiên
     const primaryImage = product.value.images.find(image => image.is_primary) || product.value.images[0];
     largeImage.value = primaryImage ? primaryImage.image_path : '';
   } catch (error) {
     console.error('Error fetching product:', error);
+  }
+};
+
+const fetchComments = async () => {
+  try {
+    const response = await axios.get(`http://127.0.0.1:8000/api/comments/${route.params.id}`);
+    comments.value = response.data; 
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+  }
+};
+
+const submitComment = async () => {
+  try {
+    const userId = localStorage.getItem('user_id'); 
+
+    if (!userId) {
+      swal.fire('Vui lòng đăng nhập để bình luận' + '!', '', 'warning');
+      return;
+    }
+
+    const payload = {
+      name: commentData.value.name,
+      comment: commentData.value.comment,
+      product_id: route.params.id,
+      user_id: userId,
+    };
+
+    const response = await axios.post(`${API_URL}/api/comments`, payload);
+
+    if (response.data.success) {
+      comments.value.unshift(response.data.comment);
+      commentData.value.name = '';
+      commentData.value.comment = '';
+    }
+  } catch (error) {
+    console.error('Error submitting comment:', error);
   }
 };
 
@@ -268,12 +299,10 @@ const formatVND = (price) => {
   return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
 };
 
-// Thay đổi ảnh lớn
 const changeImage = (imagePath) => {
   largeImage.value = imagePath;
 };
 
-// Quản lý số lượng sản phẩm
 const increaseQuantity = () => {
   quantity.value++;
 };
@@ -288,7 +317,6 @@ const addToCart = async () => {
   let userId = localStorage.getItem('user_id');
   let guestId = localStorage.getItem('guest_id');
 
-  // Nếu cả userId và guestId đều không tồn tại, tạo guestId mới
   if (!userId && !guestId) {
     guestId = 'guest_' + Math.random().toString(36).substring(2, 9);
     localStorage.setItem('guest_id', guestId);
@@ -321,6 +349,7 @@ const addToCart = async () => {
 
 onMounted(() => {
   fetchProduct();
+  fetchComments();
 });
 </script>
 
