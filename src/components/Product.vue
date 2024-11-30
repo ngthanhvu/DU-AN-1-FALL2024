@@ -7,31 +7,9 @@
           <ul class="breadcrumb">
             <li class="home">
               <router-link to="/"><b>Trang chủ </b></router-link>
-              <span class="icon-arrow-right text-danger"><font-awesome-icon :icon="['fas', 'arrow-right']" /> </span>
+              <span class="icon-arrow-right text-danger"><font-awesome-icon :icon="['fas', 'arrow-right']" /></span>
             </li>
             <li><strong><span class="text-danger"> Sản phẩm</span></strong></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="shop2 text-left">
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12">
-          <ul class="breadcrumb">
-            <li class="home">
-              <router-link href="/" class="text-decoration-none" style="color: #dc3545;">
-                <span>Trang Chủ</span>
-              </router-link>
-              <span class="icon-arrow-right text-danger"> -> </span>
-            </li>
-            <li>
-              <strong>
-                <span> Sản phẩm </span>
-              </strong>
-            </li>
           </ul>
         </div>
       </div>
@@ -44,10 +22,11 @@
 
   <div v-if="isSidebarOpen" class="filter-mobile-sidebar">
     <button @click="closeSidebar" class="btn-close-sidebar-mb">&times;</button>
-    <h5>Danh Mục</h5>
-    <a href="/product?id=1" class="text-decoration-none text-black text-muted">Danh mục 1</a>
-    <a href="/product?id=2" class="text-decoration-none text-black text-muted">Danh mục 2</a>
-    <a href="/product?id=3" class="text-decoration-none text-black text-muted">Danh mục 3</a>
+    <h5 class="mb-3">Danh Mục</h5>
+    <div v-for="category in categories" :key="category.id">
+      <input class="form-check-input" type="checkbox" :value="category.id" v-model="filters.category_ids" />
+      {{ category.name }}
+    </div>
   </div>
 
   <div class="container">
@@ -55,22 +34,31 @@
       <span><font-awesome-icon :icon="['fas', 'sliders']" /> <b>Bộ lọc</b></span>
       <div class="col-md-2 sidebar">
         <h5><b>Danh Mục</b></h5>
-        <router-link to="/san-pham" class="text-decoration-none text-black text-muted">Danh mục 1</router-link>
-        <router-link to="/san-pham" class="text-decoration-none text-black text-muted">Danh mục 2</router-link>
-        <router-link to="/san-pham" class="text-decoration-none text-black text-muted">Danh mục 3</router-link>
+        <div v-for="category in categories" :key="category.id" class="mt-2">
+          <input class="form-check-input mb-2 text-muted" type="checkbox" :value="category.id" v-model="filters.category_ids" /> {{ category.name }}
+        </div>
         <hr>
-        <h5><b>Loại sản phẩm</b></h5>
-        <router-link to="/san-pham" class="text-decoration-none text-black text-muted">Danh mục 1</router-link>
-        <router-link to="/san-pham" class="text-decoration-none text-black text-muted">Danh mục 2</router-link>
+        <h5><b>Khoảng giá</b></h5>
+        <div v-for="range in priceRanges" :key="range.label">
+          <a @click="filters.min_price = range.min; filters.max_price = range.max"
+            class="text-decoration-none text-black text-muted filter-price">
+            {{ range.label }}
+          </a>
+        </div>
+        <p class="mt-2">
+          Giá: {{ formatVND(filters.min_price) }} - {{ formatVND(filters.max_price) }}
+        </p>
       </div>
+
       <div class="col-md-10 main-product">
         <div class="d-flex justify-content-between mb-3">
           <div class="input-group" style="width: 60%;">
-            <span class="input-group-text bg-danger text-white border-danger" id="basic-addon1"><font-awesome-icon
-                :icon="['fas', 'magnifying-glass']" /></span>
-            <input v-model="searchQuery" type="text" class="form-control" placeholder="Tìm kiếm sản phẩm">
+            <span class="input-group-text bg-danger text-white border-danger" id="basic-addon1">
+              <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
+            </span>
+            <input v-model="filters.search" type="text" class="form-control" placeholder="Tìm kiếm sản phẩm">
           </div>
-          <select v-model="sortOption" class="form-select" style="width: 20%;">
+          <select v-model="filters.sort" class="form-select" style="width: 20%;">
             <option value="">Sắp xếp</option>
             <option value="az">A-Z</option>
             <option value="za">Z-A</option>
@@ -78,7 +66,7 @@
         </div>
 
         <div class="row">
-          <div v-for="product in filteredProducts" :key="product.id" class="col-md-3 col-sm-6 mb-5 product-col">
+          <div v-for="product in products" :key="product.id" class="col-md-3 col-sm-6 mb-5 product-col">
             <div class="product-box">
               <div class="product-thumbnail">
                 <router-link :to="'/chi-tiet-san-pham/' + product.id" class="image_link">
@@ -93,6 +81,8 @@
                 <h3 class="product-name">
                   <router-link :to="'/chi-tiet-san-pham/' + product.id">{{ product.name }}</router-link>
                 </h3>
+                <p class="product-category text-muted"><span class="text-muted">Danh mục:</span> {{
+                  product.category.name }}</p>
                 <div class="price-box clearfix">
                   <span class="price product-price">{{ formatVND(product.price) }}</span>
                   <span v-if="product.oldPrice" class="price product-price-old">
@@ -102,12 +92,17 @@
               </div>
             </div>
           </div>
+          <div v-if="products.length === 0" class="col-md-12 text-center">
+            <p>Không tìm thấy sản phẩm nào</p>
+          </div>
         </div>
 
         <!-- Phân trang -->
         <ul class="pagination">
-          <li v-for="page in pages" :key="page" class="page-item">
-            <a class="page-link bg-danger border-danger text-white" :href="'?page=' + page">{{ page }}</a>
+          <li v-for="page in pagination.last_page" :key="page" class="page-item">
+            <button @click="filters.page = page" class="page-link bg-danger border-danger text-white">
+              {{ page }}
+            </button>
           </li>
         </ul>
       </div>
@@ -116,31 +111,71 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import axios from 'axios';
 
-const searchQuery = ref('');
-const sortOption = ref('');
-const isSidebarOpen = ref(false);
-const products = ref([]);  // Dữ liệu sản phẩm ban đầu là một mảng rỗng
-
 const API_URL = 'http://127.0.0.1:8000';
-// Hàm để gọi API và lấy dữ liệu sản phẩm
-const fetchProducts = async () => {
+
+const isSidebarOpen = ref(false);
+const products = ref([]);
+const categories = ref([]);
+const pagination = ref({});
+const filters = ref({
+  search: '',
+  category_ids: [],
+  min_price: '',
+  max_price: '',
+  sort: '',
+  page: 1
+});
+
+const priceRanges = [
+  { label: 'Dưới 100k', min: 0, max: 100000 },
+  { label: '100k - 200k', min: 100000, max: 200000 },
+  { label: '200k - 300k', min: 200000, max: 300000 },
+  { label: '300k - 500k', min: 300000, max: 500000 },
+  { label: 'Trên 500k', min: 500000, max: Infinity }
+];
+
+const getProducts = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/products');
-    products.value = response.data.map(product => ({
-      ...product,
-      image: `http://127.0.0.1:8000/${product.images[0]?.image_path}` // Cập nhật đường dẫn hình ảnh
-    }));
+    const queryParams = { ...filters.value };
+
+    if (queryParams.category_ids.length === 1) {
+      queryParams['category_ids'] = queryParams.category_ids[0];
+    } else if (queryParams.category_ids.length > 1) {
+      queryParams['category_ids'] = queryParams.category_ids.join(',');
+    } else {
+      delete queryParams['category_ids'];
+    }
+
+    const queryString = new URLSearchParams(queryParams).toString();
+    const response = await axios.get(`${API_URL}/api/product/view?${queryString}`);
+    products.value = response.data.data;
+    pagination.value = response.data;
   } catch (error) {
     console.error('Error fetching products:', error);
   }
 };
 
-onMounted(() => {
-  fetchProducts();  // Gọi hàm fetchProducts khi component được mount
-});
+
+const getCategories = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/categories`);
+    categories.value = response.data;
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+  }
+};
+
+watch(filters, () => {
+  getProducts();
+}, { deep: true });
+
+const setPriceRange = (range) => {
+  filters.value.min_price = range.min;
+  filters.value.max_price = range.max;
+};
 
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value;
@@ -150,28 +185,16 @@ const closeSidebar = () => {
   isSidebarOpen.value = false;
 };
 
-const filteredProducts = computed(() => {
-  let filtered = products.value.filter(product =>
-    product.name.toLowerCase().includes(searchQuery.value.toLowerCase())
-  );
-
-  if (sortOption.value === 'az') {
-    filtered = filtered.sort((a, b) => a.name.localeCompare(b.name));
-  } else if (sortOption.value === 'za') {
-    filtered = filtered.sort((a, b) => b.name.localeCompare(a.name));
-  }
-
-  return filtered;
-});
-
-const pages = computed(() => {
-  const totalPages = Math.ceil(products.value.length / 4);
-  return Array.from({ length: totalPages }, (_, i) => i + 1);
-});
-
 const formatVND = value => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
 
+onMounted(() => {
+  getCategories();
+  getProducts();
+});
 </script>
+
+
+
 
 <style scoped>
 .product-name {
@@ -193,7 +216,6 @@ const formatVND = value => new Intl.NumberFormat('vi-VN', { style: 'currency', c
 
 .price-box {
   display: flex;
-
   gap: 10px;
   margin-top: 5px;
 }
@@ -210,7 +232,6 @@ const formatVND = value => new Intl.NumberFormat('vi-VN', { style: 'currency', c
   text-decoration: line-through;
 }
 
-
 .sidebar h5 {
   margin-top: 20px;
 }
@@ -225,4 +246,14 @@ const formatVND = value => new Intl.NumberFormat('vi-VN', { style: 'currency', c
 .sidebar a:hover {
   color: #007bff;
 }
+
+.filter-price {
+  cursor: pointer;
+  padding: 5px;
+}
+
+.filter-price:hover {
+  background: #0000000d;
+}
+
 </style>

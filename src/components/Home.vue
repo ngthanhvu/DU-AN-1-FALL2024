@@ -86,17 +86,15 @@
               </div>
             </div>
           </div>
-
           <!-- Thêm các thẻ sản phẩm khác nếu cần -->
         </div>
       </div>
     </section>
 
     <!-- product1 -->
-
     <section class="section-3 mt-5">
       <div class="container">
-        <h2 class="text-left">Sản phẩm mới nhất</h2>
+        <h2 class="text-left fw-bold">Sản phẩm mới nhất <span><img src="https://theadvocatesleague.in/assets/images/new.gif" style="width: 100px; height: 30px; object-fit: cover;"alt=""></span> </h2>
         <div class="row justify-content">
           <!-- Sản phẩm 1 -->
           <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-3" v-for="product in products" :key="product.id">
@@ -116,10 +114,6 @@
               </div>
             </router-link>
           </div>
-
-          <!-- Sản phẩm 2 -->
-
-
           <!-- Thêm sản phẩm khác tương tự -->
         </div>
       </div>
@@ -142,15 +136,17 @@
     </section>
 
     <!-- product2 -->
-    <section class="section-3 mt-5">
+    <section class="section-3 mt-5" v-for="category in categories" :key="category.id">
       <div class="container">
-        <h2 class="text-left">Sản phẩm mới nhất</h2>
+        <!-- Hiển thị tên Category -->
+        <h2 class="text-left fw-bold">{{ category.name }}</h2>
         <div class="row justify-content">
-          <!-- Sản phẩm 1 -->
-          <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-3">
-            <a href="/chi-tiet-san-pham" class="text-decoration-none text-black">
+          <!-- Hiển thị sản phẩm của category -->
+          <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-3" v-for="product in productByCategory[category.id]"
+            :key="product.id">
+            <a :href="`/chi-tiet-san-pham/${product.id}`" class="text-decoration-none text-black">
               <div class="card border-0">
-                <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg"
+                <img :src="`${API_URL}/storage/${product.images.find(img => img.is_primary === 1)?.image_path}`"
                   class="border" alt="MU Home" style="width: 200px" />
                 <div class="card-body">
                   <div class="rating" style="color: #ffcc00">
@@ -161,26 +157,19 @@
                     <i class="far fa-star"></i>
                   </div>
                   <h5 class="card-title text-left">
-                    <b style="font-size: 14px">MU Home (2012/2013) Màu đỏ + Cộc tay | Bản CLASSIC
-                      [Không có quần]</b>
+                    <b style="font-size: 14px">{{ product.name }}</b>
                   </h5>
                   <p class="card-text text-left">
-                    <span class="text-danger me-2"><b>250.000đ</b></span>
+                    <span class="text-danger me-2"><b>{{ formatVND(product.price) }}</b></span>
                     <span class="text-decoration-line-through">300.000đ</span>
                   </p>
                 </div>
               </div>
             </a>
           </div>
-
-          <!-- Sản phẩm 2 -->
-
-
-          <!-- Thêm sản phẩm khác tương tự -->
         </div>
       </div>
     </section>
-    <!-- end -->
 
     <!-- Section: Tin Tức -->
     <section class="section-news mt-5">
@@ -192,8 +181,8 @@
             <div class="news-item">
               <router-link :to="`/chi-tiet-tin-tuc/${post.id}`" class="text-decoration-none">
                 <img v-if="post.image" :src="`${API_URL}/storage/${post.image}`" alt="Hình ảnh bài viết"
-                class="img-thumbnail" style="width: 450px; height: 300px " />
-                
+                  class="img-thumbnail" style="width: 450px; height: 300px " />
+
                 <h4 class="mt-3" style="font-weight: bold; color: black">{{ post.title }}</h4>
                 <p class="text-muted " v-html="truncateContent(post.content, 100)"></p>
               </router-link>
@@ -248,32 +237,67 @@ const API_URL = 'http://127.0.0.1:8000';
 const products = ref([]);
 const categories = ref([]);
 const posts = ref([]);
+const productByCategory = ref({});
 
 
 const fetchProducts = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/products');
+    const response = await axios.get(`${API_URL}/api/products`);
     products.value = response.data.map(product => ({
       ...product,
-      image: `http://127.0.0.1:8000/${product.images[0]?.image_path}` // Cập nhật đường dẫn hình ảnh
+      image: `http://127.0.0.1:8000/${product.images[0]?.image_path}`
     }));
   } catch (error) {
     console.error('Error fetching products:', error);
   }
 };
 
+// const getProductByCategory = async (categoryId) => {
+//   try {
+//     const response = await axios.get(`${API_URL}/api/products/category/${categoryId}`);
+//     productByCategory.value = response.data.map(product => ({
+//       ...product,
+//       image: `http://127.0.0.1:8000/${product.images[0]?.image_path}`
+//     }));
+//     console.log(productByCategory.value);
+//   } catch (error) {
+//     console.error('Error fetching products by category:', error);
+//   }
+// };
+
+const getProductByCategory = async (categoryId) => {
+  try {
+    const response = await axios.get(`${API_URL}/api/products/category/${categoryId}`);
+    productByCategory.value[categoryId] = response.data.map(product => ({
+      ...product,
+      image: `http://127.0.0.1:8000/${product.images[0]?.image_path}`
+    }));
+    console.log(productByCategory.value);
+  } catch (error) {
+    console.error('Error fetching products by category:', error);
+  }
+};
+
+
 const fetchCategories = async () => {
   try {
     const response = await axios.get(`${API_URL}/api/categories`);
     categories.value = response.data;
+    categories.value.forEach(category => {
+      getProductByCategory(category.id);
+    })
   } catch (error) {
     console.error(error);
   }
 };
 
+onMounted(() => {
+  fetchCategories();
+});
+
 onMounted(async () => {
   try {
-    const response = await axios.get(`${API_URL}/api/posts`); 
+    const response = await axios.get(`${API_URL}/api/posts`);
     posts.value = response.data.posts;
   } catch (error) {
     console.error('Failed to fetch posts:', error);
@@ -321,7 +345,6 @@ function updateIsDesktop() {
 onMounted(() => {
   window.addEventListener('resize', updateIsDesktop);
   fetchProducts();
-  fetchCategories();
 });
 </script>
 

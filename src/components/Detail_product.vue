@@ -101,11 +101,6 @@
                 </a>
               </li>
               <li class="nav-item" style="cursor: pointer;">
-                <a class="nav-link" :class="{ active: selectedTab === 'tabs-2' }" @click="preiew('tabs-2')" role="tab">
-                  XUẤT XỨ
-                </a>
-              </li>
-              <li class="nav-item" style="cursor: pointer;">
                 <a class="nav-link" :class="{ active: selectedTab === 'tabs-3' }" @click="preiew('tabs-3')" role="tab">
                   BÌNH LUẬN
                 </a>
@@ -121,16 +116,6 @@
                   <p>{{ product.description }}</p>
                 </div>
               </div>
-
-              <!-- Tab 2: XUẤT XỨ -->
-              <div v-if="selectedTab === 'tabs-2'" id="tabs-2" class="tab-pane" role="tabpanel">
-                <div class="product__details__tab__desc">
-                  <h6>XUẤT XỨ</h6>
-                  <p>Nội dung thông tin sản phẩm tại đây.</p>
-                </div>
-              </div>
-
-              <!-- Tab 3: BÌNH LUẬN -->
               <!-- Tab 3: Bình Luận -->
               <div v-if="selectedTab === 'tabs-3'" id="tabs-3" class="tab-pane" role="tabpanel">
                 <div class="product__details__tab__desc">
@@ -260,7 +245,7 @@ const fetchProduct = async () => {
 const fetchComments = async () => {
   try {
     const response = await axios.get(`http://127.0.0.1:8000/api/comments/${route.params.id}`);
-    comments.value = response.data; 
+    comments.value = response.data;
   } catch (error) {
     console.error('Error fetching comments:', error);
   }
@@ -268,7 +253,7 @@ const fetchComments = async () => {
 
 const submitComment = async () => {
   try {
-    const userId = localStorage.getItem('user_id'); 
+    const userId = localStorage.getItem('user_id');
 
     if (!userId) {
       swal.fire('Vui lòng đăng nhập để bình luận' + '!', '', 'warning');

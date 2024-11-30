@@ -6,7 +6,6 @@ import './assets/style.css';
 import './assets/responsive.css';
 import 'swiper/swiper-bundle.css';
 
-
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';

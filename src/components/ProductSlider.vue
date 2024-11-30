@@ -1,5 +1,5 @@
 <template>
-    <section class="section-3 mt-5">
+    <!-- <section class="section-3 mt-5">
         <div class="container">
             <div class="heading-container">
                 <h3><strong>{{ title }}</strong></h3>
@@ -35,43 +35,43 @@
                 </button>
             </div>
         </div>
-    </section>
+    </section> -->
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+// import { ref } from 'vue';
+// import { useRoute } from 'vue-router';
 
-const props = defineProps({
-    title: String,
-    products: Array
-});
+// const props = defineProps({
+//     title: String,
+//     products: Array
+// });
 
-const currentSlide = ref(0);
+// const currentSlide = ref(0);
 
-const prevSlide = () => {
-    if (currentSlide.value > 0) {
-        currentSlide.value--;
-    }
-};
+// const prevSlide = () => {
+//     if (currentSlide.value > 0) {
+//         currentSlide.value--;
+//     }
+// };
 
-const nextSlide = () => {
-    if (currentSlide.value < props.products.length - 5) {
-        currentSlide.value++;
-    } else {
-        currentSlide.value = 0;
-    }
-};
+// const nextSlide = () => {
+//     if (currentSlide.value < props.products.length - 5) {
+//         currentSlide.value++;
+//     } else {
+//         currentSlide.value = 0;
+//     }
+// };
 </script>
 
 <style scoped>
-.slide img {
-    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+/* .slide img {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .slide img:hover {
-    transform: scale(1.1); 
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 .card-body h5:hover {
     color:rgb(253, 0, 0);
@@ -80,9 +80,9 @@ const nextSlide = () => {
     font-size: 16px;
 }
 .heading-container a:hover {
-    
+
 }
 .rating {
     color: gold;
-}
+} */
 </style>

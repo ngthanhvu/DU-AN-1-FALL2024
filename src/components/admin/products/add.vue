@@ -163,6 +163,15 @@ const handleSubmit = async () => {
       icon: 'success',
       title: 'Thêm sản phẩm thành công!',
     });
+    formData.name = '';
+    formData.price = '';
+    formData.description = '';
+    formData.quantity = '';
+    formData.category_id = '';
+    formData.skus = [];
+    formData.images = [];
+    formData.primary_image = '';
+    imageFiles.value = [];
   } catch (error) {
     console.error('Error creating product:', error.response.data);
     Swal.fire({

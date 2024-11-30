@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="min-height: 100vh;">
     <!-- Breadcrumb Section Begin -->
     <section class="shop1 text-center">
       <span class="crumb-border"></span>
