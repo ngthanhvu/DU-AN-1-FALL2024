@@ -15,6 +15,41 @@ class ProductController extends Controller
         return response()->json($products, 200);
     }
 
+    public function view(Request $request)
+    {
+        $search = $request->input('search', '');
+
+        $perPage = $request->input('per_page', 15);
+
+        $categoryId = $request->input('category_id');
+
+        $minPrice = $request->input('min_price');
+        $maxPrice = $request->input('max_price');
+
+        $query = Product::with('category', 'skus', 'images');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            });
+        }
+
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
+        }
+        if ($minPrice) {
+            $query->where('price', '>=', $minPrice);
+        }
+        if ($maxPrice) {
+            $query->where('price', '<=', $maxPrice);
+        }
+
+        $products = $query->paginate($perPage);
+
+        return response()->json($products, 200);
+    }
+
     public function store(Request $request)
     {
         // Validate dữ liệu gửi lên

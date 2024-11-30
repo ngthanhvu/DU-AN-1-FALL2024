@@ -83,3 +83,5 @@ Route::put('/orders/{orderId}', [OrderController::class, 'updateOrderStatus']);
 
 Route::get('orders/{orderId}/details', [OrderDetailController::class, 'index']);
 Route::post('order-details', [OrderDetailController::class, 'store']);
+
+Route::get('product/view', [ProductController::class, 'view']);
