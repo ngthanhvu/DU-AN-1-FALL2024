@@ -98,15 +98,13 @@ class CartController extends Controller
     public function updateQuantity(Request $request)
     {
         $validatedData = $request->validate([
-            'cart_id' => 'required|integer|exists:cart_items,id', // ID của sản phẩm trong giỏ hàng
-            'quantity' => 'required|integer|min:1' // Số lượng muốn cập nhật
+            'cart_id' => 'required|integer|exists:cart_items,id',
+            'quantity' => 'required|integer|min:1'
         ]);
 
-        // Tìm sản phẩm trong giỏ hàng
         $cartItem = Cart::find($validatedData['cart_id']);
 
         if ($cartItem) {
-            // Cập nhật số lượng sản phẩm
             $cartItem->quantity = $validatedData['quantity'];
             $cartItem->save();
 
@@ -114,5 +112,11 @@ class CartController extends Controller
         }
 
         return response()->json(['message' => 'Cart item not found'], 404);
+    }
+
+    public function clearCart($userId)
+    {
+        Cart::where('user_id', $userId)->delete();
+        return response()->json(['message' => 'Cart cleared successfully.']);
     }
 }

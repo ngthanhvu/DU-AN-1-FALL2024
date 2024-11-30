@@ -58,7 +58,7 @@ Route::post('/cart/add', [CartController::class, 'addToCart']);
 Route::get('/cart', [CartController::class, 'getCart']);
 Route::post('/cart/remove', [CartController::class, 'removeFromCart']);
 Route::post('/cart/update', [CartController::class, 'updateQuantity']);
-
+Route::delete('cart/clear/{userId}', [CartController::class, 'clearCart']);
 Route::apiResource('carts', CartController::class);
 
 Route::post('/posts', [PostController::class, 'store']);
@@ -86,5 +86,7 @@ Route::get('orders/{orderId}/details', [OrderDetailController::class, 'index']);
 Route::post('order-details', [OrderDetailController::class, 'store']);
 
 Route::get('product/view', [ProductController::class, 'view']);
+Route::get('/products/category/{categoryId}', [ProductController::class, 'getProductsByCategory']);
+
 Route::get('comments/{productId}', [CommentController::class, 'getComments']);
 Route::post('/comments', [CommentController::class, 'store']);

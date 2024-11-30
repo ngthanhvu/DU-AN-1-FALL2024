@@ -18,13 +18,15 @@ class ProductController extends Controller
     public function view(Request $request)
     {
         $search = $request->input('search', '');
-
         $perPage = $request->input('per_page', 15);
-
-        $categoryId = $request->input('category_id');
-
+        $categoryIds = $request->input('category_ids', []);
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
+        $sort = $request->input('sort', '');
+
+        if (is_string($categoryIds)) {
+            $categoryIds = explode(',', $categoryIds);
+        }
 
         $query = Product::with('category', 'skus', 'images');
 
@@ -35,14 +37,21 @@ class ProductController extends Controller
             });
         }
 
-        if ($categoryId) {
-            $query->where('category_id', $categoryId);
+        if (!empty($categoryIds)) {
+            $query->whereIn('category_id', $categoryIds);
         }
+
         if ($minPrice) {
             $query->where('price', '>=', $minPrice);
         }
         if ($maxPrice) {
             $query->where('price', '<=', $maxPrice);
+        }
+
+        if ($sort === 'az') {
+            $query->orderBy('name', 'asc');
+        } elseif ($sort === 'za') {
+            $query->orderBy('name', 'desc');
         }
 
         $products = $query->paginate($perPage);
@@ -175,15 +184,22 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        // Xóa các hình ảnh liên quan
         foreach ($product->images as $image) {
             Storage::disk('public')->delete($image->image_path);
             $image->delete();
         }
 
-        // Xóa product
         $product->delete();
 
         return response()->json(['message' => 'Product deleted successfully'], 204);
+    }
+
+    public function getProductsByCategory($categoryId)
+    {
+        $products = Product::with('category', 'skus', 'images')
+            ->where('category_id', $categoryId)
+            ->get();
+
+        return response()->json($products, 200);
     }
 }
