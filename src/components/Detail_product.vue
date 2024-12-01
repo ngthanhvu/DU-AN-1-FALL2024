@@ -340,158 +340,77 @@ onMounted(() => {
 
 
 <style scoped>
-.product__details__pic__item--large {
-  width: 100%;
-  height: 600px;
-  object-fit: cover;
-}
-
-.product__details__pic__slider .thumbnail {
-  width: 60px;
-  height: 60px;
-  background-size: cover;
-  background-position: center;
-  cursor: pointer;
-}
-
-.product__details__pic__slider .thumbnail:hover {
-  border: 2px solid #c8f3a2;
-}
-
-.product__details__pic__slider {
-  display: flex;
-  justify-content: space-between;
-  overflow-x: auto;
-  gap: 10px;
-}
-
-.product__details__pic__slider .thumbnail {
-  width: 150px;
-  height: 150px;
-  background-size: cover;
-  background-position: center;
-  object-fit: cover;
-  border: 1px solid #ddd;
-  cursor: pointer;
-}
-
-.product__details__pic__slider .thumbnail:hover {
-  border-color: #f56363;
-}
-
-.product__details__quantity {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.quantity {
-  display: flex;
-  align-items: center;
-}
-
-.qty-btn {
-  width: 30px;
-  height: 39zpx;
-  font-size: 18px;
-  background-color: #f5f5f5;
-  border: 1px solid #ccc;
-  text-align: center;
-  cursor: pointer;
-}
-
-.qty-input {
-  width: 50px;
-  text-align: center;
-  margin: 0 5px;
-  border: 1px solid #ccc;
-  padding: 5px;
-  font-size: 16px;
-  background-color: #fff;
-}
-
-.qty-btn:hover {
-  background-color: #e0e0e0;
-}
-
-.product-details {
-  margin: -65px 0 auto;
-}
-
 .btn-comment {
-  background-color: #ff0000;
-  color: #fff;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn-comment:hover {
-  background-color: #e60000;
-}
-
-/* Hiệu ứng hover cho ảnh sản phẩm */
-.card img {
-  width: 100%;
-  height: auto;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Khi hover, ảnh sẽ phóng to */
-.card img:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.size-options {
-  display: flex;
-  gap: 10px;
-  /* Khoảng cách giữa các nút */
-}
-
-.size-options label {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.size-options input[type="radio"] {
-  display: none;
-}
-
-.size-options span {
-  display: inline-block;
-  padding: 8px 16px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  font-size: 14px;
-  font-weight: bold;
-  color: #333;
-  transition: all 0.3s ease;
-}
-
-.size-options input[type="radio"]:checked+span {
-  border-color: #ff0000;
-  /* Màu viền khi được chọn */
-  background-color: #ff0000;
-  /* Màu nền khi được chọn */
-  color: #fff;
-  /* Màu chữ khi được chọn */
-}
-
-.size-options span:hover {
-  border-color: #ff0000;
-  background-color: #e6f0ff;
-}
-
-.tab-content>.tab-pane {
-  display: block;
-}
-
-.tab-content>.active {
-  display: block;
-}
+    background-color: #ff0000;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .btn-comment:hover {
+    background-color: #e60000;
+  }
+  
+  /* Hiệu ứng hover cho ảnh sản phẩm */
+  .card img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  /* Khi hover, ảnh sẽ phóng to */
+  .card img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .size-options {
+    display: flex;
+    gap: 10px;
+    /* Khoảng cách giữa các nút */
+  }
+  
+  .size-options label {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .size-options input[type="radio"] {
+    display: none;
+  }
+  
+  .size-options span {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    transition: all 0.3s ease;
+  }
+  
+  .size-options input[type="radio"]:checked+span {
+    border-color: #ff0000;
+    background-color: #ff0000;
+    color: #fff;
+  }
+  
+  .size-options span:hover {
+    border-color: #ff0000;
+    background-color: #e6f0ff;
+  }
+  
+  .tab-content>.tab-pane {
+    display: block;
+  }
+  
+  .tab-content>.active {
+    display: block;
+  }
 </style>

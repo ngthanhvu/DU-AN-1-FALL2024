@@ -136,7 +136,7 @@
 
     /* start section 3 */
     .section-3 .row {
-        gap: 10px;
+        gap: 0px;
     }
 
     .swiper-slide {
@@ -152,12 +152,12 @@
         text-align: center;
         border: 1px solid #ddd;
         border-radius: 10px;
-        padding: 10px;
+        /* padding: 10px; */
     }
 
 
     .section-3 h2 {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
         margin-bottom: 20px;
     }
 
@@ -426,7 +426,7 @@
 
     .section-3 .card img {
         width: 179px;
-        height: 179px;
+        height: 200px;
         margin: 5px 7px auto;
         margin-right: auto;
         margin-left: auto;
@@ -672,43 +672,80 @@
         height: 100px;
         object-fit: cover;
         display: flex;
-        flex-direction: column; 
+        flex-direction: column;
         justify-content: center;
-        align-items: center; 
-        padding: -10px; 
+        align-items: center;
+        padding: -10px;
     }
+
     .shoping__cart__table table tbody tr td.shoping__cart__price {
         font-size: 12px;
         color: #1c1c1c;
         font-weight: 700;
         width: 94px;
-        display:none;
+        display: none;
     }
-    .shoping__cart__table table tbody tr td.shoping__cart__total{
+
+    .shoping__cart__table table tbody tr td.shoping__cart__total {
         display: flex;
-        flex-direction: column; 
-        justify-content: center; 
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
-        padding: 10px; 
+        padding: 10px;
         font-size: 12px;
     }
-    .shoping__cart__table table tbody tr td.shoping__cart__item__close{
+
+    .shoping__cart__table table tbody tr td.shoping__cart__item__close {
         display: flex;
-        flex-direction: column; 
-        justify-content: center; 
-        align-items: left; 
-        padding: 10px; 
+        flex-direction: column;
+        justify-content: center;
+        align-items: left;
+        padding: 10px;
     }
-    .shoping__cart__table table tbody tr td.shoping__cart__quantity{
+
+    .shoping__cart__table table tbody tr td.shoping__cart__quantity {
         padding: -10px;
-     
+
     }
-    .shoping__cart__table table tbody tr td.shoping__cart__text h5{
+
+    .shoping__cart__table table tbody tr td.shoping__cart__text h5 {
         display: flex;
-        flex-direction: column; 
-        align-items: center; 
-        padding:5px;
+        flex-direction: column;
+        align-items: center;
+        padding: 5px;
         font-size: 17px;
+    }
+
+    .product__details__pic__slider .thumbnail {
+        width: 50px;
+        height: 50px;
+        background-size: cover;
+        background-position: center;
+        object-fit: cover;
+        border: 1px solid #ddd;
+        cursor: pointer;
+    }
+
+    .product__details__pic__item img {
+        padding: 10px;
+        width: 250px;
+        height: 350px;
+        margin: -15px 0 auto;
+    }
+
+    .shop1 {
+        display: block;
+        margin: 49px 0 auto;
+    }
+
+    .shop1 .breadcrumb {
+        font-size: 14px;
+    }
+    .shop1 .breadcrumb strong {
+        font-size: 15px;
+    }
+    .shop1 .breadcrumb li a {
+        font-size: 14px;
     }
     
 }
@@ -717,3 +754,4 @@
 
 
 @media only screen and (min-width: 1025px) {}
+
