@@ -16,26 +16,14 @@
     </div>
   </section>
 
-  <button @click="toggleSidebar" class="btn-filter-sidebar">
-    <i class="fa-solid fa-sliders"></i>
-  </button>
-
-  <div v-if="isSidebarOpen" class="filter-mobile-sidebar">
-    <button @click="closeSidebar" class="btn-close-sidebar-mb">&times;</button>
-    <h5 class="mb-3">Danh Mục</h5>
-    <div v-for="category in categories" :key="category.id">
-      <input class="form-check-input" type="checkbox" :value="category.id" v-model="filters.category_ids" />
-      {{ category.name }}
-    </div>
-  </div>
-
   <div class="container">
     <div class="row mt-3">
-      <span><font-awesome-icon :icon="['fas', 'sliders']" /> <b>Bộ lọc</b></span>
+      <span class="boloc"><font-awesome-icon :icon="['fas', 'sliders']" /> <b>Bộ lọc</b></span>
       <div class="col-md-2 sidebar">
         <h5><b>Danh Mục</b></h5>
         <div v-for="category in categories" :key="category.id" class="mt-2">
-          <input class="form-check-input mb-2 text-muted" type="checkbox" :value="category.id" v-model="filters.category_ids" /> {{ category.name }}
+          <input class="form-check-input mb-2 text-muted" type="checkbox" :value="category.id"
+            v-model="filters.category_ids" /> {{ category.name }}
         </div>
         <hr>
         <h5><b>Khoảng giá</b></h5>
@@ -50,8 +38,38 @@
         </p>
       </div>
 
+      <!-- Mobile Sidebar -->
+      <div v-if="isSidebarOpen" class="filter-mobile-sidebar">
+        <a href="/" class="logo1">
+          <img src="https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/logo.png?1720275862057" alt="Logo">
+        </a>
+       
+        <button @click="closeSidebar" class="btn-close-sidebar-mb">&times;</button>
+        <h5 class="mb-3">Danh Mục</h5>
+        <div v-for="category in categories" :key="category.id">
+          <input class="form-check-input" type="checkbox" :value="category.id" v-model="filters.category_ids" />
+          <label class="form-check-label">{{ category.name }}</label>
+        </div>
+        <h5><b>Khoảng giá</b></h5>
+        <div v-for="range in priceRanges" :key="range.label">
+          <a @click="filters.min_price = range.min; filters.max_price = range.max"
+            class="text-decoration-none text-black text-muted filter-price">
+            {{ range.label }}
+          </a>
+        </div>
+        <p class="mt-2">
+          Giá: {{ formatVND(filters.min_price) }} - {{ formatVND(filters.max_price) }}
+        </p>
+      </div>
+      <div v-if="isSidebarOpen" class="opacity_filter-mobile-sidebar" @click="closeSidebar"></div>
+      <!-- End Mobile Sidebar -->
+
       <div class="col-md-10 main-product">
         <div class="d-flex justify-content-between mb-3">
+          <button @click="toggleSidebar" class="btn-filter-sidebar">
+            <span><font-awesome-icon :icon="['fas', 'sliders']" /></span>
+          </button>
+
           <div class="input-group" style="width: 60%;">
             <span class="input-group-text bg-danger text-white border-danger" id="basic-addon1">
               <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
@@ -135,6 +153,7 @@ const priceRanges = [
   { label: '200k - 300k', min: 200000, max: 300000 },
   { label: '300k - 500k', min: 300000, max: 500000 },
   { label: 'Trên 500k', min: 500000, max: Infinity }
+  
 ];
 
 const getProducts = async () => {
@@ -156,6 +175,8 @@ const getProducts = async () => {
   } catch (error) {
     console.error('Error fetching products:', error);
   }
+  closeSidebar(); 
+
 };
 
 
@@ -178,11 +199,12 @@ const setPriceRange = (range) => {
 };
 
 const toggleSidebar = () => {
-  isSidebarOpen.value = !isSidebarOpen.value;
+  isSidebarOpen.value = !isSidebarOpen.value; 
 };
 
 const closeSidebar = () => {
   isSidebarOpen.value = false;
+  
 };
 
 const formatVND = value => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);

@@ -143,6 +143,9 @@ onMounted(() => {
   };
   getCountCart();
 });
+router.afterEach(() => {
+  closeNav(); 
+});
 </script>
 
 
@@ -195,16 +198,17 @@ Sidenav style .sidenav {
 }
 
 .content_menu_mb .ct-mobile li {
-  padding: 8px 0;
+  padding: 2px 0;
 }
 
 .content_menu_mb .ct-mobile li a {
   color: #3e3e3e;
   text-decoration: none;
   margin: 0 0 auto;
-  font-size: 20px;
+  font-size: 18px;
   display: block;
   transition: 0.5s;
+  border-bottom: 1px solid #cdcdcd;
 }
 
 .content_menu_mb .ct-mobile li a:hover {

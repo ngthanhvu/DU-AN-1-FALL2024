@@ -297,12 +297,14 @@
     .btn-filter-sidebar {
         display: block !important;
     }
-
+    .boloc{
+        display: none;
+    }
     .sidebar {
         display: none;
     }
 
-    .filter-mobile-sidebar a {
+    /* .filter-mobile-sidebar a {
         display: block;
         padding: 10px 0;
         text-decoration: none;
@@ -324,26 +326,7 @@
     }
 
     .btn-filter-sidebar {
-        position: absolute;
-        margin: -1px 17px auto;
-    }
-
-    .input-group {
-        margin-left: 56px;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-    }
-
-    .btn-filter-sidebar {
-        display: inline-block;
-        background-color: #fff;
-        border: 1px solid #ced4da;
-        border-radius: 20%;
-        padding: 10px;
-        height: 40px;
-        font-size: 15px;
-    }
-
+    } */
     .btn-close-sidebar-mb {
         background: #dc3545;
         border: none;
@@ -371,9 +354,92 @@
     .btn-close-sidebar:hover {
         color: #dc3545;
     }
+    
+    .filter-mobile-sidebar {
+        height: 100%;
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        background-color: #ffffff;
+        overflow-x: hidden;
+        padding-top: 60px;
+        display: block;
+        width: 275px;
+        transition: width 0.5s ease-in-out;
+    }
+    
+    .filter-mobile-sidebar.active {
+        display: block; 
+    }
+    h5.mb-3 {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 22px 30px auto;
+        color: #333;
+    }
+    
+    .filter-mobile-sidebar .form-check-input {
+        margin: 6px 30px auto;
+    }
+    
+    .filter-mobile-sidebar .form-check-label {
+        font-size: 16px;
+        color: #555;
+        display: inline-block;
+        margin: 0px -15px auto;
+    }
+    
+    h5 b {
+        font-weight: bold;
+        font-size: 18px;
+        color: #333;
+        margin: 22px 30px auto;
+    }
+    
+    .filter-price {
+        display: block;
+        padding: 8px 0;
+        color: #333;
+        font-size: 14px;
+        margin: 22px 30px auto;
+    }
+    
+    .filter-price:hover {
+        color: #007bff;
+        text-decoration: underline;
+    }
+    
+    p.mt-2 {
+        font-size: 16px;
+        color: #333;
+        margin-top: 10px;
+    }
+      
+    .d-flex {
+        margin: 15px 0px auto;
+    }
+    .input-group {
+        margin-left: 56px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
 
-    .product-item {
+    .btn-filter-sidebar {
+        display: inline-block;
+        background-color: #fff;
+        border: 1px solid #ced4da;
+        border-radius: 20%;
+        padding: 10px;
+        height: 40px;
+        font-size: 15px;
+    }
+
+   
+
+    .product-col {
         flex: 0 0 50%;
+        padding: 10px;
 
     }
 
@@ -384,7 +450,6 @@
 
     .card-text {
         font-size: 0.9rem;
-
     }
 
     .mb-2 {
@@ -644,7 +709,7 @@
         color: #3e3e3e;
         text-decoration: none;
         margin: 0 0 auto;
-        font-size: 20px;
+        font-size: 15px;
         display: block;
         transition: 0.5s;
     }
