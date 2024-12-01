@@ -12,19 +12,19 @@
 
           <div class="mb-3">
             <label class="form-label">Giá sản phẩm:</label>
-            <input v-model="formData.price" type="number" class="form-control"
-              placeholder="Nhập giá sản phẩm" />
+            <input v-model="formData.price" type="number" class="form-control" placeholder="Nhập giá sản phẩm" />
           </div>
 
           <div class="mb-3">
             <label class="form-label">Mô tả sản phẩm:</label>
-            <textarea v-model="formData.description" class="form-control" placeholder="Nhập mô tả sản phẩm"></textarea>
+            <!-- <textarea v-model="formData.description" class="form-control" placeholder="Nhập mô tả sản phẩm"></textarea> -->
+            <div id="editor"></div>
           </div>
 
           <div class="mb-3">
             <label class="form-label">Số lượng:</label>
-            <input v-model="formData.quantity" type="number" class="form-control"
-              placeholder="Nhập số lượng" value="1" />
+            <input v-model="formData.quantity" type="number" class="form-control" placeholder="Nhập số lượng"
+              value="1" />
           </div>
 
           <div class="mb-3">
@@ -35,31 +35,27 @@
             </select>
           </div>
           <div class="mb-3">
-                    <label class="form-label">SKUs:</label>
-                    <div v-for="(sku, index) in formData.skus" :key="index" class="card mb-3 p-3">
-                      <div class="row g-3">
-                        <div class="col-md-6">
-                          <label class="form-label">Mã SKU:</label>
-                          <input v-model="sku.sku_code" type="text" class="form-control" />
-                        </div>
-                        <div class="col-md-6">
-                          <label class="form-label">Size:</label>
-                          <input v-model="sku.size" type="text" class="form-control" />
-                        </div>
-                        <!-- <div class="col-md-6">
-                          <label class="form-label">Màu sắc:</label>
-                          <input v-model="sku.color" type="text" class="form-control" />
-                        </div> -->
-                        <div class="col-md-6">
-                          <label class="form-label">Số lượng tồn:</label>
-                          <input v-model="sku.stock" type="number" class="form-control" />
-                        </div>
-                      </div>
-                    </div>
-                    <button type="button" class="btn btn-secondary" @click="addSku" style="margin-left: 10px;">
-                      Thêm SKU
-                    </button>
-                  </div>
+            <label class="form-label">SKUs:</label>
+            <div v-for="(sku, index) in formData.skus" :key="index" class="card mb-3 p-3">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">Mã SKU:</label>
+                  <input v-model="sku.sku_code" type="text" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Size:</label>
+                  <input v-model="sku.size" type="text" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Số lượng tồn:</label>
+                  <input v-model="sku.stock" type="number" class="form-control" />
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn btn-secondary" @click="addSku" style="margin-left: 10px;">
+              Thêm SKU
+            </button>
+          </div>
 
           <div class="mb-3">
             <label class="form-label">Tải lên hình ảnh:</label>
@@ -77,7 +73,7 @@
           <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
         </form>
 
-        <div style="height: 10vh"></div>
+        <div style="height: 100vh"></div>
       </div>
     </main>
   </div>
@@ -88,6 +84,9 @@
 import { ref, reactive, onMounted } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+const editor = ref(null);
 
 const API_URL = 'http://127.0.0.1:8000';
 const products = ref([]);
@@ -194,6 +193,18 @@ const loadProducts = async () => {
 onMounted(async () => {
   await loadCategories();
   await loadProducts();
+
+  ClassicEditor
+    .create(document.querySelector('#editor'), {
+    })
+    .then(editorInstance => {
+      editor.value = editorInstance;
+      editorInstance.model.document.on('change:data', () => {
+        formData.description = editorInstance.getData(); // Lấy dữ liệu từ CKEditor và lưu vào formData
+      });
+    })
+    .catch(error => {
+      console.error("CKEditor initialization error: ", error);
+    });
 });
 </script>
-

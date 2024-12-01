@@ -1,6 +1,6 @@
 <template>
-    <div class="container" >
-        <div class="login-form">
+    <div class="container" style="min-height: 100vh;">
+        <div class="login-form" style="margin-top: 250px;">
             <h2 class="text-center text-bold">ĐĂNG NHẬP</h2>
             <form @submit.prevent="handleSubmit">
                 <div class="mb-3">

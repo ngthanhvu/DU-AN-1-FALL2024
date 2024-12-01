@@ -44,8 +44,10 @@
                 </div>
               </td>
               <td>
-                <button class="btn btn-primary" @click="editProduct(product)"><font-awesome-icon :icon="['fas', 'pen-to-square']" /></button> |
-                <button class="btn btn-danger" @click="deleteProduct(product.id)"><font-awesome-icon :icon="['far', 'trash-can']" /></button>
+                <button class="btn btn-primary" @click="editProduct(product)"><font-awesome-icon
+                    :icon="['fas', 'pen-to-square']" /></button> |
+                <button class="btn btn-danger" @click="deleteProduct(product.id)"><font-awesome-icon
+                    :icon="['far', 'trash-can']" /></button>
               </td>
             </tr>
             <tr v-if="products.length === 0">
@@ -207,7 +209,6 @@ const formData = reactive({
   primary_image: ''
 });
 
-// Format giá tiền
 const formatPrice = (price) => {
   return new Intl.NumberFormat('vi-VN', {
     style: 'currency',
@@ -215,25 +216,21 @@ const formatPrice = (price) => {
   }).format(price);
 };
 
-// Lấy ảnh chính
 const getPrimaryImage = (images) => {
   const primaryImage = images.find(image => image.is_primary === 1);
   return primaryImage ? primaryImage.image_path : '';
 };
 
-// Đóng/mở modal
 const openModal = () => isModalVisible.value = true;
 const closeModal = () => {
   isModalVisible.value = false;
   currentProductId.value = null;
   imageFiles.value = [];
-  // Reset form
   Object.keys(formData).forEach(key => {
     formData[key] = Array.isArray(formData[key]) ? [] : '';
   });
 };
 
-// Load dữ liệu
 const loadCategories = async () => {
   try {
     const response = await axios.get(`${API_URL}/api/categories`);
@@ -262,7 +259,6 @@ const loadProducts = async () => {
   }
 };
 
-// Xử lý SKU
 const addSku = () => {
   formData.skus.push({
     sku_code: '',
@@ -275,7 +271,6 @@ const removeSku = (index) => {
   formData.skus.splice(index, 1);
 };
 
-// Xử lý hình ảnh
 const handleFileChange = (event) => {
   imageFiles.value = Array.from(event.target.files);
 };
@@ -297,11 +292,9 @@ const removeImage = async (imageId) => {
   }
 };
 
-// Edit sản phẩm
 const editProduct = (product) => {
   currentProductId.value = product.id;
 
-  // Copy dữ liệu sản phẩm vào form
   formData.name = product.name;
   formData.price = product.price;
   formData.description = product.description;
@@ -310,46 +303,38 @@ const editProduct = (product) => {
   formData.skus = JSON.parse(JSON.stringify(product.skus));
   formData.images = [...product.images];
 
-  // Tìm và set ảnh chính
   const primaryImage = product.images.find(img => img.is_primary === 1);
   formData.primary_image = primaryImage ? primaryImage.image_path : '';
 
   openModal();
 };
 
-// Submit form update
 const handleSubmit = async () => {
   try {
     const requestData = new FormData();
 
-    // Append basic information
     requestData.append('name', formData.name);
     requestData.append('price', formData.price);
     requestData.append('description', formData.description);
     requestData.append('quantity', formData.quantity);
     requestData.append('category_id', formData.category_id);
 
-    // Append SKUs
     formData.skus.forEach((sku, index) => {
       Object.entries(sku).forEach(([key, value]) => {
         requestData.append(`skus[${index}][${key}]`, value);
       });
     });
 
-    // Append new images
     imageFiles.value.forEach(file => {
       requestData.append('images[]', file);
     });
 
-    // Append primary image
     if (formData.primary_image) {
       requestData.append('primary_image', formData.primary_image);
     }
 
-    // Add _method for Laravel to handle PUT request
     requestData.append('_method', 'PUT');
 
-    // Send request
     const response = await axios.post(
       `${API_URL}/api/products/${currentProductId.value}`,
       requestData,
@@ -360,20 +345,16 @@ const handleSubmit = async () => {
       }
     );
 
-    // Show success message
     Swal.fire({
       icon: 'success',
       title: 'Thành công!',
       text: 'Cập nhật sản phẩm thành công'
     });
-    // Reload data và đóng modal
     await loadProducts();
     closeModal();
-
   } catch (error) {
     console.error('Error updating product:', error.response?.data || error);
 
-    // Show error message
     Swal.fire({
       icon: 'error',
       title: 'Lỗi!',
@@ -382,10 +363,8 @@ const handleSubmit = async () => {
   }
 };
 
-// Xóa sản phẩm
 const deleteProduct = async (productId) => {
   try {
-    // Hiển thị confirm dialog
     const result = await Swal.fire({
       title: 'Xác nhận xóa?',
       text: "Bạn không thể hoàn tác sau khi xóa!",
@@ -398,13 +377,10 @@ const deleteProduct = async (productId) => {
     });
 
     if (result.isConfirmed) {
-      // Gọi API xóa
       await axios.delete(`${API_URL}/api/products/${productId}`);
 
-      // Reload data
       await loadProducts();
 
-      // Show success message
       Swal.fire({
         icon: 'success',
         title: 'Đã xóa!',
@@ -421,7 +397,6 @@ const deleteProduct = async (productId) => {
   }
 };
 
-// Initialize
 onMounted(async () => {
   await Promise.all([
     loadCategories(),

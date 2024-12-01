@@ -60,6 +60,32 @@
             </div>
           </div>
         </div>
+
+        <div class="row mt-3">
+          <!-- Biểu đồ Số đơn hàng theo ngày trong tuần -->
+          <div class="col-xl-6">
+            <div class="card mb-4">
+              <div class="card-header">
+                <font-awesome-icon :icon="['fas', 'chart-column']" /> Số đơn hàng theo ngày
+              </div>
+              <div class="card-body">
+                <LineChart :chartData="dailyOrdersData" :options="chartOptions" />
+              </div>
+            </div>
+          </div>
+          <!-- Biểu đồ Số người dùng theo tháng -->
+          <div class="col-xl-6">
+            <div class="card mb-4">
+              <div class="card-header">
+                <font-awesome-icon :icon="['fas', 'users']" /> Số người dùng theo tháng
+              </div>
+              <div class="card-body">
+                <BarChart :chartData="monthlyUsersData" :options="chartOptions" />
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div style="height: 100vh"></div>
       </div>
     </main>
@@ -97,7 +123,7 @@ const dailyRevenueData = ref({
   datasets: [
     {
       label: 'Doanh thu ($)',
-      data: [0, 0, 0, 0, 0, 0, 0], // Mảng sẽ được cập nhật sau
+      data: [0, 0, 0, 0, 0, 0, 0],
       borderColor: 'rgba(75, 192, 192, 1)',
       backgroundColor: 'rgba(75, 192, 192, 0.2)',
     },
@@ -113,9 +139,38 @@ const monthlyRevenueData = ref({
   datasets: [
     {
       label: 'Doanh thu ($)',
-      data: new Array(12).fill(0), // Mảng 12 phần tử, khởi tạo giá trị doanh thu cho từng tháng
+      data: new Array(12).fill(0),
       backgroundColor: 'rgba(54, 162, 235, 0.2)',
       borderColor: 'rgba(54, 162, 235, 1)',
+    },
+  ],
+});
+
+// Dữ liệu chart cho số đơn hàng theo ngày trong tuần
+const dailyOrdersData = ref({
+  labels: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'CN'],
+  datasets: [
+    {
+      label: 'Số đơn hàng',
+      data: new Array(7).fill(0), // Mảng 7 phần tử đại diện cho 7 ngày trong tuần
+      borderColor: 'rgba(255, 159, 64, 1)',
+      backgroundColor: 'rgba(255, 159, 64, 0.2)',
+    },
+  ],
+});
+
+// Dữ liệu chart cho số người dùng theo tháng
+const monthlyUsersData = ref({
+  labels: [
+    'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
+    'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
+  ],
+  datasets: [
+    {
+      label: 'Số người dùng',
+      data: new Array(12).fill(0), // Mảng 12 phần tử đại diện cho 12 tháng trong năm
+      backgroundColor: 'rgba(153, 102, 255, 0.2)',
+      borderColor: 'rgba(153, 102, 255, 1)',
     },
   ],
 });
@@ -140,6 +195,7 @@ const fetchUsers = async () => {
       }
     });
     users.value = response.data;
+    getMonthlyUsers();  // Cập nhật số người dùng theo tháng
   } catch (error) {
     console.error('Error fetching users:', error);
   }
@@ -150,8 +206,9 @@ const fetchOrders = async () => {
   try {
     const response = await axios.get(`${API_URL}/api/orders`);
     orders.value = response.data;
-    getDailyRevenue();  // Cập nhật dữ liệu doanh thu theo ngày
-    getMonthlyRevenue();  // Cập nhật dữ liệu doanh thu theo tháng
+    getDailyRevenue();  // Cập nhật doanh thu theo ngày
+    getMonthlyRevenue();  // Cập nhật doanh thu theo tháng
+    getDailyOrders();  // Cập nhật số đơn hàng theo ngày
   } catch (error) {
     console.error('Error fetching orders:', error);
   }
@@ -159,24 +216,46 @@ const fetchOrders = async () => {
 
 // Tính toán doanh thu theo ngày
 const getDailyRevenue = () => {
-  const dailyRevenue = new Array(7).fill(0); // Mảng với 7 phần tử, đại diện cho 7 ngày trong tuần
+  const dailyRevenue = new Array(7).fill(0);
   orders.value.forEach(order => {
     const orderDate = new Date(order.created_at);
-    const dayOfWeek = orderDate.getDay(); // Lấy ngày trong tuần (0: Chủ nhật, 1: Thứ 2, ...)
-    dailyRevenue[dayOfWeek] += parseFloat(order.total_price); // Cộng tổng doanh thu cho ngày tương ứng
+    const dayOfWeek = orderDate.getDay();
+    dailyRevenue[dayOfWeek] += parseFloat(order.total_price);
   });
-  dailyRevenueData.value.datasets[0].data = dailyRevenue; // Cập nhật dữ liệu vào biểu đồ
+  dailyRevenueData.value.datasets[0].data = dailyRevenue;
 };
 
-// Tính toán doanh thu theo tháng (Cập nhật cho 12 tháng)
+// Tính toán doanh thu theo tháng
 const getMonthlyRevenue = () => {
-  const monthlyRevenue = new Array(12).fill(0); // Mảng với 12 phần tử, đại diện cho 12 tháng trong năm
+  const monthlyRevenue = new Array(12).fill(0);
   orders.value.forEach(order => {
     const orderDate = new Date(order.created_at);
-    const month = orderDate.getMonth(); // Lấy tháng (0-11)
-    monthlyRevenue[month] += parseFloat(order.total_price); // Cộng tổng doanh thu cho tháng tương ứng
+    const month = orderDate.getMonth();
+    monthlyRevenue[month] += parseFloat(order.total_price);
   });
-  monthlyRevenueData.value.datasets[0].data = monthlyRevenue; // Cập nhật dữ liệu vào biểu đồ
+  monthlyRevenueData.value.datasets[0].data = monthlyRevenue;
+};
+
+// Tính toán số đơn hàng theo ngày trong tuần
+const getDailyOrders = () => {
+  const dailyOrders = new Array(7).fill(0);
+  orders.value.forEach(order => {
+    const orderDate = new Date(order.created_at);
+    const dayOfWeek = orderDate.getDay();
+    dailyOrders[dayOfWeek] += 1; // Cộng thêm 1 cho số đơn hàng
+  });
+  dailyOrdersData.value.datasets[0].data = dailyOrders;
+};
+
+// Tính toán số người dùng theo tháng
+const getMonthlyUsers = () => {
+  const monthlyUsers = new Array(12).fill(0);
+  users.value.forEach(user => {
+    const userDate = new Date(user.created_at);
+    const month = userDate.getMonth();
+    monthlyUsers[month] += 1; // Cộng thêm 1 cho mỗi người dùng
+  });
+  monthlyUsersData.value.datasets[0].data = monthlyUsers;
 };
 
 // Tính tổng doanh thu
