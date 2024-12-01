@@ -113,7 +113,7 @@
               <div v-if="selectedTab === 'tabs-1'" id="tabs-1" class="tab-pane" role="tabpanel">
                 <div class="product__details__tab__desc">
                   <h6>MÔ TẢ</h6>
-                  <p>{{ product.description }}</p>
+                  <div v-html="product.description"></div>
                 </div>
               </div>
               <!-- Tab 3: Bình Luận -->
@@ -348,41 +348,41 @@ onMounted(() => {
     border-radius: 4px;
     cursor: pointer;
   }
-  
+
   .btn-comment:hover {
     background-color: #e60000;
   }
-  
+
   /* Hiệu ứng hover cho ảnh sản phẩm */
   .card img {
     width: 100%;
     height: auto;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
-  
+
   /* Khi hover, ảnh sẽ phóng to */
   .card img:hover {
     transform: scale(1.1);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   }
-  
+
   .size-options {
     display: flex;
     gap: 10px;
     /* Khoảng cách giữa các nút */
   }
-  
+
   .size-options label {
     position: relative;
     display: inline-flex;
     align-items: center;
     cursor: pointer;
   }
-  
+
   .size-options input[type="radio"] {
     display: none;
   }
-  
+
   .size-options span {
     display: inline-block;
     padding: 8px 16px;
@@ -394,22 +394,22 @@ onMounted(() => {
     color: #333;
     transition: all 0.3s ease;
   }
-  
+
   .size-options input[type="radio"]:checked+span {
     border-color: #ff0000;
     background-color: #ff0000;
     color: #fff;
   }
-  
+
   .size-options span:hover {
     border-color: #ff0000;
     background-color: #e6f0ff;
   }
-  
+
   .tab-content>.tab-pane {
     display: block;
   }
-  
+
   .tab-content>.active {
     display: block;
   }

@@ -4,15 +4,14 @@
       <!-- Mobile Nav Button -->
       <div class="nav-mobile-button hidden-md hidden-lg" @click="openNav">
         <span class="icon-search-normal-5"><font-awesome-icon :icon="['fas', 'bars']" /></span>
-        <a href="/" class="logo1">
+        <router-link to="/" class="logo1">
           <img src="https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/logo.png?1720275862057" alt="Logo">
-        </a>
-       
+        </router-link>
       </div>
 
-      <a href="/" class="logo">
+      <router-link to="/" class="logo">
         <img src="https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/logo.png?1720275862057" alt="Logo">
-      </a>
+      </router-link>
 
       <ul class="navmenu">
         <li><router-link to="/">Trang Chủ</router-link></li>
@@ -144,7 +143,7 @@ onMounted(() => {
   getCountCart();
 });
 router.afterEach(() => {
-  closeNav(); 
+  closeNav();
 });
 </script>
 
