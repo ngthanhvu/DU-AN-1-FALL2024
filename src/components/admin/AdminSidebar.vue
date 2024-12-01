@@ -90,6 +90,18 @@
             </nav>
           </div>
 
+          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUser"
+            aria-expanded="false" aria-controls="collapseUser">
+            <div class="sb-nav-link-icon"><font-awesome-icon :icon="['fas', 'comment']" /></div>
+            Quản Lý Bình Luận
+            <div class="sb-sidenav-collapse-arrow"><font-awesome-icon :icon="['fas', 'angle-down']" /></div>
+          </a>
+          <div class="collapse" id="collapseUser" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+            <nav class="sb-sidenav-menu-nested nav">
+              <router-link class="nav-link" to="/admin/comment">Danh sách Bình Luận</router-link>
+            </nav>
+          </div>
+
         </div>
       </div>
     </nav>

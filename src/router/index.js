@@ -28,6 +28,7 @@ import AdminBlog from '@/components/admin/AdminBlog.vue';
 import AdminAddBlog from '@/components/admin/blogs/add.vue';
 import AdminDiscount from '@/components/admin/AdminDiscount.vue';
 import AdminAddDiscount from '@/components/admin/discount/add.vue';
+import AdminComment from '@/components/admin/AdminComment.vue';
 
 const routes = [
   { path: '/', component: Home, meta: { title: 'Trang chủ' } },
@@ -59,6 +60,7 @@ const routes = [
       { path: '/admin/blog/add', component: AdminAddBlog, meta: { title: 'Admin Add Blog' } },
       { path: '/admin/discount', component: AdminDiscount, meta: { title: 'Admin Discount' } },
       { path: '/admin/discount/add', component: AdminAddDiscount, meta: { title: 'Admin Add Discount' } },
+      { path: '/admin/comment', component: AdminComment, meta: { title: 'Admin Comment' } },
     ],
   }
 
