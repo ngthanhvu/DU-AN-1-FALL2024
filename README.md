@@ -80,3 +80,7 @@ npm install sweetalert2
 ```sh
 npm install @ckeditor/ckeditor5-vue @ckeditor/ckeditor5-build-classic
 ```
+### Thư viện Vue-chart-3 Chartjs
+```sh
+npm install vue-chart-3 chart.js@^3.1.0
+```

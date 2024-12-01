@@ -3,10 +3,10 @@
     <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
       <div class="sb-sidenav-menu">
         <div class="nav">
-          <div class="sb-sidenav-menu-heading">Core</div>
+          <div class="sb-sidenav-menu-heading">Chính</div>
           <router-link class="nav-link" to="/admin">
             <div class="sb-nav-link-icon"><font-awesome-icon :icon="['fas', 'gauge-high']" /></div>
-            Dashboard
+            Bảng Điều Khiển
           </router-link>
           <div class="sb-sidenav-menu-heading">Quản lý</div>
           <!-- Manage Products -->
@@ -75,6 +75,18 @@
             <nav class="sb-sidenav-menu-nested nav">
               <router-link class="nav-link" to="/admin/discount">Danh sách mã</router-link>
               <router-link class="nav-link" to="/admin/discount/add">Thêm mã</router-link>
+            </nav>
+          </div>
+
+          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseOrder"
+            aria-expanded="false" aria-controls="collapseOrder">
+            <div class="sb-nav-link-icon"><font-awesome-icon :icon="['fas', 'bag-shopping']" /></div>
+            Quản Lý Đơn Hàng
+            <div class="sb-sidenav-collapse-arrow"><font-awesome-icon :icon="['fas', 'angle-down']" /></div>
+          </a>
+          <div class="collapse" id="collapseOrder" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+            <nav class="sb-sidenav-menu-nested nav">
+              <router-link class="nav-link" to="/admin/discount">Danh sách mã</router-link>
             </nav>
           </div>
 
