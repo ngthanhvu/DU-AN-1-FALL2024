@@ -88,39 +88,68 @@ class PostController extends Controller
         //
     }
 
-    public function update(Request $request, Post $id)
+    public function update(Request $request, string $id)
     {
         try {
-            $validatedData = $request->validate([
-                'title' => 'required|string|max:255',
-                'content' => 'required|string',
-                'image' => 'nullable|mimes:jpeg,png,jpg,gif|max:10002',
-            ]);
-
+            // Tìm bài viết cần cập nhật
             $post = Post::findOrFail($id);
 
-            $post->update($request->only('title', 'content'));
+            // Xác thực dữ liệu đầu vào
+            $validatedData = $request->validate([
+                'title' => 'sometimes|required|string|max:255',  // Kiểm tra tiêu đề
+                'content' => 'sometimes|required|string',  // Kiểm tra nội dung
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'  // Kiểm tra ảnh
+            ]);
+
+            // Kiểm tra xem có thay đổi ảnh không
+            if ($request->has('title')) {
+                $post->title = $validatedData['title'];
+            }
+
+            if ($request->has('content')) {
+                $post->content = $validatedData['content'];
+            }
 
             if ($request->hasFile('image')) {
-                if ($post->image && Storage::exists('public/images/' . $post->image)) {
-                    Storage::delete('public/images/' . $post->image);
+                // Nếu có ảnh cũ, xóa ảnh cũ
+                if ($post->image && Storage::exists($post->image)) {
+                    Storage::delete($post->image);
                 }
 
-                // Lưu ảnh mới và cập nhật vào bài viết
-                $imagePath = $request->file('image')->store('images', 'public');
-                $post->update(['image' => $imagePath]);
+                // Lưu ảnh mới vào thư mục public/images
+                $post->image = $request->file('image')->store('images', 'public');
             }
+
+            // Lưu bài viết sau khi cập nhật
+            $post->save();
+
+
+            // Cập nhật bài viết
+            $updateResult = $post->update($validatedData);
+
+            // Nếu cập nhật không thành công
+            if (!$updateResult) {
+                return response()->json([
+                    'message' => 'Cập nhật bài viết thất bại',
+                    'data' => $validatedData
+                ], 500);
+            }
+
+            // Làm mới bài viết sau khi cập nhật
+            $post->refresh();
 
             return response()->json([
                 'message' => 'Bài viết đã được cập nhật thành công',
                 'post' => $post
             ], 200);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error('Validation error: ', $e->errors());
             return response()->json([
-                'message' => 'Không tìm thấy bài viết',
-                'error' => $e->getMessage()
-            ], 404);
+                'message' => 'Lỗi validate',
+                'errors' => $e->errors()
+            ], 422);
         } catch (\Exception $e) {
+            Log::error('Error updating post: ', ['error' => $e->getMessage()]);
             return response()->json([
                 'message' => 'Không thể cập nhật bài viết',
                 'error' => $e->getMessage()

@@ -93,3 +93,4 @@ Route::get('/products/category/{categoryId}', [ProductController::class, 'getPro
 
 Route::get('comments/{productId}', [CommentController::class, 'getComments']);
 Route::post('/comments', [CommentController::class, 'store']);
+Route::delete('/comments/{commentId}', [CommentController::class, 'deleteComment']);
