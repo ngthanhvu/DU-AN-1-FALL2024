@@ -100,4 +100,27 @@ class DiscountController extends Controller
 
         return response()->json(['message' => 'Xóa mã giảm giá thành công'], 200);
     }
+    /**
+     * Sửa mã giảm giá
+     */
+    public function update(Request $request, $id)
+    {
+        $discount = Discount::find($id);
+
+        if (!$discount) {
+            return response()->json(['message' => 'Discount not found'], 404);
+        }
+
+        $validated = $request->validate([
+            'code' => 'required|string|max:255',
+            'value' => 'required|numeric',
+            'type' => 'required|string|in:percentage,fixed',
+            'expires_at' => 'nullable|date',
+            'usage_limit' => 'nullable|numeric',
+        ]);
+
+        $discount->update($validated);
+
+        return response()->json(['message' => 'Cập nhật mã giảm giá thành công', 'discount' => $discount]);
+    }
 }

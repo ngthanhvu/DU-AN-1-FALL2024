@@ -63,6 +63,8 @@ Route::apiResource('carts', CartController::class);
 
 Route::post('/posts', [PostController::class, 'store']);
 Route::get('posts/{id}', [PostController::class, 'show']);
+Route::delete('posts/{id}', [PostController::class, 'destroy']);
+Route::put('posts/{id}', [PostController::class, 'update']);
 Route::apiResource('posts', PostController::class);
 
 Route::post('/payment', [PaymentController::class, 'create']);
@@ -75,6 +77,7 @@ Route::post('/discounts', [DiscountController::class, 'createDiscount']);
 Route::get('/discounts', [DiscountController::class, 'getDiscounts']);
 Route::post('/discounts/apply', [DiscountController::class, 'applyDiscount']);
 Route::delete('/discounts/{id}', [DiscountController::class, 'deleteDiscount']);
+Route::put('/discounts/{id}', [DiscountController::class, 'update']);
 
 Route::apiResource('orders', OrderController::class);
 Route::get('/orders/{orderId}', [OrderController::class, 'getOrderStatus']);
