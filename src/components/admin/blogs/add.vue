@@ -39,7 +39,6 @@ const form = ref({
   user_id: null,
 });
 
-// Sử dụng shallowRef cho editor để tránh làm sập reactive
 const editor = shallowRef(null);
 const editorContent = ref("");
 
@@ -48,10 +47,8 @@ const handleFileUpload = (event) => {
 };
 
 const submitForm = async () => {
-  // Lấy nội dung từ CKEditor
   form.value.content = editorContent.value;
 
-  // Validate dữ liệu
   if (!form.value.title.trim()) {
     alert("Vui lòng nhập tiêu đề");
     return;
@@ -67,7 +64,6 @@ const submitForm = async () => {
     return;
   }
 
-  // Lấy user_id (ví dụ: từ localStorage hoặc Vuex)
   const userId = localStorage.getItem('user_id'); 
   if (!userId) {
     alert("Vui lòng đăng nhập");
@@ -76,7 +72,6 @@ const submitForm = async () => {
   form.value.user_id = userId;
 
   try {
-    // Tạo FormData
     const formData = new FormData();
     formData.append('title', form.value.title);
     formData.append('content', form.value.content);
@@ -87,18 +82,15 @@ const submitForm = async () => {
       console.log(pair[0] + ': ' + pair[1]);
     }
 
-    // Gửi request
     const response = await axios.post('http://127.0.0.1:8000/api/posts', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
 
-    // Xử lý response thành công
     console.log('Thêm bài viết thành công:', response.data);
     alert('Thêm bài viết thành công!');
     
-    // Reset form sau khi thêm thành công
     form.value.title = '';
     editorContent.value = '';
     editor.value.setData('');
@@ -106,11 +98,9 @@ const submitForm = async () => {
     form.value.image = null;
 
   } catch (error) {
-    // Xử lý lỗi chi tiết
     console.error('Lỗi thêm bài viết:', error);
     
     if (error.response) {
-      // Lỗi từ server
       console.error('Chi tiết lỗi:', error.response.data);
       alert(`Lỗi: ${error.response.data.message || 'Có lỗi xảy ra'}`);
     } else if (error.request) {
@@ -123,12 +113,10 @@ const submitForm = async () => {
 
 onMounted(() => {
   ClassicEditor.create(document.querySelector("#editor"), {
-    // Các cấu hình bổ sung nếu cần
   })
     .then((editorInstance) => {
       editor.value = editorInstance;
 
-      // Lắng nghe sự kiện thay đổi nội dung
       editorInstance.model.document.on('change:data', () => {
         editorContent.value = editorInstance.getData();
       });
