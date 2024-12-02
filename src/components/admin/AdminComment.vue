@@ -17,7 +17,7 @@
               <th>Bình luận</th>
               <th>Sản phẩm</th>
               <th>Ngày Tạo</th>
-              <th>Hành Động</th> 
+              <th>Hành Động</th>
             </tr>
           </thead>
           <tbody>
@@ -27,7 +27,7 @@
               <td>{{ comment.product_id }}</td>
               <td>{{ new Date(comment.created_at).toLocaleString() }}</td>
               <td>
-                <button @click="deleteComment(comment.id)" class="btn btn-danger btn-sm">Xóa</button> <!-- Nút xóa -->
+                <button @click="confirmDeleteComment(comment.id)" class="btn btn-danger btn-sm">Xóa</button>
               </td>
             </tr>
           </tbody>
@@ -35,20 +35,20 @@
 
         <p v-else class="mt-3">Không có bình luận cho sản phẩm này.</p>
         <div style="height: 100vh"></div>
-
       </div>
     </main>
   </div>
 </template>
+
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
 const API_URL = 'http://127.0.0.1:8000';
 
-const products = ref([]); 
-const comments = ref([]); 
-const selectedProductId = ref(''); 
+const products = ref([]);
+const comments = ref([]);
+const selectedProductId = ref('');
 
 const fetchProducts = async () => {
   try {
@@ -61,7 +61,7 @@ const fetchProducts = async () => {
 
 const fetchComments = async () => {
   if (!selectedProductId.value) {
-    comments.value = []; 
+    comments.value = [];
     return;
   }
 
@@ -77,8 +77,17 @@ const deleteComment = async (commentId) => {
   try {
     await axios.delete(`${API_URL}/api/comments/${commentId}`);
     comments.value = comments.value.filter(comment => comment.id !== commentId);
+    alert('Bình luận đã được xóa thành công.');
   } catch (error) {
     console.error('Lỗi khi xóa bình luận:', error);
+    alert('Đã xảy ra lỗi khi xóa bình luận.');
+  }
+};
+
+const confirmDeleteComment = (commentId) => {
+  const confirmed = window.confirm('Bạn có chắc chắn muốn xóa bình luận này không?');
+  if (confirmed) {
+    deleteComment(commentId);
   }
 };
 

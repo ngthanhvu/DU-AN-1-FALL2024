@@ -126,15 +126,19 @@
                   <form @submit.prevent="submitComment">
                     <div class="form-group">
                       <label for="name">Tên của bạn:</label>
-                      <input type="text" id="name" v-model="commentData.name" required />
+                      <input type="text" id="name" v-model="commentData.name" />
+                      <p v-if="errors.name" class="error-message text-danger">{{ errors.name }}</p>
                     </div>
 
                     <div class="form-group">
                       <label for="comment">Bình luận:</label>
-                      <textarea id="comment" v-model="commentData.comment" required></textarea>
+                      <textarea id="comment" v-model="commentData.comment"></textarea>
+                      <p v-if="errors.comment" class="error-message text-danger">{{ errors.comment }}</p>
                     </div>
+
                     <button type="submit" class="btn-comment">Gửi bình luận</button>
                   </form>
+
 
                   <!-- Comments List -->
                   <div v-if="comments.length" class="comments-list">
@@ -208,6 +212,10 @@ const commentData = ref({
   name: '',
   comment: ''
 });
+const errors = ref({
+  name: '',
+  comment: '',
+})
 const comments = ref([]);
 const selectedSize = ref(null);
 
@@ -251,12 +259,35 @@ const fetchComments = async () => {
   }
 };
 
+const validateInput = () => {
+  errors.value.name = '';
+  errors.value.comment = '';
+
+  const namePattern = /^[a-zA-Z0-9\s]+$/;
+
+  if (!commentData.value.name) {
+    errors.value.name = 'Tên không được để trống.';
+  } else if (!namePattern.test(commentData.value.name)) {
+    errors.value.name = 'Tên không được chứa ký tự đặc biệt.';
+  }
+
+  if (!commentData.value.comment) {
+    errors.value.comment = 'Bình luận không được để trống.';
+  }
+
+  return !errors.value.name && !errors.value.comment;
+};
+
 const submitComment = async () => {
+  if (!validateInput()) {
+    return; // Không thực hiện nếu có lỗi
+  }
+
   try {
     const userId = localStorage.getItem('user_id');
 
     if (!userId) {
-      swal.fire('Vui lòng đăng nhập để bình luận' + '!', '', 'warning');
+      swal.fire('Vui lòng đăng nhập để bình luận!', '', 'warning');
       return;
     }
 
@@ -273,9 +304,11 @@ const submitComment = async () => {
       comments.value.unshift(response.data.comment);
       commentData.value.name = '';
       commentData.value.comment = '';
+      swal.fire('Bình luận đã được thêm thành công!', '', 'success');
     }
   } catch (error) {
-    console.error('Error submitting comment:', error);
+    console.error('Lỗi khi gửi bình luận:', error);
+    swal.fire('Đã xảy ra lỗi khi gửi bình luận!', '', 'error');
   }
 };
 
@@ -341,76 +374,76 @@ onMounted(() => {
 
 <style scoped>
 .btn-comment {
-    background-color: #ff0000;
-    color: #fff;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+  background-color: #ff0000;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
-  .btn-comment:hover {
-    background-color: #e60000;
-  }
+.btn-comment:hover {
+  background-color: #e60000;
+}
 
-  /* Hiệu ứng hover cho ảnh sản phẩm */
-  .card img {
-    width: 100%;
-    height: auto;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
+/* Hiệu ứng hover cho ảnh sản phẩm */
+.card img {
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-  /* Khi hover, ảnh sẽ phóng to */
-  .card img:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
+/* Khi hover, ảnh sẽ phóng to */
+.card img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
 
-  .size-options {
-    display: flex;
-    gap: 10px;
-    /* Khoảng cách giữa các nút */
-  }
+.size-options {
+  display: flex;
+  gap: 10px;
+  /* Khoảng cách giữa các nút */
+}
 
-  .size-options label {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
-  }
+.size-options label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
 
-  .size-options input[type="radio"] {
-    display: none;
-  }
+.size-options input[type="radio"] {
+  display: none;
+}
 
-  .size-options span {
-    display: inline-block;
-    padding: 8px 16px;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    font-size: 14px;
-    font-weight: bold;
-    color: #333;
-    transition: all 0.3s ease;
-  }
+.size-options span {
+  display: inline-block;
+  padding: 8px 16px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  transition: all 0.3s ease;
+}
 
-  .size-options input[type="radio"]:checked+span {
-    border-color: #ff0000;
-    background-color: #ff0000;
-    color: #fff;
-  }
+.size-options input[type="radio"]:checked+span {
+  border-color: #ff0000;
+  background-color: #ff0000;
+  color: #fff;
+}
 
-  .size-options span:hover {
-    border-color: #ff0000;
-    background-color: #e6f0ff;
-  }
+.size-options span:hover {
+  border-color: #ff0000;
+  background-color: #e6f0ff;
+}
 
-  .tab-content>.tab-pane {
-    display: block;
-  }
+.tab-content>.tab-pane {
+  display: block;
+}
 
-  .tab-content>.active {
-    display: block;
-  }
+.tab-content>.active {
+  display: block;
+}
 </style>
