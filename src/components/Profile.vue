@@ -42,21 +42,17 @@
           <!-- Account Section -->
           <div class="card-body" v-if="activeTab === 'account'">
             <div class="mb-3">
-              <label for="username" class="form-label">Tên đăng nhập:</label>
-              <input type="text" class="form-control" id="username" v-model="profile.username" disabled />
+              <label for="username" class="form-label">User Name:</label>
+              <input type="text" class="form-control" id="username" v-model="profile.username" />
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Email:</label>
-              <input type="email" class="form-control" id="email" v-model="profile.email" disabled />
+              <input type="email" class="form-control" id="email" v-model="profile.email" />
             </div>
-            <div class="mb-3">
-              <label for="name" class="form-label">Họ tên:</label>
-              <input type="text" class="form-control" id="name" v-model="profile.name" disabled />
-            </div>
-            <div class="mb-3">
-              <label for="phone" class="form-label">Số điện thoại:</label>
-              <input type="text" class="form-control" id="phone" v-model="profile.phone" disabled />
-            </div>
+            
+            <button @click="updateProfile" class="btn btn-primary">
+              Cập nhật thông tin
+            </button>
           </div>
 
           <!-- Profile Section (Address) -->
@@ -160,7 +156,7 @@
           </div>
 
           <!-- Orders Section -->
-          <div class="card-body" v-if="activeTab === 'orders'">
+          <!-- <div class="card-body" v-if="activeTab === 'orders'">
             <button class="btn btn-primary" @click="addNewOrder">
               Thêm Đơn Hàng <font-awesome-icon :icon="['fas', 'plus']" />
             </button>
@@ -188,7 +184,7 @@
                 </tr>
               </tbody>
             </table>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -205,11 +201,73 @@ const API_URL = 'http://127.0.0.1:8000';
 const user_id = localStorage.getItem('user_id');
 const activeTab = ref('account');
 const profile = ref({
-  name: 'Nguyen Van A',
-  email: 'user@example.com',
-  phone: '0901234567',
-  username: 'Username123',
+  username: '',
+  email: ''
 });
+
+const fetchProfile = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/user/profile`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    profile.value = response.data;
+  } catch (error) {
+    console.error('Error fetching profile:', error);
+    alert('Có lỗi xảy ra khi tải thông tin người dùng.');
+  }
+};
+
+const validateProfile = () => {
+  if (!profile.value.username.trim()) {
+    Swal.fire('Lỗi', 'Tên người dùng không được để trống!', 'error');
+    return false;
+  }
+  const usernameRegex = /^[^\s@]+$/;
+  if (!usernameRegex.test(profile.value.username)) {
+    Swal.fire('Lỗi', 'Tên người dùng không hợp lệ!', 'error');
+    return false;
+  }
+  if (!profile.value.email.trim()) {
+    Swal.fire('Lỗi', 'Email không được để trống!', 'error');
+    return false;
+  }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(profile.value.email)) {
+    Swal.fire('Lỗi', 'Địa chỉ email không hợp lệ!', 'error');
+    return false;
+  }
+  return true;
+};
+
+const updateProfile = async () => {
+  if (!validateProfile()) {
+    return;
+  }
+
+  try {
+    const response = await axios.put(
+      `${API_URL}/api/user/profile`,
+      {
+        username: profile.value.username,
+        email: profile.value.email,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+    );
+    profile.value = response.data;
+    Swal.fire('Thành công', 'Cập nhật thông tin thành công', 'success');
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    Swal.fire('Lỗi', 'Đã có lỗi xảy ra khi cập nhật thông tin', 'error');
+  }
+};
+
+
 const orders = ref([
   { id: 1, orderCode: 'ORD001', date: '2024-11-22', status: 'Đang xử lý' },
   { id: 2, orderCode: 'ORD002', date: '2024-11-23', status: 'Đã giao' },
@@ -345,6 +403,7 @@ const viewOrderDetails = (order) => {
 onMounted(() => {
   provinces.value = getProvinces();
   loadAddress();
+  fetchProfile();
 });
 </script>
 
