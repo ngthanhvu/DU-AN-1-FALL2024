@@ -176,7 +176,10 @@ const updateDiscount = async () => {
     if (editingDiscount.value.value <= 0) {
         errors.value.value = 'Phần trăm giảm giá / Số tiền giảm giá phải lớn hơn 0.';
     }
-
+    const specialCharacterRegex = /[^a-zA-Z0-9]/; 
+    if (specialCharacterRegex.test(editingDiscount.value.code)) {
+        errors.value.code = 'Mã giảm giá không được chứa kí tự đặc biệt.';
+    }
     if (!editingDiscount.value.type) {
         errors.value.type = 'Hình thức giảm giá là bắt buộc.';
     }

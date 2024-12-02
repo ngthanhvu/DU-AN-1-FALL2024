@@ -108,7 +108,11 @@ const validateForm = () => {
     errors.value.code = 'Mã giảm giá không được để trống';
     isValid = false;
   }
-
+  const specialCharacterRegex = /[^a-zA-Z0-9]/; 
+  if (specialCharacterRegex.test(discountForm.value.code)) {
+    errors.value.code = 'Mã giảm giá không được chứa kí tự đặc biệt';
+    isValid = false;
+  }
   // Validate value
   if (!discountForm.value.value || discountForm.value.value <= 0) {
     errors.value.value = 'Giá trị giảm giá phải lớn hơn 0';
