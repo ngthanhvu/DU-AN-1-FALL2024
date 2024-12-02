@@ -43,6 +43,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const API_URL = 'http://127.0.0.1:8000';
 
@@ -77,19 +78,30 @@ const deleteComment = async (commentId) => {
   try {
     await axios.delete(`${API_URL}/api/comments/${commentId}`);
     comments.value = comments.value.filter(comment => comment.id !== commentId);
-    alert('Bình luận đã được xóa thành công.');
+    Swal.fire('Thành công', 'Bình luận đã xóa!', 'success');
   } catch (error) {
     console.error('Lỗi khi xóa bình luận:', error);
-    alert('Đã xảy ra lỗi khi xóa bình luận.');
+    Swal.fire('Loi', 'Không thể xóa bình luận', 'error');
   }
 };
 
 const confirmDeleteComment = (commentId) => {
-  const confirmed = window.confirm('Bạn có chắc chắn muốn xóa bình luận này không?');
-  if (confirmed) {
-    deleteComment(commentId);
-  }
+  Swal.fire({
+    title: 'Bạn có chắc chắn?',
+    text: 'Bạn có chắc chắn muốn xóa bình luận này không?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Có, xóa nó!',
+    cancelButtonText: 'Hủy'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      deleteComment(commentId);
+    }
+  });
 };
+
 
 onMounted(fetchProducts);
 </script>

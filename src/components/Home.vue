@@ -94,7 +94,9 @@
     <!-- product1 -->
     <section class="section-3 mt-5">
       <div class="container">
-        <h2 class="text-left fw-bold">Sản phẩm mới nhất <span><img src="https://theadvocatesleague.in/assets/images/new.gif" style="width: 100px; height: 30px; object-fit: cover;"alt=""></span> </h2>
+        <h2 class="text-left fw-bold">Sản phẩm mới nhất <span><img
+              src="https://theadvocatesleague.in/assets/images/new.gif"
+              style="width: 100px; height: 30px; object-fit: cover;" alt=""></span> </h2>
         <div class="row justify-content">
           <!-- Sản phẩm 1 -->
           <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-3" v-for="product in products" :key="product.id">
@@ -124,11 +126,8 @@
       <div class="section_banner_adv">
         <div class="container">
           <div class="text-center row mb-3">
-            <a class="col-12 px-md-0" href="https://b2b.farmersmarket.vn/" title="Quà Tết Doanh Nghiệp">
-              <img class="img-fluid lazyload loaded"
-                src="//theme.hstatic.net/1000141988/1001239110/14/section_hot_banner.png?v=343"
-                data-src="//theme.hstatic.net/1000141988/1001239110/14/section_hot_banner.png?v=343"
-                alt="Quà Tết Doanh Nghiệp" data-was-processed="true">
+            <a class="col-12 px-md-0" href="/san-pham" title="Giảm giá cực sốc!">
+              <img class="img-fluid lazyload" :src="bannerImage" :data-src="bannerImage" alt="Giảm giá cực sốc" />
             </a>
           </div>
         </div>
@@ -232,6 +231,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import bannerImage from '@/components/icons/bannerxx.png';
 
 const API_URL = 'http://127.0.0.1:8000';
 const products = ref([]);
