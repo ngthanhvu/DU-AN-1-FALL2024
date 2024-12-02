@@ -223,4 +223,27 @@ class UserController extends Controller
             ? response()->json(['message' => __($status)], 200)
             : response()->json(['message' => __($status)], 500);
     }
+    public function getProfile(Request $request)
+    {
+        $user = JWTAuth::parseToken()->authenticate();
+
+        return response()->json($user);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = JWTAuth::parseToken()->authenticate();
+        $request->validate([
+            'username' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+        ]);
+
+        $user->update([
+            'username' => $request->username,
+            'email' => $request->email,
+
+        ]);
+
+        return response()->json($user);
+    }
 }
