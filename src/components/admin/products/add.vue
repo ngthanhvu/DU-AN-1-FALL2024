@@ -88,7 +88,8 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const editor = ref(null);
 
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = import.meta.env.VITE_API_URL;
+
 const products = ref([]);
 const categories = ref([]);
 const imageFiles = ref([]);

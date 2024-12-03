@@ -98,7 +98,8 @@ import axios from 'axios';
 import { LineChart, BarChart } from 'vue-chart-3';
 import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, BarElement, CategoryScale, LinearScale, LineController, BarController, PointElement } from 'chart.js';
 
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = import.meta.env.VITE_API_URL;
+
 const users = ref([]);
 const orders = ref([]);
 

@@ -96,6 +96,8 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const discounts = ref([]);
 const editingDiscount = ref(null);
 const isModalVisible = ref(false);
@@ -112,7 +114,7 @@ const errors = ref({
 // Fetch the list of discounts
 const fetchDiscounts = async () => {
     try {
-        const response = await axios.get('http://localhost:8000/api/discounts');
+        const response = await axios.get(`${API_URL}/api/discounts`);
         discounts.value = response.data;
     } catch (error) {
         console.error('Error fetching discounts:', error);
@@ -122,7 +124,7 @@ const fetchDiscounts = async () => {
 // Delete a discount
 const deleteDiscount = async (id) => {
     try {
-        const response = await axios.delete(`http://localhost:8000/api/discounts/${id}`);
+        const response = await axios.delete(`${API_URL}/api/discounts/${id}`);
         Swal.fire({
             icon: 'success',
             title: 'Deleted!',

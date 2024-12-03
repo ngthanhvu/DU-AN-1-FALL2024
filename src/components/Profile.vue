@@ -27,9 +27,9 @@
           <li class="list-group-item" @click="activeTab = 'profile'">
             <span><font-awesome-icon icon="location-dot" /> Địa Chỉ</span>
           </li>
-          <li class="list-group-item" @click="activeTab = 'orders'">
+          <!-- <li class="list-group-item" @click="activeTab = 'orders'">
             <span><font-awesome-icon icon="list" /> Đơn Hàng</span>
-          </li>
+          </li> -->
         </ul>
       </div>
       <div class="col-md-9">

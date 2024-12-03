@@ -43,7 +43,7 @@
         <a href="/" class="logo1">
           <img src="https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/logo.png?1720275862057" alt="Logo">
         </a>
-       
+
         <button @click="closeSidebar" class="btn-close-sidebar-mb">&times;</button>
         <h5 class="mb-3">Danh Mục</h5>
         <div v-for="category in categories" :key="category.id">
@@ -132,7 +132,7 @@
 import { ref, onMounted, watch } from 'vue';
 import axios from 'axios';
 
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const isSidebarOpen = ref(false);
 const products = ref([]);
@@ -153,7 +153,7 @@ const priceRanges = [
   { label: '200k - 300k', min: 200000, max: 300000 },
   { label: '300k - 500k', min: 300000, max: 500000 },
   { label: 'Trên 500k', min: 500000, max: Infinity }
-  
+
 ];
 
 const getProducts = async () => {
@@ -175,7 +175,7 @@ const getProducts = async () => {
   } catch (error) {
     console.error('Error fetching products:', error);
   }
-  closeSidebar(); 
+  closeSidebar();
 
 };
 
@@ -199,12 +199,12 @@ const setPriceRange = (range) => {
 };
 
 const toggleSidebar = () => {
-  isSidebarOpen.value = !isSidebarOpen.value; 
+  isSidebarOpen.value = !isSidebarOpen.value;
 };
 
 const closeSidebar = () => {
   isSidebarOpen.value = false;
-  
+
 };
 
 const formatVND = value => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
@@ -277,5 +277,4 @@ onMounted(() => {
 .filter-price:hover {
   background: #0000000d;
 }
-
 </style>

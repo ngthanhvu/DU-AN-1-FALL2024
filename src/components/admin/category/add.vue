@@ -27,7 +27,8 @@ import { reactive } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-const API_URL = 'http://127.0.0.1:8000/api';
+const API_URL = import.meta.env.VITE_API_URL;
+
 const formData = reactive({
   name: '',
   description: ''
@@ -35,7 +36,7 @@ const formData = reactive({
 
 const handleSubmit = async () => {
   try {
-    const response = await axios.post(`${API_URL}/categories`, formData);
+    const response = await axios.post(`${API_URL}/api/categories`, formData);
     console.log(response.data);
     Swal.fire({
       icon: 'success',

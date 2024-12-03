@@ -84,7 +84,8 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = import.meta.env.VITE_API_URL;
+
 const article = ref({
     title: '',
     author: '',
@@ -98,24 +99,24 @@ const route = useRoute();
 const id = route.params.id;
 
 const fetchArticle = async () => {
-  try {
-    const response = await axios.get(`${API_URL}/api/posts/${id}`);
-    const post = response.data.post;
-    
-    article.value = {
-      title: post.title,
-      author: post.user.username,
-      date: post.created_at,
-      image: post.image,
-      content: post.content,
-    };
+    try {
+        const response = await axios.get(`${API_URL}/api/posts/${id}`);
+        const post = response.data.post;
 
-    const relatedResponse = await axios.get(`${API_URL}/api/posts/related/${post.category_id}`);
-    relatedArticles.value = relatedResponse.data.articles;
+        article.value = {
+            title: post.title,
+            author: post.user.username,
+            date: post.created_at,
+            image: post.image,
+            content: post.content,
+        };
 
-  } catch (error) {
-    console.error('Failed to fetch article or related articles:', error);
-  }
+        const relatedResponse = await axios.get(`${API_URL}/api/posts/related/${post.category_id}`);
+        relatedArticles.value = relatedResponse.data.articles;
+
+    } catch (error) {
+        console.error('Failed to fetch article or related articles:', error);
+    }
 };
 
 

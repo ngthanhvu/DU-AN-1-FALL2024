@@ -58,7 +58,8 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = import.meta.env.VITE_API_URL;
+
 const categories = ref([]);
 const showModal = ref(false);
 const editedCategory = ref({ id: null, name: '' });
