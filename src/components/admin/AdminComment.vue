@@ -3,8 +3,15 @@
     <main>
       <div class="container-fluid px-4" style="margin-top: 80px;">
         <h2 class="mt-4 fw-bold">Quản lý bình luận</h2>
+        <select v-model="selectedCategoryId" @change="fetchCommentsByCategory" class="form-select mt-3">
+          <option value="">Chọn Danh mục cần xem bình luận</option>
+          <option v-for="category in categories" :key="category.id" :value="category.id">
+            {{ category.name }}
+          </option>
+        </select>
+        <div style="height: 2vh"></div>
         <select v-model="selectedProductId" @change="fetchComments" class="form-select">
-          <option value="">Chọn Sản phẩm để xem bình luận</option>
+          <option value="">Chọn Sản phẩm cần xem bình luận</option>
           <option v-for="product in products" :key="product.id" :value="product.id">
             {{ product.name }}
           </option>
@@ -50,6 +57,32 @@ const API_URL = 'http://127.0.0.1:8000';
 const products = ref([]);
 const comments = ref([]);
 const selectedProductId = ref('');
+const categories = ref([]);
+const selectedCategoryId = ref('');
+
+const fetchCategories = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/categories`);
+    categories.value = response.data;
+  } catch (error) {
+    console.error('Lỗi khi lấy danh mục:', error);
+  }
+};
+
+const fetchCommentsByCategory = async () => {
+  if (!selectedCategoryId.value) {
+    fetchComments(); 
+    return;
+  }
+
+  try {
+    const response = await axios.get(`${API_URL}/api/comments/category/${selectedCategoryId.value}`);
+    comments.value = response.data;
+  } catch (error) {
+    console.error('Lỗi khi lọc bình luận:', error);
+  }
+};
+
 
 const fetchProducts = async () => {
   try {
@@ -61,18 +94,19 @@ const fetchProducts = async () => {
 };
 
 const fetchComments = async () => {
-  if (!selectedProductId.value) {
-    comments.value = [];
-    return;
-  }
-
   try {
-    const response = await axios.get(`${API_URL}/api/comments/${selectedProductId.value}`);
+    const endpoint = selectedProductId.value
+      ? `${API_URL}/api/comments/${selectedProductId.value}`
+      : `${API_URL}/api/comments`;
+
+    const response = await axios.get(endpoint);
     comments.value = response.data;
   } catch (error) {
     console.error('Lỗi khi lấy bình luận:', error);
   }
 };
+
+
 
 const deleteComment = async (commentId) => {
   try {
@@ -102,6 +136,10 @@ const confirmDeleteComment = (commentId) => {
   });
 };
 
+onMounted(() => {
+  fetchProducts(); 
+  fetchCategories(); 
+  fetchComments();
+});
 
-onMounted(fetchProducts);
 </script>

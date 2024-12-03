@@ -263,13 +263,14 @@ const validateInput = () => {
   errors.value.name = '';
   errors.value.comment = '';
 
-  const namePattern = /^[a-zA-Z0-9\s]+$/;
+  const namePattern = /^[\p{L}0-9\s]+$/u;
 
   if (!commentData.value.name) {
-    errors.value.name = 'Tên không được để trống.';
-  } else if (!namePattern.test(commentData.value.name)) {
-    errors.value.name = 'Tên không được chứa ký tự đặc biệt.';
-  }
+  errors.value.name = 'Tên không được để trống.';
+} else if (!namePattern.test(commentData.value.name)) {
+  errors.value.name = 'Tên chỉ được chứa chữ cái, số và khoảng trắng, không có ký tự đặc biệt.';
+}
+
 
   if (!commentData.value.comment) {
     errors.value.comment = 'Bình luận không được để trống.';
