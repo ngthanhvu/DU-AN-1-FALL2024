@@ -86,7 +86,7 @@
           </a>
           <div class="collapse" id="collapseOrder" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
             <nav class="sb-sidenav-menu-nested nav">
-              <router-link class="nav-link" to="/admin/discount">Danh sách mã</router-link>
+              <router-link class="nav-link" to="/admin/order">Danh sách đơn hàng</router-link>
             </nav>
           </div>
 

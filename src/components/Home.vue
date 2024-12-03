@@ -233,12 +233,11 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import bannerImage from '@/components/icons/bannerxx.png';
 
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = import.meta.env.VITE_API_URL;
 const products = ref([]);
 const categories = ref([]);
 const posts = ref([]);
 const productByCategory = ref({});
-
 
 const fetchProducts = async () => {
   try {
@@ -251,19 +250,6 @@ const fetchProducts = async () => {
     console.error('Error fetching products:', error);
   }
 };
-
-// const getProductByCategory = async (categoryId) => {
-//   try {
-//     const response = await axios.get(`${API_URL}/api/products/category/${categoryId}`);
-//     productByCategory.value = response.data.map(product => ({
-//       ...product,
-//       image: `http://127.0.0.1:8000/${product.images[0]?.image_path}`
-//     }));
-//     console.log(productByCategory.value);
-//   } catch (error) {
-//     console.error('Error fetching products by category:', error);
-//   }
-// };
 
 const getProductByCategory = async (categoryId) => {
   try {
@@ -346,6 +332,8 @@ onMounted(() => {
   window.addEventListener('resize', updateIsDesktop);
   fetchProducts();
 });
+
+
 </script>
 
 

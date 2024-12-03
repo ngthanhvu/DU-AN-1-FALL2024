@@ -31,6 +31,7 @@
 import { ref, onMounted, shallowRef } from "vue";
 import axios from "axios";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const form = ref({
   title: "",
@@ -82,7 +83,7 @@ const submitForm = async () => {
       console.log(pair[0] + ': ' + pair[1]);
     }
 
-    const response = await axios.post('http://127.0.0.1:8000/api/posts', formData, {
+    const response = await axios.post(`${API_URL}/api/posts`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

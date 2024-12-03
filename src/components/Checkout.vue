@@ -176,7 +176,8 @@ import { getProvinces, getDistricts, getWards } from 'vietnam-provinces';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = import.meta.env.VITE_API_URL;
+
 const cartItems = ref([]);
 
 const selectedAddress = ref(null);

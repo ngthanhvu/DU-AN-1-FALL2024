@@ -56,6 +56,17 @@
           </tbody>
         </table>
 
+        <div class="d-flex justify-content-center mt-3">
+          <button class="btn btn-secondary" :disabled="currentPage === 1" @click="changePage(currentPage - 1)">
+            Trước
+          </button>
+          <span class="mx-2">Trang {{ currentPage }} / {{ totalPages }}</span>
+          <button class="btn btn-secondary" :disabled="currentPage === totalPages" @click="changePage(currentPage + 1)">
+            Sau
+          </button>
+        </div>
+
+
         <!-- Modal Edit Form -->
         <div v-if="isModalVisible" class="modal-overlay" @click="closeModal"></div>
         <div v-if="isModalVisible" class="modal fade show" style="display: block;" tabindex="-1">
@@ -191,7 +202,8 @@ import { ref, reactive, onMounted } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = import.meta.env.VITE_API_URL;
+
 const isModalVisible = ref(false);
 const products = ref([]);
 const categories = ref([]);
