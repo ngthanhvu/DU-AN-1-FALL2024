@@ -34,7 +34,7 @@
         <tbody>
           <tr v-for="(order, index) in orders" :key="order.id">
             <td>{{ index + 1 }}</td>
-            <td>{{ order.id }}</td>
+            <td>#00{{ order.id }}</td>
             <td>{{ formatDate(order.created_at) }}</td>
             <td>
               <span :class="statusClass(order.status)">{{ order.status }}</span>
@@ -55,29 +55,42 @@
     <!-- Chi tiết đơn hàng -->
     <div v-if="selectedOrder" class="order-details mt-4">
       <h3>Chi tiết đơn hàng</h3>
-      <p><strong>Mã đơn hàng:</strong> {{ selectedOrder.id }}</p>
+      <p><strong>Mã đơn hàng:</strong> #00{{ selectedOrder.id }}</p>
       <p><strong>Ngày đặt:</strong> {{ formatDate(selectedOrder.created_at) }}</p>
-      <p><strong>Trạng thái:</strong> {{ selectedOrder.status }}</p>
+      <p>
+        <strong>Trạng thái:</strong>
+        <span class="badge" :class="{
+          'text-bg-warning': selectedOrder.status === 'pending',
+          'text-bg-success': selectedOrder.status === 'paid',
+          'text-bg-danger': selectedOrder.status === 'canceled'
+        }">
+          {{ selectedOrder.status }}
+        </span>
+      </p>
+
       <p><strong>Tổng tiền:</strong> {{ formatCurrency(selectedOrder.total_price) }}</p>
       <h4>Danh sách sản phẩm:</h4>
       <div class="order-items">
-        <div v-for="item in selectedOrder.order_details" :key="item.id" class="order-item d-flex align-items-center mb-3">
+        <div v-for="item in selectedOrder.order_details" :key="item.id"
+          class="order-item d-flex align-items-center mb-3">
           <!-- Hiển thị ảnh sản phẩm -->
-          <img :src="item.product.image" alt="Hình ảnh sản phẩm" class="item-image me-3" />
           <div>
             <p class="mb-1"><strong>{{ item.product.name }}</strong></p>
             <p class="mb-1">Số lượng: {{ item.quantity }}</p>
             <p class="mb-1">Đơn giá: {{ formatCurrency(item.price) }}</p>
             <p class="mb-1">Mô tả: {{ item.product.description }}</p>
           </div>
-          <button class="btn btn-success btn-sm ms-auto" @click="buyAgain(item)">
+          <!-- <button class="btn btn-success btn-sm ms-auto" v-if="item.status === 'paid'" @click="buyAgain(item)">
             Mua lại
-          </button>
+          </button> -->
         </div>
       </div>
-      <button class="btn btn-secondary btn-sm mt-3" @click="selectedOrder = null">
-        Đóng
-      </button>
+      <button class="btn btn-secondary mt-3" @click="selectedOrder = null">Đóng</button>
+      <button class="btn btn-danger mt-3 mx-2" v-if="selectedOrder.status === 'pending'"
+        @click="cancelOrder(selectedOrder.id)">Huỷ đơn</button>
+      <button class="btn btn-success mt-3 mx-2"
+        v-if="selectedOrder.status === 'canceled' || selectedOrder.status === 'paid'"
+        @click="buyAgain(selectedOrder)">Mua lại</button>
     </div>
   </div>
 </template>
@@ -143,6 +156,31 @@ const formatDate = (dateString) => {
   };
   return new Intl.DateTimeFormat('vi-VN', options).format(date);
 }
+
+import Swal from 'sweetalert2';
+
+const cancelOrder = async (orderId) => {
+  const result = await Swal.fire({
+    title: 'Xác nhận hủy',
+    text: 'Bạn có chắc chắn muốn hủy đơn hàng này không?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Hủy đơn hàng',
+    cancelButtonText: 'Không',
+  });
+
+  if (result.isConfirmed) {
+    try {
+      await axios.put(`${API_URL}/api/order/${orderId}`, { status: 'canceled' });
+      fetchOrders();
+      Swal.fire('Đã hủy!', 'Đơn hàng đã được hủy.', 'success');
+    } catch (error) {
+      console.error(error);
+      Swal.fire('Lỗi!', 'Không thể hủy đơn hàng.', 'error');
+    }
+  }
+};
+
 
 onMounted(() => {
   fetchOrders();

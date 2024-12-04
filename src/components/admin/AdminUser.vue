@@ -3,7 +3,7 @@
     <main>
       <div class="container-fluid px-4" style="margin-top: 80px;">
         <h2 class="mt-4">Quản lý người dùng</h2>
-        <table class="table">
+        <table class="table table-hover">
           <thead class="table-dark text-center">
             <tr>
               <th>#</th>

@@ -3,12 +3,12 @@
         <main>
             <div class="container-fluid px-4" style="margin-top: 80px;">
                 <h2 class="mt-4">Quản lý đơn hàng</h2>
-                <table class="table table-bordered mt-3">
+                <table class="table table-bordered mt-3 table-hover">
                     <thead class="table-dark text-center">
                         <tr>
                             <th>#</th>
+                            <th>Mã đơn hàng</th>
                             <th>Họ tên</th>
-                            <th>Email</th>
                             <th>Trạng thái</th>
                             <th>Hành động</th>
                         </tr>
@@ -16,8 +16,8 @@
                     <tbody class="text-center">
                         <tr v-for="(order, index) in pagedOrders" :key="order.id">
                             <td>{{ index + 1 }}</td>
+                            <td>#000{{ order.id }}</td>
                             <td>{{ order.full_name }}</td>
-                            <td>{{ order.email }}</td>
                             <td>
                                 <span v-if="order.status === 'paid'" class="badge text-bg-success">Đã thanh toán</span>
                                 <span v-else-if="order.status === 'pending'"
@@ -59,7 +59,7 @@
                                 :class="{ active: page === currentPage }">
                                 <a class="page-link" href="#" @click.prevent="goToPage(page)">{{
                                     page
-                                }}</a>
+                                    }}</a>
                             </li>
                             <li class="page-item" :class="{ disabled: currentPage === totalPages }">
                                 <a class="page-link" href="#" @click.prevent="goToPage(currentPage + 1)">Next</a>
@@ -80,18 +80,21 @@
                             </div>
                             <div class="modal-body">
                                 <div v-if="selectedOrder">
-                                    <h6>Thông tin đơn hàng:</h6>
+                                    <h4 class="mb-3 text-center fw-bold">Thông tin đơn hàng</h4>
                                     <p><strong>Họ tên:</strong> {{ selectedOrder.full_name }}</p>
-                                    <p><strong>Email:</strong> {{ selectedOrder.email }}</p>
-                                    <p><strong>Địa chỉ:</strong> {{ selectedOrder.address }}</p>
+                                    <p><strong>Email:</strong>+84 {{ selectedOrder.phone }}</p>
+                                    <p><strong>Địa chỉ:</strong> {{ selectedOrder.hamlet }} - {{ selectedOrder.commune
+                                        }} - {{ selectedOrder.district }} - {{ selectedOrder.province }}</p>
                                     <p><strong>Phương thức thanh toán:</strong> {{ selectedOrder.payment_method }}</p>
-                                    <p><strong>Giảm giá:</strong> {{ selectedOrder.discount }} VNĐ</p>
-                                    <p><strong>Tổng giá:</strong> {{ selectedOrder.total_price }} VNĐ</p>
+                                    <p><strong>Giảm giá:</strong> {{ selectedOrder.discount ? selectedOrder.discount : 0
+                                        }} VNĐ</p>
+                                    <p><strong>Tổng giá:</strong> {{ formatVND(selectedOrder.total_price) }} VNĐ</p>
 
                                     <h6>Sản phẩm trong đơn hàng:</h6>
                                     <ul>
                                         <li v-for="(detail, index) in selectedOrder.order_details" :key="detail.id">
-                                            <strong>{{ detail.product.name }}</strong> - Giá: {{ detail.price }} VNĐ -
+                                            <strong>{{ detail.product.name }}</strong> - Giá: {{ formatVND(detail.price)
+                                            }} VNĐ -
                                             Số lượng: {{
                                                 detail.quantity }}
                                         </li>
@@ -126,6 +129,7 @@
                                     <select v-model="newStatus" class="form-select">
                                         <option value="pending">Đang chờ thanh toán</option>
                                         <option value="paid">Đã thanh toán</option>
+                                        <option value="canceled">Huỷ đơn</option>
                                     </select>
                                 </div>
                             </div>
@@ -243,6 +247,8 @@ const deleteOrder = async (orderId) => {
         }
     }
 };
+
+const formatVND = value => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
 
 onMounted(() => {
     fetchOrders();

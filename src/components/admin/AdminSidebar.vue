@@ -102,6 +102,12 @@
             </nav>
           </div>
 
+          <div class="sb-sidenav-menu-heading">debug / log</div>
+          <router-link class="nav-link" to="/admin/log">
+            <div class="sb-nav-link-icon"><font-awesome-icon :icon="['fas', 'bug']" /></div>
+            Log
+          </router-link>
+
         </div>
       </div>
     </nav>

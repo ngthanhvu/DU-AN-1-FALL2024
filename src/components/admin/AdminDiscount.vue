@@ -4,7 +4,7 @@
             <div class="container-fluid px-4" style="margin-top: 80px;">
                 <h2>Danh sách mã giảm giá</h2>
                 <!-- Discounts Table -->
-                <table v-if="discounts.length" class="table table-bordered">
+                <table v-if="discounts.length" class="table table-bordered table-hover">
                     <thead class="table-dark">
                         <tr>
                             <th>Code</th>
@@ -51,7 +51,7 @@
                                 :class="{ active: page === currentPage }">
                                 <a class="page-link" href="#" @click.prevent="goToPage(page)">{{
                                     page
-                                    }}</a>
+                                }}</a>
                             </li>
                             <li class="page-item" :class="{ disabled: currentPage === totalPages }">
                                 <a class="page-link" href="#" @click.prevent="goToPage(currentPage + 1)">Next</a>
