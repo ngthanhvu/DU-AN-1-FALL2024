@@ -34,24 +34,14 @@
               <td>{{ product.quantity }}</td>
 
               <td>
-                <img
-                  v-if="product.images && product.images.length"
-                  :src="`${API_URL}/storage/${getPrimaryImage(product.images)}`"
-                  alt="Primary Image"
-                  class="product-image mx-auto"
-                  style="width: 200px; height: 200px; object-fit: cover"
-                />
+                <img v-if="product.images && product.images.length"
+                  :src="`${API_URL}/storage/${getPrimaryImage(product.images)}`" alt="Primary Image"
+                  class="product-image mx-auto" style="width: 200px; height: 200px; object-fit: cover" />
               </td>
               <td>
                 <div class="d-flex flex-wrap gap-2 justify-content-center">
-                  <img
-                    v-for="image in product.images"
-                    :key="image.id"
-                    :src="`${API_URL}/storage/${image.image_path}`"
-                    alt="Product Image"
-                    class="product-image"
-                    style="width: 50px; height: 50px; object-fit: cover"
-                  />
+                  <img v-for="image in product.images" :key="image.id" :src="`${API_URL}/storage/${image.image_path}`"
+                    alt="Product Image" class="product-image" style="width: 50px; height: 50px; object-fit: cover" />
                 </div>
               </td>
               <td>
@@ -64,10 +54,7 @@
                   <font-awesome-icon :icon="['fas', 'pen-to-square']" />
                 </button>
                 |
-                <button
-                  class="btn btn-danger"
-                  @click="deleteProduct(product.id)"
-                >
+                <button class="btn btn-danger" @click="deleteProduct(product.id)">
                   <font-awesome-icon :icon="['far', 'trash-can']" />
                 </button>
               </td>
@@ -78,104 +65,65 @@
           </tbody>
         </table>
 
+        <!-- Phân trang  -->
         <div class="d-flex justify-content-center mt-3">
-          <button
-            class="btn btn-secondary"
-            :disabled="currentPage === 1"
-            @click="goToPage(currentPage - 1)"
-          >
-            Trước
-          </button>
-          <span class="mx-2">Trang {{ currentPage }} / {{ totalPages }}</span>
-          <button
-            class="btn btn-secondary"
-            :disabled="currentPage === totalPages"
-            @click="goToPage(currentPage + 1)"
-          >
-            Sau
-          </button>
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                <a class="page-link" href="#" @click.prevent="goToPage(currentPage - 1)">Previous</a>
+              </li>
+              <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
+                <a class="page-link" href="#" @click.prevent="goToPage(page)">{{
+                  page
+                }}</a>
+              </li>
+              <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                <a class="page-link" href="#" @click.prevent="goToPage(currentPage + 1)">Next</a>
+              </li>
+            </ul>
+          </nav>
         </div>
 
         <!-- Modal Edit Form -->
-        <div
-          v-if="isModalVisible"
-          class="modal-overlay"
-          @click="closeModal"
-        ></div>
-        <div
-          v-if="isModalVisible"
-          class="modal fade show"
-          style="display: block"
-          tabindex="-1"
-        >
+        <div v-if="isModalVisible" class="modal-overlay" @click="closeModal"></div>
+        <div v-if="isModalVisible" class="modal fade show" style="display: block" tabindex="-1">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Chỉnh sửa sản phẩm</h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  @click="closeModal"
-                ></button>
+                <button type="button" class="btn-close" @click="closeModal"></button>
               </div>
               <form @submit.prevent="handleSubmit">
                 <div class="modal-body">
                   <!-- Tên sản phẩm -->
                   <div class="mb-3">
                     <label class="form-label">Tên sản phẩm:</label>
-                    <input
-                      v-model="formData.name"
-                      type="text"
-                      class="form-control"
-                      required
-                    />
+                    <input v-model="formData.name" type="text" class="form-control" required />
                   </div>
 
                   <!-- Giá sản phẩm -->
                   <div class="mb-3">
                     <label class="form-label">Giá sản phẩm:</label>
-                    <input
-                      v-model="formData.price"
-                      type="number"
-                      class="form-control"
-                      required
-                    />
+                    <input v-model="formData.price" type="number" class="form-control" required />
                   </div>
 
                   <!-- Mô tả -->
                   <div class="mb-3">
                     <label class="form-label">Mô tả sản phẩm:</label>
-                    <textarea
-                      v-model="formData.description"
-                      class="form-control"
-                      rows="3"
-                    ></textarea>
+                    <textarea v-model="formData.description" class="form-control" rows="3"></textarea>
                   </div>
 
                   <!-- Số lượng -->
                   <div class="mb-3">
                     <label class="form-label">Số lượng:</label>
-                    <input
-                      v-model="formData.quantity"
-                      type="number"
-                      class="form-control"
-                      required
-                    />
+                    <input v-model="formData.quantity" type="number" class="form-control" required />
                   </div>
 
                   <!-- Category -->
                   <div class="mb-3">
                     <label class="form-label">Danh mục:</label>
-                    <select
-                      v-model="formData.category_id"
-                      class="form-select"
-                      required
-                    >
-                      <option
-                        v-for="category in categories"
-                        :key="category.id"
-                        :value="category.id"
-                      >
+                    <select v-model="formData.category_id" class="form-select" required>
+                      <option v-for="category in categories" :key="category.id" :value="category.id">
                         {{ category.name }}
                       </option>
                     </select>
@@ -184,28 +132,15 @@
                   <!-- SKUs -->
                   <div class="mb-3">
                     <label class="form-label">SKUs:</label>
-                    <div
-                      v-for="(sku, index) in formData.skus"
-                      :key="index"
-                      class="card mb-3 p-3"
-                    >
+                    <div v-for="(sku, index) in formData.skus" :key="index" class="card mb-3 p-3">
                       <div class="row g-3">
                         <div class="col-md-6">
                           <label class="form-label">Mã SKU:</label>
-                          <input
-                            v-model="sku.sku_code"
-                            type="text"
-                            class="form-control"
-                            required
-                          />
+                          <input v-model="sku.sku_code" type="text" class="form-control" required />
                         </div>
                         <div class="col-md-6">
                           <label class="form-label">Size:</label>
-                          <input
-                            v-model="sku.size"
-                            type="text"
-                            class="form-control"
-                          />
+                          <input v-model="sku.size" type="text" class="form-control" />
                         </div>
                         <!-- <div class="col-md-6">
                           <label class="form-label">Màu sắc:</label>
@@ -213,27 +148,14 @@
                         </div> -->
                         <div class="col-md-6">
                           <label class="form-label">Số lượng tồn:</label>
-                          <input
-                            v-model="sku.stock"
-                            type="number"
-                            class="form-control"
-                            required
-                          />
+                          <input v-model="sku.stock" type="number" class="form-control" required />
                         </div>
                       </div>
-                      <button
-                        type="button"
-                        class="btn btn-danger mt-2"
-                        @click="removeSku(index)"
-                      >
+                      <button type="button" class="btn btn-danger mt-2" @click="removeSku(index)">
                         Xóa SKU
                       </button>
                     </div>
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      @click="addSku"
-                    >
+                    <button type="button" class="btn btn-secondary" @click="addSku">
                       Thêm SKU
                     </button>
                   </div>
@@ -242,21 +164,11 @@
                   <div v-if="formData.images.length" class="mb-3">
                     <label class="form-label">Hình ảnh hiện tại:</label>
                     <div class="d-flex flex-wrap gap-2">
-                      <div
-                        v-for="image in formData.images"
-                        :key="image.id"
-                        class="position-relative"
-                      >
-                        <img
-                          :src="`${API_URL}/storage/${image.image_path}`"
-                          class="product-image"
-                          style="width: 100px; height: 100px; object-fit: cover"
-                        />
-                        <button
-                          type="button"
-                          class="btn btn-danger btn-sm position-absolute top-0 end-0"
-                          @click="removeImage(image.id)"
-                        >
+                      <div v-for="image in formData.images" :key="image.id" class="position-relative">
+                        <img :src="`${API_URL}/storage/${image.image_path}`" class="product-image"
+                          style="width: 100px; height: 100px; object-fit: cover" />
+                        <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0"
+                          @click="removeImage(image.id)">
                           X
                         </button>
                       </div>
@@ -266,35 +178,18 @@
                   <!-- Upload hình ảnh mới -->
                   <div class="mb-3">
                     <label class="form-label">Thêm hình ảnh mới:</label>
-                    <input
-                      type="file"
-                      class="form-control"
-                      @change="handleFileChange"
-                      multiple
-                      accept="image/*"
-                    />
+                    <input type="file" class="form-control" @change="handleFileChange" multiple accept="image/*" />
                   </div>
 
                   <!-- Chọn ảnh chính -->
                   <div class="mb-3">
                     <label class="form-label">Ảnh chính:</label>
-                    <select
-                      v-model="formData.primary_image"
-                      class="form-select"
-                    >
+                    <select v-model="formData.primary_image" class="form-select">
                       <option value="">Chọn ảnh chính</option>
-                      <option
-                        v-for="image in formData.images"
-                        :key="image.id"
-                        :value="image.image_path"
-                      >
+                      <option v-for="image in formData.images" :key="image.id" :value="image.image_path">
                         {{ image.image_path }}
                       </option>
-                      <option
-                        v-for="(file, index) in imageFiles"
-                        :key="'new-' + index"
-                        :value="file.name"
-                      >
+                      <option v-for="(file, index) in imageFiles" :key="'new-' + index" :value="file.name">
                         {{ file.name }} (Ảnh mới)
                       </option>
                     </select>
@@ -302,11 +197,7 @@
                 </div>
 
                 <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-secondary"
-                    @click="closeModal"
-                  >
+                  <button type="button" class="btn btn-secondary" @click="closeModal">
                     Đóng
                   </button>
                   <button type="submit" class="btn btn-primary">

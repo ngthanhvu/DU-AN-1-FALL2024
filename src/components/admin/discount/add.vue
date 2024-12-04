@@ -5,50 +5,53 @@
         <h2 class="mt-4">Thêm mã giảm giá</h2>
 
         <form @submit.prevent="submitForm">
-          <div class="form-group">
-            <label for="code">Nhập mã (code):</label>
-            <input type="text" id="code" v-model="discountForm.code" :class="{ 'is-invalid': errors.code }" />
-            <span v-if="errors.code" class="error-message">{{ errors.code }}</span>
+          <div class="mb-3">
+            <label for="code" class="form-label">Nhập mã (code):</label>
+            <input type="text" id="code" v-model="discountForm.code" class="form-control"
+              :class="{ 'is-invalid': errors.code }" placeholder="Mã giảm giá" />
+            <div v-if="errors.code" class="invalid-feedback">{{ errors.code }}</div>
           </div>
 
-          <div class="form-group">
-            <label for="value">Phần trăm / Số tiền muốn giảm:</label>
-            <input type="number" id="value" v-model="discountForm.value" :class="{ 'is-invalid': errors.value }" />
-            <span v-if="errors.value" class="error-message">{{ errors.value }}</span>
+          <div class="mb-3">
+            <label for="value" class="form-label">Phần trăm / Số tiền muốn giảm:</label>
+            <input type="number" id="value" v-model="discountForm.value" class="form-control"
+              :class="{ 'is-invalid': errors.value }" placeholder="Giá trị giảm giá" />
+            <div v-if="errors.value" class="invalid-feedback">{{ errors.value }}</div>
           </div>
 
-          <div class="form-group">
-            <label for="type">Hình thức giảm giá:</label>
-            <select id="type" v-model="discountForm.type" :class="{ 'is-invalid': errors.type }">
+          <div class="mb-3">
+            <label for="type" class="form-label">Hình thức giảm giá:</label>
+            <select id="type" v-model="discountForm.type" class="form-select" :class="{ 'is-invalid': errors.type }">
               <option value="percentage">Giảm theo %</option>
               <option value="fixed">Giảm theo số tiền cố định</option>
             </select>
-            <span v-if="errors.type" class="error-message">{{ errors.type }}</span>
+            <div v-if="errors.type" class="invalid-feedback">{{ errors.type }}</div>
           </div>
 
-          <div class="form-group">
-            <label for="expires_at">Ngày hết hạn:</label>
-            <input type="date" id="expires_at" v-model="discountForm.expires_at"
+          <div class="mb-3">
+            <label for="expires_at" class="form-label">Ngày hết hạn:</label>
+            <input type="date" id="expires_at" v-model="discountForm.expires_at" class="form-control"
               :class="{ 'is-invalid': errors.expires_at }" />
-            <span v-if="errors.expires_at" class="error-message">{{ errors.expires_at }}</span>
+            <div v-if="errors.expires_at" class="invalid-feedback">{{ errors.expires_at }}</div>
           </div>
 
-          <div class="form-group">
-            <label for="usage_limit">Giới hạn sử dụng:</label>
-            <input type="number" id="usage_limit" v-model="discountForm.usage_limit"
-              :class="{ 'is-invalid': errors.usage_limit }" />
-            <span v-if="errors.usage_limit" class="error-message">{{ errors.usage_limit }}</span>
+          <div class="mb-3">
+            <label for="usage_limit" class="form-label">Giới hạn sử dụng:</label>
+            <input type="number" id="usage_limit" v-model="discountForm.usage_limit" class="form-control"
+              :class="{ 'is-invalid': errors.usage_limit }" placeholder="Giới hạn sử dụng" />
+            <div v-if="errors.usage_limit" class="invalid-feedback">{{ errors.usage_limit }}</div>
           </div>
 
-          <button type="submit">Thêm mã giảm giá</button>
+          <button type="submit" class="btn btn-primary">Thêm mã giảm giá</button>
 
-          <div v-if="message" :class="{ 'success': success, 'error': !success }">
+          <div v-if="message" :class="{ 'alert alert-success': success, 'alert alert-danger': !success }">
             {{ message }}
           </div>
         </form>
+
       </div>
     </main>
-    <div style="height: 30vh"></div>
+    <div style="height: 50vh"></div>
   </div>
 </template>
 
@@ -162,59 +165,3 @@ const submitForm = async () => {
   }
 };
 </script>
-
-
-<style scoped>
-.add-discount {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-input,
-select {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-input.is-invalid,
-select.is-invalid {
-  border-color: red;
-}
-
-.error-message {
-  color: red;
-  font-size: 12px;
-}
-
-button {
-  padding: 10px 15px;
-  background-color: #4c93af;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #33abcd;
-}
-
-.success {
-  color: green;
-}
-
-.error {
-  color: red;
-}
-</style>

@@ -23,7 +23,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(post, index) in posts" :key="post.id">
+              <tr v-for="(post, index) in pagedPosts" :key="post.id">
                 <td class="text-center">{{ index + 1 }}</td>
                 <td>{{ post.title }}</td>
                 <td>{{ truncateContent(post.content) }}</td>
@@ -46,6 +46,24 @@
               </tr>
             </tbody>
           </table>
+          <!-- phân trang -->
+          <div class="d-flex justify-content-center mt-3">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                  <a class="page-link" href="#" @click.prevent="goToPage(currentPage - 1)">Previous</a>
+                </li>
+                <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
+                  <a class="page-link" href="#" @click.prevent="goToPage(page)">{{
+                    page
+                  }}</a>
+                </li>
+                <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                  <a class="page-link" href="#" @click.prevent="goToPage(currentPage + 1)">Next</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
 
         <!-- Edit Post Modal -->
@@ -90,7 +108,7 @@
 
 <script setup>
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 const editingPost = ref({
   id: null,
   title: '',
@@ -102,6 +120,25 @@ const showEditModal = ref(false);
 const API_URL = import.meta.env.VITE_API_URL;
 
 const posts = ref([]);
+
+const itemsPerPage = 10;
+const currentPage = ref(1);
+
+const totalPages = computed(() => {
+  return Math.ceil(posts.value.length / itemsPerPage);
+});
+
+const pagedPosts = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return posts.value.slice(start, end);
+});
+
+const goToPage = (page) => {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page;
+  }
+};
 
 const fetchPosts = async () => {
   try {
@@ -154,7 +191,7 @@ const updatePost = async () => {
 
     const response = await axios.put(`${API_URL}/api/posts/${editingPost.value.id}`, formData);
     const index = posts.value.findIndex(post => post.id === editingPost.value.id);
-    posts.value[index] = response.data.post;  
+    posts.value[index] = response.data.post;
     showEditModal.value = false;
     alert('Bài viết đã được cập nhật!');
   } catch (error) {

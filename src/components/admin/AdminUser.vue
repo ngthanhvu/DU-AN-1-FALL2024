@@ -14,7 +14,7 @@
             </tr>
           </thead>
           <tbody class="text-center">
-            <tr v-for="(user, index) in users" :key="index">
+            <tr v-for="(user, index) in pagedUsers" :key="index">
               <td>{{ index + 1 }}</td>
               <td>{{ user.username }}</td>
               <td>{{ user.email }}</td>
@@ -31,6 +31,25 @@
             </tr>
           </tbody>
         </table>
+
+        <!-- phân trang -->
+        <div class="d-flex justify-content-center mt-3">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                <a class="page-link" href="#" @click.prevent="goToPage(currentPage - 1)">Previous</a>
+              </li>
+              <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
+                <a class="page-link" href="#" @click.prevent="goToPage(page)">{{
+                  page
+                }}</a>
+              </li>
+              <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                <a class="page-link" href="#" @click.prevent="goToPage(currentPage + 1)">Next</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
 
         <!-- Modal hiển thị bằng v-if -->
         <div v-if="isModalVisible" class="modal-overlay">
@@ -63,7 +82,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
@@ -74,6 +93,24 @@ const token = localStorage.getItem('token');
 const selectedUser = ref({});
 const isModalVisible = ref(false);
 
+const itemsPerPage = 10;
+const currentPage = ref(1);
+
+const totalPages = computed(() => {
+  return Math.ceil(users.value.length / itemsPerPage);
+});
+
+const pagedUsers = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return users.value.slice(start, end);
+});
+
+const goToPage = (page) => {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page;
+  }
+};
 const fetchUsers = async () => {
   try {
     const response = await axios.get(`${API_URL}/api/admin/users`, {

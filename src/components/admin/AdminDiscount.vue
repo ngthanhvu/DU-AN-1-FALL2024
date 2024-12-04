@@ -17,7 +17,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="discount in discounts" :key="discount.id">
+                        <tr v-for="discount in pagedDiscounts" :key="discount.id">
                             <td>{{ discount.code }}</td>
                             <td>{{ discount.value }}</td>
                             <td>{{ discount.type }}</td>
@@ -36,8 +36,28 @@
                     </tbody>
                 </table>
 
+
                 <div v-else>
                     <p>No discount codes available.</p>
+                </div>
+                <!-- phân trang -->
+                <div class="d-flex justify-content-center mt-3">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                                <a class="page-link" href="#" @click.prevent="goToPage(currentPage - 1)">Previous</a>
+                            </li>
+                            <li class="page-item" v-for="page in totalPages" :key="page"
+                                :class="{ active: page === currentPage }">
+                                <a class="page-link" href="#" @click.prevent="goToPage(page)">{{
+                                    page
+                                    }}</a>
+                            </li>
+                            <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                                <a class="page-link" href="#" @click.prevent="goToPage(currentPage + 1)">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
 
                 <!-- Modal for Edit Form -->
@@ -58,7 +78,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="value">Phần trăm giảm giá / Số tiền giảm giá</label>
-                                        <input type="number" v-model="editingDiscount.value" class="form-control" min="0" />
+                                        <input type="number" v-model="editingDiscount.value" class="form-control"
+                                            min="0" />
                                         <div v-if="errors.value" class="text-danger">{{ errors.value }}</div>
                                     </div>
                                     <div class="form-group">
@@ -75,8 +96,10 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="usage_limit">Giới hạn sử dụng</label>
-                                        <input type="number" v-model="editingDiscount.usage_limit" class="form-control" min="1" />
-                                        <div v-if="errors.usage_limit" class="text-danger">{{ errors.usage_limit }}</div>
+                                        <input type="number" v-model="editingDiscount.usage_limit" class="form-control"
+                                            min="1" />
+                                        <div v-if="errors.usage_limit" class="text-danger">{{ errors.usage_limit }}
+                                        </div>
                                     </div>
                                     <button type="submit" class="btn btn-success" style="width: 100%;">Cập nhật</button>
                                 </form>
@@ -92,7 +115,7 @@
 
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
@@ -110,6 +133,25 @@ const errors = ref({
     expires_at: '',
     usage_limit: '',
 });
+
+const itemsPerPage = 10;
+const currentPage = ref(1);
+
+const totalPages = computed(() => {
+    return Math.ceil(discounts.value.length / itemsPerPage);
+});
+
+const pagedDiscounts = computed(() => {
+    const start = (currentPage.value - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    return discounts.value.slice(start, end);
+});
+
+const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages.value) {
+        currentPage.value = page;
+    }
+};
 
 // Fetch the list of discounts
 const fetchDiscounts = async () => {
@@ -178,7 +220,7 @@ const updateDiscount = async () => {
     if (editingDiscount.value.value <= 0) {
         errors.value.value = 'Phần trăm giảm giá / Số tiền giảm giá phải lớn hơn 0.';
     }
-    const specialCharacterRegex = /[^a-zA-Z0-9]/; 
+    const specialCharacterRegex = /[^a-zA-Z0-9]/;
     if (specialCharacterRegex.test(editingDiscount.value.code)) {
         errors.value.code = 'Mã giảm giá không được chứa kí tự đặc biệt.';
     }

@@ -14,7 +14,7 @@
                         </tr>
                     </thead>
                     <tbody class="text-center">
-                        <tr v-for="(order, index) in orders" :key="order.id">
+                        <tr v-for="(order, index) in pagedOrders" :key="order.id">
                             <td>{{ index + 1 }}</td>
                             <td>{{ order.full_name }}</td>
                             <td>{{ order.email }}</td>
@@ -48,6 +48,26 @@
                     </tbody>
                 </table>
 
+                <!-- phân trang -->
+                <div class="d-flex justify-content-center mt-3">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                                <a class="page-link" href="#" @click.prevent="goToPage(currentPage - 1)">Previous</a>
+                            </li>
+                            <li class="page-item" v-for="page in totalPages" :key="page"
+                                :class="{ active: page === currentPage }">
+                                <a class="page-link" href="#" @click.prevent="goToPage(page)">{{
+                                    page
+                                }}</a>
+                            </li>
+                            <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                                <a class="page-link" href="#" @click.prevent="goToPage(currentPage + 1)">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
                 <!-- Modal Chi tiết đơn hàng -->
                 <div v-if="isModalOpen" class="overlay" @click="closeModal"></div>
                 <div v-if="isModalOpen" class="modal fade show" tabindex="-1" style="display: block;"
@@ -73,7 +93,7 @@
                                         <li v-for="(detail, index) in selectedOrder.order_details" :key="detail.id">
                                             <strong>{{ detail.product.name }}</strong> - Giá: {{ detail.price }} VNĐ -
                                             Số lượng: {{
-                                            detail.quantity }}
+                                                detail.quantity }}
                                         </li>
                                     </ul>
                                 </div>
@@ -125,8 +145,9 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -137,6 +158,25 @@ const isModalOpen = ref(false);
 const isStatusModalOpen = ref(false);
 const selectedOrder = ref(null);
 const newStatus = ref('');
+
+const itemsPerPage = 10;
+const currentPage = ref(1);
+
+const totalPages = computed(() => {
+    return Math.ceil(orders.value.length / itemsPerPage);
+});
+
+const pagedOrders = computed(() => {
+    const start = (currentPage.value - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    return orders.value.slice(start, end);
+});
+
+const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages.value) {
+        currentPage.value = page;
+    }
+};
 
 const fetchOrders = async () => {
     try {
@@ -172,13 +212,35 @@ const closeStatusModal = () => {
 
 const updateStatus = async (orderId, newStatus) => {
     try {
-        const response = await axios.put(`${API_URL}/api/orders/${orderId}`, { status: newStatus });
+        const response = await axios.put(`${API_URL}/api/order/${orderId}`, { status: newStatus });
         if (response.status === 200) {
             fetchOrders();
             closeStatusModal();
         }
     } catch (error) {
         console.error('Không thể cập nhật trạng thái đơn hàng:', error);
+    }
+};
+
+const deleteOrder = async (orderId) => {
+    const result = await Swal.fire({
+        title: 'Xác nhận xoá',
+        text: 'Bạn có chắc chắn muốn xoá đơn hàng này không?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Xoá',
+        cancelButtonText: 'Hủy',
+    });
+
+    if (result.isConfirmed) {
+        try {
+            const response = await axios.delete(`${API_URL}/api/order/${orderId}`);
+            fetchOrders();
+            Swal.fire('Đã xoá!', 'Đơn hàng đã được xoá.', 'success');
+        } catch (error) {
+            console.error('Không thể xoá đơn hàng:', error);
+            Swal.fire('Lỗi!', 'Không thể xoá đơn hàng.', 'error');
+        }
     }
 };
 

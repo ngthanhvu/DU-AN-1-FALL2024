@@ -152,37 +152,37 @@
                   </li>
                 </ul>
                 <!-- Form đánh giá -->
-                 <div class="review-form-title">
+                <div class="review-form-title">
 
-                   <form @submit.prevent="submitReview" class="review-form-container">
-                     <div class="review-form">
-                       <textarea v-model="reviewText" class="review-textarea"
-                         placeholder="Hãy viết đánh giá của bạn..."></textarea>
-                       <div v-if="errors.review" class="error-message text-danger">{{ errors.review }}</div>
-   
-                       <!-- Chọn sao -->
-                       <div class="rating-stars">
-                         <label for="rating" class="rating-label">Đánh giá: </label>
-                         <div class="stars">
-                           <span v-for="star in 5" :key="star" @click="rating = star"
-                             :class="{ 'star-filled': star <= rating }" class="star">
-                             ★
-                           </span>
-                         </div>
-                       </div>
-   
-                       <div v-if="errors.rating" class="error-message text-danger">{{ errors.rating }}</div>
-   
-                       <!-- Upload ảnh -->
-                       <div class="file-upload">
-                         <input type="file" id="review-image" @change="onFileChange" />
-                       </div>
-   
-                       <!-- Nút gửi đánh giá -->
-                       <button class="btn-submit" :disabled="submittingReview">Gửi Đánh Giá</button>
-                     </div>
-                   </form>
-                 </div>
+                  <form @submit.prevent="submitReview" class="review-form-container">
+                    <div class="review-form">
+                      <textarea v-model="reviewText" class="review-textarea"
+                        placeholder="Hãy viết đánh giá của bạn..."></textarea>
+                      <div v-if="errors.review" class="error-message text-danger">{{ errors.review }}</div>
+
+                      <!-- Chọn sao -->
+                      <div class="rating-stars">
+                        <label for="rating" class="rating-label">Đánh giá: </label>
+                        <div class="stars">
+                          <span v-for="star in 5" :key="star" @click="rating = star"
+                            :class="{ 'star-filled': star <= rating }" class="star">
+                            ★
+                          </span>
+                        </div>
+                      </div>
+
+                      <div v-if="errors.rating" class="error-message text-danger">{{ errors.rating }}</div>
+
+                      <!-- Upload ảnh -->
+                      <div class="file-upload">
+                        <input type="file" id="review-image" @change="onFileChange" />
+                      </div>
+
+                      <!-- Nút gửi đánh giá -->
+                      <button class="btn-submit" :disabled="submittingReview">Gửi Đánh Giá</button>
+                    </div>
+                  </form>
+                </div>
 
                 <!-- Danh sách đánh giá -->
                 <div class="review-list" id="review-listing">
@@ -371,7 +371,7 @@ const fetchProduct = async () => {
 
 const fetchComments = async () => {
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/comments/${route.params.id}`);
+    const response = await axios.get(`${API_URL}/api/comments/${route.params.id}`);
     comments.value = response.data;
   } catch (error) {
     console.error('Error fetching comments:', error);
@@ -933,22 +933,21 @@ onMounted(() => {
   width: 100%;
   flex-wrap: wrap;
 }
+
 .btn-view-all {
-    padding: 10px 20px; 
-    font-size: 16px; 
-    font-weight: bold;
-    background-color: #ff0000; 
-    color: white;
-    border: none; 
-    border-radius: 5px; 
-    cursor: pointer; 
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .btn-view-all:hover {
-    background-color: #ff0000;
-    transform: translateY(-2px);
+  background-color: #ff0000;
+  transform: translateY(-2px);
 }
-
-
 </style>
