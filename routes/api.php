@@ -16,6 +16,7 @@ use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ReviewController;
 
 /*
 |---------------------------------------------------------------------------
@@ -94,6 +95,14 @@ Route::get('/products/category/{categoryId}', [ProductController::class, 'getPro
 Route::get('comments/{productId}', [CommentController::class, 'getComments']);
 Route::post('/comments', [CommentController::class, 'store']);
 Route::delete('/comments/{commentId}', [CommentController::class, 'deleteComment']);
+Route::get('/comments', [CommentController::class, 'index']);
+Route::get('/comments/category/{categoryId}', [CommentController::class, 'getCommentsByCategory']);
 
 Route::middleware('auth:api')->get('/user/profile', [UserController::class, 'getProfile']);
 Route::middleware('auth:api')->put('/user/profile', [UserController::class, 'updateProfile']);
+
+
+Route::post('/reviews', [ReviewController::class, 'store']);
+Route::post('/reviews/{review}/like', [ReviewController::class, 'like']);
+Route::get('/reviews', [ReviewController::class, 'index']);
+Route::get('/reviews/product/{productId}', [ReviewController::class, 'getReviewsByProduct']);
