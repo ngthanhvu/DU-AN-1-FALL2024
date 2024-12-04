@@ -1214,4 +1214,382 @@ footer .footer .logo {
     margin: -65px 0 auto;
   }
   
-  
+  /* đánh giá */
+  .product-reviews {
+    margin: 30px auto;
+    font-family: 'Arial', sans-serif;
+    max-width: 1200px;
+    padding: 0 15px;
+}
+
+.review-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.review-username {
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.review-rating {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.review-rating .star-filled {
+    color: #ff0000;
+    font-size: 18px;
+}
+
+.review-rating .star-empty {
+    color: #ddd;
+    font-size: 18px;
+}
+
+.review-text {
+    font-size: 14px;
+    color: #555;
+    margin-top: 10px;
+    line-height: 1.5;
+    word-wrap: break-word;
+}
+
+.review-image {
+    width: 100%;
+    max-width: 100px;
+    height: auto;
+    margin-top: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    object-fit: contain;
+}
+
+.btn-like {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: red;
+    font-size: 16px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.btn-like:hover {
+    color: darkred;
+}
+
+.point {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.point-average {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.iconcmt-allstar {
+    color: gold;
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.point-average-container {
+    display: flex;
+    align-items: baseline;
+}
+
+.point-average-score {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-right: 5px;
+}
+
+.point-average-total {
+    font-size: 16px;
+    color: #888;
+}
+
+.point-satisfied-container {
+    margin-top: 10px;
+}
+
+.point-satisfied {
+    font-size: 14px;
+    color: #333;
+}
+
+.point-alltimerate {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #888;
+}
+
+.rate-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.rate-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.number-star {
+    font-size: 16px;
+    color: #333;
+    margin-right: 10px;
+}
+
+
+.heading {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.product-reviews-section {
+    font-family: Arial, sans-serif;
+}
+
+.heading {
+    font-size: 24px;
+    font-weight: bold;
+    color: #e74c3c;
+    /* Màu đỏ nổi bật cho tiêu đề */
+    margin-bottom: 20px;
+}
+
+.point {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.point-average {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.iconcmt-allstar {
+    color: #ff0000;
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.point-average-container {
+    display: flex;
+    align-items: center;
+}
+
+.point-average-score {
+    font-size: 32px;
+    font-weight: bold;
+    color: #ff0000
+}
+
+.point-average-total {
+    font-size: 26px;
+    color: #555;
+}
+
+.point-satisfied-container {
+    margin-top: 10px;
+}
+
+
+
+.rate-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.rate-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.number-star {
+    font-size: 18px;
+    color: #ff0000;
+    margin-right: 10px;
+}
+
+.timeline-star {
+    flex-grow: 1;
+    background-color: #ddd;
+    border-radius: 10px;
+    height: 8px;
+    margin-right: 10px;
+}
+
+.timing {
+    background-color: #ff0000;
+    border-radius: 10px;
+    height: 100%;
+}
+
+.number-percent {
+    font-size: 14px;
+    color: #555;
+}
+/* Container của form */
+.review-form-container {
+    max-width: 100%; 
+    margin: 0 auto; 
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+/* Tiêu đề form */
+.review-form-title {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Style cho textarea */
+.review-textarea {
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+    height: 120px; /* Chiều cao của textarea */
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical; 
+    margin-bottom: 15px;
+    transition: border-color 0.3s;
+}
+
+.review-textarea:focus {
+    border-color: #ff5733;
+    outline: none;
+}
+
+/* Error message */
+.error-message {
+   font-size: 16px;
+}
+
+/* Phần chọn sao */
+.rating-stars {
+    margin-bottom: 20px;
+}
+
+.rating-label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-right: 10px;
+}
+
+.stars {
+    display: flex;
+    gap: 5px; /* Khoảng cách giữa các sao */
+    cursor: pointer;
+}
+
+.star {
+    font-size: 24px;
+    color: #ccc;
+    transition: color 0.2s;
+}
+
+.star-filled {
+    color: #ff5733; 
+}
+
+.file-upload {
+    margin-bottom: 20px;
+}
+
+.file-label {
+    font-size: 14px;
+    color: #333;
+    display: block;
+    margin-bottom: 8px;
+}
+
+input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s;
+}
+
+input[type="file"]:focus {
+    border-color: #ff5733;
+    outline: none;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #ff5733;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-submit:disabled {
+    background-color: #e0e0e0;
+    cursor: not-allowed;
+}
+
+.btn-submit:hover:enabled {
+    background-color: #e04e2d; 
+    transform: translateY(-2px); 
+}
+
+.btn-submit:active {
+    background-color: #c9421f; 
+    transform: translateY(0); 
+}
+

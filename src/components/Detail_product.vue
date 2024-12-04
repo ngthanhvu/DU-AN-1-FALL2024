@@ -105,6 +105,11 @@
                   BÌNH LUẬN
                 </a>
               </li>
+              <li class="nav-item" style="cursor: pointer;">
+                <a class="nav-link" :class="{ active: selectedTab === 'tabs-2' }" @click="preiew('tabs-2')" role="tab">
+                  ĐÁNH GIÁ
+                </a>
+              </li>
             </ul>
 
             <!-- Tab Content -->
@@ -116,6 +121,109 @@
                   <div v-html="product.description"></div>
                 </div>
               </div>
+
+              <div v-if="selectedTab === 'tabs-2'" class="tab-content">
+                <h3 class="heading">Đánh Giá {{ product.name }}</h3>
+                <div class="point">
+                  <div class="point-average">
+                    <i class="iconcmt-allstar"></i>
+                    <div class="point-average-container">
+                      <text class="point-average-score">{{ averageRating.toFixed(1) }}</text>
+                      <text class="point-average-total">/5</text>
+                    </div>
+                  </div>
+
+                  <div class="point-satisfied-container">
+                    <p class="point-satisfied"><strong>{{ fiveStarPercentage }}% </strong> tổng số khách đánh giá 5 sao
+                    </p>
+                  </div>
+                  <span class="point-alltimerate">{{ totalReviews }} đánh giá cho {{ product.name }}</span>
+                </div>
+
+                <ul class="rate-list">
+                  <li v-for="(count, index) in ratingDistribution" :key="index">
+                    <div class="number-star">
+                      {{ 5 - index }}<i class="iconcmt-starfilter-og"></i>
+                    </div>
+                    <div class="timeline-star">
+                      <p class="timing" :style="{ width: `${(count / totalReviews * 100).toFixed(1)}%` }"></p>
+                    </div>
+                    <span class="number-percent">{{ ((count / totalReviews) * 100).toFixed(1) }}%</span>
+                  </li>
+                </ul>
+                <!-- Form đánh giá -->
+                 <div class="review-form-title">
+
+                   <form @submit.prevent="submitReview" class="review-form-container">
+                     <div class="review-form">
+                       <textarea v-model="reviewText" class="review-textarea"
+                         placeholder="Hãy viết đánh giá của bạn..."></textarea>
+                       <div v-if="errors.review" class="error-message text-danger">{{ errors.review }}</div>
+   
+                       <!-- Chọn sao -->
+                       <div class="rating-stars">
+                         <label for="rating" class="rating-label">Đánh giá: </label>
+                         <div class="stars">
+                           <span v-for="star in 5" :key="star" @click="rating = star"
+                             :class="{ 'star-filled': star <= rating }" class="star">
+                             ★
+                           </span>
+                         </div>
+                       </div>
+   
+                       <div v-if="errors.rating" class="error-message text-danger">{{ errors.rating }}</div>
+   
+                       <!-- Upload ảnh -->
+                       <div class="file-upload">
+                         <input type="file" id="review-image" @change="onFileChange" />
+                       </div>
+   
+                       <!-- Nút gửi đánh giá -->
+                       <button class="btn-submit" :disabled="submittingReview">Gửi Đánh Giá</button>
+                     </div>
+                   </form>
+                 </div>
+
+                <!-- Danh sách đánh giá -->
+                <div class="review-list" id="review-listing">
+                  <!-- Nếu có đánh giá -->
+                  <div v-if="reviews.length > 0">
+                    <!-- Hiển thị 2 đánh giá hữu ích nhất -->
+                    <div v-for="review in topHelpfulReviews" :key="review.id" class="review-card">
+                      <div class="review-header">
+                        <span class="review-username">{{ review.user.username }}</span>
+                        <span class="review-rating">
+                          <span v-for="star in 5" :key="star"
+                            :class="{ 'star-filled': star <= review.rating, 'star-empty': star > review.rating }">
+                            ★
+                          </span>
+                        </span>
+                      </div>
+
+                      <p class="review-text">{{ review.review }}</p>
+                      <img v-if="review.image_path" :src="`${API_URL}/storage/${review.image_path}`"
+                        alt="Hình ảnh đánh giá" class="review-image" />
+                      <div class="tiei">
+                        <button @click="likeReview(review.id)" class="btn-like">
+                          ❤️ Hữu ích ({{ review.likes }})
+                        </button>
+                        <span class="review-date">{{ formatDate(review.created_at) }}</span>
+                      </div>
+                    </div>
+
+                    <button @click="navigateToAllReviews" class="btn-view-all">
+                      Xem tất cả đánh giá
+                    </button>
+                  </div>
+
+                  <!-- Nếu không có đánh giá -->
+                  <div v-else class="no-reviews">
+                    <p>Chưa có đánh giá cho sản phẩm này.</p>
+                  </div>
+                </div>
+              </div>
+
+
               <!-- Tab 3: Bình Luận -->
               <div v-if="selectedTab === 'tabs-3'" id="tabs-3" class="tab-pane" role="tabpanel">
                 <div class="product__details__tab__desc">
@@ -203,10 +311,11 @@
 
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import swal from 'sweetalert2';
-import { useRoute } from 'vue-router';
+import { format } from 'date-fns';
+import { useRoute, useRouter } from 'vue-router';
 const selectedTab = ref('tabs-1');
 const commentData = ref({
   name: '',
@@ -219,11 +328,20 @@ const errors = ref({
 const comments = ref([]);
 const selectedSize = ref(null);
 
-function preiew(tab) {
-  selectedTab.value = tab;
-}
-
+const reviewText = ref('');
+const rating = ref(0);
+const imageFile = ref(null);
+const reviews = ref({});
+const averageRating = ref(0);
+const fiveStarPercentage = ref(0);
+const ratingDistribution = ref([0, 0, 0, 0, 0]);
+const submittingReview = ref(false);
+const likedReviews = ref([]);
+const formatDate = (date) => {
+  return format(new Date(date), 'dd/MM/yyyy');
+};
 const route = useRoute();
+const router = useRouter();
 const API_URL = import.meta.env.VITE_API_URL;
 
 
@@ -267,10 +385,10 @@ const validateInput = () => {
   const namePattern = /^[\p{L}0-9\s]+$/u;
 
   if (!commentData.value.name) {
-  errors.value.name = 'Tên không được để trống.';
-} else if (!namePattern.test(commentData.value.name)) {
-  errors.value.name = 'Tên chỉ được chứa chữ cái, số và khoảng trắng, không có ký tự đặc biệt.';
-}
+    errors.value.name = 'Tên không được để trống.';
+  } else if (!namePattern.test(commentData.value.name)) {
+    errors.value.name = 'Tên chỉ được chứa chữ cái, số và khoảng trắng, không có ký tự đặc biệt.';
+  }
 
 
   if (!commentData.value.comment) {
@@ -282,7 +400,7 @@ const validateInput = () => {
 
 const submitComment = async () => {
   if (!validateInput()) {
-    return; // Không thực hiện nếu có lỗi
+    return;
   }
 
   try {
@@ -366,11 +484,171 @@ const addToCart = async () => {
   }
 };
 
+// Khi chọn tab đánh giá
+const preiew = (tab) => {
+  selectedTab.value = tab;
+  loadReviews();
+};
+
+// Load product, reviews, and other necessary data
+const loadReviews = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/reviews/product/${route.params.id}`);
+    reviews.value = response.data;
+    calculateRatingStats();
+  } catch (error) {
+    console.error('Error loading reviews:', error);
+  }
+};
+
+
+// Calculate the average rating and five-star percentage
+const totalReviews = computed(() => reviews.value.length);
+
+const calculateRatingStats = () => {
+  if (reviews.value.length === 0) return;
+
+  let totalRating = 0;
+  let fiveStarCount = 0;
+  const distribution = [0, 0, 0, 0, 0];
+
+  reviews.value.forEach((review) => {
+    totalRating += review.rating;
+    if (review.rating === 5) fiveStarCount++;
+    distribution[review.rating - 1]++;
+  });
+
+  averageRating.value = totalRating / reviews.value.length;
+  fiveStarPercentage.value = (fiveStarCount / reviews.value.length) * 100;
+
+  ratingDistribution.value = distribution;
+};
+
+
+const onFileChange = (event) => {
+  imageFile.value = event.target.files[0];
+};
+
+const submitReview = async () => {
+  if (submittingReview.value) return;
+  submittingReview.value = true;
+
+  // Validation
+  if (!rating.value) {
+    errors.value.rating = 'Bạn chưa chọn mức đánh giá.';
+    submittingReview.value = false;
+    return;
+  }
+  if (!reviewText.value.trim()) {
+    errors.value.review = 'Đánh giá không được để trống.';
+    submittingReview.value = false;
+    return;
+  }
+
+  const formData = new FormData();
+  const userId = localStorage.getItem('user_id');
+  if (!userId) {
+    submittingReview.value = false;
+    swal.fire({
+      title: 'Lỗi',
+      text: 'Vui lòng đăng nhập để gửi đánh giá.',
+      icon: 'error',
+      confirmButtonText: 'OK',
+      timer: 3000
+
+    });
+    return;
+  }
+
+  formData.append('user_id', userId);
+  formData.append('review', reviewText.value);
+  formData.append('rating', rating.value);
+  if (imageFile.value) formData.append('image_path', imageFile.value);
+  formData.append('product_id', route.params.id);
+
+  swal.fire({
+    title: 'Đang gửi đánh giá...',
+    text: 'Vui lòng đợi...',
+    icon: 'info',
+    showConfirmButton: false,
+    allowOutsideClick: false,
+    timer: 3000
+  });
+
+
+  try {
+    const response = await axios.post(`${API_URL}/api/reviews`, formData);
+    const newReview = response.data.review;
+
+    reviews.value.push(newReview);
+    reviews.value = [...reviews.value];
+
+    calculateRatingStats();
+
+    reviewText.value = '';
+    rating.value = 0;
+    imageFile.value = null;
+    submittingReview.value = false;
+
+    swal.fire({
+      title: 'Thành công!',
+      text: 'Đánh giá của bạn đã được gửi thành công.',
+      icon: 'success',
+      confirmButtonText: 'OK',
+      timer: 3000
+    });
+
+    const reviewSection = document.getElementById('review-listing');
+    if (reviewSection) {
+      reviewSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  } catch (error) {
+    submittingReview.value = false;
+    swal.fire({
+      title: 'Lỗi',
+      text: 'Đã xảy ra lỗi, vui lòng thử lại!',
+      icon: 'error',
+      confirmButtonText: 'OK'
+    });
+  }
+};
+
+
+
+// Xử lý nút thích đánh giá
+const likeReview = async (reviewId) => {
+  if (likedReviews.value.includes(reviewId)) {
+    alert('Bạn đã thích đánh giá này rồi!');
+    return;
+  }
+
+  try {
+    const response = await axios.post(`${API_URL}/api/reviews/${reviewId}/like`);
+    const review = reviews.value.find((r) => r.id === reviewId);
+    if (review) review.likes = response.data.likes;
+    likedReviews.value.push(reviewId);
+  } catch (error) {
+    console.error('Error liking review:', error);
+  }
+};
+
+const topHelpfulReviews = computed(() => {
+  return reviews.value
+    .slice()
+    .sort((a, b) => b.likes - a.likes)
+    .slice(0, 2);
+});
+
+const navigateToAllReviews = () => {
+  router.push(`/danh-gia-san-pham/${route.params.id}`);
+};
 
 onMounted(() => {
   fetchProduct();
   fetchComments();
+  loadReviews();
 });
+
 </script>
 
 
@@ -388,14 +666,12 @@ onMounted(() => {
   background-color: #e60000;
 }
 
-/* Hiệu ứng hover cho ảnh sản phẩm */
 .card img {
   width: 100%;
   height: auto;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Khi hover, ảnh sẽ phóng to */
 .card img:hover {
   transform: scale(1.1);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -404,7 +680,6 @@ onMounted(() => {
 .size-options {
   display: flex;
   gap: 10px;
-  /* Khoảng cách giữa các nút */
 }
 
 .size-options label {
@@ -448,4 +723,232 @@ onMounted(() => {
 .tab-content>.active {
   display: block;
 }
+
+
+.tab-content {
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 10px;
+}
+
+.heading {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.review-form {
+  margin-bottom: 30px;
+}
+
+.review-textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.rating-label {
+  margin-right: 10px;
+  font-size: 1rem;
+}
+
+.stars {
+  display: flex;
+}
+
+.star {
+  font-size: 1.5rem;
+  color: #ddd;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+
+.file-upload {
+  margin-bottom: 15px;
+}
+
+.file-label {
+  font-size: 1rem;
+  margin-right: 10px;
+}
+
+.btn-submit {
+  background: #ff0000;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-submit:disabled {
+  background: #f70000;
+  cursor: not-allowed;
+}
+
+.review-list {
+  margin-top: 20px;
+}
+
+.review-card {
+  background: white;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.review-username {
+  font-weight: bold;
+}
+
+
+.review-text {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.review-image {
+  max-width: 100px;
+  border-radius: 5px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.btn-like {
+  background: none;
+  border: none;
+  color: #e74c3c;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+.btn-like:hover {
+  color: #c0392b;
+}
+
+.no-reviews {
+  text-align: center;
+  font-size: 1rem;
+  color: #888;
+}
+
+
+
+.number-star {
+  font-weight: bold;
+}
+
+.timeline-star {
+  flex: 1;
+  background-color: #e0e0e0;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.timeline-star .timing {
+  height: 100%;
+  background-color: #ff0000;
+}
+
+
+.tab-content .heading {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.point {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.point-average {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.point-average-score {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ff0000;
+}
+
+.point-average-total {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.point-satisfied-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.point-explain {
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.star-filled {
+  color: #ff0000;
+  /* Màu vàng cho sao đã đánh */
+}
+
+.star-empty {
+  color: #ccc;
+  /* Màu xám cho sao chưa đánh */
+}
+
+.tiei {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.btn-view-all {
+    padding: 10px 20px; 
+    font-size: 16px; 
+    font-weight: bold;
+    background-color: #ff0000; 
+    color: white;
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-view-all:hover {
+    background-color: #ff0000;
+    transform: translateY(-2px);
+}
+
+
 </style>

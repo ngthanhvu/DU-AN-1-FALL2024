@@ -84,3 +84,7 @@ npm install @ckeditor/ckeditor5-vue @ckeditor/ckeditor5-build-classic
 ```sh
 npm install vue-chart-3 chart.js@^3.1.0
 ```
+### Thư viện ngày
+```sh
+npm install date-fns --legacy-peer-deps
+```
