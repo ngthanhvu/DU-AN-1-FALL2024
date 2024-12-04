@@ -105,4 +105,16 @@ class OrderController extends Controller
 
         return response()->json(['message' => 'Cập nhật trạng thái thành công'], 200);
     }
+
+    public function deleteOrderById($orderId)
+    {
+        $order = Order::find($orderId);
+        if (!$order) {
+            return response()->json(['message' => 'Đơn hàng không tồn tại'], 404);
+        }
+
+        $order->delete();
+
+        return response()->json(['message' => 'Xóa đơn hàng thành công'], 200);
+    }
 }

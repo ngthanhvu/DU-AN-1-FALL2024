@@ -84,7 +84,8 @@ Route::apiResource('orders', OrderController::class);
 Route::get('/orders/{orderId}', [OrderController::class, 'getOrderStatus']);
 Route::get('/orders/user/{userId}', [OrderController::class, 'getOrdersByUserId']);
 Route::get('/orders', [OrderController::class, 'getOdersAll']);
-Route::put('/orders/{orderId}', [OrderController::class, 'updateOrderStatus']);
+Route::put('/order/{orderId}', [OrderController::class, 'updateOrderStatus']);
+Route::delete('/order/{orderId}', [OrderController::class, 'deleteOrderById']);
 
 Route::get('orders/{orderId}/details', [OrderDetailController::class, 'index']);
 Route::post('order-details', [OrderDetailController::class, 'store']);
