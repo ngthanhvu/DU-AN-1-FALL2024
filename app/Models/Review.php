@@ -4,17 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\LogsActivity;
 
 class Review extends Model
 {
     use HasFactory;
-    protected $fillable = 
+    use LogsActivity;
+
+    protected $fillable =
     [
-        'user_id', 
-        'product_id', 
-        'review', 
-        'image_path', 
-        'likes', 
+        'user_id',
+        'product_id',
+        'review',
+        'image_path',
+        'likes',
         'rating'
     ];
 
