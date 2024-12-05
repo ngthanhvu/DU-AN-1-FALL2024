@@ -107,3 +107,7 @@ Route::post('/reviews', [ReviewController::class, 'store']);
 Route::post('/reviews/{review}/like', [ReviewController::class, 'like']);
 Route::get('/reviews', [ReviewController::class, 'index']);
 Route::get('/reviews/product/{productId}', [ReviewController::class, 'getReviewsByProduct']);
+Route::post('/reviews/{reviewId}/reply', [ReviewController::class, 'replyToReview']);
+Route::put('/reviews/replies/{replyId}', [ReviewController::class, 'editReply']);
+Route::delete('reviews/replies/{replyId}', [ReviewController::class, 'deleteReply']);
+Route::put('/reviews/{id}', [ReviewController::class, 'update']);
