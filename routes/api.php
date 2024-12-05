@@ -17,6 +17,8 @@ use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\LogController;
+
 
 /*
 |---------------------------------------------------------------------------
@@ -46,6 +48,7 @@ Route::apiResource('address', AddressController::class);
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login'])->name('login');
 Route::get('user', [UserController::class, 'getUser'])->middleware('auth:api');
+Route::get('users/{id}', [UserController::class, 'getUserById']);
 Route::post('logout', [UserController::class, 'logout'])->middleware('auth:api');
 Route::put('/users/{id}/role', [UserController::class, 'updateRole']);
 Route::middleware('auth:api')->group(function () {
@@ -111,3 +114,6 @@ Route::post('/reviews/{reviewId}/reply', [ReviewController::class, 'replyToRevie
 Route::put('/reviews/replies/{replyId}', [ReviewController::class, 'editReply']);
 Route::delete('reviews/replies/{replyId}', [ReviewController::class, 'deleteReply']);
 Route::put('/reviews/{id}', [ReviewController::class, 'update']);
+
+Route::get('/logs', [LogController::class, 'index']);
+
