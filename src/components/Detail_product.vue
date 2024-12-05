@@ -273,13 +273,13 @@
   <!-- Product new section -->
   <section class="section-3 mt-5">
     <div class="container">
-      <h2 class="text-left">Sản phẩm mới nhất</h2>
+      <h2 class="text-left fw-bold">Sản phẩm liên quan</h2>
       <div class="row justify-content">
         <!-- Sản phẩm 1 -->
-        <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-3">
-          <a href="/chi-tiet-san-pham" class="text-decoration-none text-black">
+        <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-3" v-for="products in relatedProducts" :key="product.id">
+          <a :href="`/chi-tiet-san-pham/${products.id}`" class="text-decoration-none text-black">
             <div class="card border-0">
-              <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/483/998/products/9b098813-1-1722496273940.jpg"
+              <img :src="`${API_URL}/storage/${products.images.find(img => img.is_primary === 1)?.image_path}`"
                 class="border" alt="MU Home" style="width: 200px" />
               <div class="card-body">
                 <div class="rating" style="color: #ffcc00">
@@ -290,10 +290,10 @@
                   <i class="far fa-star"></i>
                 </div>
                 <h5 class="card-title text-left">
-                  <b style="font-size: 14px">MU Home (2012/2013) Màu đỏ + Cộc tay | Bản CLASSIC [Không có quần]</b>
+                  <b style="font-size: 14px">{{ products.name }}</b>
                 </h5>
                 <p class="card-text text-left">
-                  <span class="text-danger me-2"><b>250.000đ</b></span>
+                  <span class="text-danger me-2"><b>{{ formatVND(products.price) }}</b></span>
                   <span class="text-decoration-line-through">300.000đ</span>
                 </p>
               </div>
@@ -343,7 +343,7 @@ const formatDate = (date) => {
 const route = useRoute();
 const router = useRouter();
 const API_URL = import.meta.env.VITE_API_URL;
-
+const relatedProducts = ref([]);
 
 const product = ref({
   name: '',
@@ -643,10 +643,23 @@ const navigateToAllReviews = () => {
   router.push(`/danh-gia-san-pham/${route.params.id}`);
 };
 
-onMounted(() => {
-  fetchProduct();
+const fetchRelatedProducts = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/products/category/${product.value.category.id}`);
+    if (response.status === 200) {
+      relatedProducts.value = response.data;
+      console.log(relatedProducts.value);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+onMounted(async () => {
+  await fetchProduct();
   fetchComments();
   loadReviews();
+  fetchRelatedProducts();
 });
 
 </script>
