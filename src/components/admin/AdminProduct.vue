@@ -5,7 +5,7 @@
         <h2 class="mt-4 fw-bold">Quản lý sản phẩm</h2>
 
         <!-- Danh sách sản phẩm -->
-        <table class="table table-bordered" id="productTable">
+        <table class="table table-bordered table-hover" id="productTable">
           <thead class="table-dark text-center">
             <tr>
               <th>#</th>
