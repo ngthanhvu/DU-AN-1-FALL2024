@@ -55,10 +55,10 @@
                         {{ 5 - index }}<i class="iconcmt-starfilter-og"></i>
                     </div>
                     <div class="timeline-star">
-                        <p class="timing" :style="{ width: `${(count / totalReviews * 100).toFixed(1)}%` }"></p>
+                        <p class="timing" :style="{ width: `${(count / totalReviews * 100).toFixed()}%` }"></p>
                     </div>
                     ★
-                    <span class="number-percent">{{ ((count / totalReviews) * 100).toFixed(1) }}%</span>
+                    <span class="number-percent">{{ ((count / totalReviews) * 100).toFixed() }}%</span>
                 </li>
             </ul>
 
@@ -140,28 +140,25 @@ const itemsPerPage = 5;
 // API URL from environment
 const API_URL = import.meta.env.VITE_API_URL;
 
-// Computed property for filtered and sorted reviews
 const filteredReviews = computed(() => {
     let reviewsFiltered = reviews.value;
 
-    // Filter by rating if a specific star rating is selected
     if (selectedRating.value > 0) {
         reviewsFiltered = reviewsFiltered.filter(review => review.rating === selectedRating.value);
     }
 
-    // Sort reviews based on the selected order
     reviewsFiltered = reviewsFiltered.sort((a, b) => {
         switch (sortOrder.value) {
             case 'desc':
-                return new Date(b.created_at) - new Date(a.created_at); // Mới nhất
+                return new Date(b.created_at) - new Date(a.created_at);
             case 'asc':
-                return new Date(a.created_at) - new Date(b.created_at); // Cũ nhất
+                return new Date(a.created_at) - new Date(b.created_at);
             case 'rating-desc':
-                return b.rating - a.rating; // Sao cao nhất
+                return b.rating - a.rating;
             case 'rating-asc':
-                return a.rating - b.rating; // Sao thấp nhất
+                return a.rating - b.rating;
             case 'likes-desc':
-                return b.likes - a.likes; // Nhiều like nhất
+                return b.likes - a.likes;
             default:
                 return 0;
         }
@@ -170,20 +167,16 @@ const filteredReviews = computed(() => {
     return reviewsFiltered;
 });
 
-// Computed property for total number of reviews
 const totalReviews = computed(() => reviews.value.length);
 
-// Computed property for total pages
 const totalPages = computed(() => Math.ceil(filteredReviews.value.length / itemsPerPage));
 
-// Paginate reviews
 const currentPageReviews = computed(() => {
     const start = (currentPage.value - 1) * itemsPerPage;
     const end = currentPage.value * itemsPerPage;
     return filteredReviews.value.slice(start, end);
 });
 
-// Load all reviews for the specific product
 const loadAllReviews = async () => {
     try {
         const params = selectedRating.value > 0 ? { rating: selectedRating.value } : {};
@@ -195,7 +188,6 @@ const loadAllReviews = async () => {
     }
 };
 
-// Like a review
 const likeReview = async (reviewId) => {
     if (likedReviews.value.includes(reviewId)) {
         alert('Bạn đã thích đánh giá này rồi!');
@@ -212,25 +204,27 @@ const likeReview = async (reviewId) => {
     }
 };
 
-// Calculate rating statistics
 const calculateRatingStats = () => {
     if (reviews.value.length === 0) return;
 
     let totalRating = 0;
     let fiveStarCount = 0;
-    const distribution = [0, 0, 0, 0, 0];
+    // Khởi tạo mảng từ 5 sao đến 1 sao
+    const distribution = [0, 0, 0, 0, 0]; // Index 0: 5 sao, Index 4: 1 sao
 
     reviews.value.forEach((review) => {
         totalRating += review.rating;
         if (review.rating === 5) fiveStarCount++;
-        distribution[review.rating - 1]++;
+        distribution[5 - review.rating]++; // Đếm ngược từ 5 sao đến 1 sao
     });
 
     averageRating.value = totalRating / reviews.value.length;
     fiveStarPercentage.value = (fiveStarCount / reviews.value.length) * 100;
 
-    ratingDistribution.value = distribution;
+    ratingDistribution.value = distribution; // Đã sẵn thứ tự từ 5 sao đến 1 sao
 };
+
+
 
 // Format date
 const formatDate = (date) => {
@@ -376,5 +370,4 @@ const goToPage = (page) => {
     margin: 0 10px;
     align-self: center;
 }
-
 </style>
