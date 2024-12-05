@@ -92,9 +92,22 @@ class PaymentController extends Controller
                 $order->status = 'paid';
                 $order->save();
 
+                // Lấy các order details dựa trên order_id
+                $orderDetails = $order->orderDetails; // Giả sử bạn có quan hệ 'orderDetails' trong model Order
+
+                // Kiểm tra và giảm số lượng sản phẩm trong kho
+                foreach ($orderDetails as $orderDetail) {
+                    $product = $orderDetail->product; // Lấy thông tin sản phẩm
+                    if ($product) {
+                        // Giảm số lượng của sản phẩm trong kho
+                        $product->quantity -= $orderDetail->quantity; // Giảm số lượng theo số lượng đã mua
+                        $product->save(); // Lưu thay đổi vào cơ sở dữ liệu
+                    }
+                }
+
                 $user = $order->user;
 
-                if($user && !empty($user->email)) {
+                if ($user && !empty($user->email)) {
                     $order->email = $user->email;
                     Mail::to($order->email)->send(new PaymentConfirmation($order));
                 }

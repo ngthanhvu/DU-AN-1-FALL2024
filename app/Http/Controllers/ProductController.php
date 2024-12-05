@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Images;
+use App\Models\Order;
 
 class ProductController extends Controller
 {
@@ -66,6 +67,7 @@ class ProductController extends Controller
             'name' => 'required',
             'category_id' => 'required|exists:categories,id',
             'price' => 'required|numeric',
+            'sale_price' => 'nullable|numeric',
             'quantity' => 'required|integer',
             'skus' => 'required|array',
             'skus.*.sku_code' => 'required|string',
@@ -76,7 +78,7 @@ class ProductController extends Controller
             'primary_image' => 'required|string',
         ]);
 
-        $product = Product::create($request->only('name', 'description', 'price', 'quantity', 'category_id'));
+        $product = Product::create($request->only('name', 'description', 'price', 'sale_price', 'quantity', 'category_id'));
 
         foreach ($request->input('skus', []) as $sku) {
             $product->skus()->create([
@@ -124,6 +126,7 @@ class ProductController extends Controller
             'name' => 'sometimes|string|max:255',
             'description' => 'nullable|string',
             'price' => 'sometimes|numeric|min:0',
+            'sale_price' => 'nullable|numeric|min:0',
             'quantity' => 'sometimes|integer|min:0',
             'category_id' => 'sometimes|exists:categories,id',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:20048',
@@ -131,7 +134,7 @@ class ProductController extends Controller
         ]);
 
 
-        $product->update($request->only('name', 'description', 'price', 'quantity', 'category_id'));
+        $product->update($request->only('name', 'description', 'price', 'sale_price', 'quantity', 'category_id'));
 
         if ($request->has('skus')) {
             $newSkuIds = collect($request->input('skus'))

@@ -89,6 +89,7 @@ Route::get('/orders/user/{userId}', [OrderController::class, 'getOrdersByUserId'
 Route::get('/orders', [OrderController::class, 'getOdersAll']);
 Route::put('/order/{orderId}', [OrderController::class, 'updateOrderStatus']);
 Route::delete('/order/{orderId}', [OrderController::class, 'deleteOrderById']);
+Route::post('/orders/{orderId}/decrease-quantity', [OrderController::class, 'decreaseQuantityInOrder']);
 
 Route::get('orders/{orderId}/details', [OrderDetailController::class, 'index']);
 Route::post('order-details', [OrderDetailController::class, 'store']);
