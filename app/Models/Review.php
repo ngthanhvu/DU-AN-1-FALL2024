@@ -20,8 +20,11 @@ class Review extends Model
         'likes',
         'rating'
     ];
-
-
+    protected $casts = [
+        'replies' => 'array',
+    ];
+    
+ 
     public function user()
     {
         return $this->belongsTo(Users::class);
@@ -30,5 +33,9 @@ class Review extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
     }
 }
