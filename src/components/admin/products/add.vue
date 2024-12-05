@@ -16,6 +16,12 @@
           </div>
 
           <div class="mb-3">
+            <label class="form-label">Giá giảm:</label>
+            <input v-model="formData.sale_price" type="number" class="form-control"
+              placeholder="Có thể nhập hoặc để trống" />
+          </div>
+
+          <div class="mb-3">
             <label class="form-label">Mô tả sản phẩm:</label>
             <!-- <textarea v-model="formData.description" class="form-control" placeholder="Nhập mô tả sản phẩm"></textarea> -->
             <div id="editor"></div>
@@ -96,6 +102,7 @@ const imageFiles = ref([]);
 const formData = reactive({
   name: '',
   price: '',
+  sale_price: '',
   description: '',
   quantity: '',
   category_id: '',
@@ -107,6 +114,7 @@ const formData = reactive({
 const errors = reactive({
   name: '',
   price: '',
+  sale_price: '',
   description: '',
   quantity: '',
   category_id: '',
@@ -165,6 +173,7 @@ const handleSubmit = async () => {
     });
     formData.name = '';
     formData.price = '';
+    formData.sale_price = '';
     formData.description = '';
     formData.quantity = '';
     formData.category_id = '';

@@ -282,7 +282,7 @@
           <a :href="`/chi-tiet-san-pham/${products.id}`" class="text-decoration-none text-black">
             <div class="card border-0">
               <img :src="`${API_URL}/storage/${products.images.find(img => img.is_primary === 1)?.image_path}`"
-                class="border" alt="MU Home" style="width: 200px" />
+                class="border" alt="MU Home" style="width: 200px; height: 200px; object-fit: cover;" />
               <div class="card-body">
                 <div class="rating" style="color: #ffcc00">
                   <i class="far fa-star"></i>
@@ -508,21 +508,21 @@ const loadReviews = async () => {
 const totalReviews = computed(() => reviews.value.length);
 
 const calculateRatingStats = () => {
-    if (reviews.value.length === 0) return;
+  if (reviews.value.length === 0) return;
 
-    let totalRating = 0;
-    let fiveStarCount = 0;
-    const distribution = [0, 0, 0, 0, 0]; 
+  let totalRating = 0;
+  let fiveStarCount = 0;
+  const distribution = [0, 0, 0, 0, 0];
 
-    reviews.value.forEach((review) => {
-        totalRating += review.rating;
-        if (review.rating === 5) fiveStarCount++;
-        distribution[5 - review.rating]++; 
-    });
-    averageRating.value = totalRating / reviews.value.length;
-    fiveStarPercentage.value = (fiveStarCount / reviews.value.length) * 100;
+  reviews.value.forEach((review) => {
+    totalRating += review.rating;
+    if (review.rating === 5) fiveStarCount++;
+    distribution[5 - review.rating]++;
+  });
+  averageRating.value = totalRating / reviews.value.length;
+  fiveStarPercentage.value = (fiveStarCount / reviews.value.length) * 100;
 
-    ratingDistribution.value = distribution; 
+  ratingDistribution.value = distribution;
 };
 
 
