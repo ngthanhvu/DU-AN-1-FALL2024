@@ -18,7 +18,7 @@ class AddressController extends Controller
         try {
             $validatedData = $request->validate([
                 'full_name' => 'required|string|max:255',
-                'phone' => 'required|string|max:20',
+                'phone' => 'required|integer',
                 'tinh_thanh' => 'required|string|max:255',
                 'quan_huyen' => 'required|string|max:255',
                 'xa_phuong' => 'required|string|max:255',
