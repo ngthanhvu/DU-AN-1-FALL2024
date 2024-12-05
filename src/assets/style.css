@@ -1592,4 +1592,71 @@ input[type="file"]:focus {
     background-color: #c9421f; 
     transform: translateY(0); 
 }
-
+.review-card {
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+  }
+  
+  /* Cải thiện giao diện cho các phản hồi */
+  .review-replies {
+    margin-top: 10px;
+    padding-left: 20px;  /* Lùi vào một chút để dễ phân biệt */
+    border-left: 2px solid #eee;  /* Tạo đường kẻ để phân biệt giữa phản hồi và đánh giá */
+  }
+  
+  .review-reply {
+    margin-bottom: 10px;
+  }
+  
+  .reply-header {
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+  }
+  
+  .reply-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .reply-username {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .reply-date {
+    margin-left: auto;
+    color: #888;
+    font-size: 0.8rem;
+  }
+  
+  .reply-text {
+    font-size: 0.9rem;
+    color: #555;
+    margin-left: 30px;  
+  }
+  
+  .btn-view-all {
+    display: block;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+  
+  .btn-view-all:hover {
+    background-color: #0056b3;
+  }
+  
+  .reply-header .reply-username {
+    color: #007bff; 
+  }

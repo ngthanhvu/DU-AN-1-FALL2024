@@ -158,21 +158,36 @@ const updateRole = async () => {
 
 const deleteUser = async (id) => {
   try {
-    await axios.delete(`${API_URL}/api/users/${id}`, {
+    const response = await axios.delete(`${API_URL}/api/users/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
+
     Swal.fire({
       icon: 'success',
       title: 'Thành công!',
       text: 'Xóa người dùng thành công!'
-    })
-    fetchUsers();
+    });
+
+    fetchUsers(); 
   } catch (error) {
-    console.error('Error deleting user:', error);
+    if (error.response && error.response.status === 400) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Không thể xóa người dùng!',
+        text: error.response.data.message
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi!',
+        text: 'Đã có lỗi xảy ra khi xóa người dùng.'
+      });
+    }
   }
 };
+
 
 onMounted(() => {
   fetchUsers();

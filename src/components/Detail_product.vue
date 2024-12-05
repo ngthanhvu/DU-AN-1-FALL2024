@@ -211,6 +211,19 @@
                         </button>
                         <span class="review-date">{{ formatDate(review.created_at) }}</span>
                       </div>
+
+                      <!-- Hiển thị các phản hồi -->
+                      <div v-if="review.replies && review.replies.length > 0" class="review-replies">
+                        <div v-for="reply in review.replies" :key="reply.id" class="review-reply">
+                          <div class="reply-header">
+                            <img src="https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/logo.png?1722078914172"
+                              alt="HangSport Avatar" class="reply-avatar" style="width: 20px; height: 20px; border-radius: 50%;" />
+                            <span class="reply-username">Phản hồi từ HangSport</span>
+                            <span class="reply-date">{{ formatDate(reply.created_at) }}</span>
+                          </div>
+                          <p class="reply-text">{{ reply.reply }}</p>
+                        </div>
+                      </div>
                     </div>
 
                     <button @click="navigateToAllReviews" class="btn-view-all">
@@ -226,50 +239,51 @@
               </div>
 
 
-              <!-- Tab 3: Bình Luận -->
-              <div v-if="selectedTab === 'tabs-3'" id="tabs-3" class="tab-pane" role="tabpanel">
-                <div class="product__details__tab__desc">
-                  <h6>BÌNH LUẬN</h6>
-                  <h6>Viết bình luận của bạn</h6>
 
-                  <!-- Comment Form -->
-                  <form @submit.prevent="submitComment">
-                    <div class="form-group">
-                      <label for="name">Tên của bạn:</label>
-                      <input type="text" id="name" v-model="commentData.name" />
-                      <p v-if="errors.name" class="error-message text-danger">{{ errors.name }}</p>
+                <!-- Tab 3: Bình Luận -->
+                <div v-if="selectedTab === 'tabs-3'" id="tabs-3" class="tab-pane" role="tabpanel">
+                  <div class="product__details__tab__desc">
+                    <h6>BÌNH LUẬN</h6>
+                    <h6>Viết bình luận của bạn</h6>
+
+                    <!-- Comment Form -->
+                    <form @submit.prevent="submitComment">
+                      <div class="form-group">
+                        <label for="name">Tên của bạn:</label>
+                        <input type="text" id="name" v-model="commentData.name" />
+                        <p v-if="errors.name" class="error-message text-danger">{{ errors.name }}</p>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="comment">Bình luận:</label>
+                        <textarea id="comment" v-model="commentData.comment"></textarea>
+                        <p v-if="errors.comment" class="error-message text-danger">{{ errors.comment }}</p>
+                      </div>
+
+                      <button type="submit" class="btn-comment">Gửi bình luận</button>
+                    </form>
+
+
+                    <!-- Comments List -->
+                    <div v-if="comments.length" class="comments-list">
+                      <h6>Các bình luận</h6>
+                      <div v-for="(comment, idx) in comments" :key="idx" class="comment-item">
+                        <p><strong>{{ comment.name }}</strong> <i class="bi bi-check-circle-fill"
+                            style="color: blue;"></i></p>
+                        <p>{{ comment.comment }}</p>
+                      </div>
                     </div>
-
-                    <div class="form-group">
-                      <label for="comment">Bình luận:</label>
-                      <textarea id="comment" v-model="commentData.comment"></textarea>
-                      <p v-if="errors.comment" class="error-message text-danger">{{ errors.comment }}</p>
+                    <div v-else>
+                      <p>Chưa có bình luận nào.</p>
                     </div>
-
-                    <button type="submit" class="btn-comment">Gửi bình luận</button>
-                  </form>
-
-
-                  <!-- Comments List -->
-                  <div v-if="comments.length" class="comments-list">
-                    <h6>Các bình luận</h6>
-                    <div v-for="(comment, idx) in comments" :key="idx" class="comment-item">
-                      <p><strong>{{ comment.name }}</strong> <i class="bi bi-check-circle-fill"
-                          style="color: blue;"></i></p>
-                      <p>{{ comment.comment }}</p>
-                    </div>
-                  </div>
-                  <div v-else>
-                    <p>Chưa có bình luận nào.</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
+        </div>
       </div>
-    </div>
   </section>
 
   <!-- Product new section -->
@@ -508,21 +522,21 @@ const loadReviews = async () => {
 const totalReviews = computed(() => reviews.value.length);
 
 const calculateRatingStats = () => {
-    if (reviews.value.length === 0) return;
+  if (reviews.value.length === 0) return;
 
-    let totalRating = 0;
-    let fiveStarCount = 0;
-    const distribution = [0, 0, 0, 0, 0]; 
+  let totalRating = 0;
+  let fiveStarCount = 0;
+  const distribution = [0, 0, 0, 0, 0];
 
-    reviews.value.forEach((review) => {
-        totalRating += review.rating;
-        if (review.rating === 5) fiveStarCount++;
-        distribution[5 - review.rating]++; 
-    });
-    averageRating.value = totalRating / reviews.value.length;
-    fiveStarPercentage.value = (fiveStarCount / reviews.value.length) * 100;
+  reviews.value.forEach((review) => {
+    totalRating += review.rating;
+    if (review.rating === 5) fiveStarCount++;
+    distribution[5 - review.rating]++;
+  });
+  averageRating.value = totalRating / reviews.value.length;
+  fiveStarPercentage.value = (fiveStarCount / reviews.value.length) * 100;
 
-    ratingDistribution.value = distribution; 
+  ratingDistribution.value = distribution;
 };
 
 
@@ -614,8 +628,6 @@ const submitReview = async () => {
     });
   }
 };
-
-
 
 // Xử lý nút thích đánh giá
 const likeReview = async (reviewId) => {

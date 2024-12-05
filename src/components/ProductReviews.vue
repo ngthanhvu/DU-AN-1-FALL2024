@@ -91,6 +91,22 @@
                         <p class="review-text">{{ review.review }}</p>
                         <img v-if="review.image_path" :src="`${API_URL}/storage/${review.image_path}`"
                             alt="Hình ảnh đánh giá" class="review-image" />
+
+                        <!-- Hiển thị các phản hồi -->
+                        <div v-if="review.replies && review.replies.length > 0" class="review-replies">
+                            <div v-for="reply in review.replies" :key="reply.id" class="review-reply">
+                                <p class="replies-heading">
+                                    <img src="https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/logo.png?1722078914172"
+                                        alt="HangSport Avatar" class="reply-avatar" />
+                                    Phản hồi từ HangSport
+                                    <span class="reply-date">{{ formatDate(reply.created_at) }}</span>
+                                </p>
+                                <div class="reply-header">
+                                    <span class="reply-text">{{ reply.reply }}</span>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="review-divider">
                             <button @click="likeReview(review.id)" class="btn-like">
                                 ❤️ Hữu ích ({{ review.likes }})
@@ -103,6 +119,7 @@
                 <div v-if="filteredReviews.length === 0">
                     <p>Không có đánh giá với số sao này.</p>
                 </div>
+
 
                 <!-- Phân trang -->
                 <div class="pagination-container">
@@ -122,7 +139,6 @@ import { useRoute } from 'vue-router';
 import axios from 'axios';
 import { format } from 'date-fns';
 
-// Reactive state variables
 const reviews = ref([]);
 const route = useRoute();
 const likedReviews = ref([]);
@@ -133,11 +149,9 @@ const selectedRating = ref(0);
 const sortOrder = ref('desc');
 const product = ref(null);
 
-// Paging variables
 const currentPage = ref(1);
 const itemsPerPage = 5;
 
-// API URL from environment
 const API_URL = import.meta.env.VITE_API_URL;
 
 const filteredReviews = computed(() => {
@@ -188,6 +202,7 @@ const loadAllReviews = async () => {
     }
 };
 
+
 const likeReview = async (reviewId) => {
     if (likedReviews.value.includes(reviewId)) {
         alert('Bạn đã thích đánh giá này rồi!');
@@ -209,7 +224,6 @@ const calculateRatingStats = () => {
 
     let totalRating = 0;
     let fiveStarCount = 0;
-    // Khởi tạo mảng từ 5 sao đến 1 sao
     const distribution = [0, 0, 0, 0, 0]; // Index 0: 5 sao, Index 4: 1 sao
 
     reviews.value.forEach((review) => {
@@ -370,4 +384,52 @@ const goToPage = (page) => {
     margin: 0 10px;
     align-self: center;
 }
+
+.review-replies {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.05);
+    /* Màu xám mờ */
+    border-left: 2px solid #f1f1f1;
+    border-radius: 8px;
+    background-size: cover;
+    /* Lấp đầy toàn bộ khu vực */
+    background-position: center;
+}
+
+.replies-heading {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.review-reply {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+}
+
+.reply-header {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+.reply-text {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 5px;
+}
+
+.reply-date {
+    font-size: 0.8rem;
+    color: #999;
+    margin-top: 5px;
+}
+
+
+
 </style>

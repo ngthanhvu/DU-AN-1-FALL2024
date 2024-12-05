@@ -232,7 +232,10 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import bannerImage from '@/components/icons/bannerxx.png';
-
+import slider1Desktop from '@/components/icons/slide_1.png';
+import slider2Desktop from '@/components/icons/slide_2.png';
+import slider3Desktop from '@/components/icons/slide_2.png';
+import slider4Desktop from '@/components/icons/slide_3.png';
 const API_URL = import.meta.env.VITE_API_URL;
 const products = ref([]);
 const categories = ref([]);
@@ -303,19 +306,19 @@ const formatVND = value => new Intl.NumberFormat('vi-VN', { style: 'currency', c
 
 const carouselImages = ref([
   {
-    desktop: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_2.jpg?1722078914172',
+    desktop: slider1Desktop,
     mobile: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_1.png?1717181462123',
   },
   {
-    desktop: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_1.jpg?1722078914172',
+    desktop: slider2Desktop,
     mobile: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_2.png?1717181462123',
   },
   {
-    desktop: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_4.jpg?1722078914172',
+    desktop: slider3Desktop,
     mobile: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_3.png?1717181462123',
   },
   {
-    desktop: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/slider_3.jpg?1722078914172',
+    desktop: slider4Desktop,
     mobile: 'https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/silde_m_4.png?1717181462123',
   },
 ]);
