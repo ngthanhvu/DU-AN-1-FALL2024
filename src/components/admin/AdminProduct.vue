@@ -12,6 +12,7 @@
               <th>Tên sản phẩm</th>
               <th>Danh mục</th>
               <th>Giá</th>
+              <th>Giá giảm ( sale )</th>
               <th>Số Lượng</th>
               <th>Ảnh chính</th>
               <th>Ảnh phụ</th>
@@ -31,6 +32,7 @@
                 }}
               </td>
               <td>{{ formatPrice(product.price) }}</td>
+              <td>{{ product.sale_price ? formatPrice(product.sale_price) : 0 }}</td>
               <td>{{ product.quantity }}</td>
 
               <td>
@@ -105,6 +107,12 @@
                   <div class="mb-3">
                     <label class="form-label">Giá sản phẩm:</label>
                     <input v-model="formData.price" type="number" class="form-control" required />
+                  </div>
+
+                  <!-- Giá giảm sản phẩm -->
+                  <div class="mb-3">
+                    <label class="form-label">Giá giảm (sale):</label>
+                    <input v-model="formData.sale_price" type="number" class="form-control" required />
                   </div>
 
                   <!-- Mô tả -->
@@ -230,6 +238,7 @@ const imageFiles = ref([]);
 const formData = reactive({
   name: "",
   price: "",
+  sale_price: "",
   description: "",
   quantity: "",
   category_id: "",
@@ -347,6 +356,7 @@ const editProduct = (product) => {
 
   formData.name = product.name;
   formData.price = product.price;
+  formData.sale_price = product.sale_price;
   formData.description = product.description;
   formData.quantity = product.quantity;
   formData.category_id = product.category_id;
@@ -365,6 +375,7 @@ const handleSubmit = async () => {
 
     requestData.append("name", formData.name);
     requestData.append("price", formData.price);
+    requestData.append("sale_price", formData.sale_price);
     requestData.append("description", formData.description);
     requestData.append("quantity", formData.quantity);
     requestData.append("category_id", formData.category_id);

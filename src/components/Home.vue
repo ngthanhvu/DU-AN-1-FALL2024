@@ -99,7 +99,8 @@
               style="width: 100px; height: 30px; object-fit: cover;" alt=""></span> </h2>
         <div class="row justify-content">
           <!-- Sản phẩm 1 -->
-          <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-3" v-for="product in products" :key="product.id">
+          <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-3" v-for="product in sortedProducts.slice(0, 6)"
+            :key="product.id">
             <router-link :to="`/chi-tiet-san-pham/${product.id}`" class="text-decoration-none text-black">
               <div class="card border-0">
                 <img :src="`${API_URL}/storage/${product.images.find(img => img.is_primary === 1)?.image_path}`"
@@ -110,7 +111,10 @@
                   </h5>
                   <p class="card-text text-left">
                     <span class="text-danger me-2"><b>{{ formatVND(product.price) }}</b></span>
-                    <span class="text-decoration-line-through">300.000đ</span>
+                    <span v-if="product.sale_price" class="text-decoration-line-through">
+                      {{ formatVND(product.sale_price) }}
+                    </span>
+
                   </p>
                 </div>
               </div>
@@ -160,7 +164,7 @@
                   </h5>
                   <p class="card-text text-left">
                     <span class="text-danger me-2"><b>{{ formatVND(product.price) }}</b></span>
-                    <span class="text-decoration-line-through">300.000đ</span>
+                    <span class="text-decoration-line-through">{{ formatVND(product.sale_price) }}</span>
                   </p>
                 </div>
               </div>
@@ -229,7 +233,7 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import bannerImage from '@/components/icons/bannerxx.png';
 import slider1Desktop from '@/components/icons/slide_1.png';
@@ -330,6 +334,10 @@ const isDesktop = ref(window.innerWidth > 768);
 function updateIsDesktop() {
   isDesktop.value = window.innerWidth > 768;
 }
+
+const sortedProducts = computed(() => {
+  return products.value.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+});
 
 onMounted(() => {
   window.addEventListener('resize', updateIsDesktop);

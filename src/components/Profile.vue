@@ -49,7 +49,7 @@
               <label for="email" class="form-label">Email:</label>
               <input type="email" class="form-control" id="email" v-model="profile.email" />
             </div>
-            
+
             <button @click="updateProfile" class="btn btn-primary">
               Cập nhật thông tin
             </button>
@@ -69,7 +69,7 @@
                 </div>
                 <div class="col-md-6">
                   <label for="phone" class="form-label">Số điện thoại:</label>
-                  <input type="text" class="form-control" id="phone" v-model="newAddress.phone" required />
+                  <input type="number" class="form-control" id="phone" v-model="newAddress.phone" required />
                 </div>
               </div>
 
@@ -138,11 +138,7 @@
                   <td>{{ addresses.quan_huyen }}</td>
                   <td>{{ addresses.xa_phuong }}</td>
                   <td>{{ addresses.thon_xom }}</td>
-                  <td>
-                    <button class="btn btn-primary" @click="editAddress(addresses)">
-                      <font-awesome-icon :icon="['fas', 'pen-to-square']" />
-                    </button>
-                    |
+                  <td class="text-center">
                     <button class="btn btn-danger" @click="deleteAddress(addresses.id)">
                       <font-awesome-icon :icon="['far', 'trash-can']" />
                     </button>
@@ -155,36 +151,6 @@
             </table>
           </div>
 
-          <!-- Orders Section -->
-          <!-- <div class="card-body" v-if="activeTab === 'orders'">
-            <button class="btn btn-primary" @click="addNewOrder">
-              Thêm Đơn Hàng <font-awesome-icon :icon="['fas', 'plus']" />
-            </button>
-            <table class="table table-bordered mt-3">
-              <thead>
-                <tr>
-                  <th>STT</th>
-                  <th>Mã Đơn Hàng</th>
-                  <th>Ngày Đặt</th>
-                  <th>Tình Trạng</th>
-                  <th>Chi Tiết</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(order, index) in orders" :key="order.id">
-                  <td>{{ index + 1 }}</td>
-                  <td>{{ order.orderCode }}</td>
-                  <td>{{ order.date }}</td>
-                  <td>{{ order.status }}</td>
-                  <td>
-                    <button class="btn btn-info" @click="viewOrderDetails(order)">
-                      <font-awesome-icon :icon="['fas', 'eye']" />
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div> -->
         </div>
       </div>
     </div>
@@ -267,11 +233,6 @@ const updateProfile = async () => {
   }
 };
 
-
-const orders = ref([
-  { id: 1, orderCode: 'ORD001', date: '2024-11-22', status: 'Đang xử lý' },
-  { id: 2, orderCode: 'ORD002', date: '2024-11-23', status: 'Đã giao' },
-]);
 
 const isAddingNewAddress = ref(false);
 const provinces = ref([]);
@@ -366,6 +327,15 @@ const deleteAddress = async (id) => {
 
 const saveNewAddress = async () => {
   if (newAddress.value.full_name && newAddress.value.phone && newAddress.value.province && newAddress.value.district && newAddress.value.commune && newAddress.value.hamlet) {
+    const hamletRegex = /#@%\^&\*/;
+    if (newAddress.value.hamlet.match(hamletRegex)) {
+      Swal.fire('Lỗi', 'Thôn xóm không được có kí tự đặc biệt!', 'error');
+      return;
+    }
+    if (newAddress.value.phone.length !== 10 || isNaN(newAddress.value.phone)) {
+      Swal.fire('Lỗi', 'Số điện thoại không hợp lệ!', 'error');
+      return;
+    }
     try {
       const response = await axios.post(`${API_URL}/api/address`, {
         full_name: newAddress.value.full_name,

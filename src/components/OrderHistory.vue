@@ -42,7 +42,7 @@
             <td>{{ formatCurrency(order.total_price) }}</td>
             <td>
               <button class="btn btn-primary btn-sm" @click="viewDetails(order)">
-                Xem chi tiết
+                <font-awesome-icon :icon="['fas', 'circle-info']" />
               </button>
             </td>
           </tr>
@@ -85,12 +85,13 @@
           </button> -->
         </div>
       </div>
-      <button class="btn btn-secondary mt-3" @click="selectedOrder = null">Đóng</button>
+      <button class="btn btn-secondary mt-3" @click="selectedOrder = null"><font-awesome-icon
+          :icon="['fas', 'xmark']" /></button>
       <button class="btn btn-danger mt-3 mx-2" v-if="selectedOrder.status === 'pending'"
-        @click="cancelOrder(selectedOrder.id)">Huỷ đơn</button>
+        @click="cancelOrder(selectedOrder.id)"><font-awesome-icon :icon="['fas', 'ban']" /></button>
       <button class="btn btn-success mt-3 mx-2"
         v-if="selectedOrder.status === 'canceled' || selectedOrder.status === 'paid'"
-        @click="buyAgain(selectedOrder)">Mua lại</button>
+        @click="buyAgain(selectedOrder)"><font-awesome-icon :icon="['fas', 'rotate-left']" /></button>
     </div>
   </div>
 </template>
