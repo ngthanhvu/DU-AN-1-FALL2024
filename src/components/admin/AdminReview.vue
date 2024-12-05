@@ -6,7 +6,7 @@
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <select v-model="selectedCategory" class="form-select" @change="filterReviews">
-                            <option value="">Chọn danh mục</option>
+                            <option value="">Tất cả danh mục</option>
                             <option v-for="category in categories" :key="category.id" :value="category.id">
                                 {{ category.name }}
                             </option>
@@ -15,7 +15,7 @@
 
                     <div class="col-md-4">
                         <select v-model="selectedProduct" class="form-select" @change="filterReviews">
-                            <option value="">Chọn sản phẩm</option>
+                            <option value="">Tất cả sản phẩm</option>
                             <option v-for="product in products" :key="product.id" :value="product.id">
                                 {{ product.name }}
                             </option>
@@ -45,12 +45,18 @@
                             <td>{{ review.rating }} sao</td>
                             <td>{{ review.review }}</td>
                             <td>
-                                <img v-if="review.image_path" :src="`${API_URL}/storage/${review.image_path}`"
-                                    alt="Hình ảnh đánh giá" class="review-image" />
+                                <template v-if="review.image_path">
+                                    <img :src="`${API_URL}/storage/${review.image_path}`" alt="Hình ảnh đánh giá"
+                                        class="review-image" />
+                                </template>
+                                <template v-else>
+                                    Không có hình ảnh cho đánh giá này
+                                </template>
                             </td>
                             <td>
                                 <div v-if="activeReviewId === review.id" class="reply-form">
-                                    <textarea v-model="replyText" rows="3" placeholder="Nhập phản hồi..." class="form-control"></textarea>
+                                    <textarea v-model="replyText" rows="3" placeholder="Nhập phản hồi..."
+                                        class="form-control"></textarea>
                                     <button class="btn btn-success mt-2" @click="submitReply(review.id)">Gửi</button>
                                     <button class="btn btn-secondary mt-2" @click="cancelReply">Hủy</button>
                                 </div>
@@ -58,12 +64,17 @@
                                     <div v-for="reply in review.replies" :key="reply.id" class="reply-item">
                                         <strong>{{ reply.user.username }}:</strong>
                                         <span v-if="editingReplyId !== reply.id">{{ reply.reply }}</span>
-                                        <textarea v-else v-model="replyText" rows="3" class="form-control">{{ reply.reply }}</textarea>
-                                        <button v-if="editingReplyId !== reply.id" @click="editReply(reply.id)" class="btn btn-success">
+                                        <textarea v-else v-model="replyText" rows="3"
+                                            class="form-control">{{ reply.reply }}</textarea>
+                                        <button v-if="editingReplyId !== reply.id" @click="editReply(reply.id)"
+                                            class="btn btn-success">
                                             <font-awesome-icon :icon="['far', 'pen-to-square']" />
                                         </button>
-                                        <button v-if="editingReplyId === reply.id" @click="submitEditedReply(reply.id)" class="btn btn-success">Cập nhật</button>
-                                        <button v-if="editingReplyId === reply.id" @click="cancelEdit" class="btn btn-danger">Hủy</button>
+                                        <button v-if="editingReplyId === reply.id" @click="submitEditedReply(reply.id)"
+                                            class="btn btn-success">Cập
+                                            nhật</button>
+                                        <button v-if="editingReplyId === reply.id" @click="cancelEdit"
+                                            class="btn btn-danger">Hủy</button>
                                     </div>
                                 </div>
                             </td>
@@ -82,7 +93,8 @@
                 <!-- Phân trang -->
                 <div class="pagination">
                     <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Trang trước</button>
-                    <button v-for="page in totalPages" :key="page" @click="goToPage(page)" :class="{ active: page === currentPage }">
+                    <button v-for="page in totalPages" :key="page" @click="goToPage(page)"
+                        :class="{ active: page === currentPage }">
                         {{ page }}
                     </button>
                     <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">Trang sau</button>
@@ -150,7 +162,7 @@ const fetchProducts = async () => {
 };
 
 const filterReviews = () => {
-    currentPage.value = 1; 
+    currentPage.value = 1;
     fetchReviews();
 };
 
@@ -328,6 +340,7 @@ li {
     margin-bottom: 10px;
     background-color: #f9f9f9;
 }
+
 .pagination {
     display: flex;
     justify-content: center;
