@@ -138,11 +138,7 @@
                   <td>{{ addresses.quan_huyen }}</td>
                   <td>{{ addresses.xa_phuong }}</td>
                   <td>{{ addresses.thon_xom }}</td>
-                  <td>
-                    <button class="btn btn-primary" @click="editAddress(addresses)">
-                      <font-awesome-icon :icon="['fas', 'pen-to-square']" />
-                    </button>
-                    |
+                  <td class="text-center">
                     <button class="btn btn-danger" @click="deleteAddress(addresses.id)">
                       <font-awesome-icon :icon="['far', 'trash-can']" />
                     </button>
