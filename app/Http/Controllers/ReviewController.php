@@ -62,7 +62,6 @@ class ReviewController extends Controller
 
         $review = Review::findOrFail($id);
 
-        // Kiểm tra quyền sở hữu
         if ($review->user_id !== $request->user()->id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
@@ -70,7 +69,6 @@ class ReviewController extends Controller
         $review->review = $validated['review'];
         $review->rating = $validated['rating'];
 
-        // Cập nhật ảnh (nếu có)
         if ($request->hasFile('image_path')) {
             if ($review->image_path && file_exists(public_path('storage/' . $review->image_path))) {
                 unlink(public_path('storage/' . $review->image_path));
@@ -91,12 +89,12 @@ class ReviewController extends Controller
 
     public function getReviewsByProduct(Request $request, $productId)
     {
-        $query = Review::where('product_id', $productId)->with(['user', 'product'])->orderBy('created_at', 'desc');
+        $query = Review::where('product_id', $productId)
+            ->with(['user', 'product', 'replies.user']) // Bao gồm phản hồi và người dùng của phản hồi
+            ->orderBy('created_at', 'desc');
 
-        // Lọc theo rating nếu có tham số rating
         if ($request->has('rating')) {
             $rating = $request->input('rating');
-            // Kiểm tra rating có hợp lệ không (từ 1 đến 5)
             if (in_array($rating, [1, 2, 3, 4, 5])) {
                 $query->where('rating', $rating);
             } else {
@@ -109,8 +107,6 @@ class ReviewController extends Controller
         return response()->json($reviews);
     }
 
-
-
     public function deleteReview($reviewId)
     {
         $review = Review::find($reviewId);
@@ -122,6 +118,7 @@ class ReviewController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Review deleted successfully']);
     }
+
 
     public function like($reviewId)
     {
@@ -140,12 +137,13 @@ class ReviewController extends Controller
         $reviews = Review::whereHas('product', function ($query) use ($categoryId) {
             $query->where('category_id', $categoryId);
         })
-            ->with(['user', 'product'])
+            ->with(['user', 'product', 'replies.user']) // Bao gồm phản hồi và người dùng của phản hồi
             ->orderBy('created_at', 'desc')
             ->get();
 
         return response()->json($reviews);
     }
+
     public function replyToReview(Request $request, $reviewId)
     {
 
@@ -162,6 +160,7 @@ class ReviewController extends Controller
 
         return response()->json(['message' => 'Reply added successfully'], 200);
     }
+
     public function editReply(Request $request, $replyId)
     {
         $validated = $request->validate([
@@ -169,7 +168,6 @@ class ReviewController extends Controller
             'user_id' => 'required|exists:users,id',
         ]);
 
-        // Tìm phản hồi để chỉnh sửa
         $reply = Reply::find($replyId);
 
         if (!$reply) {
@@ -191,30 +189,44 @@ class ReviewController extends Controller
 
         return response()->json(['message' => 'Reply updated successfully'], 200);
     }
-    public function deleteReply(Request $request, $replyId)
+
+
+    public function filterReviews(Request $request)
     {
-        $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
+        $query = Review::with(['user', 'product', 'replies.user']) // Bao gồm phản hồi và người dùng của phản hồi
+            ->orderBy('created_at', 'desc');
+
+        if ($request->has('category_id') && $request->input('category_id') !== null) {
+            $categoryId = $request->input('category_id');
+
+            $categoryExists = \App\Models\Category::find($categoryId);
+            if (!$categoryExists) {
+                return response()->json(['error' => 'Danh mục không hợp lệ.'], 400);
+            }
+
+            $query->whereHas('product', function ($query) use ($categoryId) {
+                $query->where('category_id', $categoryId);
+            });
+        }
+
+        if ($request->has('product_id') && $request->input('product_id') !== null) {
+            $productId = $request->input('product_id');
+
+            $productExists = \App\Models\Product::find($productId);
+            if (!$productExists) {
+                return response()->json(['error' => 'Sản phẩm không hợp lệ.'], 400);
+            }
+
+            $query->where('product_id', $productId);
+        }
+
+        $reviews = $query->paginate(5);
+
+        return response()->json([
+            'data' => $reviews->items(),
+            'current_page' => $reviews->currentPage(),
+            'last_page' => $reviews->lastPage(),
+            'total' => $reviews->total(),
         ]);
-
-        $reply = Reply::find($replyId);
-
-        if (!$reply) {
-            return response()->json(['message' => 'Reply not found'], 404);
-        }
-
-        $user = Users::find($validated['user_id']);
-
-        if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
-        }
-
-        if ($user->role !== 'admin' && $reply->user_id !== $validated['user_id']) {
-            return response()->json(['message' => 'You do not have permission to delete this reply'], 403);
-        }
-
-        $reply->delete();
-
-        return response()->json(['message' => 'Reply deleted successfully'], 200);
     }
 }

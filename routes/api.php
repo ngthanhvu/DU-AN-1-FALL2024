@@ -112,8 +112,9 @@ Route::get('/reviews', [ReviewController::class, 'index']);
 Route::get('/reviews/product/{productId}', [ReviewController::class, 'getReviewsByProduct']);
 Route::post('/reviews/{reviewId}/reply', [ReviewController::class, 'replyToReview']);
 Route::put('/reviews/replies/{replyId}', [ReviewController::class, 'editReply']);
-Route::delete('reviews/replies/{replyId}', [ReviewController::class, 'deleteReply']);
+Route::delete('/reviews/{reviewId}', [ReviewController::class, 'deleteReview']);
 Route::put('/reviews/{id}', [ReviewController::class, 'update']);
+Route::get('/reviews/filter', [ReviewController::class, 'filterReviews']);
 
 Route::get('/logs', [LogController::class, 'index']);
 
