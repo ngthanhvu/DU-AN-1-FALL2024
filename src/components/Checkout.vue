@@ -174,6 +174,7 @@ import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import { getProvinces, getDistricts, getWards } from 'vietnam-provinces';
 import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 
 const router = useRouter();
 const API_URL = import.meta.env.VITE_API_URL;
@@ -450,7 +451,7 @@ const confirmPayment = async () => {
 
 const applyDiscount = async () => {
   if (!discountCode.value.trim()) {
-    alert('Vui lòng nhập mã giảm giá');
+    Swal.fire('Lỗi', 'Vui lòng nhập mã giảm giá', 'error');
     return;
   }
 
@@ -470,11 +471,11 @@ const applyDiscount = async () => {
       discountValue.value = response.data.discount_value;
       discountApplied.value = true;
     } else {
-      alert('Mã giảm giá không hợp lệ hoặc đã hết hạn');
+      Swal.fire('Lỗi', 'Mã giảm giá khó hợp lệ hoặc hết hạn', 'error');
     }
   } catch (error) {
     console.error('Error applying discount:', error);
-    alert('Mã giảm giá đã hết lượt sử dụng hoặc không tồn tại');
+    Swal.fire('Lỗi', 'Mã giảm giá hết lượt sử dụng hoặc không tồn tại', 'error');
   }
 };
 

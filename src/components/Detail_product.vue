@@ -146,11 +146,13 @@
                       {{ 5 - index }}<i class="iconcmt-starfilter-og"></i>
                     </div>
                     <div class="timeline-star">
-                      <p class="timing" :style="{ width: `${(count / totalReviews * 100).toFixed(1)}%` }"></p>
+                      <p class="timing" :style="{ width: `${(count / totalReviews * 100).toFixed()}%` }"></p>
                     </div>
-                    <span class="number-percent">{{ ((count / totalReviews) * 100).toFixed(1) }}%</span>
+                    ★
+                    <span class="number-percent">{{ ((count / totalReviews) * 100).toFixed() }}%</span>
                   </li>
                 </ul>
+
                 <!-- Form đánh giá -->
                 <div class="review-form-title">
 
@@ -506,23 +508,23 @@ const loadReviews = async () => {
 const totalReviews = computed(() => reviews.value.length);
 
 const calculateRatingStats = () => {
-  if (reviews.value.length === 0) return;
+    if (reviews.value.length === 0) return;
 
-  let totalRating = 0;
-  let fiveStarCount = 0;
-  const distribution = [0, 0, 0, 0, 0];
+    let totalRating = 0;
+    let fiveStarCount = 0;
+    const distribution = [0, 0, 0, 0, 0]; 
 
-  reviews.value.forEach((review) => {
-    totalRating += review.rating;
-    if (review.rating === 5) fiveStarCount++;
-    distribution[review.rating - 1]++;
-  });
+    reviews.value.forEach((review) => {
+        totalRating += review.rating;
+        if (review.rating === 5) fiveStarCount++;
+        distribution[5 - review.rating]++; 
+    });
+    averageRating.value = totalRating / reviews.value.length;
+    fiveStarPercentage.value = (fiveStarCount / reviews.value.length) * 100;
 
-  averageRating.value = totalRating / reviews.value.length;
-  fiveStarPercentage.value = (fiveStarCount / reviews.value.length) * 100;
-
-  ratingDistribution.value = distribution;
+    ratingDistribution.value = distribution; 
 };
+
 
 
 const onFileChange = (event) => {
