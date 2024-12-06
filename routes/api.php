@@ -38,6 +38,7 @@ Route::middleware('auth:api')->get('/admin/users', [UserController::class, 'getA
 
 // Các API khác vẫn cần xác thực
 Route::apiResource('products', ProductController::class);
+Route::get('/categories/check-exists', [CategoryController::class, 'checkExists']);
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('skus', SkuController::class);
 Route::apiResource('images', ImageController::class);
@@ -69,6 +70,7 @@ Route::post('/posts', [PostController::class, 'store']);
 Route::get('posts/{id}', [PostController::class, 'show']);
 Route::delete('posts/{id}', [PostController::class, 'destroy']);
 Route::put('posts/{id}', [PostController::class, 'update']);
+Route::get('posts/check-title', [PostController::class, 'checkTitle']);
 Route::apiResource('posts', PostController::class);
 
 Route::post('/payment', [PaymentController::class, 'create']);

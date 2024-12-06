@@ -34,16 +34,25 @@ class PostController extends Controller
     public function store(Request $request)
     {
         try {
+            if (Post::titleExists($request->title)) {
+                return response()->json([
+                    'message' => 'Tiêu đề đã tồn tại. Vui lòng chọn một tiêu đề khác.'
+                ], 400);
+            }
+
             $validatedData = $request->validate([
                 'title' => 'required|string',
                 'content' => 'required|string',
                 'image' => 'nullable|mimes:jpeg,png,jpg,gif|max:10002',
                 'user_id' => 'required|exists:users,id',
             ]);
+
             if ($request->hasFile('image')) {
                 $validatedData['image'] = $request->file('image')->store('images', 'public');
             }
+
             $post = Post::create($validatedData);
+
             return response()->json([
                 'message' => 'Post created successfully',
                 'post' => $post
@@ -55,6 +64,26 @@ class PostController extends Controller
             ], 500);
         }
     }
+
+
+    // In PostController.php
+
+    public function checkTitleExists(Request $request)
+    {
+        $title = $request->query('title');
+        
+        if (!$title) {
+            return response()->json([
+                'message' => 'Tiêu đề không được để trống.'
+            ], 400);
+        }
+
+        $exists = Post::titleExists($title); // Check if title exists
+        
+        return response()->json(['exists' => $exists]);
+    }
+
+
     public function show(string $id)
     {
         try {
@@ -91,17 +120,14 @@ class PostController extends Controller
     public function update(Request $request, string $id)
     {
         try {
-            // Tìm bài viết cần cập nhật
             $post = Post::findOrFail($id);
 
-            // Xác thực dữ liệu đầu vào
             $validatedData = $request->validate([
                 'title' => 'sometimes|required|string|max:255',  // Kiểm tra tiêu đề
                 'content' => 'sometimes|required|string',  // Kiểm tra nội dung
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'  // Kiểm tra ảnh
             ]);
 
-            // Kiểm tra xem có thay đổi ảnh không
             if ($request->has('title')) {
                 $post->title = $validatedData['title'];
             }
@@ -111,23 +137,17 @@ class PostController extends Controller
             }
 
             if ($request->hasFile('image')) {
-                // Nếu có ảnh cũ, xóa ảnh cũ
                 if ($post->image && Storage::exists($post->image)) {
                     Storage::delete($post->image);
                 }
 
-                // Lưu ảnh mới vào thư mục public/images
                 $post->image = $request->file('image')->store('images', 'public');
             }
 
-            // Lưu bài viết sau khi cập nhật
             $post->save();
 
-
-            // Cập nhật bài viết
             $updateResult = $post->update($validatedData);
 
-            // Nếu cập nhật không thành công
             if (!$updateResult) {
                 return response()->json([
                     'message' => 'Cập nhật bài viết thất bại',
@@ -135,7 +155,6 @@ class PostController extends Controller
                 ], 500);
             }
 
-            // Làm mới bài viết sau khi cập nhật
             $post->refresh();
 
             return response()->json([

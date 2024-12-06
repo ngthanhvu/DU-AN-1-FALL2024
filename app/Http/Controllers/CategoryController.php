@@ -65,4 +65,15 @@ class CategoryController extends Controller
 
         return response()->json(['message' => 'Category deleted successfully'], 200);
     }
+
+    public function checkExists(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $exists = Category::where('name', $request->name)->exists();
+
+        return response()->json(['exists' => $exists]);
+    }
 }

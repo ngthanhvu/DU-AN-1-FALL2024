@@ -22,4 +22,19 @@ class Post extends Model
     {
         return $this->belongsTo(Users::class);
     }
+
+    /**
+     * Check if the title exists (excluding a specific post ID if provided)
+     */
+    public static function titleExists($title, $excludeId = null)
+    {
+        $query = self::where('title', $title);
+
+        if ($excludeId) {
+            // Exclude the post with this ID (useful for updating)
+            $query->where('id', '!=', $excludeId);
+        }
+
+        return $query->exists();
+    }
 }
