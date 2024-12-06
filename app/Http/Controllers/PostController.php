@@ -71,15 +71,15 @@ class PostController extends Controller
     public function checkTitleExists(Request $request)
     {
         $title = $request->query('title');
-        
+
         if (!$title) {
             return response()->json([
                 'message' => 'Tiêu đề không được để trống.'
             ], 400);
         }
 
-        $exists = Post::titleExists($title); // Check if title exists
-        
+        $exists = Post::titleExists($title);
+
         return response()->json(['exists' => $exists]);
     }
 
@@ -105,6 +105,7 @@ class PostController extends Controller
             ], 500);
         }
     }
+
     public function getRelatedArticles($categoryId)
     {
         $relatedArticles = Post::where('category_id', $categoryId)->limit(3)->get();
