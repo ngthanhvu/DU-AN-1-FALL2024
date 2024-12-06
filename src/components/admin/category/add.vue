@@ -7,6 +7,7 @@
           <div class="mb-3">
             <label class="form-label">Tên danh mục:</label>
             <input v-model="formData.name" type="text" class="form-control" required placeholder="Nhập tên danh mục" />
+            <small v-if="errorMessages.name" class="text-danger">{{ errorMessages.name }}</small>
           </div>
 
           <div class="mb-3">
@@ -23,7 +24,7 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
@@ -34,7 +35,56 @@ const formData = reactive({
   description: ''
 });
 
+const errorMessages = reactive({
+  name: ''
+});
+
+const validateCategoryName = () => {
+  const name = formData.name.trim();
+
+  const regex = /[!@#$%^&*(),.?":{}|<>]/;
+  if (regex.test(name)) {
+    errorMessages.name = 'Tên danh mục không được chứa ký tự đặc biệt.';
+    return false;
+  }
+
+  errorMessages.name = '';
+  return true;
+};
+
+const checkCategoryExists = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/categories/check-exists`, {
+      params: { name: formData.name }
+    });
+
+    if (response.data.exists) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Danh mục đã tồn tại',
+        text: 'Tên danh mục này đã được sử dụng.'
+      });
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error(error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Lỗi hệ thống',
+      text: 'Không thể kiểm tra tính hợp lệ của tên danh mục.'
+    });
+    return true;
+  }
+};
+
 const handleSubmit = async () => {
+  if (!validateCategoryName()) return;
+
+  const isExists = await checkCategoryExists();
+  if (isExists) return;
+
+  // Step 3: Proceed with form submission
   try {
     const response = await axios.post(`${API_URL}/api/categories`, formData);
     console.log(response.data);
