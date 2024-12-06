@@ -18,7 +18,7 @@
 
           <div class="mb-3">
             <label for="image" class="form-label">Hình ảnh</label>
-            <input @change="handleFileUpload" type="file" id="image" class="form-control" accept="image/*" required />
+            <input @change="handleFileUpload" type="file" id="image" class="form-control" accept="image/*" />
           </div>
 
           <button type="submit" class="btn btn-primary">Thêm bài viết</button>
@@ -32,6 +32,7 @@
 <script setup>
 import { ref, onMounted, shallowRef } from "vue";
 import axios from "axios";
+import Swal from "sweetalert2";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -52,17 +53,21 @@ const handleFileUpload = (event) => {
 };
 
 const validateTitle = () => {
-  const regex = /^[A-Za-z0-9\s.,?!'-À-ÿáéíóúàèìòùâêôíàèìòùĂ-ỹ]*$/;
+  const regex = /^[A-Za-z0-9\s.,?!'À-ÿáéíóúàèìòùâêôíàèìòùĂ-ỹ\-]*$/;
 
   if (!regex.test(form.value.title)) {
-    titleError.value = "Tiêu đề không được chứa ký tự đặc biệt ~`!@#$%^&*()_+=/?><|\\";
+    titleError.value = "Tiêu đề không được chứa các ký tự đặc biệt như: ~ ` ! @ # $ % ^ & * ( ) _ + = / ? > < | \\ \" { } [ ] ; :";
+    return false;
+  }
+
+  if (!form.value.title.trim()) {
+    titleError.value = "Tiêu đề không được để trống.";
     return false;
   }
 
   titleError.value = "";
   return true;
 };
-
 
 
 const checkTitleExists = async () => {
@@ -91,23 +96,39 @@ const submitForm = async () => {
   if (!validateTitle() || titleError.value) return; // Ensure title is valid and not duplicated
 
   if (!form.value.title.trim()) {
-    alert("Vui lòng nhập tiêu đề");
+    Swal.fire({
+      icon: "error",
+      title: "Lỗi",
+      text: "Vui lòng nhập tiêu đề bài viết",
+    })
     return;
   }
 
   if (!form.value.content.trim()) {
-    alert("Vui lòng nhập nội dung");
+    Swal.fire({
+      icon: "error",
+      title: "Lỗi",
+      text: "Vui lòng nhập nội dung bài viết",
+    })
     return;
   }
 
   if (!form.value.image) {
-    alert("Vui lòng chọn hình ảnh");
+    Swal.fire({
+      icon: "error",
+      title: "Lỗi",
+      text: "Vui lòng chọn hình ảnh bài viết",
+    })
     return;
   }
 
   const userId = localStorage.getItem("user_id");
   if (!userId) {
-    alert("Vui lòng đăng nhập");
+    Swal.fire({
+      icon: "error",
+      title: "Lỗi",
+      text: "Vui lòng đăng nhập",
+    })
     return;
   }
   form.value.user_id = userId;
@@ -126,7 +147,11 @@ const submitForm = async () => {
     });
 
     console.log("Thêm bài viết thành công:", response.data);
-    alert("Thêm bài viết thành công!");
+    Swal.fire({
+      icon: "success",
+      title: "Thêm bài viết thành công !",
+      text: "Bài viết đã được thêm vào",
+    })
 
     form.value.title = "";
     editorContent.value = "";

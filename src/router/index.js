@@ -17,6 +17,7 @@ import Forgot from '../components/Forgot.vue'
 import OrderHistory from '@/components/OrderHistory.vue';
 import Success from '@/components/Success.vue';
 import ProductReviews from '@/components/ProductReviews.vue';
+import DetailPostRelate from '@/components/Detail_post_relate.vue';
 
 
 import AdminLayout from '../components/admin/AdminLayout.vue';
@@ -52,6 +53,7 @@ const routes = [
   { path: '/lich-su-mua-hang', component: OrderHistory, meta: { title: 'Lịch sử mua hàng' } },
   { path: '/thanh-cong', component: Success, meta: { title: 'Thành công' } },
   { path: '/danh-gia-san-pham/:id', component: ProductReviews, meta: { title: 'Danh giá sản phẩm' } },
+  { path: '/tin-tuc-lien-quan/:id', component: DetailPostRelate, meta: { title: 'Tin tức' } },
   {
     path: '/admin',
     component: AdminLayout,

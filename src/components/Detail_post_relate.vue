@@ -57,7 +57,7 @@
                                     <img v-if="latest.image" :src="`${API_URL}/storage/${latest.image}`"
                                         alt="Article Image" class="img-thumbnail me-3 rounded"
                                         style="width: 60px; height: 60px; object-fit: cover;" />
-                                    <router-link :to="'/tin-tuc-lien-quan/' + latest.id"
+                                    <router-link :to="'/chi-tiet-tin-tuc/' + latest.id"
                                         class="text-decoration-none text-dark hover-link">
                                         {{ latest.title }}
                                     </router-link>
