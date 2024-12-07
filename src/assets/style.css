@@ -105,7 +105,7 @@ header {
 }
 
 .product-info h3 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: bold;
 }
 
@@ -115,7 +115,8 @@ header {
 }
 
 .product-info .btn-custom {
-    background-color: #ff4c4c;
+    background-color: #b90b0b;
+    font-weight: bold;
     color: white;
 }
 

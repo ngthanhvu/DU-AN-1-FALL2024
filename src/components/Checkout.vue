@@ -115,6 +115,7 @@
                   <li v-for="(product, index) in cartItems" :key="index" class="text-truncate">
                     {{ product.name }} <span>{{ formatVND(product.price) }}</span>
                     <p>{{ product.id }}</p>
+                    <span class="product-quantity text-muted">Số lượng: {{ product.quantity }}</span>
                   </li>
                 </ul>
                 <div class="checkout__order__subtotal">Tạm tính <span>{{ formatVND(subtotal) }}</span></div>

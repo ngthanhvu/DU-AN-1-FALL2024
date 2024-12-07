@@ -43,14 +43,14 @@
           <div class="col-md-4">
             <div class="product-card">
               <div class="product-info">
-                <h3>Đồ bóng đá</h3>
+                <h3>ĐỒ BÓNG ĐÁ</h3>
                 <p>Áo bóng đá, giày bóng đá, tất bóng đá,...</p>
-                <a href="#" class="btn btn-custom">Mua Ngay</a>
+                <router-link to="/san-pham" class="btn btn-custom">Mua Ngay</router-link>
               </div>
               <div class="product-image">
                 <img
-                  src="https://bizweb.dktcdn.net/thumb/large/100/483/998/products/photo-2024-07-01-20-38-03-3.jpg?v=1719845875673"
-                  alt="Đồ bóng đá">
+                :src="danhMuc1" :data="danhMuc1"
+                alt="Đồ bóng đá">
               </div>
             </div>
           </div>
@@ -59,14 +59,14 @@
           <div class="col-md-4">
             <div class="product-card">
               <div class="product-info">
-                <h3>Đồ thể thao</h3>
+                <h3>CỐC GIỮ NHIỆT</h3>
                 <p>Áo thể thao, giày thể thao, tất thể thao,...</p>
-                <a href="#" class="btn btn-custom">Mua Ngay</a>
+                <router-link to="/san-pham" class="btn btn-custom">Mua Ngay</router-link>
               </div>
               <div class="product-image">
                 <img
-                  src="https://bizweb.dktcdn.net/thumb/large/100/483/998/products/photo-2024-07-01-20-38-03-3.jpg?v=1719845875673"
-                  alt="Đồ thể thao">
+                :src="danhMuc2" :data="danhMuc2"
+                alt="Đồ thể thao">
               </div>
             </div>
           </div>
@@ -75,18 +75,17 @@
           <div class="col-md-4">
             <div class="product-card">
               <div class="product-info">
-                <h3>Phụ kiện thể thao</h3>
-                <p>Băng đầu gối, băng cổ tay, băng mắt cá chân,...</p>
-                <a href="#" class="btn btn-custom">Mua Ngay</a>
+                <h3>PHỤ KIỆN THỂ THAO</h3>
+                <p>Giày thể thao, băng cổ chân, tất,...</p>
+                <router-link to="/san-pham" class="btn btn-custom">Mua Ngay</router-link>
               </div>
               <div class="product-image">
                 <img
-                  src="https://bizweb.dktcdn.net/thumb/large/100/483/998/products/photo-2024-07-01-20-38-03-3.jpg?v=1719845875673"
-                  alt="Phụ kiện thể thao">
+                :src="danhMuc3" :data="danhMuc3"
+                alt="Phụ kiện thể thao">
               </div>
             </div>
           </div>
-          <!-- Thêm các thẻ sản phẩm khác nếu cần -->
         </div>
       </div>
     </section>
@@ -240,6 +239,9 @@ import slider1Desktop from '@/components/icons/slide_1.png';
 import slider2Desktop from '@/components/icons/slide_2.png';
 import slider3Desktop from '@/components/icons/slide_3.png';
 import slider4Desktop from '@/components/icons/slide_4.png';
+import danhMuc1 from '@/components/icons/danhmuc1.png';
+import danhMuc2 from '@/components/icons/danhmuc2.png';
+import danhMuc3 from '@/components/icons/danhmuc3.png';
 const API_URL = import.meta.env.VITE_API_URL;
 const products = ref([]);
 const categories = ref([]);
