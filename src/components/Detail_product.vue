@@ -332,6 +332,7 @@ import axios from 'axios';
 import swal from 'sweetalert2';
 import { format } from 'date-fns';
 import { useRoute, useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 const selectedTab = ref('tabs-1');
 const commentData = ref({
   name: '',
@@ -492,15 +493,14 @@ const addToCart = async () => {
     const response = await axios.post(`${API_URL}/api/cart/add`, payload);
 
     if (response.data.message === 'Product added to cart successfully') {
-      alert('Sản phẩm đã được thêm vào giỏ hàng');
+      Swal.fire('Thành Công','Thêm sản phẩm vào giỏ hàng thành công!', 'success');
     }
   } catch (error) {
     console.error('Error adding product to cart:', error);
-    alert('Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng');
+    Swal.fire('Lỗi', 'Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng', 'error');
   }
 };
 
-// Khi chọn tab đánh giá
 const preiew = (tab) => {
   selectedTab.value = tab;
   loadReviews();
