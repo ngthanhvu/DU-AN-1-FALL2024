@@ -41,7 +41,6 @@
         </table>
 
         <p v-else class="mt-3">Không có bình luận cho sản phẩm này.</p>
-        <div style="height: 100vh"></div>
       </div>
     </main>
   </div>
@@ -72,7 +71,7 @@ const fetchCategories = async () => {
 
 const fetchCommentsByCategory = async () => {
   if (!selectedCategoryId.value) {
-    fetchComments(); 
+    fetchComments();
     return;
   }
 
@@ -138,8 +137,8 @@ const confirmDeleteComment = (commentId) => {
 };
 
 onMounted(() => {
-  fetchProducts(); 
-  fetchCategories(); 
+  fetchProducts();
+  fetchCategories();
   fetchComments();
 });
 

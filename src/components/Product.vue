@@ -152,8 +152,7 @@ const priceRanges = [
   { label: '100k - 200k', min: 100000, max: 200000 },
   { label: '200k - 300k', min: 200000, max: 300000 },
   { label: '300k - 500k', min: 300000, max: 500000 },
-  { label: 'Trên 500k', min: 500000, max: Infinity }
-
+  { label: 'Trên 500k', min: 500000, max: 100000000 }
 ];
 
 const getProducts = async () => {

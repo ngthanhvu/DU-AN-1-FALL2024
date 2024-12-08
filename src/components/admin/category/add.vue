@@ -17,7 +17,6 @@
 
           <button type="submit" class="btn btn-primary">Thêm</button>
         </form>
-        <div style="height: 100vh"></div>
       </div>
     </main>
   </div>

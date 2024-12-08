@@ -86,7 +86,6 @@
           </div>
         </div>
 
-        <div style="height: 100vh"></div>
       </div>
     </main>
   </div>

@@ -94,7 +94,8 @@
                 <div class="col-lg-12">
                   <div class="form-group">
                     <label for="addressSelect">Chọn Địa Chỉ</label>
-                    <select id="addressSelect" class="form-select" v-model="selectedAddress" style="padding: 20px 20px;">
+                    <select id="addressSelect" class="form-select" v-model="selectedAddress"
+                      style="padding: 20px 20px;">
                       <option value="">Chọn Địa Chị</option>
                       <option v-for="(addresses, index) in address" :key="index" :value="addresses">
                         {{ addresses.full_name }} - {{ addresses.province }}, {{ addresses.district }}, {{
@@ -436,6 +437,13 @@ const confirmPayment = async () => {
         }
       } else if (paymentMethod.value === 'cod') {
         alert("Đơn hàng đã được tạo thành công. Bạn sẽ thanh toán khi nhận hàng.");
+        try {
+          const repsonse = await axios.post(`${API_URL}/api/orders/${response.data.order.id}/decrease-quantity`, {
+            quantity: products.reduce((total, item) => total + item.quantity, 0)
+          });
+        } catch (error) {
+          console.error("Error decreasing quantity:", error);
+        }
         router.push('/thanh-cong?status=00&order_id=' + response.data.order.id);
       }
     } else {

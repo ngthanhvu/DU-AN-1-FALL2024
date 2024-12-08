@@ -3,7 +3,8 @@
     <main>
       <div class="container-fluid px-4" style="margin-top: 80px;">
         <h2 class="mt-4">Quản lý người dùng</h2>
-        <table class="table table-hover">
+        <div class="mt-4" v-if="pagedUsers.length === 0">Đang tải danh sách người dùng...</div>
+        <table class="table table-hover" v-else>
           <thead class="table-dark text-center">
             <tr>
               <th>#</th>
@@ -19,7 +20,7 @@
               <td>{{ user.username }}</td>
               <td>{{ user.email }}</td>
               <td>{{ user.role }}</td>
-              <td>
+              <td v-if="user.role !== 'admin'">
                 <button class="btn btn-primary" @click="editUser(user)">
                   <font-awesome-icon :icon="['fas', 'pen-to-square']" />
                 </button>
@@ -28,27 +29,19 @@
                   <font-awesome-icon :icon="['far', 'trash-can']" />
                 </button>
               </td>
+              <td v-else class="text-danger">không có quyền để xoá</td>
             </tr>
           </tbody>
         </table>
 
-        <!-- phân trang -->
-        <div class="d-flex justify-content-center mt-3">
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item" :class="{ disabled: currentPage === 1 }">
-                <a class="page-link" href="#" @click.prevent="goToPage(currentPage - 1)">Previous</a>
-              </li>
-              <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
-                <a class="page-link" href="#" @click.prevent="goToPage(page)">{{
-                  page
-                }}</a>
-              </li>
-              <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-                <a class="page-link" href="#" @click.prevent="goToPage(currentPage + 1)">Next</a>
-              </li>
-            </ul>
-          </nav>
+        <!-- Phân trang -->
+        <div class="pagination mb-3">
+          <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Trang trước</button>
+          <button v-for="page in totalPages" :key="page" @click="goToPage(page)"
+            :class="{ active: page === currentPage }">
+            {{ page }}
+          </button>
+          <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">Trang sau</button>
         </div>
 
         <!-- Modal hiển thị bằng v-if -->
@@ -75,7 +68,6 @@
           </div>
         </div>
 
-        <div style="height: 100vh"></div>
       </div>
     </main>
   </div>
@@ -158,19 +150,29 @@ const updateRole = async () => {
 
 const deleteUser = async (id) => {
   try {
-    const response = await axios.delete(`${API_URL}/api/users/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+    const result = await Swal.fire({
+      title: 'Bạn có chắc chắn?',
+      text: 'Hành động này không thể hoàn tác!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
     });
 
-    Swal.fire({
-      icon: 'success',
-      title: 'Thành công!',
-      text: 'Xóa người dùng thành công!'
-    });
+    if (!result.isConfirmed) {
+      const response = await axios.delete(`${API_URL}/api/users/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
 
-    fetchUsers(); 
+      Swal.fire({
+        icon: 'success',
+        title: 'Thành công!',
+        text: 'Xóa người dùng thành công!'
+      });
+      fetchUsers();
+    }
   } catch (error) {
     if (error.response && error.response.status === 400) {
       Swal.fire({

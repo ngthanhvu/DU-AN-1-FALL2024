@@ -23,7 +23,6 @@
 
           <button type="submit" class="btn btn-primary">Thêm bài viết</button>
         </form>
-        <div style="height: 100vh"></div>
       </div>
     </main>
   </div>
@@ -72,7 +71,7 @@ const validateTitle = () => {
 
 const checkTitleExists = async () => {
   if (!form.value.title.trim()) {
-    titleError.value = ""; 
+    titleError.value = "";
     return;
   }
 
@@ -81,7 +80,7 @@ const checkTitleExists = async () => {
     if (response.data.exists) {
       titleError.value = "Tiêu đề đã tồn tại. Vui lòng chọn một tiêu đề khác.";
     } else {
-      titleError.value = ""; 
+      titleError.value = "";
     }
   } catch (error) {
     console.error("Lỗi khi kiểm tra tiêu đề:", error);

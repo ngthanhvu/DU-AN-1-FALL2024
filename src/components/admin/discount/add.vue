@@ -51,7 +51,6 @@
 
       </div>
     </main>
-    <div style="height: 50vh"></div>
   </div>
 </template>
 

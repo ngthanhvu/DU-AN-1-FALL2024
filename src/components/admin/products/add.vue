@@ -1,7 +1,7 @@
 <template>
   <div id="layoutSidenav_content">
     <main>
-      <div class="container-fluid px-4" style="margin-top: 80px;">
+      <div class="container-fluid px-4 mb-3" style="margin-top: 80px;">
         <!-- Form thêm sản phẩm -->
         <h2>Thêm sản phẩm</h2>
         <form @submit.prevent="handleSubmit">
@@ -79,7 +79,6 @@
           <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
         </form>
 
-        <div style="height: 100vh"></div>
       </div>
     </main>
   </div>
@@ -143,7 +142,110 @@ const handleFileChange = (event) => {
   }));
 };
 
+// const handleSubmit = async () => {
+//   const requestData = new FormData();
+//   Object.keys(formData).forEach((key) => {
+//     if (key === 'skus') {
+//       formData.skus.forEach((sku, index) => {
+//         Object.entries(sku).forEach(([skuKey, value]) => {
+//           requestData.append(`skus[${index}][${skuKey}]`, value);
+//         });
+//       });
+//     } else if (key === 'images') {
+//       formData.images.forEach((image) => {
+//         requestData.append('images[]', image.file);
+//       });
+//     } else {
+//       requestData.append(key, formData[key]);
+//     }
+//   });
+
+//   requestData.set('primary_image', formData.primary_image);
+
+//   try {
+//     await axios.post(`${API_URL}/api/products`, requestData, {
+//       headers: { 'Content-Type': 'multipart/form-data' }
+//     });
+//     Swal.fire({
+//       icon: 'success',
+//       title: 'Thêm sản phẩm thành công!',
+//     });
+//     formData.name = '';
+//     formData.price = '';
+//     formData.sale_price = '';
+//     formData.description = '';
+//     formData.quantity = '';
+//     formData.category_id = '';
+//     formData.skus = [];
+//     formData.images = [];
+//     formData.primary_image = '';
+//     imageFiles.value = [];
+//   } catch (error) {
+//     console.error('Error creating product:', error.response.data);
+//     Swal.fire({
+//       icon: 'error',
+//       title: 'Đã xảy ra lỗi!',
+//       text: error.response.data.message || 'Vui lòng kiểm tra lại thông tin!'
+//     });
+//   }
+// };
+
 const handleSubmit = async () => {
+  if (!formData.name) {
+    await Swal.fire({
+      icon: 'error',
+      title: 'Lỗi!',
+      text: 'Tên sản phẩm là bắt buộc.',
+    });
+    return;
+  }
+
+  if (!formData.price || formData.price <= 0) {
+    await Swal.fire({
+      icon: 'error',
+      title: 'Lỗi!',
+      text: 'Giá sản phẩm là bắt buộc và phải lớn hơn 0.',
+    });
+    return;
+  }
+
+  if (!formData.quantity || formData.quantity <= 0) {
+    await Swal.fire({
+      icon: 'error',
+      title: 'Lỗi!',
+      text: 'Số lượng là bắt buộc và phải lớn hơn 0.',
+    });
+    return;
+  }
+
+  if (!formData.category_id) {
+    await Swal.fire({
+      icon: 'error',
+      title: 'Lỗi!',
+      text: 'Vui lòng chọn danh mục.',
+    });
+    return;
+  }
+
+  if (formData.images.length === 0) {
+    await Swal.fire({
+      icon: 'error',
+      title: 'Lỗi!',
+      text: 'Vui lòng tải lên ít nhất một hình ảnh.',
+    });
+    return;
+  }
+
+  if (!formData.primary_image) {
+    await Swal.fire({
+      icon: 'error',
+      title: 'Lỗi!',
+      text: 'Vui lòng chọn ảnh chính.',
+    });
+    return;
+  }
+
+  // Nếu không có lỗi, tiếp tục gửi form
   const requestData = new FormData();
   Object.keys(formData).forEach((key) => {
     if (key === 'skus') {
@@ -165,12 +267,14 @@ const handleSubmit = async () => {
 
   try {
     await axios.post(`${API_URL}/api/products`, requestData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
+      headers: { 'Content-Type': 'multipart/form-data' },
     });
     Swal.fire({
       icon: 'success',
       title: 'Thêm sản phẩm thành công!',
     });
+
+    // Reset form
     formData.name = '';
     formData.price = '';
     formData.sale_price = '';
@@ -186,10 +290,11 @@ const handleSubmit = async () => {
     Swal.fire({
       icon: 'error',
       title: 'Đã xảy ra lỗi!',
-      text: error.response.data.message || 'Vui lòng kiểm tra lại thông tin!'
+      text: error.response.data.message || 'Vui lòng kiểm tra lại thông tin!',
     });
   }
 };
+
 
 const loadProducts = async () => {
   try {
