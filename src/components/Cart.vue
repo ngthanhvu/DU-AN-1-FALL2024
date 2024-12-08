@@ -224,14 +224,14 @@ onMounted(() => {
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-12">
+        <!-- <div class="col-lg-12">
           <div class="shoping__cart__btns">
             <router-link to="/san-pham" class="primary-btn cart-btn">
               TIẾP TỤC MUA SẮM
               <font-awesome-icon :icon="['fas', 'bag-shopping']" />
             </router-link>
           </div>
-        </div>
+        </div> -->
         <div class="col-lg-6">
           <!-- <div class="shoping__continue">
             <div class="shoping__discount">
@@ -247,7 +247,7 @@ onMounted(() => {
             </div>
           </div> -->
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-12">
           <div class="shoping__checkout">
             <h5>TỔNG SẢN PHẨM</h5>
             <ul>
@@ -258,6 +258,11 @@ onMounted(() => {
             <router-link to="/thanh-toan" class="primary-btn">
               TIẾN HÀNH THANH TOÁN
               <font-awesome-icon :icon="['far', 'credit-card']" />
+            </router-link>
+            <br>
+            <router-link to="/san-pham" class="primary-btn cart-btn" >
+              TIẾP TỤC MUA SẮM
+              <font-awesome-icon :icon="['fas', 'bag-shopping']" />
             </router-link>
           </div>
         </div>

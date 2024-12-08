@@ -1,6 +1,14 @@
 <template>
   <div>
     <section class="section-1">
+       <!-- Modal -->
+       <div v-if="showModal" class="modal-overlay">
+            <div class="modal-content">
+                <button class="close-btn" @click="closeModal">×</button>
+                <img :src="quangCao" alt="Quang Cao" :data="quangCao">               
+            </div>
+        </div>
+
       <div class="container">
         <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
           <!-- Indicators -->
@@ -19,7 +27,7 @@
               <img v-else :src="slide.mobile" class="d-block w-100" alt="Mobile Slide">
             </div>
           </div>
-
+          
           <!-- Controls -->
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
             data-bs-slide="prev">
@@ -242,12 +250,29 @@ import slider4Desktop from '@/components/icons/slide_4.png';
 import danhMuc1 from '@/components/icons/danhmuc1.png';
 import danhMuc2 from '@/components/icons/danhmuc2.png';
 import danhMuc3 from '@/components/icons/danhmuc3.png';
+import quangCao from '@/components/icons/quangcao.png';
 const API_URL = import.meta.env.VITE_API_URL;
 const products = ref([]);
 const categories = ref([]);
 const posts = ref([]);
 const productByCategory = ref({});
+const showModal = ref(true);
 
+
+const checkModalStatus = () => {
+  const lastCloseTime = localStorage.getItem('modalCloseTime');
+  if (lastCloseTime) {
+    const currentTime = new Date().getTime();
+    const oneHour = 60 * 60 * 1000; 
+    if (currentTime - lastCloseTime < oneHour) {
+      showModal.value = false; 
+    }
+  }
+};
+
+const closeModal = () => {
+  showModal.value = false; 
+};
 const fetchProducts = async () => {
   try {
     const response = await axios.get(`${API_URL}/api/products`);
@@ -340,10 +365,20 @@ function updateIsDesktop() {
 const sortedProducts = computed(() => {
   return products.value.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 });
-
+const closeModalForOneHour = () => {
+  const currentTime = new Date().getTime();
+  localStorage.setItem('modalCloseTime', currentTime); 
+  showModal.value = false; 
+  Swal.fire({
+    icon: 'info',
+    title: 'Thông Báo',
+    text: 'Thông báo sẽ không hiển thị lại trong 1 giờ.',
+  });
+};
 onMounted(() => {
   window.addEventListener('resize', updateIsDesktop);
   fetchProducts();
+  checkModalStatus();
 });
 
 
@@ -351,6 +386,49 @@ onMounted(() => {
 
 
 <style scoped>
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 90%;
+    max-width: 500px;
+}
+
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    width: 35px;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 50%;
+}
+
+.close-btn:hover {
+    color: #ff0000;
+    background-color: #9c9696;
+    border-radius: 50%;
+    transform: scale(1.1);
+}
+
 .star-icon {
   color: gold;
   font-size: 15px;
@@ -383,12 +461,10 @@ onMounted(() => {
 
 .card-body h5:hover {
   color: rgb(253, 0, 0);
-  /* Change text color on hover */
 }
 
 .card-body h5 {
   font-size: 14px;
-  /* Set font size for product title */
 }
 
 .rating {

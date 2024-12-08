@@ -4,7 +4,6 @@
       <div class="container-fluid px-4" style="margin-top: 80px;">
         <h1 class="mt-4">Dashboard</h1>
 
-        <div style="height: 100vh"></div>
       </div>
     </main>
   </div>
