@@ -10061,78 +10061,7 @@ fieldset:disabled .btn {
     .text-sm-center {
         text-align: center !important;
     }
-    #sidenavAccordion {
-        left: -250px;
-        width: 80%;
-      }
-    
-      /* Khi sidebar mở */
-      #sidenavAccordion.open {
-        left: 0;
-        width: 80%;
-      }
-    
-      /* Ẩn các tiêu đề cho phần mục */
-      .sb-sidenav-menu-heading {
-        display: none;
-      }
-    
-      /* Thu gọn các mục con trong menu */
-      .nav-link.collapsed {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-    
-      /* Thêm một số padding cho các liên kết để dễ nhìn trên màn hình nhỏ */
-      .nav-link {
-        padding: 0.5rem 1rem;
-      }
-    
-      /* Điều chỉnh cho các mục con trong menu */
-      .sb-sidenav-menu-nested {
-        margin-left: 1.5rem;
-      }
-    
-      .sb-sidenav-menu-nested .nav-link {
-        padding: 0.5rem 1rem;
-      }
-    
-      /* Đảm bảo rằng các icon có kích thước nhỏ hơn trên mobile */
-      .sb-nav-link-icon {
-        font-size: 18px;
-      }
-    
-      /* Thêm hiệu ứng chuyển động cho các mục menu con */
-      .collapse {
-        transition: max-height 0.3s ease-out;
-        max-height: 0;
-        overflow: hidden;
-      }
-    
-      .collapse.show {
-        max-height: 500px; /* Tùy chỉnh theo chiều cao cần thiết */
-      }
-    
-      /* Chỉnh sửa phần hiển thị biểu tượng bánh hamburger để mở sidebar */
-      .hamburger-menu {
-        display: block;
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        font-size: 30px;
-        z-index: 1050;
-        cursor: pointer;
-      }
-      .hamburger-menu {
-        display: block;
-      }
-    
-      .hamburger-menu.active + #sidenavAccordion {
-        left: 0;
-      }
-    }
-      
+}
 
 @media (min-width: 768px) {
     .float-md-start {

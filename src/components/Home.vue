@@ -1,13 +1,14 @@
 <template>
   <div>
     <section class="section-1">
-       <!-- Modal -->
-       <div v-if="showModal" class="modal-overlay">
-            <div class="modal-content">
-                <button class="close-btn" @click="closeModal">×</button>
-                <img :src="quangCao" alt="Quang Cao" :data="quangCao">               
-            </div>
+      <!-- Modal -->
+      <div v-if="showModal" class="modal-overlay" :class="{ show: showModal }">
+        <div class="modal-content">
+          <button class="close-btn" @click="closeModal">×</button>
+          <img :src="quangCao" alt="Quang Cao" :data="quangCao">
         </div>
+      </div>
+
 
       <div class="container">
         <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
@@ -27,7 +28,7 @@
               <img v-else :src="slide.mobile" class="d-block w-100" alt="Mobile Slide">
             </div>
           </div>
-          
+
           <!-- Controls -->
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
             data-bs-slide="prev">
@@ -56,9 +57,7 @@
                 <router-link to="/san-pham" class="btn btn-custom">Mua Ngay</router-link>
               </div>
               <div class="product-image">
-                <img
-                :src="danhMuc1" :data="danhMuc1"
-                alt="Đồ bóng đá">
+                <img :src="danhMuc1" :data="danhMuc1" alt="Đồ bóng đá">
               </div>
             </div>
           </div>
@@ -72,9 +71,7 @@
                 <router-link to="/san-pham" class="btn btn-custom">Mua Ngay</router-link>
               </div>
               <div class="product-image">
-                <img
-                :src="danhMuc2" :data="danhMuc2"
-                alt="Đồ thể thao">
+                <img :src="danhMuc2" :data="danhMuc2" alt="Đồ thể thao">
               </div>
             </div>
           </div>
@@ -88,9 +85,7 @@
                 <router-link to="/san-pham" class="btn btn-custom">Mua Ngay</router-link>
               </div>
               <div class="product-image">
-                <img
-                :src="danhMuc3" :data="danhMuc3"
-                alt="Phụ kiện thể thao">
+                <img :src="danhMuc3" :data="danhMuc3" alt="Phụ kiện thể thao">
               </div>
             </div>
           </div>
@@ -258,21 +253,10 @@ const posts = ref([]);
 const productByCategory = ref({});
 const showModal = ref(true);
 
-
-const checkModalStatus = () => {
-  const lastCloseTime = localStorage.getItem('modalCloseTime');
-  if (lastCloseTime) {
-    const currentTime = new Date().getTime();
-    const oneHour = 60 * 60 * 1000; 
-    if (currentTime - lastCloseTime < oneHour) {
-      showModal.value = false; 
-    }
-  }
-};
-
 const closeModal = () => {
-  showModal.value = false; 
+  showModal.value = false; // Ẩn modal
 };
+
 const fetchProducts = async () => {
   try {
     const response = await axios.get(`${API_URL}/api/products`);
@@ -365,20 +349,11 @@ function updateIsDesktop() {
 const sortedProducts = computed(() => {
   return products.value.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 });
-const closeModalForOneHour = () => {
-  const currentTime = new Date().getTime();
-  localStorage.setItem('modalCloseTime', currentTime); 
-  showModal.value = false; 
-  Swal.fire({
-    icon: 'info',
-    title: 'Thông Báo',
-    text: 'Thông báo sẽ không hiển thị lại trong 1 giờ.',
-  });
-};
+
 onMounted(() => {
   window.addEventListener('resize', updateIsDesktop);
   fetchProducts();
-  checkModalStatus();
+
 });
 
 
@@ -386,47 +361,64 @@ onMounted(() => {
 
 
 <style scoped>
+/* Phần Overlay Modal */
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none; /* Modal không nhận sự kiện khi chưa hiển thị */
+  transition: opacity 0.3s ease-in-out;
 }
 
+.modal-overlay.show {
+  opacity: 1;
+  pointer-events: auto; /* Khi modal hiển thị thì nó nhận sự kiện */
+}
+
+/* Phần nội dung modal */
 .modal-content {
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    width: 90%;
-    max-width: 500px;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  width: 90%;
+  max-width: 500px;
+  transform: translateY(-30px);
+  opacity: 0;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out; /* Hiệu ứng trượt và mờ */
 }
 
+.modal-overlay.show .modal-content {
+  transform: translateY(0);
+  opacity: 1; /* Modal hiện lên và trượt lên */
+}
 
 .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: transparent;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    width: 35px;
-    text-align: center;
-    background-color: #fff;
-    border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  width: 25px;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 50%;
 }
 
 .close-btn:hover {
-    color: #ff0000;
-    background-color: #9c9696;
-    border-radius: 50%;
-    transform: scale(1.1);
+  color: #ff0000;
+  background-color: #9c9696;
+  border-radius: 50%;
+  transform: scale(1.1);
 }
 
 .star-icon {
