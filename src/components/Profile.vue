@@ -17,7 +17,7 @@
       </div>
     </div>
   </section>
-  <div class="container profile-section" style="height: 60vh;">
+  <div class="container profile-section" style="min-height: 100vh;">
     <div class="row mb-5">
       <div class="col-md-3">
         <ul class="list-group">
@@ -332,10 +332,13 @@ const saveNewAddress = async () => {
       Swal.fire('Lỗi', 'Thôn xóm không được có kí tự đặc biệt!', 'error');
       return;
     }
-    if (newAddress.value.phone.length !== 10 || isNaN(newAddress.value.phone)) {
-      Swal.fire('Lỗi', 'Số điện thoại không hợp lệ!', 'error');
+    const phoneRegex = /^[0-9]{10}$/; // Chỉ cho phép 10 chữ số
+    if (!phoneRegex.test(String(newAddress.value.phone).trim())) {
+
+      Swal.fire('Lỗi', 'Số điện thoại phải là 10 chữ số!', 'error');
       return;
     }
+
     try {
       const response = await axios.post(`${API_URL}/api/address`, {
         full_name: newAddress.value.full_name,
@@ -355,7 +358,8 @@ const saveNewAddress = async () => {
       }
     } catch (error) {
       console.error("Error saving address:", error);
-      alert("Lỗi kết nối với máy chủ!");
+      // alert("Lỗi kết nối với máy chủ!");
+      Swal.fire('Lỗi', 'Lỗi kết nối với máy chủ!', 'error');
     }
   } else {
     alert("Vui lòng điền đầy đủ thông tin!");
