@@ -140,25 +140,25 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = Users::find($id);
-    
+
         if (is_null($user)) {
             return response()->json(['message' => 'User not found'], 404);
         }
-    
-        $hasComments = Comment::where('user_id', $id)->exists();  
-        $hasReviews = Review::where('user_id', $id)->exists();    
-    
+
+        $hasComments = Comment::where('user_id', $id)->exists();
+        $hasReviews = Review::where('user_id', $id)->exists();
+
         if ($hasComments || $hasReviews) {
             return response()->json([
                 'message' => 'Không thể xóa người dùng này, vì đang còn bình luận và đánh giá !'
-            ], 400);  
+            ], 400);
         }
-    
+
         $user->delete();
-    
+
         return response()->json(['message' => 'User deleted successfully'], 200);
     }
-    
+
     public function getAllUsers(Request $request)
     {
         $user = auth()->user();

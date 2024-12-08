@@ -76,4 +76,11 @@ class CategoryController extends Controller
 
         return response()->json(['exists' => $exists]);
     }
+
+    public function hasProducts($id)
+    {
+        $category = Category::findOrFail($id);
+        $hasProducts = $category->products()->exists(); // Kiểm tra nếu danh mục có sản phẩm
+        return response()->json(['hasProducts' => $hasProducts]);
+    }
 }

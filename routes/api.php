@@ -121,3 +121,4 @@ Route::get('/reviews/filter', [ReviewController::class, 'filterReviews']);
 
 Route::get('/logs', [LogController::class, 'index']);
 
+Route::get('/categories/{id}/has-products', [CategoryController::class, 'hasProducts']);
