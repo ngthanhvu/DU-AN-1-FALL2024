@@ -5,7 +5,7 @@
       <div v-if="showModal" class="modal-overlay" :class="{ show: showModal }">
         <div class="modal-content">
           <button class="close-btn" @click="closeModal">×</button>
-          <img :src="quangCao" alt="Quang Cao" :data="quangCao">
+          <router-link to="/san-pham"><img :src="quangCao" alt="HANGSPORT"></router-link>
         </div>
       </div>
 

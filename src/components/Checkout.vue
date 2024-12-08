@@ -324,18 +324,18 @@ const saveNewAddress = async () => {
         user_id: user_id
       });
       if (response.status === 201) {
-        alert("Địa chỉ đã được lưu thành công!");
+        Swal.fire('Thành công', 'Thêm điạ chỉ giao hàng thành công!', 'success');
         isAddingNewAddress.value = false;
         await loadAddress();
       } else {
-        alert("Có lỗi xảy ra khi lưu địa chỉ!");
+        Swal.fire('Lỗi', 'Có lỗi xảy ra khi lưu điạ chỉ giao hàng!', 'error');
       }
     } catch (error) {
       console.error("Error saving address:", error);
-      alert("Lỗi kết nối với máy chủ!");
+      Swal.fire('Lỗi', 'Có lỗi xảy ra khi lưu địa chỉ giao hàng!', 'error');
     }
   } else {
-    alert("Vui lòng điền đầy đủ thông tin!");
+    Swal.fire('Lỗi', 'Vui lòng điền đầy đủ thông tin!', 'error');
   }
 };
 
@@ -356,8 +356,8 @@ const confirmPayment = async () => {
     !selectedAddress.value.district ||
     !selectedAddress.value.commune ||
     !selectedAddress.value.hamlet)) {
-    alert("Vui lòng chọn địa chỉ đầy đủ để tiếp tục!");
-    return;
+      Swal.fire('Lỗi', 'Vui lòng điền đầy đủ thông tin giao hàng!', 'error');
+      return;
   }
 
   const products = cartItems.value.map(item => ({
@@ -412,7 +412,7 @@ const confirmPayment = async () => {
           }
         } catch (error) {
           console.error("Lỗi khi thực hiện thanh toán:", error);
-          alert("Có lỗi xảy ra trong quá trình thanh toán.");
+          Swal.fire('Lỗi', 'Có lỗi xảy ra trong quá trình thanh toán.', 'error');
         }
       }
       else if (paymentMethod.value === 'momo') {
@@ -435,17 +435,17 @@ const confirmPayment = async () => {
           alert("Có lỗi xảy ra trong quá trình thanh toán MoMo.");
         }
       } else if (paymentMethod.value === 'cod') {
-        alert("Đơn hàng đã được tạo thành công. Bạn sẽ thanh toán khi nhận hàng.");
+        Swal.fire('Thành công', 'Thanh toán thành công', 'success');
         router.push('/thanh-cong?status=00&order_id=' + response.data.order.id);
       }
     } else {
       console.error("Có lỗi xảy ra trong quá trình tạo đơn hàng.");
-      alert("Có lỗi xảy ra trong quá trình tạo đơn hàng.");
+      Swal.fire('Lỗi', 'Có lỗi xảy ra trong quá trình tạo đơn hàng.', 'error');
       router.push('/thanh-cong?status=01&order_id=' + response.data.order.id);
     }
   } catch (error) {
     console.error("Lỗi khi tạo đơn hàng:", error.response?.data || error);
-    alert("Có lỗi xảy ra trong quá trình thanh toán.");
+    Swal.fire('Lỗi', 'Có lỗi xảy ra trong quá trình tạo đơn hàng.', 'error');
     router.push('/thanh-cong?status=01&order_id=' + response.data.order.id);
   }
 };
