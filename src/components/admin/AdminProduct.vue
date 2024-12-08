@@ -67,23 +67,14 @@
           </tbody>
         </table>
 
-        <!-- Phân trang  -->
-        <div class="d-flex justify-content-center mt-3">
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item" :class="{ disabled: currentPage === 1 }">
-                <a class="page-link" href="#" @click.prevent="goToPage(currentPage - 1)">Previous</a>
-              </li>
-              <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
-                <a class="page-link" href="#" @click.prevent="goToPage(page)">{{
-                  page
-                }}</a>
-              </li>
-              <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-                <a class="page-link" href="#" @click.prevent="goToPage(currentPage + 1)">Next</a>
-              </li>
-            </ul>
-          </nav>
+        <!-- Phân trang -->
+        <div class="pagination mb-3">
+          <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Trang trước</button>
+          <button v-for="page in totalPages" :key="page" @click="goToPage(page)"
+            :class="{ active: page === currentPage }">
+            {{ page }}
+          </button>
+          <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">Trang sau</button>
         </div>
 
         <!-- Modal Edit Form -->
@@ -216,7 +207,6 @@
             </div>
           </div>
         </div>
-        <div style="height: 100vh"></div>
       </div>
     </main>
   </div>
@@ -520,5 +510,50 @@ onMounted(async () => {
   to {
     opacity: 1;
   }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 8px 15px;
+  margin: 0 5px;
+  border: 1px solid #007bff;
+  background-color: #ffffff;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.pagination button:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.pagination button.active {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.pagination button:disabled {
+  background-color: #e0e0e0;
+  color: #b0b0b0;
+  cursor: not-allowed;
+}
+
+.pagination button:focus {
+  outline: none;
+}
+
+.pagination button:first-child,
+.pagination button:last-child {
+  font-weight: bold;
 }
 </style>

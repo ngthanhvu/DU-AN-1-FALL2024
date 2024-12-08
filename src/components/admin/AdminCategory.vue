@@ -28,26 +28,16 @@
           </tbody>
         </table>
 
-        <!-- phân trang -->
-        <div class="d-flex justify-content-center mt-3">
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item" :class="{ disabled: currentPage === 1 }">
-                <a class="page-link" href="#" @click.prevent="goToPage(currentPage - 1)">Previous</a>
-              </li>
-              <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
-                <a class="page-link" href="#" @click.prevent="goToPage(page)">{{
-                  page
-                }}</a>
-              </li>
-              <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-                <a class="page-link" href="#" @click.prevent="goToPage(currentPage + 1)">Next</a>
-              </li>
-            </ul>
-          </nav>
+        <!-- Phân trang -->
+        <div class="pagination mb-3">
+          <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Trang trước</button>
+          <button v-for="page in totalPages" :key="page" @click="goToPage(page)"
+            :class="{ active: page === currentPage }">
+            {{ page }}
+          </button>
+          <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">Trang sau</button>
         </div>
 
-        <div style="height: 100vh"></div>
       </div>
     </main>
 
@@ -123,6 +113,16 @@ const loadCategories = async () => {
 
 const deleteCategory = async (id) => {
   try {
+    const checkResponse = await axios.get(`${API_URL}/api/categories/${id}/has-products`);
+    if (checkResponse.data.hasProducts) {
+      Swal.fire({
+        icon: "warning",
+        title: "Không thể xoá",
+        text: "Danh mục này vẫn còn sản phẩm!",
+      });
+      return;
+    }
+
     const result = await Swal.fire({
       title: "Xác nhận xoá?",
       text: "Bạn không thể hoàn tác sau khi xoá!",

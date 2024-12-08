@@ -14,7 +14,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(log, index) in logs" :key="log.id">
+            <tr v-for="(log, index) in pagedLogs" :key="log.id">
               <td>{{ index + 1 }}</td>
               <td>{{ log.action }}</td>
               <td>{{ log.model }}</td>
@@ -23,8 +23,14 @@
             </tr>
           </tbody>
         </table>
-
-        <div style=" height: 100vh">
+        <!-- Phân trang -->
+        <div class="pagination mb-3">
+          <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Trang trước</button>
+          <button v-for="page in totalPages" :key="page" @click="goToPage(page)"
+            :class="{ active: page === currentPage }">
+            {{ page }}
+          </button>
+          <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">Trang sau</button>
         </div>
       </div>
     </main>
@@ -32,12 +38,32 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const logs = ref([]);
+
+const itemsPerPage = 10;
+const currentPage = ref(1);
+
+const totalPages = computed(() => {
+  return Math.ceil(logs.value.length / itemsPerPage);
+});
+
+const pagedLogs = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return logs.value.slice(start, end);
+});
+
+const goToPage = (page) => {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page;
+  }
+};
+
 const fetchLogs = async () => {
   try {
     const response = await axios.get(`${API_URL}/api/logs`);
