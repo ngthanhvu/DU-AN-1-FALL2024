@@ -96,8 +96,7 @@
       <button class="btn btn-danger mt-3 mx-2" v-if="selectedOrder.status === 'pending'"
         @click="cancelOrder(selectedOrder.id)"><font-awesome-icon :icon="['fas', 'ban']" /></button>
       <button class="btn btn-success mt-3 mx-2"
-        v-if="selectedOrder.status === 'canceled' || selectedOrder.status === 'paid'"
-        @click="buyAgain(selectedOrder)"><font-awesome-icon :icon="['fas', 'rotate-left']" /></button>
+        @click="buyAgain()"><font-awesome-icon :icon="['fas', 'rotate-left']" /></button>
     </div>
   </div>
 </template>
@@ -105,7 +104,9 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const API_URL = import.meta.env.VITE_API_URL;
 
 const orders = ref([]);
@@ -143,10 +144,10 @@ const viewDetails = (order) => {
   selectedOrder.value = order;
 };
 
-const buyAgain = (item) => {
-  alert(`Mua lại sản phẩm: ${item.product.name}`);
-};
+const buyAgain = () => {
+  router.push('/san-pham');
 
+};
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   if (isNaN(date.getTime())) {

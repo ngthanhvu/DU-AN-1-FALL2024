@@ -5,7 +5,9 @@
       <div v-if="showModal" class="modal-overlay" :class="{ show: showModal }">
         <div class="modal-content">
           <button class="close-btn" @click="closeModal">×</button>
-          <router-link to="/san-pham"><img :src="quangCao" alt="HANGSPORT"></router-link>
+          <router-link to="/san-pham">
+            <img :src="randomImage" alt="HANGSPORT" />
+          </router-link>
         </div>
       </div>
 
@@ -236,7 +238,7 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import axios from 'axios';
 import bannerImage from '@/components/icons/bannerxx.png';
 import slider1Desktop from '@/components/icons/slide_1.png';
@@ -246,17 +248,37 @@ import slider4Desktop from '@/components/icons/slide_4.png';
 import danhMuc1 from '@/components/icons/danhmuc1.png';
 import danhMuc2 from '@/components/icons/danhmuc2.png';
 import danhMuc3 from '@/components/icons/danhmuc3.png';
-import quangCao from '@/components/icons/quangcao.png';
+import quangCaoImg from '@/components/icons/quangcao.png';
+import luaGaImg from '@/components/icons/luaga.png';
+import luaGa1Img from '@/components/icons/luaga2.png';
+
 const API_URL = import.meta.env.VITE_API_URL;
 const products = ref([]);
 const categories = ref([]);
 const posts = ref([]);
 const productByCategory = ref({});
+const imageList = [
+  quangCaoImg,
+  luaGaImg,
+  luaGa1Img
+];
+
+const randomImage = ref(imageList[Math.floor(Math.random() * imageList.length)]);
+
 const showModal = ref(true);
 
+watch(showModal, (newVal) => {
+  if (newVal) {
+    const randomIndex = Math.floor(Math.random() * imageList.length);
+    randomImage.value = imageList[randomIndex]; 
+  }
+});
+
 const closeModal = () => {
-  showModal.value = false; // Ẩn modal
+  showModal.value = false;
 };
+
+
 
 const fetchProducts = async () => {
   try {
