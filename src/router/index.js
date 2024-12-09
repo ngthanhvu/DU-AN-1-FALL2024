@@ -18,7 +18,7 @@ import OrderHistory from '@/components/OrderHistory.vue';
 import Success from '@/components/Success.vue';
 import ProductReviews from '@/components/ProductReviews.vue';
 import DetailPostRelate from '@/components/Detail_post_relate.vue';
-
+import ComfirmPass from '@/components/ComfirmPass.vue';
 
 import AdminLayout from '../components/admin/AdminLayout.vue';
 import AdminDashboard from '@/components/admin/AdminDashboard.vue';
@@ -50,6 +50,7 @@ const routes = [
   { path: '/trang-ca-nhan', component: Profile, meta: { title: 'Thông tin cá nhân' } },
   { path: '/chi-tiet-tin-tuc/:id', component: Detail_post, meta: { title: 'Tin tức' } },
   { path: '/quen-mat-khau', component: Forgot, meta: { title: 'Quên mật khẩu' } },
+  { path: '/doi-mat-khau', component: ComfirmPass, meta: { title: 'Đổi mật khẩu' } },
   { path: '/lich-su-mua-hang', component: OrderHistory, meta: { title: 'Lịch sử mua hàng' } },
   { path: '/thanh-cong', component: Success, meta: { title: 'Thành công' } },
   { path: '/danh-gia-san-pham/:id', component: ProductReviews, meta: { title: 'Danh giá sản phẩm' } },
