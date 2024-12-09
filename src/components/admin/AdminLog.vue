@@ -25,12 +25,14 @@
         </table>
         <!-- Phân trang -->
         <div class="pagination mb-3">
-          <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Trang trước</button>
+          <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1"><font-awesome-icon
+              :icon="['fas', 'angles-left']" /></button>
           <button v-for="page in totalPages" :key="page" @click="goToPage(page)"
             :class="{ active: page === currentPage }">
             {{ page }}
           </button>
-          <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">Trang sau</button>
+          <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages"><font-awesome-icon
+              :icon="['fas', 'angles-right']" /></button>
         </div>
       </div>
     </main>

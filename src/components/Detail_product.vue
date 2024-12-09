@@ -56,7 +56,8 @@
                 product.quantity }}</span></b>
               </div>
               <div class="mb-3"><strong>Giá sản phẩm: </strong><b><span class="text-danger text-nowrap fs-5">{{
-                formatVND(onSizeSelect) }}</span></b></div>
+                formatVND(onSizeSelect) }}</span></b> - <span class="text-decoration-line-through fs-5">
+                  {{ formatVND(product.sale_price) }}</span></div>
             </div>
 
             <div class="product__details__quantity mb-3">
@@ -311,7 +312,8 @@
                 </h5>
                 <p class="card-text text-left">
                   <span class="text-danger me-2"><b>{{ formatVND(products.price) }}</b></span>
-                  <span class="text-decoration-line-through">300.000đ</span>
+                  <span class="text-decoration-line-through" v-if="products.sale_price">{{
+                    formatVND(products.sale_price) }}</span>
                 </p>
               </div>
             </div>

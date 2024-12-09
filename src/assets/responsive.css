@@ -895,9 +895,9 @@
         margin: 0 -5px;
     }
 
-    .row>[class^="col-"] {
+    /* .row>[class^="col-"] {
         padding: 0 5px;
-    }
+    } */
 
     .btn-danger {
         padding: 5px 10px;

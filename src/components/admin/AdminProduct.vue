@@ -52,10 +52,9 @@
                 </div>
               </td>
               <td>
-                <button class="btn btn-primary" @click="editProduct(product)">
+                <button class="btn btn-primary me-2" @click="editProduct(product)">
                   <font-awesome-icon :icon="['fas', 'pen-to-square']" />
                 </button>
-                |
                 <button class="btn btn-danger" @click="deleteProduct(product.id)">
                   <font-awesome-icon :icon="['far', 'trash-can']" />
                 </button>
@@ -91,19 +90,19 @@
                   <!-- Tên sản phẩm -->
                   <div class="mb-3">
                     <label class="form-label">Tên sản phẩm:</label>
-                    <input v-model="formData.name" type="text" class="form-control" required />
+                    <input v-model="formData.name" type="text" class="form-control" />
                   </div>
 
                   <!-- Giá sản phẩm -->
                   <div class="mb-3">
                     <label class="form-label">Giá sản phẩm:</label>
-                    <input v-model="formData.price" type="number" class="form-control" required />
+                    <input v-model="formData.price" type="number" class="form-control" />
                   </div>
 
                   <!-- Giá giảm sản phẩm -->
                   <div class="mb-3">
                     <label class="form-label">Giá giảm (sale):</label>
-                    <input v-model="formData.sale_price" type="number" class="form-control" required />
+                    <input v-model.number="formData.sale_price" type="number" class="form-control" />
                   </div>
 
                   <!-- Mô tả -->
@@ -115,7 +114,7 @@
                   <!-- Số lượng -->
                   <div class="mb-3">
                     <label class="form-label">Số lượng:</label>
-                    <input v-model="formData.quantity" type="number" class="form-control" required />
+                    <input v-model="formData.quantity" type="number" class="form-control" />
                   </div>
 
                   <!-- Category -->
@@ -141,10 +140,10 @@
                           <label class="form-label">Size:</label>
                           <input v-model="sku.size" type="text" class="form-control" />
                         </div>
-                        <!-- <div class="col-md-6">
-                          <label class="form-label">Màu sắc:</label>
-                          <input v-model="sku.color" type="text" class="form-control" />
-                        </div> -->
+                        <div class="col-md-6">
+                          <label class="form-label">Giá:</label>
+                          <input v-model.number="sku.price" type="number" class="form-control" />
+                        </div>
                         <div class="col-md-6">
                           <label class="form-label">Số lượng tồn:</label>
                           <input v-model="sku.stock" type="number" class="form-control" required />
@@ -313,6 +312,7 @@ const addSku = () => {
     sku_code: "",
     size: "",
     stock: 0,
+    price: 0,
   });
 };
 
@@ -346,7 +346,7 @@ const editProduct = (product) => {
 
   formData.name = product.name;
   formData.price = product.price;
-  formData.sale_price = product.sale_price;
+  formData.sale_price = product.sale_price ? product.sale_price : "";
   formData.description = product.description;
   formData.quantity = product.quantity;
   formData.category_id = product.category_id;

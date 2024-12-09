@@ -1,11 +1,9 @@
 <template>
   <div v-if="order" class="container mt-5 text-center" style="height: 100vh; padding-top: 150px;">
-    <!-- <font-awesome-icon :icon="['far', 'circle-check']" class="text-success" v-if="status === '00' || status === '0'"
-      style="font-size: 100px;" />
-    <font-awesome-icon :icon="['fas', 'triangle-exclamation']" class="text-danger" v-if="status == '01'"
-      style="font-size: 100px;" /> -->
+    <!-- thất bại  -->
     <img src="https://assets-v2.lottiefiles.com/a/b5641ed8-1152-11ee-ada0-8f4e8e17569e/Y6ez38CH2M.gif"
-      style="width: 200px;" alt="" v-if="status === '24' || status === '1'">
+      style="width: 200px;" alt="" v-if="status === '24' || status === '1' || status === '1006'">
+    <!-- thành công  -->
     <img src="https://i.pinimg.com/originals/da/61/fa/da61fa152c102c46c16786b9f79402f8.gif" style="width: 200px;" alt=""
       v-if="status === '00' || status === '0'">
     <h2>Thanh toán {{ status == '00' || status == '0' ? 'thành công' : 'thất bại' }}</h2>
@@ -35,21 +33,50 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 const user_id = localStorage.getItem('user_id');
 const status = ref('');
+// onMounted(async () => {
+//   status.value = route.query.status;
+//   const orderId = route.query.order_id;
+
+//   console.log('Status:', status.value);
+//   console.log('Order ID:', orderId);
+
+//   if (orderId) {
+//     try {
+//       const response = await axios.get(`/api/orders/${orderId}`);
+//       order.value = response.data;
+
+//       console.log('Order status từ API:', order.value.status);
+
+//       if (status.value === '00') {
+//         await clearCart();
+//       }
+
+//     } catch (error) {
+//       console.error('Không thể lấy thông tin đơn hàng:', error);
+//     }
+//   }
+// });
+
 onMounted(async () => {
   status.value = route.query.status;
-  const orderId = route.query.order_id;
+  let orderId = route.query.order_id;
 
   console.log('Status:', status.value);
   console.log('Order ID:', orderId);
 
   if (orderId) {
+    // Nếu orderId có dạng momo_{id}, chỉ lấy phần {id}
+    if (orderId.startsWith('momo_')) {
+      orderId = orderId.replace('momo_', '');
+    }
+
     try {
       const response = await axios.get(`/api/orders/${orderId}`);
       order.value = response.data;
 
       console.log('Order status từ API:', order.value.status);
 
-      if (status.value === '00') {
+      if (status.value === '00' || status.value === '0') {
         await clearCart();
       }
 

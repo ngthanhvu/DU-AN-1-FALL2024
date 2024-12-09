@@ -454,9 +454,13 @@ const confirmPayment = async () => {
             quantity: products.reduce((total, item) => total + item.quantity, 0)
           });
           const mailResponse = await axios.post(`${API_URL}/api/sendMail`, {
-            email: users.value.email,
+            email: String(users.value.email),
             subject: "Đặt hàng thành công!",
-            messageContent: "Cảm ơn bạn đã đặt hàng, đơn hàng sẽ sớm được giao trong 24h tới !",
+            total: String(totalAfterDiscount.value),
+            name: String(users.value.username),
+            order: String(response.data.order.id),
+
+            // messageContent: "Cảm ơn bạn đã đặt hàng, đơn hàng sẽ sớm được giao trong 24h tới !",
           });
           console.log("API /sendMail Response:", mailResponse.data);
           router.push('/thanh-cong?status=00&order_id=' + response.data.order.id);

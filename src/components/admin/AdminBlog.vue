@@ -29,9 +29,9 @@
                 <td>{{ post.user?.name || "Ẩn danh" }}</td>
                 <td>
                   <!-- Edit post button -->
-                  <button class="btn btn-primary" @click="editPost(post)">
+                  <button class="btn btn-primary me-2" @click="editPost(post)">
                     <font-awesome-icon :icon="['fas', 'pen-to-square']" />
-                  </button> |
+                  </button>
                   <!-- Delete post button -->
                   <button class="btn btn-danger" @click="deletePost(post.id)">
                     <font-awesome-icon :icon="['far', 'trash-can']" />
@@ -78,7 +78,7 @@
                     <input type="file" class="form-control" id="image" @change="handleImageChange" />
                   </div>
                   <div class="mb-3">
-                    <button type="submit" class="btn btn-success">Cập Nhật</button>
+                    <button type="submit" class="btn btn-success me-2">Cập Nhật</button>
                     <button type="button" class="btn btn-secondary" @click="closeEditModal">Hủy</button>
                   </div>
                 </form>

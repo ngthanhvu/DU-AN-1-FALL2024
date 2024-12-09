@@ -16,10 +16,9 @@
               <td>{{ index + 1 }}</td>
               <td>{{ category.name }}</td>
               <td>
-                <button class="btn btn-danger" @click="deleteCategory(category.id)">
+                <button class="btn btn-danger me-2" @click="deleteCategory(category.id)">
                   <font-awesome-icon :icon="['far', 'trash-can']" />
                 </button>
-                |
                 <button class="btn btn-primary" @click="editCategory(category)">
                   <font-awesome-icon :icon="['fas', 'pen-to-square']" />
                 </button>

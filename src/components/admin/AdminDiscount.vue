@@ -25,9 +25,9 @@
                             <td>{{ discount.used_count }}</td>
                             <td>{{ discount.expires_at ? discount.expires_at : 'N/A' }}</td>
                             <td>
-                                <button class="btn btn-danger" @click="deleteDiscount(discount.id)">
+                                <button class="btn btn-danger me-2" @click="deleteDiscount(discount.id)">
                                     <font-awesome-icon :icon="['far', 'trash-can']" />
-                                </button> |
+                                </button>
                                 <button class="btn btn-primary" @click="editDiscount(discount)">
                                     <font-awesome-icon :icon="['fas', 'pen-to-square']" />
                                 </button>

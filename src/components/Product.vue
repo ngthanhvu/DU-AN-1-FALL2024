@@ -122,7 +122,7 @@
           <li class="page-item">
             <button @click="filters.page > 1 && (filters.page -= 1)"
               class="page-link bg-danger border-danger text-white" :disabled="filters.page === 1">
-              Trang trước
+              <font-awesome-icon :icon="['fas', 'angles-left']" />
             </button>
           </li>
           <li v-for="page in pagination.last_page" :key="page" class="page-item">
@@ -133,7 +133,7 @@
           <li class="page-item">
             <button @click="filters.page < pagination.last_page && (filters.page += 1)"
               class="page-link bg-danger border-danger text-white" :disabled="filters.page === pagination.last_page">
-              Trang sau
+              <font-awesome-icon :icon="['fas', 'angles-right']" />
             </button>
           </li>
         </ul>

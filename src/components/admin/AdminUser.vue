@@ -21,10 +21,9 @@
               <td>{{ user.email }}</td>
               <td>{{ user.role }}</td>
               <td v-if="user.role !== 'admin'">
-                <button class="btn btn-primary" @click="editUser(user)">
+                <button class="btn btn-primary me-2" @click="editUser(user)">
                   <font-awesome-icon :icon="['fas', 'pen-to-square']" />
                 </button>
-                |
                 <button class="btn btn-danger" @click="deleteUser(user.id)">
                   <font-awesome-icon :icon="['far', 'trash-can']" />
                 </button>

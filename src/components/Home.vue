@@ -3,7 +3,7 @@
     <section class="section-1">
       <!-- Modal -->
       <div v-if="showModal" class="modal-overlay" :class="{ show: showModal }">
-        <div class="modal-content">
+        <div class="modal-content1">
           <button class="close-btn" @click="closeModal">×</button>
           <router-link to="/san-pham">
             <img :src="randomImage" alt="HANGSPORT" />

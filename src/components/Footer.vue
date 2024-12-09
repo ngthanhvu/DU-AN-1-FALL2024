@@ -4,12 +4,8 @@
       <div class="mid-footer row">
         <div class="footer-left col-xs-12 col-md-4 col-lg-5">
           <router-link to="/" class="logo" title="Logo">
-            <img
-              width="88"
-              height="37"
-              src="//bizweb.dktcdn.net/100/483/998/themes/904984/assets/logo.png?1720275862057"
-              alt="Hang Thể Thao"
-            />
+            <img width="88" height="37"
+              src="//bizweb.dktcdn.net/100/483/998/themes/904984/assets/logo.png?1720275862057" alt="Hang Thể Thao" />
           </router-link>
           <p>
             Khách hàng có nhu cầu IN TÊN SỐ, đặt đội hoặc mua số lượng lớn từ 7 bộ vui lòng inbox để SHOP hỗ trợ với
@@ -19,26 +15,32 @@
         <div class="footer-center col-xs-12 col-sm-6 col-md-4 col-lg-5">
           <h4>Hỗ Trợ Khách Hàng</h4>
           <ul class="ul_menu_fot">
-            <li><router-link to="/chinh-sach" title="Chính sách bảo mật">Chính sách bảo mật</router-link></li>
-            <li><router-link to="/coc-giu-nhiet" title="Cốc Giữ Nhiệt">Cốc Giữ Nhiệt</router-link></li>
-            <li><router-link to="/gioi-thieu" title="Liên hệ">Liên hệ</router-link></li>
-            <li><router-link to="/pre-order" title="Pre Order">Pre Order</router-link></li>
-            <li><router-link to="#" title="Hỗ trợ trực tiếp">Hỗ trợ trực tiếp</router-link></li>
+            <li><router-link to="/san-pham" title="Chính sách bảo mật">Chính sách bảo mật</router-link></li>
+            <li><router-link to="/san-pham" title="Cốc Giữ Nhiệt">Cốc Giữ Nhiệt</router-link></li>
+            <li><router-link to="/san-pham" title="Liên hệ">Liên hệ</router-link></li>
+            <li><router-link to="/san-pham" title="Pre Order">Pre Order</router-link></li>
+            <li><router-link to="/san-pham" title="Hỗ trợ trực tiếp">Hỗ trợ trực tiếp</router-link></li>
           </ul>
         </div>
         <div class="footer-right col-xs-12 col-sm-6 col-md-4 col-lg-2">
           <ul class="footer-contact">
-            <li><i class="bi bi-telephone-fill"></i> <p>0555 555 555</p></li>
-            <li><i class="bi bi-globe"></i> <p>https://hangsport.online</p></li>
+            <li><i class="bi bi-telephone-fill"></i>
+              <p>0123 456 789</p>
+            </li>
+            <li><i class="bi bi-globe"></i>
+              <p>https://hangsport.online</p>
+            </li>
             <li>
               <i class="bi bi-facebook"></i>
-              <a href="https://Fb.com/hangthethao88" class="text-decoration-none text-white">fb.com/hangsport88</a>
+              <a href="https://Fb.com/zuck" class="text-decoration-none text-white">fb.com/hangsport88</a>
             </li>
-            <li><i class="bi bi-envelope"></i> <p>shop@hangsport.com</p></li>
+            <li><i class="bi bi-envelope"></i>
+              <p>shop@hangsport.online</p>
+            </li>
           </ul>
         </div>
       </div>
-      <div class="copyright">Hangsport copyright © 2023</div>
+      <div class="copyright">Hangsport copyright © 2024</div>
     </div>
   </footer>
 </template>

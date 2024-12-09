@@ -1744,7 +1744,7 @@ input[type="file"]:focus {
 }
 
 /* Phần nội dung modal */
-.modal-content {
+.modal-content1 {
     padding: 70px;
     border-radius: 8px;
     width: 90%;
