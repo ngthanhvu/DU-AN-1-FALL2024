@@ -1017,7 +1017,19 @@
     padding: 10px;
     margin-top: 15px;
   }
-  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 10px;
+    cursor: pointer;
+    width: 30px;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 50%;
+  }
 }
 
 @media only screen and (min-width: 601px) and (max-width: 1024px) {}

@@ -528,7 +528,6 @@ const preiew = (tab) => {
   loadReviews();
 };
 
-// Load product, reviews, and other necessary data
 const loadReviews = async () => {
   try {
     const response = await axios.get(`${API_URL}/api/reviews/product/${route.params.id}`);
@@ -539,8 +538,6 @@ const loadReviews = async () => {
   }
 };
 
-
-// Calculate the average rating and five-star percentage
 const totalReviews = computed(() => reviews.value.length);
 
 const calculateRatingStats = () => {
@@ -651,7 +648,6 @@ const submitReview = async () => {
   }
 };
 
-// Xử lý nút thích đánh giá
 const likeReview = async (reviewId) => {
   if (likedReviews.value.includes(reviewId)) {
     alert('Bạn đã thích đánh giá này rồi!');
