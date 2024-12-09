@@ -297,9 +297,11 @@
     .btn-filter-sidebar {
         display: block !important;
     }
-    .boloc{
+
+    .boloc {
         display: none;
     }
+
     .sidebar {
         display: none;
     }
@@ -354,7 +356,7 @@
     .btn-close-sidebar:hover {
         color: #dc3545;
     }
-    
+
     .filter-mobile-sidebar {
         height: 100%;
         position: fixed;
@@ -368,35 +370,36 @@
         width: 275px;
         transition: width 0.5s ease-in-out;
     }
-    
+
     .filter-mobile-sidebar.active {
-        display: block; 
+        display: block;
     }
+
     h5.mb-3 {
         font-size: 18px;
         font-weight: bold;
         margin: 22px 30px auto;
         color: #333;
     }
-    
+
     .filter-mobile-sidebar .form-check-input {
         margin: 6px 30px auto;
     }
-    
+
     .filter-mobile-sidebar .form-check-label {
         font-size: 16px;
         color: #555;
         display: inline-block;
         margin: 0px -15px auto;
     }
-    
+
     h5 b {
         font-weight: bold;
         font-size: 18px;
         color: #333;
         margin: 22px 30px auto;
     }
-    
+
     .filter-price {
         display: block;
         padding: 8px 0;
@@ -404,21 +407,22 @@
         font-size: 14px;
         margin: 22px 30px auto;
     }
-    
+
     .filter-price:hover {
         color: #007bff;
         text-decoration: underline;
     }
-    
+
     p.mt-2 {
         font-size: 16px;
         color: #333;
         margin-top: 10px;
     }
-      
+
     .d-flex {
         margin: 15px 0px auto;
     }
+
     .input-group {
         margin-left: 56px;
         border-top-left-radius: 0;
@@ -435,7 +439,7 @@
         font-size: 15px;
     }
 
-   
+
 
     .product-col {
         flex: 0 0 50%;
@@ -806,234 +810,249 @@
     .shop1 .breadcrumb {
         font-size: 14px;
     }
+
     .shop1 .breadcrumb strong {
         font-size: 15px;
     }
+
     .shop1 .breadcrumb li a {
         font-size: 14px;
     }
+
     .section-news h2 {
         font-size: 1.3rem;
         font-weight: bold;
     }
-    .section-6 h3{
+
+    .section-6 h3 {
         font-weight: bold;
     }
-      /* Thay đổi chiều cao cho phần profile */
-  .profile-section {
-    height: auto;
-    padding: 10px 0;
-  }
 
-  /* Danh sách điều hướng bên trái */
-  .list-group {
-    margin-bottom: 20px;
-  }
-  .list-group-item {
-    font-size: 14px;
-    padding: 10px;
-    text-align: center;
-  }
+    /* Thay đổi chiều cao cho phần profile */
+    .profile-section {
+        height: auto;
+        padding: 10px 0;
+    }
 
-  /* Thẻ card nội dung chính */
-  .card {
-    padding: 10px;
-    margin-top: 10px;
-  }
-  .card-title {
-    font-size: 16px;
-  }
+    /* Danh sách điều hướng bên trái */
+    .list-group {
+        margin-bottom: 20px;
+    }
 
-  /* Bố cục thông tin địa chỉ */
-  .table {
-    font-size: 12px;
-  }
-  .table th, .table td {
-    padding: 5px;
-    text-align: center;
-  }
-  .table th {
-    font-size: 13px;
-  }
+    .list-group-item {
+        font-size: 14px;
+        padding: 10px;
+        text-align: center;
+    }
 
-  /* Form thêm địa chỉ mới */
-  .form-label {
-    font-size: 12px;
-  }
-  .form-control, .form-select {
-    font-size: 12px;
-    padding: 5px;
-  }
+    /* Thẻ card nội dung chính */
+    .card {
+        padding: 10px;
+        margin-top: 10px;
+    }
 
-  button {
-    font-size: 12px;
-    padding: 8px;
-  }
+    .card-title {
+        font-size: 16px;
+    }
 
-  .btn-secondary {
-    width: 100%;
-    margin-top: 10px;
-  }
+    /* Bố cục thông tin địa chỉ */
+    .table {
+        font-size: 12px;
+    }
 
-  .row {
-    margin: 0 -5px;
-  }
-  .row > [class^="col-"] {
-    padding: 0 5px;
-  }
+    .table th,
+    .table td {
+        padding: 5px;
+        text-align: center;
+    }
 
-  .btn-danger {
-    padding: 5px 10px;
-  }
-  .table {
-    font-size: 12px;
-    width: 100%;
-    border: none;
-  }
-  
-  .table-bordered {
-    border: 0;
-  }
+    .table th {
+        font-size: 13px;
+    }
 
-  /* Bảng cuộn ngang nếu nội dung quá rộng */
-  .table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
+    /* Form thêm địa chỉ mới */
+    .form-label {
+        font-size: 12px;
+    }
 
-  /* Tiêu đề bảng */
-  .table th {
-    font-size: 13px;
-    font-weight: bold;
-    text-align: center;
-    padding: 8px;
-  }
+    .form-control,
+    .form-select {
+        font-size: 12px;
+        padding: 5px;
+    }
 
-  /* Dòng nội dung bảng */
-  .table td {
-    font-size: 12px;
-    padding: 6px;
-    text-align: center;
-    vertical-align: middle;
-  }
+    button {
+        font-size: 12px;
+        padding: 8px;
+    }
 
-  /* Dòng không có địa chỉ */
-  .table tr.text-center {
-    font-size: 14px;
-    color: #888;
-  }
+    .btn-secondary {
+        width: 100%;
+        margin-top: 10px;
+    }
 
-  /* Nút xóa nhỏ gọn hơn */
-  .btn-danger {
-    font-size: 10px;
-    padding: 5px 10px;
-  }
+    .row {
+        margin: 0 -5px;
+    }
 
-  /* Đường viền của bảng giảm bớt */
-  .table-bordered th,
-  .table-bordered td {
-    border: 1px solid #ddd;
-  }
+    .row>[class^="col-"] {
+        padding: 0 5px;
+    }
 
-  /* Căn giữa nội dung trong thao tác */
-  .text-center {
-    text-align: center;
-  }
-  .checkout {
-    padding: 20px 10px;
-  }
+    .btn-danger {
+        padding: 5px 10px;
+    }
 
-  .checkout__form h4 {
-    font-size: 18px;
-    text-align: center;
-  }
+    .table {
+        font-size: 12px;
+        width: 100%;
+        border: none;
+    }
 
-  /* Form thêm địa chỉ */
-  .form-group label {
-    font-size: 14px;
-    font-weight: 600;
-  }
+    .table-bordered {
+        border: 0;
+    }
 
-  .form-control,
-  .form-select {
-    font-size: 14px;
-    padding: 10px;
-  }
+    /* Bảng cuộn ngang nếu nội dung quá rộng */
+    .table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
 
-  .site-btn {
-    width: 100%;
-    text-align: center;
-    font-size: 14px;
-    padding: 10px;
-  }
+    /* Tiêu đề bảng */
+    .table th {
+        font-size: 13px;
+        font-weight: bold;
+        text-align: center;
+        padding: 8px;
+    }
 
-  /* Dropdown chọn địa chỉ */
-  #addressSelect {
-    font-size: 14px;
-    padding: 10px;
-  }
+    /* Dòng nội dung bảng */
+    .table td {
+        font-size: 12px;
+        padding: 6px;
+        text-align: center;
+        vertical-align: middle;
+    }
 
-  /* Giao diện cột */
-  .checkout__form .col-lg-8,
-  .checkout__form .col-lg-4 {
-    width: 100%;
-    margin-bottom: 20px;
-  }
+    /* Dòng không có địa chỉ */
+    .table tr.text-center {
+        font-size: 14px;
+        color: #888;
+    }
 
-  /* Phần đơn hàng */
-  .checkout__order h4 {
-    font-size: 18px;
-    text-align: center;
-    margin-bottom: 10px;
-  }
+    /* Nút xóa nhỏ gọn hơn */
+    .btn-danger {
+        font-size: 10px;
+        padding: 5px 10px;
+    }
 
-  .checkout__order__products,
-  .checkout__order__subtotal,
-  .checkout__order__total {
-    font-size: 14px;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
+    /* Đường viền của bảng giảm bớt */
+    .table-bordered th,
+    .table-bordered td {
+        border: 1px solid #ddd;
+    }
 
-  .checkout__order ul li {
-    font-size: 14px;
-    margin-bottom: 5px;
-  }
+    /* Căn giữa nội dung trong thao tác */
+    .text-center {
+        text-align: center;
+    }
 
-  /* Input mã giảm giá */
-  .form-group input[type="text"] {
-    font-size: 14px;
-    padding: 10px;
-  }
+    .checkout {
+        padding: 20px 10px;
+    }
 
-  .checkout__input__checkbox label {
-    font-size: 14px;
-  }
+    .checkout__form h4 {
+        font-size: 18px;
+        text-align: center;
+    }
 
-  .checkout__order .site-btn {
-    font-size: 14px;
-    padding: 10px;
-    margin-top: 15px;
-  }
-  .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: transparent;
-    border: none;
-    font-size: 10px;
-    cursor: pointer;
-    width: 30px;
-    text-align: center;
-    background-color: #fff;
-    border-radius: 50%;
-  }
+    /* Form thêm địa chỉ */
+    .form-group label {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .form-control,
+    .form-select {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .site-btn {
+        width: 100%;
+        text-align: center;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    /* Dropdown chọn địa chỉ */
+    #addressSelect {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    /* Giao diện cột */
+    .checkout__form .col-lg-8,
+    .checkout__form .col-lg-4 {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    /* Phần đơn hàng */
+    .checkout__order h4 {
+        font-size: 18px;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .checkout__order__products,
+    .checkout__order__subtotal,
+    .checkout__order__total {
+        font-size: 14px;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .checkout__order ul li {
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    /* Input mã giảm giá */
+    .form-group input[type="text"] {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .checkout__input__checkbox label {
+        font-size: 14px;
+    }
+
+    .checkout__order .site-btn {
+        font-size: 14px;
+        padding: 10px;
+        margin-top: 15px;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 60px;
+        right: 50px;
+        background: transparent;
+        border: none;
+        font-size: 10px;
+        cursor: pointer;
+        width: 30px;
+        text-align: center;
+        background-color: #fff;
+        border-radius: 50%;
+    }
 }
 
 @media only screen and (min-width: 601px) and (max-width: 1024px) {}
 
 
 @media only screen and (min-width: 1025px) {}
-

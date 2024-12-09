@@ -270,7 +270,7 @@ const showModal = ref(true);
 watch(showModal, (newVal) => {
   if (newVal) {
     const randomIndex = Math.floor(Math.random() * imageList.length);
-    randomImage.value = imageList[randomIndex]; 
+    randomImage.value = imageList[randomIndex];
   }
 });
 
@@ -285,7 +285,7 @@ const fetchProducts = async () => {
     const response = await axios.get(`${API_URL}/api/products`);
     products.value = response.data.map(product => ({
       ...product,
-      image: `http://127.0.0.1:8000/${product.images[0]?.image_path}`
+      image: `${API_URL}/${product.images[0]?.image_path}`
     }));
   } catch (error) {
     console.error('Error fetching products:', error);
@@ -297,7 +297,7 @@ const getProductByCategory = async (categoryId) => {
     const response = await axios.get(`${API_URL}/api/products/category/${categoryId}`);
     productByCategory.value[categoryId] = response.data.map(product => ({
       ...product,
-      image: `http://127.0.0.1:8000/${product.images[0]?.image_path}`
+      image: `${API_URL}/${product.images[0]?.image_path}`
     }));
     console.log(productByCategory.value);
   } catch (error) {

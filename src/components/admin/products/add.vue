@@ -146,54 +146,6 @@ const handleFileChange = (event) => {
   }));
 };
 
-// const handleSubmit = async () => {
-//   const requestData = new FormData();
-//   Object.keys(formData).forEach((key) => {
-//     if (key === 'skus') {
-//       formData.skus.forEach((sku, index) => {
-//         Object.entries(sku).forEach(([skuKey, value]) => {
-//           requestData.append(`skus[${index}][${skuKey}]`, value);
-//         });
-//       });
-//     } else if (key === 'images') {
-//       formData.images.forEach((image) => {
-//         requestData.append('images[]', image.file);
-//       });
-//     } else {
-//       requestData.append(key, formData[key]);
-//     }
-//   });
-
-//   requestData.set('primary_image', formData.primary_image);
-
-//   try {
-//     await axios.post(`${API_URL}/api/products`, requestData, {
-//       headers: { 'Content-Type': 'multipart/form-data' }
-//     });
-//     Swal.fire({
-//       icon: 'success',
-//       title: 'Thêm sản phẩm thành công!',
-//     });
-//     formData.name = '';
-//     formData.price = '';
-//     formData.sale_price = '';
-//     formData.description = '';
-//     formData.quantity = '';
-//     formData.category_id = '';
-//     formData.skus = [];
-//     formData.images = [];
-//     formData.primary_image = '';
-//     imageFiles.value = [];
-//   } catch (error) {
-//     console.error('Error creating product:', error.response.data);
-//     Swal.fire({
-//       icon: 'error',
-//       title: 'Đã xảy ra lỗi!',
-//       text: error.response.data.message || 'Vui lòng kiểm tra lại thông tin!'
-//     });
-//   }
-// };
-
 const handleSubmit = async () => {
   if (!formData.name) {
     await Swal.fire({
@@ -289,6 +241,7 @@ const handleSubmit = async () => {
     formData.images = [];
     formData.primary_image = '';
     imageFiles.value = [];
+    window.location.reload();
   } catch (error) {
     console.error('Error creating product:', error.response.data);
     Swal.fire({

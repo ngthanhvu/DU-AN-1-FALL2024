@@ -119,12 +119,26 @@
 
         <!-- Phân trang -->
         <ul class="pagination">
+          <li class="page-item">
+            <button @click="filters.page > 1 && (filters.page -= 1)"
+              class="page-link bg-danger border-danger text-white" :disabled="filters.page === 1">
+              Trang trước
+            </button>
+          </li>
           <li v-for="page in pagination.last_page" :key="page" class="page-item">
             <button @click="filters.page = page" class="page-link bg-danger border-danger text-white">
               {{ page }}
             </button>
           </li>
+          <li class="page-item">
+            <button @click="filters.page < pagination.last_page && (filters.page += 1)"
+              class="page-link bg-danger border-danger text-white" :disabled="filters.page === pagination.last_page">
+              Trang sau
+            </button>
+          </li>
         </ul>
+
+
       </div>
     </div>
   </div>
