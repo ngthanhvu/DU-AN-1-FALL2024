@@ -159,18 +159,19 @@ const deleteUser = async (id) => {
       cancelButtonText: 'Hủy',
     });
 
-    if (!result.isConfirmed) {
+    if (result.isConfirmed) {
       const response = await axios.delete(`${API_URL}/api/users/${id}`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       Swal.fire({
         icon: 'success',
         title: 'Thành công!',
-        text: 'Xóa người dùng thành công!'
+        text: 'Xóa người dùng thành công!',
       });
+
       fetchUsers();
     }
   } catch (error) {
@@ -178,13 +179,13 @@ const deleteUser = async (id) => {
       Swal.fire({
         icon: 'error',
         title: 'Không thể xóa người dùng!',
-        text: error.response.data.message
+        text: error.response.data.message,
       });
     } else {
       Swal.fire({
         icon: 'error',
         title: 'Lỗi!',
-        text: 'Đã có lỗi xảy ra khi xóa người dùng.'
+        text: 'Đã có lỗi xảy ra khi xóa người dùng.',
       });
     }
   }
