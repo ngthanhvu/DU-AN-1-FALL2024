@@ -1,38 +1,54 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xác nhận thanh toán</title>
-    <!-- Thêm CDN của Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body style="background-color: #f4f7fc; padding: 20px; font-family: Arial, sans-serif;">
+
+<body style="background-color: #f4f7fc; padding: 20px; font-family: Arial, sans-serif; margin: 0;">
 
     <!-- Wrapper Container -->
-    <div class="container" style="max-width: 600px; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-
+    <table role="presentation" style="width: 100%; max-width: 600px; background-color: white; margin: 0 auto; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
         <!-- Header -->
-        <div class="text-center mb-4">
-            <h1 class="text-primary">Xin chào {{ $order->full_name }}</h1>
-        </div>
+        <tr>
+            <td style="text-align: center; padding-bottom: 20px;">
+                <h1 style="color: #007bff;">Xin chào {{ $order->full_name }}</h1>
+            </td>
+        </tr>
 
         <!-- Body content -->
-        <p>Cảm ơn bạn đã thanh toán đơn hàng của chúng tôi. Đây là thông tin thanh toán của bạn:</p>
-        <ul>
-            <li><strong>Mã đơn hàng:</strong> {{ $order->id }}</li>
-            <li><strong>Tổng giá trị:</strong> {{ number_format($order->total_price, 0, ',', '.') }} VND</li>
-            <li><strong>Trạng thái:</strong> Đã thanh toán</li>
-        </ul>
-
-        <p>Chúng tôi sẽ tiến hành xử lý đơn hàng của bạn và giao hàng trong thời gian sớm nhất.</p>
-        <p>Cảm ơn bạn đã tin tưởng sử dụng dịch vụ của chúng tôi!</p>
+        <tr>
+            <td style="padding-bottom: 20px;">
+                <p>Cảm ơn bạn đã thanh toán đơn hàng của chúng tôi. Đây là thông tin thanh toán của bạn:</p>
+                <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Mã đơn hàng:</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">#000{{ $order->id }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Tổng giá trị:</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">{{ number_format($order->total_price, 0, ',', '.') }} VND</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Trạng thái:</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Đã thanh toán</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
 
         <!-- Footer -->
-        <div class="text-center mt-5" style="font-size: 0.9em; color: #777;">
-            <p>Đây là email tự động, vui lòng không trả lời trực tiếp.</p>
-        </div>
-    </div>
+        <tr>
+            <td style="text-align: center; padding-top: 20px; font-size: 0.9em; color: #777;">
+                <p>Chúng tôi sẽ tiến hành xử lý đơn hàng của bạn và giao hàng trong thời gian sớm nhất.</p>
+                <p>Cảm ơn bạn đã tin tưởng và sử dụng dịch vụ của chúng tôi!</p>
+                <p>Đây là email tự động, vui lòng không trả lời trực tiếp.</p>
+            </td>
+        </tr>
+    </table>
 
 </body>
+
 </html>

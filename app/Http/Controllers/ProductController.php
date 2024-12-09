@@ -19,7 +19,7 @@ class ProductController extends Controller
     public function view(Request $request)
     {
         $search = $request->input('search', '');
-        $perPage = $request->input('per_page', 15);
+        $perPage = $request->input('per_page', 8);
         $categoryIds = $request->input('category_ids', []);
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
@@ -126,7 +126,7 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'sometimes|string|max:255',
             'description' => 'nullable|string',
-            'price' => 'sometimes|numeric|min:0',
+            'price' => 'nullable|numeric|min:0',
             'sale_price' => 'nullable|numeric|min:0',
             'quantity' => 'sometimes|integer|min:0',
             'category_id' => 'sometimes|exists:categories,id',
@@ -154,6 +154,7 @@ class ProductController extends Controller
                         'sku_code' => $skuData['sku_code'],
                         'size' => $skuData['size'] ?? null,
                         'stock' => $skuData['stock'] ?? 0,
+                        'price' => $skuData['price'] ?? null,
                     ]
                 );
             }

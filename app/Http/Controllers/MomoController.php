@@ -70,136 +70,91 @@ class MomoController extends Controller
         return response()->json(json_decode($response, true));
     }
 
-    // public function callback(Request $request)
-    // {
-    //     $secretKey = 'K951B6PE1waDMi640xX08PD3vg6EkVlz';
-    //     $accessKey = 'F8BBA842ECF85';
-
-    //     $data = $request->all();
-
-    //     Log::info('MoMo Callback Data: ', $data);
-
-    //     $extraData = $data['extraData'] ?? '';
-    //     $rawSignature = "accessKey=" . $accessKey .
-    //         "&amount=" . $data['amount'] .
-    //         "&extraData=" . $extraData .
-    //         "&message=" . $data['message'] .
-    //         "&orderId=" . $data['orderId'] .
-    //         "&orderInfo=" . $data['orderInfo'] .
-    //         "&orderType=" . $data['orderType'] .
-    //         "&partnerCode=" . $data['partnerCode'] .
-    //         "&payType=" . $data['payType'] .
-    //         "&requestId=" . $data['requestId'] .
-    //         "&responseTime=" . $data['responseTime'] .
-    //         "&resultCode=" . $data['resultCode'] .
-    //         "&transId=" . $data['transId'];
-
-    //     $calculatedSignature = hash_hmac('sha256', $rawSignature, $secretKey);
-
-    //     Log::info('Callback Debug', [
-    //         'rawSignature' => $rawSignature,
-    //         'calculatedSignature' => $calculatedSignature,
-    //         'receivedSignature' => $data['signature']
-    //     ]);
-
-    //     if ($calculatedSignature === $data['signature']) {
-    //         if ($data['resultCode'] == 0) {
-    //             Log::info('Payment success', ['orderId' => $data['orderId'], 'transId' => $data['transId']]);
-
-    //             return response()->json([
-    //                 'status' => 'success',
-    //                 'message' => 'Payment successful'
-    //             ]);
-    //         } else {
-    //             Log::error('Payment failed', ['orderId' => $data['orderId'], 'resultCode' => $data['resultCode']]);
-
-    //             return response()->json([
-    //                 'status' => 'fail',
-    //                 'message' => 'Payment failed'
-    //             ]);
-    //         }
-    //     } else {
-    //         Log::error('Invalid signature', [
-    //             'calculated' => $calculatedSignature,
-    //             'received' => $data['signature'],
-    //             'rawSignature' => $rawSignature
-    //         ]);
-
-    //         return response()->json([
-    //             'status' => 'error',
-    //             'message' => 'Invalid signature'
-    //         ]);
-    //     }
-    // }
-
     public function callback(Request $request)
-{
-    $secretKey = 'K951B6PE1waDMi640xX08PD3vg6EkVlz';
-    $accessKey = 'F8BBA842ECF85';
+    {
+        $secretKey = 'K951B6PE1waDMi640xX08PD3vg6EkVlz';
+        $accessKey = 'F8BBA842ECF85';
 
-    $data = $request->all();
+        $data = $request->all();
 
-    Log::info('MoMo Callback Data: ', $data);
+        Log::info('MoMo Callback Data: ', $data);
 
-    $extraData = $data['extraData'] ?? '';
-    $rawSignature = "accessKey=" . $accessKey .
-                    "&amount=" . $data['amount'] .
-                    "&extraData=" . $extraData .
-                    "&message=" . $data['message'] .
-                    "&orderId=" . $data['orderId'] .
-                    "&orderInfo=" . $data['orderInfo'] .
-                    "&orderType=" . $data['orderType'] .
-                    "&partnerCode=" . $data['partnerCode'] .
-                    "&payType=" . $data['payType'] .
-                    "&requestId=" . $data['requestId'] .
-                    "&responseTime=" . $data['responseTime'] .
-                    "&resultCode=" . $data['resultCode'] .
-                    "&transId=" . $data['transId'];
+        $extraData = $data['extraData'] ?? '';
+        $rawSignature = "accessKey=" . $accessKey .
+            "&amount=" . $data['amount'] .
+            "&extraData=" . $extraData .
+            "&message=" . $data['message'] .
+            "&orderId=" . $data['orderId'] .
+            "&orderInfo=" . $data['orderInfo'] .
+            "&orderType=" . $data['orderType'] .
+            "&partnerCode=" . $data['partnerCode'] .
+            "&payType=" . $data['payType'] .
+            "&requestId=" . $data['requestId'] .
+            "&responseTime=" . $data['responseTime'] .
+            "&resultCode=" . $data['resultCode'] .
+            "&transId=" . $data['transId'];
 
-    $calculatedSignature = hash_hmac('sha256', $rawSignature, $secretKey);
+        $calculatedSignature = hash_hmac('sha256', $rawSignature, $secretKey);
 
-    if ($calculatedSignature === $data['signature']) {
-        // Tách phần số trong orderId (momo_21 -> 21)
-        $orderIdParts = explode('_', $data['orderId']);
-        $orderIdNumber = $orderIdParts[1]; // Lấy phần số sau dấu gạch dưới
+        // Danh sách các mã lỗi cần kiểm tra
+        $failedCodes = ['-1000', '-1001', '-1002', '-1003', '-1004', '-1005', '-1006', '-1007', '-1008', '-1009'];
 
-        // Tìm kiếm đơn hàng dựa trên phần số trong orderId
-        $order = Order::where('id', $orderIdNumber)->first();
+        if ($calculatedSignature === $data['signature']) {
+            $orderIdParts = explode('_', $data['orderId']);
+            $orderIdNumber = $orderIdParts[1];
 
-        if ($order) {
-            if ($data['resultCode'] == 0) {
-                $order->status = 'paid';
-                $order->save();
+            $order = Order::where('id', $orderIdNumber)->first();
 
-                $user = $order->user;
-
-                if ($user && !empty($user->email)) {
-                    $order->email = $user->email;
-                    Mail::to($order->email)->send(new PaymentConfirmation($order));
+            if ($order) {
+                // Kiểm tra mã lỗi và xử lý thanh toán thất bại
+                if (in_array($data['resultCode'], $failedCodes)) {
+                    Log::error('Payment failed', ['orderId' => $data['orderId'], 'resultCode' => $data['resultCode']]);
+                    $frontendUrl = env('FRONTEND_URL') . "/thanh-cong?status=payment_fail&order_id={$data['orderId']}";
+                    return redirect()->to($frontendUrl);
                 }
 
-                $frontendUrl = "http://localhost:5173/thanh-cong?status={$data['resultCode']}&order_id={$data['orderId']}";
-                return redirect()->to($frontendUrl);
+                if ($data['resultCode'] == 0) {
+                    $order->status = 'paid';
+                    $order->save();
+
+                    // Cập nhật kho hàng
+                    $orderDetails = $order->orderDetails;
+                    foreach ($orderDetails as $orderDetail) {
+                        $product = $orderDetail->product;
+                        if ($product) {
+                            $product->quantity -= $orderDetail->quantity;
+                            $product->save();
+                        }
+                    }
+
+                    // Gửi mail
+                    $user = $order->user;
+                    if ($user && !empty($user->email)) {
+                        $order->email = $user->email;
+                        Mail::to($order->email)->send(new PaymentConfirmation($order));
+                    }
+
+                    $frontendUrl = env('FRONTEND_URL') . "/thanh-cong?status={$data['resultCode']}&order_id={$data['orderId']}";
+                    return redirect()->to($frontendUrl);
+                } else {
+                    Log::error('Payment failed', ['orderId' => $data['orderId'], 'resultCode' => $data['resultCode']]);
+                    $frontendUrl = env('FRONTEND_URL') . "/thanh-cong?status={$data['resultCode']}&order_id={$data['orderId']}";
+                    return redirect()->to($frontendUrl);
+                }
             } else {
-                Log::error('Payment failed', ['orderId' => $data['orderId'], 'resultCode' => $data['resultCode']]);
-                $frontendUrl = "http://localhost:5173/thanh-cong?status={$data['resultCode']}&order_id={$data['orderId']}";
+                Log::error('Order not found', ['orderId' => $data['orderId']]);
+                $frontendUrl = env('FRONTEND_URL') . "/thanh-cong?status=01&order_id={$data['orderId']}";
                 return redirect()->to($frontendUrl);
             }
         } else {
-            Log::error('Order not found', ['orderId' => $data['orderId']]);
-            $frontendUrl = "http://localhost:5173/thanh-cong?status=01&order_id={$data['orderId']}";
+            Log::error('Invalid signature', [
+                'calculated' => $calculatedSignature,
+                'received' => $data['signature'],
+                'rawSignature' => $rawSignature
+            ]);
+
+            $frontendUrl = env('FRONTEND_URL') . "/thanh-cong?status=01&order_id={$data['orderId']}";
             return redirect()->to($frontendUrl);
         }
-    } else {
-        Log::error('Invalid signature', [
-            'calculated' => $calculatedSignature,
-            'received' => $data['signature'],
-            'rawSignature' => $rawSignature
-        ]);
-
-        $frontendUrl = "http://localhost:5173/thanh-cong?status=01&order_id={$data['orderId']}";
-        return redirect()->to($frontendUrl);
     }
-}
-
 }

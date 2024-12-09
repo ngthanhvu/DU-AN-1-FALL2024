@@ -275,7 +275,7 @@ class UserController extends Controller
             // Validate input data
             $validator = Validator::make($request->all(), [
                 'current_password' => 'required',
-                'new_password' => 'required|string|min:8|different:current_password|confirmed'
+                'new_password' => 'required|string|min:6|different:current_password|confirmed'
             ], [
                 'new_password.different' => 'Mật khẩu mới phải khác mật khẩu hiện tại',
                 'new_password.confirmed' => 'Xác nhận mật khẩu không khớp'

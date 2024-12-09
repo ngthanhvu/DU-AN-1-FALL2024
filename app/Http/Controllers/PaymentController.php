@@ -65,64 +65,6 @@ class PaymentController extends Controller
         return response()->json(['url' => $vnp_Url]);
     }
 
-
-    // VnpayController callback function
-    // public function callback(Request $request)
-    // {
-    //     $vnp_HashSecret = config('services.vnpay.hash_secret');
-    //     $inputData = $request->all();
-    //     $vnp_SecureHash = $inputData['vnp_SecureHash'];
-
-    //     unset($inputData['vnp_SecureHashType']);
-    //     unset($inputData['vnp_SecureHash']);
-
-    //     ksort($inputData);
-
-    //     $hashData = '';
-    //     foreach ($inputData as $key => $value) {
-    //         $hashData .= ($hashData ? '&' : '') . urlencode($key) . "=" . urlencode($value);
-    //     }
-
-    //     $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
-
-    //     if ($secureHash === $vnp_SecureHash) {
-    //         $order = Order::where('id', $inputData['vnp_TxnRef'])->first();
-
-    //         if ($order) {
-    //             $order->status = 'paid';
-    //             $order->save();
-
-    //             // Lấy các order details dựa trên order_id
-    //             $orderDetails = $order->orderDetails; // Giả sử bạn có quan hệ 'orderDetails' trong model Order
-
-    //             // Kiểm tra và giảm số lượng sản phẩm trong kho
-    //             foreach ($orderDetails as $orderDetail) {
-    //                 $product = $orderDetail->product; // Lấy thông tin sản phẩm
-    //                 if ($product) {
-    //                     // Giảm số lượng của sản phẩm trong kho
-    //                     $product->quantity -= $orderDetail->quantity; // Giảm số lượng theo số lượng đã mua
-    //                     $product->save(); // Lưu thay đổi vào cơ sở dữ liệu
-    //                 }
-    //             }
-
-    //             $user = $order->user;
-
-    //             if ($user && !empty($user->email)) {
-    //                 $order->email = $user->email;
-    //                 Mail::to($order->email)->send(new PaymentConfirmation($order));
-    //             }
-    //             $frontendUrl = "http://localhost:5173/thanh-cong?status={$inputData['vnp_ResponseCode']}&order_id={$inputData['vnp_TxnRef']}";
-    //             return redirect()->to($frontendUrl);
-    //         } else {
-    //             $frontendUrl = "http://localhost:5173/thanh-cong?status=01&order_id={$inputData['vnp_TxnRef']}";
-    //             return redirect()->to($frontendUrl);
-    //         }
-    //     } else {
-    //         $frontendUrl = "http://localhost:5173/thanh-cong?status=01&order_id={$inputData['vnp_TxnRef']}";
-    //         return redirect()->to($frontendUrl);
-    //     }
-    // }
-
     public function callback(Request $request)
     {
         $vnp_HashSecret = config('services.vnpay.hash_secret');
@@ -182,7 +124,7 @@ class PaymentController extends Controller
                 return redirect()->to($frontendUrl);
             }
         } else {
-            $frontendUrl = "http://localhost:5173/thanh-cong?status=01&order_id={$inputData['vnp_TxnRef']}";
+            $frontendUrl = env('FRONTEND_URL') . "/thanh-cong?status=01&order_id={$inputData['vnp_TxnRef']}";
             return redirect()->to($frontendUrl);
         }
     }
