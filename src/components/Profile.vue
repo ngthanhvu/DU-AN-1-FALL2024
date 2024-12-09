@@ -53,7 +53,28 @@
             <button @click="updateProfile" class="btn btn-primary">
               Cập nhật thông tin
             </button>
+
+            <h4 class="mt-5 fw-bold">Đổi mật khẩu</h4>
+            <form @submit.prevent="updatePassword" class="mt-3">
+              <div class="mb-3">
+                <label for="currentPassword" class="form-label">Mật khẩu hiện tại</label>
+                <input type="password" id="currentPassword" class="form-control" v-model="passwordForm.currentPassword"
+                  placeholder="Nhập mật khẩu hiện tại" />
+              </div>
+              <div class="mb-3">
+                <label for="newPassword" class="form-label">Mật khẩu mới</label>
+                <input type="password" id="newPassword" class="form-control" v-model="passwordForm.newPassword"
+                  placeholder="Nhập mật khẩu mới" />
+              </div>
+              <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Nhập lại mật khẩu mới</label>
+                <input type="password" id="confirmPassword" class="form-control" v-model="passwordForm.confirmPassword"
+                  placeholder="Nhập lại mật khẩu mới" />
+              </div>
+              <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
+            </form>
           </div>
+
 
           <!-- Profile Section (Address) -->
           <div class="card-body" v-if="activeTab === 'profile'">
@@ -170,6 +191,13 @@ const profile = ref({
   username: '',
   email: ''
 });
+
+const passwordForm = ref({
+  currentPassword: '',
+  newPassword: '',
+  confirmPassword: ''
+});
+
 
 const fetchProfile = async () => {
   try {
@@ -332,10 +360,10 @@ const saveNewAddress = async () => {
       Swal.fire('Lỗi', 'Thôn xóm không được có kí tự đặc biệt!', 'error');
       return;
     }
-    const phoneRegex = /^[0-9]{10}$/; // Chỉ cho phép 10 chữ số
+    const phoneRegex = /^[0-9]{9}$/; // Chỉ cho phép 9 chữ số
     if (!phoneRegex.test(String(newAddress.value.phone).trim())) {
 
-      Swal.fire('Lỗi', 'Số điện thoại phải là 10 chữ số!', 'error');
+      Swal.fire('Lỗi', 'Số điện thoại phải là 9 chữ số!', 'error');
       return;
     }
 
@@ -350,19 +378,18 @@ const saveNewAddress = async () => {
         user_id: user_id
       });
       if (response.status === 201) {
-        alert("Địa chỉ đã được lưu thành công!");
+        Swal.fire("Thành công", "Địa chỉ đã được lưu thành công!", "success");
         isAddingNewAddress.value = false;
         loadAddress();
       } else {
-        alert("Có lỗi xảy ra khi lưu địa chỉ!");
+        Swal.fire("Lỗi", "Có lỗi xảy ra khi lưu địa chỉ!", "error");
       }
     } catch (error) {
       console.error("Error saving address:", error);
-      // alert("Lỗi kết nối với máy chủ!");
       Swal.fire('Lỗi', 'Lỗi kết nối với máy chủ!', 'error');
     }
   } else {
-    alert("Vui lòng điền đầy đủ thông tin!");
+    Swal.fire('Vui lòng điền đầy đủ thông tin!', 'error');
   }
 };
 
@@ -370,9 +397,34 @@ const isFormValid = computed(() => {
   return newAddress.value.full_name && newAddress.value.phone && newAddress.value.province && newAddress.value.district && newAddress.value.commune && newAddress.value.hamlet;
 });
 
-const viewOrderDetails = (order) => {
-  alert(`Chi tiết đơn hàng ${order.orderCode}`);
+const updatePassword = async () => {
+  if (passwordForm.value.newPassword !== passwordForm.value.confirmPassword) {
+    Swal.fire("Lỗi", "Mật khẩu mới không khớp!", "error");
+    return;
+  }
+
+  try {
+    const response = await axios.put(
+      `${API_URL}/api/user/update-password`,
+      {
+        current_password: passwordForm.value.currentPassword,
+        new_password: passwordForm.value.newPassword,
+        new_password_confirmation: passwordForm.value.confirmPassword,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    Swal.fire("Thành công", "Đổi mật khẩu thành công!", "success");
+    console.log(response.data);
+  } catch (error) {
+    console.error("Lỗi khi đổi mật khẩu:", error.response?.data || error.message);
+    Swal.fire("Lỗi", "Đổi mật khẩu thất bại!", "error");
+  }
 };
+
 
 onMounted(() => {
   provinces.value = getProvinces();

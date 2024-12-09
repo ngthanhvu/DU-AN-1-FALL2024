@@ -37,7 +37,13 @@
             <td>#00{{ order.id }}</td>
             <td>{{ formatDate(order.created_at) }}</td>
             <td>
-              <span :class="statusClass(order.status)">{{ order.status }}</span>
+              <span v-if="order.status === 'paid'" class="badge text-bg-success">Đã thanh toán</span>
+              <span v-else-if="order.status === 'pending'" class="badge text-bg-warning text-white">Đang chờ thanh
+                toán</span>
+              <span v-else-if="order.status === 'shipping'" class="badge text-bg-info text-white">Đang vận
+                chuyển</span>
+              <span v-else-if="order.status === 'completed'" class="badge text-bg-success">Hoàn tính</span>
+              <span v-else-if="order.status === 'canceled'" class="badge text-bg-danger">Hủy</span>
             </td>
             <td>{{ formatCurrency(order.total_price) }}</td>
             <td>
@@ -59,13 +65,13 @@
       <p><strong>Ngày đặt:</strong> {{ formatDate(selectedOrder.created_at) }}</p>
       <p>
         <strong>Trạng thái:</strong>
-        <span class="badge" :class="{
-          'text-bg-warning': selectedOrder.status === 'pending',
-          'text-bg-success': selectedOrder.status === 'paid',
-          'text-bg-danger': selectedOrder.status === 'canceled'
-        }">
-          {{ selectedOrder.status }}
-        </span>
+        <span v-if="selectedOrder.status === 'paid'" class="badge text-bg-success">Đã thanh toán</span>
+        <span v-else-if="selectedOrder.status === 'pending'" class="badge text-bg-warning text-white">Đang chờ thanh
+          toán</span>
+        <span v-else-if="selectedOrder.status === 'shipping'" class="badge text-bg-info text-white">Đang vận
+          chuyển</span>
+        <span v-else-if="selectedOrder.status === 'completed'" class="badge text-bg-success">Hoàn thành</span>
+        <span v-else-if="selectedOrder.status === 'canceled'" class="badge text-bg-danger">Hủy</span>
       </p>
 
       <p><strong>Tổng tiền:</strong> {{ formatCurrency(selectedOrder.total_price) }}</p>
@@ -78,7 +84,7 @@
             <p class="mb-1"><strong>{{ item.product.name }}</strong></p>
             <p class="mb-1">Số lượng: {{ item.quantity }}</p>
             <p class="mb-1">Đơn giá: {{ formatCurrency(item.price) }}</p>
-            <p class="mb-1">Mô tả: {{ item.product.description }}</p>
+            <p class="mb-1" v-html="item.product.description"></p>
           </div>
           <!-- <button class="btn btn-success btn-sm ms-auto" v-if="item.status === 'paid'" @click="buyAgain(item)">
             Mua lại

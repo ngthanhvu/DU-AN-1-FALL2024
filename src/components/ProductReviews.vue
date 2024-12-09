@@ -138,6 +138,7 @@ import { ref, onMounted, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 import { format } from 'date-fns';
+import Swal from 'sweetalert2';
 
 const reviews = ref([]);
 const route = useRoute();
@@ -205,7 +206,8 @@ const loadAllReviews = async () => {
 
 const likeReview = async (reviewId) => {
     if (likedReviews.value.includes(reviewId)) {
-        alert('Bạn đã thích đánh giá này rồi!');
+        // alert('Bạn đã thích đánh giá này rồi!');
+        Swal.fire('Lỗi', 'Bản đánh giá này rồi!', 'error');
         return;
     }
 
@@ -429,7 +431,4 @@ const goToPage = (page) => {
     color: #999;
     margin-top: 5px;
 }
-
-
-
 </style>

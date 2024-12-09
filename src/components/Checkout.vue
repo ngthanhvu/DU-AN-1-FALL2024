@@ -205,7 +205,7 @@ const totalAfterDiscount = computed(() =>
   subtotal.value - discountValue.value
 );
 const address = ref([]);
-
+const users = ref([]);
 const user_id = localStorage.getItem('user_id');
 
 const loadCart = async () => {
@@ -436,15 +436,21 @@ const confirmPayment = async () => {
           alert("Có lỗi xảy ra trong quá trình thanh toán MoMo.");
         }
       } else if (paymentMethod.value === 'cod') {
-        Swal.fire('Thành công', 'Thanh toán thành công', 'success');
+        // Swal.fire('Thành công', 'Thanh toán thành công', 'success');
         try {
-          const repsonse = await axios.post(`${API_URL}/api/orders/${response.data.order.id}/decrease-quantity`, {
+          await axios.post(`${API_URL}/api/orders/${response.data.order.id}/decrease-quantity`, {
             quantity: products.reduce((total, item) => total + item.quantity, 0)
           });
+          const mailResponse = await axios.post(`${API_URL}/api/sendMail`, {
+            email: users.value.email,
+            subject: "Đặt hàng thành công!",
+            messageContent: "Cảm ơn bạn đã đặt hàng, đơn hàng sẽ sớm được giao trong 24h tới !",
+          });
+          console.log("API /sendMail Response:", mailResponse.data);
+          router.push('/thanh-cong?status=00&order_id=' + response.data.order.id);
         } catch (error) {
           console.error("Error decreasing quantity:", error);
         }
-        router.push('/thanh-cong?status=00&order_id=' + response.data.order.id);
       }
     } else {
       console.error("Có lỗi xảy ra trong quá trình tạo đơn hàng.");
@@ -488,11 +494,30 @@ const applyDiscount = async () => {
   }
 };
 
+const getEmaillUser = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/users/${user_id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+    if (response.status === 200) {
+      users.value = response.data;
+      console.log(users.value);
+    }
+  } catch (error) {
+    console.error('Error fetching user email:', error);
+  }
+}
+
+// console.log(email.value);
+
 const formatVND = value => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
 
 onMounted(() => {
   loadCart();
   provinces.value = getProvinces();
   loadAddress();
+  getEmaillUser();
 });
 </script>

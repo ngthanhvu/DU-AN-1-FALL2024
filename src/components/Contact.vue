@@ -25,7 +25,7 @@
           <div class="contact__widget">
             <font-awesome-icon icon="phone" class="icon-green fa-2x" />
             <h4>Số Điện Thoại</h4>
-            <p>+01-3-8888-6868</p>
+            <p>+84-345-67890</p>
           </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-6 text-center">
@@ -58,15 +58,15 @@
   <div class="map">
     <iframe
       src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d289.2792165084034!2d108.0674514376715!3d12.709396018295823!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1zSMOgIEh1eSBU4bqtcCwgVMOibiBM4bujaSwgQnXDtG4gTWEgVGh14buZdCwgxJDhuq9rIEzhuq9r!5e0!3m2!1svi!2s!4v1731549411652!5m2!1svi!2s"
-      width="600" height="550" style="border:0;"  allowfullscreen="" aria-hidden="false" tabindex="0"
+      width="600" height="550" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"
       referrerpolicy="no-referrer-when-downgrade"></iframe>
     <div class="map-inside">
       <i class="icon_pin"></i>
       <div class="inside-widget">
-        <h4>VietNam 🚩 </h4>
+        <h4>Việt Nam 🚩 </h4>
         <ul>
-          <li>Phone: +12-345-6789</li>
-          <li>Add: 16 Creek Ave. Farmingdale, NY</li>
+          <li>Điện thoại: +84-345-67890</li>
+          <li>Địa chỉ: 60-49 Hà Huy Tập, BMT, Đăk Lăk</li>
         </ul>
       </div>
     </div>
@@ -78,7 +78,7 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="contact__form__title">
-            <h2>Bạn Muốn Báo Cáo</h2>
+            <h2>Liên hệ với chúng tôi</h2>
           </div>
         </div>
       </div>
