@@ -5,6 +5,7 @@ import './assets/admin.css';
 import './assets/style.css';
 import './assets/responsive.css';
 import 'swiper/swiper-bundle.css';
+import 'notyf/notyf.min.css';
 
 import { createApp } from 'vue';
 import App from './App.vue';

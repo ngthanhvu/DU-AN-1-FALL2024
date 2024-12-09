@@ -115,8 +115,7 @@
                 <ul>
                   <li v-for="(product, index) in cartItems" :key="index" class="text-truncate">
                     {{ product.name }} <span>{{ formatVND(product.price) }}</span>
-                    <p>{{ product.id }}</p>
-                    <span class="product-quantity text-muted">Số lượng: {{ product.quantity }}</span>
+                    <p class="product-quantity text-muted">Số lượng: {{ product.quantity }}</p>
                   </li>
                 </ul>
                 <div class="checkout__order__subtotal">Tạm tính <span>{{ formatVND(subtotal) }}</span></div>
@@ -161,7 +160,8 @@
                 </div>
 
                 <!-- Nút xác nhận thanh toán -->
-                <button type="button" class="site-btn" @click.prevent="confirmPayment">Xác Nhận Thanh Toán</button>
+                <button type="button" class="site-btn" @click.prevent="confirmPayment">Thanh Toán
+                  <font-awesome-icon :icon="['fas', 'credit-card']" /></button>
               </div>
             </div>
           </div>
@@ -357,8 +357,8 @@ const confirmPayment = async () => {
     !selectedAddress.value.district ||
     !selectedAddress.value.commune ||
     !selectedAddress.value.hamlet)) {
-      Swal.fire('Lỗi', 'Vui lòng điền đầy đủ thông tin giao hàng!', 'error');
-      return;
+    Swal.fire('Lỗi', 'Vui lòng điền đầy đủ thông tin giao hàng!', 'error');
+    return;
   }
 
   const products = cartItems.value.map(item => ({

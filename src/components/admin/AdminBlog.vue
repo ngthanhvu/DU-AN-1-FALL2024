@@ -3,13 +3,7 @@
     <main>
       <div class="container-fluid px-4" style="margin-top: 80px;">
         <h2 class="mt-4">Quản lý bài viết</h2>
-
-        <!-- No posts available message -->
-        <div v-if="posts.length === 0" class="alert alert-info text-center">
-          Hiện chưa có bài viết nào.
-        </div>
-
-        <div v-else>
+        <div>
           <!-- Posts table -->
           <table class="table table-bordered table-hover">
             <thead class="table-dark text-center">
@@ -44,10 +38,12 @@
                   </button>
                 </td>
               </tr>
+              <tr v-if="posts.length === 0">
+                <td colspan="6" class="text-center">Hiện chưa có bài viết nào.</td>
+              </tr>
             </tbody>
           </table>
           <!-- phân trang -->
-          <!-- Phân trang -->
           <div class="pagination mb-3">
             <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Trang trước</button>
             <button v-for="page in totalPages" :key="page" @click="goToPage(page)"

@@ -27,23 +27,33 @@ npm run dev
 ```sh
 npm run build
 ```
+
 ### Update router
+
 ```sh
 npm install vue-router@4
 ```
+
 ### Update swiper
+
 ```sh
 npm install swiper@6.8.4 --legacy-peer-deps
 ```
-### Update bootstrap 
+
+### Update bootstrap
+
 ```sh
 npm install bootstrap-vue-3
 ```
+
 ### Update icon Fortawesome
+
 ```sh
 npm install @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/free-brands-svg-icons @fortawesome/vue-fontawesome
 ```
+
 ### Update icon brands
+
 ```sh
 npm install @fortawesome/free-regular-svg-icons
 ```
@@ -53,10 +63,13 @@ npm install @fortawesome/free-regular-svg-icons
 ```sh
 npm run lint
 ```
+
 ### nếu bug thì cài cái này
+
 ```sh
 npm install --legacy-peer-deps
 ```
+
 ### Boostrap icon
 
 ```sh
@@ -64,27 +77,43 @@ npm i bootstrap-icons
 ```
 
 ### Thư viện tỉnh thành
+
 ```sh
 npm install vietnam-provinces
 ```
 
 ### Thư viện axios
-``` sh
+
+```sh
 npm install axios
 ```
+
 ### Thư viện Sweetalert 2
+
 ```sh
 npm install sweetalert2
 ```
+
 ### Thư viện Ckediter
+
 ```sh
 npm install @ckeditor/ckeditor5-vue @ckeditor/ckeditor5-build-classic
 ```
+
 ### Thư viện Vue-chart-3 Chartjs
+
 ```sh
 npm install vue-chart-3 chart.js@^3.1.0
 ```
+
 ### Thư viện ngày
+
 ```sh
 npm install date-fns --legacy-peer-deps
+```
+
+### Thư viện notyf
+
+```sh
+npm install notyf --legacy-peer-deps
 ```
