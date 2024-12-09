@@ -166,7 +166,8 @@
                   </h5>
                   <p class="card-text text-left">
                     <span class="text-danger me-2"><b>{{ formatVND(product.price) }}</b></span>
-                    <span class="text-decoration-line-through">{{ formatVND(product.sale_price) }}</span>
+                    <span class="text-decoration-line-through" v-if="product.sale_price">{{
+                      formatVND(product.sale_price) }}</span>
                   </p>
                 </div>
               </div>

@@ -17,9 +17,16 @@
     </div>
   </section>
   <!-- Breadcrumb Section End -->
+  <div v-if="cartItems.length === 0" style="min-height: 100vh;"
+    class="d-flex align-items-center justify-content-center">
+    <div class="text-center">
+      <i class="bi bi-cart-x display-1 text-danger"></i>
+      <p class="mt-3 fs-4 text-muted">Vui lòng thêm sản phẩm vào giỏ hàng trước khi thanh toán</p>
+    </div>
+  </div>
 
   <!-- Checkout Section Begin -->
-  <section class="checkout spad">
+  <section class="checkout spad" v-else>
     <div class="container">
       <div class="checkout__form">
         <h4>Thông Tin Thanh Toán</h4>
@@ -172,7 +179,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import axios from 'axios';
 import { getProvinces, getDistricts, getWards } from 'vietnam-provinces';
 import { useRouter } from 'vue-router';
@@ -228,10 +235,15 @@ const loadCart = async () => {
     const cartItemsWithDetails = await Promise.all(response.data.map(async item => {
       const productResponse = await axios.get(`${API_URL}/api/products/${item.product_id}`);
       const productDetails = productResponse.data;
+
+      // Nếu có SKU, lấy giá SKU
+      const sku = productDetails.skus.find(sku => sku.size === item.size);
+      const price = sku ? sku.price : productDetails.price;
+
       return {
         ...item,
         name: productDetails.name,
-        price: productDetails.price,
+        price: price, // Cập nhật giá từ SKU hoặc giá mặc định
         image: productDetails.images[0]?.image_path || ''
       };
     }));

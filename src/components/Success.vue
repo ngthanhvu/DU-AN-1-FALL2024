@@ -1,14 +1,18 @@
 <template>
   <div v-if="order" class="container mt-5 text-center" style="height: 100vh; padding-top: 150px;">
-    <font-awesome-icon :icon="['far', 'circle-check']" class="text-success" v-if="status === '00' || status === '0'"
+    <!-- <font-awesome-icon :icon="['far', 'circle-check']" class="text-success" v-if="status === '00' || status === '0'"
       style="font-size: 100px;" />
     <font-awesome-icon :icon="['fas', 'triangle-exclamation']" class="text-danger" v-if="status == '01'"
-      style="font-size: 100px;" />
+      style="font-size: 100px;" /> -->
+    <img src="https://assets-v2.lottiefiles.com/a/b5641ed8-1152-11ee-ada0-8f4e8e17569e/Y6ez38CH2M.gif"
+      style="width: 200px;" alt="" v-if="status === '24' || status === '1'">
+    <img src="https://i.pinimg.com/originals/da/61/fa/da61fa152c102c46c16786b9f79402f8.gif" style="width: 200px;" alt=""
+      v-if="status === '00' || status === '0'">
     <h2>Thanh toán {{ status == '00' || status == '0' ? 'thành công' : 'thất bại' }}</h2>
     <div v-if="status === '00'">
       <p>Đơn hàng của bạn đã được thanh toán thành công!</p>
     </div>
-    <div v-if="status === '01'">
+    <div v-if="status === '01' || status === '24'">
       <p>Thanh toán thất bại. Vui lòng thử lại.</p>
     </div>
     <router-link to="/" class="btn btn-danger me-2"><font-awesome-icon :icon="['fas', 'house-chimney']" /></router-link>

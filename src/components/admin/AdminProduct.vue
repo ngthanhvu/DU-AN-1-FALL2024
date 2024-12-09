@@ -16,7 +16,7 @@
               <th>Số Lượng</th>
               <th>Ảnh chính</th>
               <th>Ảnh phụ</th>
-              <th>Sku Size</th>
+              <th>Skus</th>
               <th>Hành động</th>
             </tr>
           </thead>
@@ -48,7 +48,7 @@
               </td>
               <td>
                 <div v-for="sku in product.skus" :key="sku.id" class="mb-1">
-                  {{ sku.size }}
+                  Size: {{ sku.size }} - Giá: {{ formatPrice(sku.price) }} - Số Lượng: {{ sku.stock }}
                 </div>
               </td>
               <td>

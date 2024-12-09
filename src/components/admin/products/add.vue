@@ -56,6 +56,10 @@
                   <label class="form-label">Số lượng tồn:</label>
                   <input v-model="sku.stock" type="number" class="form-control" />
                 </div>
+                <div class="col-md-6">
+                  <label class="form-label">Giá:</label>
+                  <input v-model="sku.price" type="number" class="form-control" />
+                </div>
               </div>
             </div>
             <button type="button" class="btn btn-secondary" @click="addSku" style="margin-left: 10px;">

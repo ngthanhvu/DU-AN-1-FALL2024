@@ -36,6 +36,8 @@
         <p class="mt-2">
           Giá: {{ formatVND(filters.min_price) }} - {{ formatVND(filters.max_price) }}
         </p>
+        <button @click="resetFilter" class="btn btn-danger"><font-awesome-icon
+            :icon="['fas', 'rotate-left']" /></button>
       </div>
 
       <!-- Mobile Sidebar -->
@@ -178,6 +180,14 @@ const getProducts = async () => {
 
 };
 
+const resetFilter = () => {
+  filters.value.category_ids = [];
+  filters.value.min_price = '';
+  filters.value.max_price = '';
+  filters.value.sort = '';
+  filters.value.page = 1;
+  getProducts();
+};
 
 const getCategories = async () => {
   try {

@@ -34,12 +34,15 @@
           </a>
           <span style="padding-left: 10px;">Xin chào, <b>{{ username }}</b>!</span>
           <ul class="dropdown-menu">
-            <li><router-link to="/trang-ca-nhan" class="dropdown-item text-black mx-auto">Thông tin cá
+            <li><router-link to="/trang-ca-nhan" class="dropdown-item text-black mx-auto"><font-awesome-icon
+                  :icon="['fas', 'address-card']" /> Thông tin cá
                 nhân</router-link></li>
-            <li><router-link to="/lich-su-mua-hang" class="dropdown-item text-black mx-auto">Lịch sử mua
+            <li><router-link to="/lich-su-mua-hang" class="dropdown-item text-black mx-auto"><font-awesome-icon
+                  :icon="['fas', 'clock-rotate-left']" /> Lịch sử mua
                 hàng</router-link></li>
 
-            <li><button class="dropdown-item" style="font-weight: 500;" @click="logout">Đăng xuất</button></li>
+            <li><button class="dropdown-item" style="font-weight: 500;" @click="logout"><font-awesome-icon
+                  :icon="['fas', 'right-from-bracket']" /> Đăng xuất</button></li>
           </ul>
         </li>
 

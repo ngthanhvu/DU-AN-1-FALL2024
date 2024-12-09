@@ -37,10 +37,15 @@ const loadCart = async () => {
     const cartItemsWithDetails = await Promise.all(response.data.map(async item => {
       const productResponse = await axios.get(`${API_URL}/api/products/${item.product_id}`);
       const productDetails = productResponse.data;
+
+      // Nếu có SKU, lấy giá SKU
+      const sku = productDetails.skus.find(sku => sku.size === item.size);
+      const price = sku ? sku.price : productDetails.price;
+
       return {
         ...item,
         name: productDetails.name,
-        price: productDetails.price,
+        price: price, // Cập nhật giá từ SKU hoặc giá mặc định
         image: productDetails.images[0]?.image_path || ''
       };
     }));

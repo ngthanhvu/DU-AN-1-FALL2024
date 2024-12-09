@@ -47,7 +47,7 @@
               <div class="header"><strong>Size:</strong></div>
               <div class="size-options">
                 <label v-for="sku in product.skus" :key="sku.id">
-                  <input type="radio" name="size" :value="sku.size" v-model="selectedSize">
+                  <input type="radio" name="size" :value="sku.size" v-model="selectedSize" @change="updateSku">
                   <span>{{ sku.size }}</span>
                 </label>
               </div>
@@ -56,7 +56,7 @@
                 product.quantity }}</span></b>
               </div>
               <div class="mb-3"><strong>Giá sản phẩm: </strong><b><span class="text-danger text-nowrap fs-5">{{
-                formatVND(product.price) }}</span></b></div>
+                formatVND(onSizeSelect) }}</span></b></div>
             </div>
 
             <div class="product__details__quantity mb-3">
@@ -393,6 +393,9 @@ const product = ref({
   images: []
 });
 
+const selectedSku = ref(null);
+const selectedPrice = ref(0);
+
 const largeImage = ref('');
 const quantity = ref(1);
 
@@ -400,12 +403,27 @@ const fetchProduct = async () => {
   try {
     const response = await axios.get(`${API_URL}/api/products/${route.params.id}`);
     product.value = response.data;
+    selectedSku.value = product.value.skus[0];
     const primaryImage = product.value.images.find(image => image.is_primary) || product.value.images[0];
     largeImage.value = primaryImage ? primaryImage.image_path : '';
   } catch (error) {
     console.error('Error fetching product:', error);
   }
 };
+
+const onSizeSelect = computed(() => {
+  if (selectedSize.value) {
+    // Tìm SKU tương ứng với size đã chọn
+    const sku = product.value.skus.find(sku => sku.size === selectedSize.value);
+    return sku ? sku.price : product.value.price; // Nếu có SKU thì dùng giá SKU, không thì dùng giá mặc định
+  }
+  return product.value.price; // Giá mặc định khi chưa chọn size
+});
+
+const updateSku = () => {
+  selectedSku.value = product.value.skus.find(sku => sku.size === selectedSize.value);
+};
+
 
 const fetchComments = async () => {
   try {
@@ -501,7 +519,8 @@ const addToCart = async () => {
   const payload = {
     product_id: route.params.id,
     quantity: quantity.value,
-    size: selectedSize.value
+    size: selectedSize.value,
+    price: selectedPrice.value
   };
 
   if (userId) {
