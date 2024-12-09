@@ -120,39 +120,31 @@ class OrderController extends Controller
 
     public function decreaseQuantityInOrder(Request $request, $orderId)
     {
-        // Kiểm tra dữ liệu đầu vào
         $request->validate([
             'quantity' => 'required|integer|min:1', // Số lượng cần giảm từ đơn hàng
         ]);
 
-        // Lấy Order dựa trên Order ID
         $order = Order::find($orderId);
 
         if (!$order) {
             return response()->json(['error' => 'Đơn hàng không tồn tại'], 404);
         }
 
-        // Lấy tất cả OrderDetails của đơn hàng này
         $orderDetails = $order->orderDetails;
 
         if ($orderDetails->isEmpty()) {
             return response()->json(['error' => 'Đơn hàng này không có sản phẩm'], 404);
         }
 
-        // Duyệt qua từng sản phẩm trong OrderDetails
         foreach ($orderDetails as $orderDetail) {
-            $product = $orderDetail->product; // Lấy thông tin sản phẩm
+            $product = $orderDetail->product;
 
             if (!$product) {
-                continue; // Nếu sản phẩm không tồn tại thì bỏ qua
+                continue; 
             }
-
-            // Kiểm tra nếu số lượng sản phẩm trong kho đủ để giảm
             if ($product->quantity >= $orderDetail->quantity) {
-                // Giảm số lượng sản phẩm trong kho
                 $product->quantity -= $orderDetail->quantity;
 
-                // Cập nhật sản phẩm
                 $product->save();
             } else {
                 return response()->json([

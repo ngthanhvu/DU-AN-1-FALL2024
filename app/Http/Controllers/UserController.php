@@ -155,6 +155,8 @@ class UserController extends Controller
         }
 
         $user->delete();
+        Comment::where('user_id', $id)->delete();
+        Review::where('user_id', $id)->delete();
 
         return response()->json(['message' => 'User deleted successfully'], 200);
     }
