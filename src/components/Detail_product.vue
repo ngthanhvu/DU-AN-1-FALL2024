@@ -217,7 +217,8 @@
                         <div v-for="reply in review.replies" :key="reply.id" class="review-reply">
                           <div class="reply-header">
                             <img src="https://bizweb.dktcdn.net/100/483/998/themes/904984/assets/logo.png?1722078914172"
-                              alt="HangSport Avatar" class="reply-avatar" style="width: 20px; height: 20px; border-radius: 50%;" />
+                              alt="HangSport Avatar" class="reply-avatar"
+                              style="width: 20px; height: 20px; border-radius: 50%;" />
                             <span class="reply-username">Phản hồi từ HangSport</span>
                             <span class="reply-date">{{ formatDate(reply.created_at) }}</span>
                           </div>
@@ -240,50 +241,50 @@
 
 
 
-                <!-- Tab 3: Bình Luận -->
-                <div v-if="selectedTab === 'tabs-3'" id="tabs-3" class="tab-pane" role="tabpanel">
-                  <div class="product__details__tab__desc">
-                    <h6>BÌNH LUẬN</h6>
-                    <h6>Viết bình luận của bạn</h6>
+              <!-- Tab 3: Bình Luận -->
+              <div v-if="selectedTab === 'tabs-3'" id="tabs-3" class="tab-pane" role="tabpanel">
+                <div class="product__details__tab__desc">
+                  <h6>BÌNH LUẬN</h6>
+                  <h6>Viết bình luận của bạn</h6>
 
-                    <!-- Comment Form -->
-                    <form @submit.prevent="submitComment">
-                      <div class="form-group">
-                        <label for="name">Tên của bạn:</label>
-                        <input type="text" id="name" v-model="commentData.name" />
-                        <p v-if="errors.name" class="error-message text-danger">{{ errors.name }}</p>
-                      </div>
-
-                      <div class="form-group">
-                        <label for="comment">Bình luận:</label>
-                        <textarea id="comment" v-model="commentData.comment"></textarea>
-                        <p v-if="errors.comment" class="error-message text-danger">{{ errors.comment }}</p>
-                      </div>
-
-                      <button type="submit" class="btn-comment">Gửi bình luận</button>
-                    </form>
-
-
-                    <!-- Comments List -->
-                    <div v-if="comments.length" class="comments-list">
-                      <h6>Các bình luận</h6>
-                      <div v-for="(comment, idx) in comments" :key="idx" class="comment-item">
-                        <p><strong>{{ comment.name }}</strong> <i class="bi bi-check-circle-fill"
-                            style="color: blue;"></i></p>
-                        <p>{{ comment.comment }}</p>
-                      </div>
+                  <!-- Comment Form -->
+                  <form @submit.prevent="submitComment">
+                    <div class="form-group">
+                      <label for="name">Tên của bạn:</label>
+                      <input type="text" id="name" v-model="commentData.name" />
+                      <p v-if="errors.name" class="error-message text-danger">{{ errors.name }}</p>
                     </div>
-                    <div v-else>
-                      <p>Chưa có bình luận nào.</p>
+
+                    <div class="form-group">
+                      <label for="comment">Bình luận:</label>
+                      <textarea id="comment" v-model="commentData.comment"></textarea>
+                      <p v-if="errors.comment" class="error-message text-danger">{{ errors.comment }}</p>
                     </div>
+
+                    <button type="submit" class="btn-comment">Gửi bình luận</button>
+                  </form>
+
+
+                  <!-- Comments List -->
+                  <div v-if="comments.length" class="comments-list">
+                    <h6>Các bình luận</h6>
+                    <div v-for="(comment, idx) in comments" :key="idx" class="comment-item">
+                      <p><strong>{{ comment.name }}</strong> <i class="bi bi-check-circle-fill"
+                          style="color: blue;"></i></p>
+                      <p>{{ comment.comment }}</p>
+                    </div>
+                  </div>
+                  <div v-else>
+                    <p>Chưa có bình luận nào.</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
         </div>
+
       </div>
+    </div>
   </section>
 
   <!-- Product new section -->
@@ -333,6 +334,26 @@ import swal from 'sweetalert2';
 import { format } from 'date-fns';
 import { useRoute, useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
+import { Notyf } from 'notyf';
+
+const notyf = new Notyf({
+  position: {
+    x: 'center',
+    y: 'top'
+  }
+});
+
+const customCSS = `
+  .notyf__toast {
+    width: 500px !important; /* Tăng chiều rộng */
+    white-space: normal !important; /* Cho phép xuống dòng nếu cần */
+  }
+`;
+const style = document.createElement('style');
+style.innerHTML = customCSS;
+document.head.appendChild(style);
+
+
 const selectedTab = ref('tabs-1');
 const commentData = ref({
   name: '',
@@ -493,7 +514,8 @@ const addToCart = async () => {
     const response = await axios.post(`${API_URL}/api/cart/add`, payload);
 
     if (response.data.message === 'Product added to cart successfully') {
-      Swal.fire('Thành Công','Thêm sản phẩm vào giỏ hàng thành công!', 'success');
+      // Swal.fire('Thành Công', 'Thêm sản phẩm vào giỏ hàng thành công!', 'success');
+      notyf.success('Đã thêm sản phẩm vào giỏ hàng!');
     }
   } catch (error) {
     console.error('Error adding product to cart:', error);

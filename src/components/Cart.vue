@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const cartItems = ref([]);
@@ -90,16 +91,35 @@ const removeItem = async (index) => {
   const productId = cartItems.value[index].product_id;
 
   try {
-    const response = await axios.post(`${API_URL}/api/cart/remove`, {
-      product_id: productId,
-      user_id: userId,
-      guest_id: guestId
+    const result = await Swal.fire({
+      title: 'Xác nhận xóa?',
+      text: 'Bạn không thể hoàn tác sau khi xóa!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Xoá',
+      cancelButtonText: 'Huỷ'
     });
 
-    if (response.data.message === 'Product removed from cart successfully') {
-      cartItems.value.splice(index, 1);
-      updateCart();
+    if (result.isConfirmed) {
+      const response = await axios.post(`${API_URL}/api/cart/remove`, {
+        product_id: productId,
+        user_id: userId,
+        guest_id: guestId
+      });
+
+      if (response.data.message === 'Product removed from cart successfully') {
+        cartItems.value.splice(index, 1);
+        updateCart();
+      }
+      Swal.fire({
+        icon: 'success',
+        title: 'Đã xóa!',
+        text: 'Sản phẩm đã được xóa khỏi giỏ hàng'
+      });
     }
+
   } catch (error) {
     console.error('Error removing product from cart:', error);
     alert('Có lỗi xảy ra khi xóa sản phẩm khỏi giỏ hàng');
@@ -260,7 +280,7 @@ onMounted(() => {
               <font-awesome-icon :icon="['far', 'credit-card']" />
             </router-link>
             <br>
-            <router-link to="/san-pham" class="primary-btn cart-btn" >
+            <router-link to="/san-pham" class="primary-btn cart-btn">
               TIẾP TỤC MUA SẮM
               <font-awesome-icon :icon="['fas', 'bag-shopping']" />
             </router-link>

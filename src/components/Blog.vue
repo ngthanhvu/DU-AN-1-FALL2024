@@ -1,6 +1,6 @@
 <template>
   <!-- Breadcrumb Section Begin -->
-  <section class="shop1 text-center">
+  <section class="shop1 text-center" style="min-height: 100vh;">
     <span class="crumb-border"></span>
     <div class="container">
       <div class="row">
@@ -26,12 +26,15 @@
             <div class="news-item">
               <router-link :to="`/chi-tiet-tin-tuc/${post.id}`" class="text-decoration-none">
                 <img v-if="post.image" :src="`${API_URL}/storage/${post.image}`" alt="Hình ảnh bài viết"
-                class="img-thumbnail" style="width: 450px; height: 300px " />
+                  class="img-thumbnail" style="width: 450px; height: 300px " />
 
                 <h4 class="mt-3" style="font-weight: bold; color: black">{{ post.title }}</h4>
                 <p class="text-muted " v-html="truncateContent(post.content, 100)"></p>
               </router-link>
             </div>
+          </div>
+          <div v-if="posts.length === 0">
+            <p>Không có bài viết</p>
           </div>
         </div>
       </div>
@@ -66,12 +69,13 @@ const truncateContent = (content) => {
 </script>
 <style scoped>
 .text-muted {
-    --bs-text-opacity: 1;
-    color: var(--bs-secondary-color) !important;
-    text-align: left;
+  --bs-text-opacity: 1;
+  color: var(--bs-secondary-color) !important;
+  text-align: left;
 }
+
 .news-item h4 {
-    font-size: 1.7rem;
-    text-align: left;
+  font-size: 1.7rem;
+  text-align: left;
 }
 </style>
