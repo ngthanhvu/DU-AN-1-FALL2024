@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Users;
+use App\Models\Skus;
+use App\Models\Product;
 use Illuminate\Support\Facades\Log;
 
 class CartController extends Controller
@@ -18,7 +20,8 @@ class CartController extends Controller
             'user_id' => 'nullable|integer|exists:users,id',
             'guest_id' => 'nullable|string',
             'quantity' => 'required|integer|min:1',
-            'size' => 'required|string'
+            'size' => 'required|string',
+            'price' => 'required|numeric', // Thêm price vào validation
         ]);
 
         Log::info('Validated data:', $validatedData);
@@ -31,6 +34,24 @@ class CartController extends Controller
             }
         }
 
+        // Kiểm tra SKU và lấy giá
+        $sku = Skus::where('product_id', $validatedData['product_id'])
+            ->where('size', $validatedData['size'])
+            ->first();
+
+        if ($sku) {
+            $validatedData['price'] = $sku->price; // Lấy giá SKU
+        } else {
+            return response()->json(['message' => 'Size not found for the selected product.'], 422);
+        }
+
+        // Kiểm tra số lượng trong kho
+        $product = Product::find($validatedData['product_id']);
+        if ($validatedData['quantity'] > $product->quantity) {
+            return response()->json(['message' => 'Not enough stock available.'], 422);
+        }
+
+        // Kiểm tra giỏ hàng của người dùng hoặc khách
         $cartItemQuery = Cart::where('product_id', $validatedData['product_id'])
             ->where('size', $validatedData['size']);
 
@@ -52,6 +73,7 @@ class CartController extends Controller
 
         return response()->json(['message' => 'Product added to cart successfully'], 200);
     }
+
 
     public function getCart(Request $request)
     {

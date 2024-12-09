@@ -24,9 +24,11 @@ class ResetPasswordNotification extends Notification
 
     public function toMail($notifiable)
     {
+        $frontEndUrl = env('FRONTEND_URL');
+        $resetPasswordUrl = $frontEndUrl . '/doi-mat-khau?token=' . $this->token . '&email=' . $notifiable->email;
         return (new MailMessage)
             ->line('Bạn nhận được email này vì chúng tôi đã nhận được yêu cầu đặt lại mật khẩu cho tài khoản của bạn.')
-            ->action('Đặt lại mật khẩu', url('http://localhost:5173/doi-mat-khau?token=' . $this->token . '&email=' . $notifiable->email))
+            ->action('Đặt lại mật khẩu', $resetPasswordUrl)
             ->line('Nếu bạn không yêu cầu đặt lại mật khẩu, không cần thực hiện hành động nào khác.');
     }
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('size')->nullable();
             $table->integer('quantity')->default(1);
+            $table->decimal('price', 10, 0);
             $table->timestamps();
         });
     }

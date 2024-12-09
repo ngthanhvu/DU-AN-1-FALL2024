@@ -20,9 +20,10 @@ class SkuController extends Controller
             'sku_code' => 'required|string|unique:skus,sku_code',
             'size' => 'nullable|string',
             'stock' => 'required|integer',
+            'price' => 'required|numeric',
         ]);
 
-        $sku = Skus::create($request->only(['sku_code', 'size', 'stock']));
+        $sku = Skus::create($request->only(['sku_code', 'size', 'stock', 'price']));
 
         return response()->json($sku, 201);
     }

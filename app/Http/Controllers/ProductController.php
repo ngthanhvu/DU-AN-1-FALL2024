@@ -85,6 +85,7 @@ class ProductController extends Controller
                 'sku_code' => $sku['sku_code'],
                 'size' => $sku['size'] ?? null,
                 'stock' => $sku['stock'] ?? 0,
+                'price' => $sku['price'],
             ]);
         }
 

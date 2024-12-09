@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('sku_code');
             $table->string('size')->nullable();
             $table->integer('stock')->default(0);
+            $table->decimal('price', 10, 0);
             $table->timestamps();
         });
     }

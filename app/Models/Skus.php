@@ -13,7 +13,7 @@ class Skus extends Model
 
     protected $table = 'skus';
 
-    protected $fillable = ['product_id', 'sku_code', 'size', 'stock'];
+    protected $fillable = ['product_id', 'sku_code', 'size', 'stock', 'price'];
 
     public function product()
     {
