@@ -18,7 +18,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\LogController;
-
+use App\Http\Controllers\MailController;
 
 /*
 |---------------------------------------------------------------------------
@@ -122,3 +122,7 @@ Route::get('/reviews/filter', [ReviewController::class, 'filterReviews']);
 Route::get('/logs', [LogController::class, 'index']);
 
 Route::get('/categories/{id}/has-products', [CategoryController::class, 'hasProducts']);
+
+Route::post('/sendMail', [MailController::class, 'sendMail']);
+
+Route::put('user/update-password', [UserController::class, 'updatePassword']);

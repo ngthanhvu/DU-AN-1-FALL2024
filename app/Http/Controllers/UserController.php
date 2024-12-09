@@ -264,4 +264,48 @@ class UserController extends Controller
         $user = Users::find($id);
         return response()->json($user);
     }
+
+    public function updatePassword(Request $request)
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+
+            // Validate input data
+            $validator = Validator::make($request->all(), [
+                'current_password' => 'required',
+                'new_password' => 'required|string|min:8|different:current_password|confirmed'
+            ], [
+                'new_password.different' => 'Mật khẩu mới phải khác mật khẩu hiện tại',
+                'new_password.confirmed' => 'Xác nhận mật khẩu không khớp'
+            ]);
+
+            // Check validation
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => 'Lỗi xác thực',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            // Verify current password
+            if (!Hash::check($request->current_password, $user->password)) {
+                return response()->json([
+                    'message' => 'Mật khẩu hiện tại không chính xác'
+                ], 400);
+            }
+
+            // Update password
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+
+            return response()->json([
+                'message' => 'Mật khẩu đã được cập nhật thành công'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Có lỗi xảy ra khi cập nhật mật khẩu',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
