@@ -1,7 +1,7 @@
 <template>
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
-    <h3 class="navbar-brand ps-3"><font-awesome-icon :icon="['fas', 'user-tie']" /> Dashboard</h3>
+    <h3 class="navbar-brand ps-3">DASHBOARD</h3>
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><font-awesome-icon
         :icon="['fas', 'bars']" /></button>
@@ -17,7 +17,7 @@
           aria-expanded="false">Wellcome back, <b>Admin</b>!</a>
       </li>
       <li class="nav-item">
-        <router-link class="btn btn-danger" to="/"><font-awesome-icon
+        <router-link class="btn btn-outline-danger" to="/"><font-awesome-icon
             :icon="['fas', 'right-from-bracket']" /></router-link>
       </li>
     </ul>

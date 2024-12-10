@@ -23,7 +23,7 @@
                             <td>{{ discount.type }}</td>
                             <td>{{ discount.usage_limit ? discount.usage_limit : 'Unlimited' }}</td>
                             <td>{{ discount.used_count }}</td>
-                            <td>{{ discount.expires_at ? discount.expires_at : 'N/A' }}</td>
+                            <td>{{ formatDate(discount.expires_at) }}</td>
                             <td>
                                 <button class="btn btn-danger me-2" @click="deleteDiscount(discount.id)">
                                     <font-awesome-icon :icon="['far', 'trash-can']" />
@@ -217,7 +217,7 @@ const updateDiscount = async () => {
     }
 
     try {
-        const response = await axios.put(`http://localhost:8000/api/discounts/${editingDiscount.value.id}`, editingDiscount.value);
+        const response = await axios.put(`${API_URL}/api/discounts/${editingDiscount.value.id}`, editingDiscount.value);
         Swal.fire({
             icon: 'success',
             title: 'Cập nhật thành công!',
@@ -233,6 +233,23 @@ const updateDiscount = async () => {
         });
         console.error('Error updating discount:', error);
     }
+};
+
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+        return null;
+    }
+    const options = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+    };
+    return new Intl.DateTimeFormat('vi-VN', options).format(date);
 };
 
 onMounted(() => {
