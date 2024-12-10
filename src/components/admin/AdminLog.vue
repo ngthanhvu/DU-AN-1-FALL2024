@@ -23,17 +23,34 @@
             </tr>
           </tbody>
         </table>
+
         <!-- Phân trang -->
         <div class="pagination mb-3">
-          <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1"><font-awesome-icon
-              :icon="['fas', 'angles-left']" /></button>
-          <button v-for="page in totalPages" :key="page" @click="goToPage(page)"
+          <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">
+            <font-awesome-icon :icon="['fas', 'angles-left']" />
+          </button>
+
+          <button v-if="currentPage > 3" @click="goToPage(1)">1</button>
+
+          <button v-for="page in getPageRange" :key="page" @click="goToPage(page)"
             :class="{ active: page === currentPage }">
             {{ page }}
           </button>
-          <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages"><font-awesome-icon
-              :icon="['fas', 'angles-right']" /></button>
+
+          <span v-if="currentPage < totalPages - 2"><b>...</b></span>
+
+          <button v-if="currentPage < totalPages - 2" @click="goToPage(totalPages - 1)">
+            {{ totalPages - 1 }}
+          </button>
+          <button v-if="currentPage < totalPages - 1" @click="goToPage(totalPages)">
+            {{ totalPages }}
+          </button>
+
+          <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">
+            <font-awesome-icon :icon="['fas', 'angles-right']" />
+          </button>
         </div>
+
       </div>
     </main>
   </div>

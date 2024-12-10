@@ -1,6 +1,6 @@
 <template>
     <section class="article-detail">
-        <section class="breadcrumb-section shop1 text-center mb-4">
+        <!-- <section class="breadcrumb-section shop1 text-center mb-4">
             <span class="crumb-border"></span>
             <div class="container">
                 <div class="row">
@@ -25,10 +25,10 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
         <!-- Article Content Section -->
-        <section class="content-section">
+        <section class="content-section mt-5 py-5">
             <div class="container">
                 <div class="row">
                     <div class="col-md-8">
@@ -42,14 +42,14 @@
                                         }}</span></span>
                                 <span class="mx-2">|</span>
                                 <span><i class="fas fa-calendar-alt"></i> Ngày đăng: <span class="fw-semibold">{{
-                                        article.date }}</span></span>
+                                    article.date }}</span></span>
                             </div>
                             <div class="article-content" v-html="article.content"></div>
                         </article>
                     </div>
 
-                    <div class="col-md-4">
-                        <aside class="sidebar">
+                    <div class="col-md-4 sidebar-wrapper">
+                        <aside class="sidebar fixed-sidebar">
                             <h4 class="sidebar-title mb-4">Có Thể Bạn Quan Tâm</h4>
                             <ul class="list-group">
                                 <li v-for="latest in latestArticles" :key="latest.id"
@@ -121,9 +121,8 @@ body {
     font-family: 'Arial', sans-serif;
 }
 
-/* Breadcrumb Styles */
 .breadcrumb {
- margin-top: 20px;
+    margin-top: 20px;
 }
 
 .breadcrumb-item {
@@ -139,7 +138,6 @@ body {
     color: #d9534f;
 }
 
-/* Article Content */
 .main-article {
     background-color: #fff;
     border-radius: 10px;
@@ -213,7 +211,20 @@ body {
 }
 
 img {
- width: 100%;
- 
+    width: 100%;
+
+}
+
+.fixed-sidebar {
+    position: fixed;
+    top: 100px;
+    right: 50;
+    width: 30%;
+    height: calc(70vh - 70px);
+    overflow-y: auto;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-left: 1px solid #e0e0e0;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
 }
 </style>

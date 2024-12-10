@@ -2,7 +2,7 @@
   <div>
     <section class="section-1">
       <!-- Modal -->
-      <div v-if="showModal" class="modal-overlay" :class="{ show: showModal }">
+      <div v-if="showModal" class="modal-overlay1" :class="{ show: showModal }">
         <div class="modal-content1">
           <button class="close-btn" @click="closeModal">×</button>
           <router-link to="/san-pham">
@@ -151,10 +151,17 @@
           <!-- Hiển thị sản phẩm của category -->
           <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-3" v-for="product in productByCategory[category.id]"
             :key="product.id">
-            <a :href="`/chi-tiet-san-pham/${product.id}`" class="text-decoration-none text-black">
-              <div class="card border-0">
+            <router-link :to="`/chi-tiet-san-pham/${product.id}`" class="text-decoration-none text-black">
+              <div class="card border-0" style="position: relative;">
                 <img :src="`${API_URL}/storage/${product.images.find(img => img.is_primary === 1)?.image_path}`"
                   class="border" alt="MU Home" style="width: 200px" />
+
+                <!-- Hình ảnh hết hàng nhỏ như icon và đứng ở góc -->
+                <img v-if="product.quantity === 0"
+                  src="https://theme.hstatic.net/1000333546/1000986972/14/hethang.png?v=900"
+                  style="position: absolute; top: 5px; right: 5px; width: 50px; height: 30px; z-index: 1000; pointer-events: none;"
+                  alt="Hết hàng" />
+
                 <div class="card-body">
                   <div class="rating" style="color: #ffcc00">
                     <i class="far fa-star"></i>
@@ -168,13 +175,15 @@
                   </h5>
                   <p class="card-text text-left">
                     <span class="text-danger me-2"><b>{{ formatVND(product.price) }}</b></span>
-                    <span class="text-decoration-line-through" v-if="product.sale_price">{{
-                      formatVND(product.sale_price) }}</span>
+                    <span class="text-decoration-line-through" v-if="product.sale_price">
+                      {{ formatVND(product.sale_price) }}
+                    </span>
                   </p>
                 </div>
               </div>
-            </a>
+            </router-link>
           </div>
+
         </div>
       </div>
     </section>

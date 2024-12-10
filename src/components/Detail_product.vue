@@ -69,9 +69,14 @@
               </div>
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3" v-if="product.quantity > 0">
               <button type="button" @click="addToCart" class="btn btn-danger mt-3">Thêm vào giỏ hàng<font-awesome-icon
                   :icon="['fas', 'cart-plus']" /></button>
+            </div>
+
+            <div class="mb-3" v-else>
+              <button type="button" @click="addToCart" class="btn btn-danger mt-3 disabled">Không còn
+                hàng<font-awesome-icon :icon="['fas', 'cart-plus']" /></button>
             </div>
 
             <ul>
@@ -294,7 +299,8 @@
       <h2 class="text-left fw-bold">Sản phẩm liên quan</h2>
       <div class="row justify-content">
         <!-- Sản phẩm 1 -->
-        <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-3" v-for="products in relatedProducts" :key="product.id">
+        <div class="col-lg-2 col-md-3 col-sm-4 col-6 mt-3" v-for="products in sortedRelatedProducts.splice(0, 6)"
+          :key="product.id">
           <a :href="`/chi-tiet-san-pham/${products.id}`" class="text-decoration-none text-black">
             <div class="card border-0">
               <img :src="`${API_URL}/storage/${products.images.find(img => img.is_primary === 1)?.image_path}`"
@@ -707,6 +713,10 @@ const fetchRelatedProducts = async () => {
     console.error(error);
   }
 };
+
+const sortedRelatedProducts = computed(() => {
+  return relatedProducts.value.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+});
 
 onMounted(async () => {
   await fetchProduct();

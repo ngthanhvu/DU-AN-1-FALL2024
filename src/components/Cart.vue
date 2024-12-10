@@ -5,9 +5,10 @@ import Swal from 'sweetalert2';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const cartItems = ref([]);
-const discountCode = ref('');
 const discountValue = ref(0);
 const discountApplied = ref(false);
+
+const isProcessing = ref(false);
 
 const subtotal = computed(() =>
   cartItems.value.reduce((sum, item) => sum + item.price * item.quantity, 0)
@@ -38,15 +39,16 @@ const loadCart = async () => {
       const productResponse = await axios.get(`${API_URL}/api/products/${item.product_id}`);
       const productDetails = productResponse.data;
 
-      // Nếu có SKU, lấy giá SKU
       const sku = productDetails.skus.find(sku => sku.size === item.size);
       const price = sku ? sku.price : productDetails.price;
+      const quantity_detail = productDetails.quantity;
 
       return {
         ...item,
         name: productDetails.name,
-        price: price, // Cập nhật giá từ SKU hoặc giá mặc định
-        image: productDetails.images[0]?.image_path || ''
+        price: price,
+        image: productDetails.images[0]?.image_path || '',
+        quantity_detail: quantity_detail
       };
     }));
 
@@ -58,7 +60,6 @@ const loadCart = async () => {
 };
 
 
-// Cập nhật số lượng sản phẩm trong giỏ hàng
 const updateQuantity = async (cartId, newQuantity) => {
   try {
     const response = await axios.post(`${API_URL}/api/cart/update`, {
@@ -68,6 +69,9 @@ const updateQuantity = async (cartId, newQuantity) => {
 
     if (response.data.message === 'Quantity updated successfully') {
       loadCart();
+      setTimeout(() => {
+        isProcessing.value = false;
+      }, 800)
     }
   } catch (error) {
     console.error('Error updating quantity:', error);
@@ -76,19 +80,34 @@ const updateQuantity = async (cartId, newQuantity) => {
 };
 
 const incrementQty = (index) => {
+  if (isProcessing.value) return;
+  isProcessing.value = true;
+
+  if (cartItems.value[index].quantity >= cartItems.value[index].quantity_detail) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Số lượng sản phẩm không đủ',
+      text: 'Số lượng trong kho hiện tại: ' + cartItems.value[index].quantity_detail,
+    })
+    isProcessing.value = false;
+    return;
+  }
+
   const cartItem = cartItems.value[index];
   cartItem.quantity++;
   updateQuantity(cartItem.id, cartItem.quantity);
 };
 
 const decrementQty = (index) => {
+  if (isProcessing.value) return;
+  isProcessing.value = true;
+
   const cartItem = cartItems.value[index];
   if (cartItem.quantity > 1) {
     cartItem.quantity--;
     updateQuantity(cartItem.id, cartItem.quantity);
   }
 };
-
 
 const removeItem = async (index) => {
   const userId = localStorage.getItem('user_id');
@@ -131,37 +150,6 @@ const removeItem = async (index) => {
   }
 };
 
-//Sử dụng mã giảm giá
-const applyDiscount = async () => {
-  if (!discountCode.value.trim()) {
-    alert('Vui lòng nhập mã giảm giá');
-    return;
-  }
-
-  const userId = localStorage.getItem('user_id');
-  const guestId = localStorage.getItem('guest_id');
-  const totalAmount = subtotal.value;
-
-  try {
-    const response = await axios.post(`${API_URL}/api/discounts/apply`, {
-      code: discountCode.value,
-      user_id: userId,
-      guest_id: guestId,
-      total_amount: totalAmount
-    });
-
-    if (response.data.success) {
-      discountValue.value = response.data.discount_value;
-      discountApplied.value = true;
-    } else {
-      alert('Mã giảm giá không hợp lệ hoặc đã hết hạn');
-    }
-  } catch (error) {
-    console.error('Error applying discount:', error);
-    alert('Mã giảm giá đã hết lượt sử dụng hoặc không tồn tại');
-  }
-};
-
 const updateCart = () => {
   localStorage.setItem('cart', JSON.stringify(cartItems.value));
 };
@@ -195,6 +183,9 @@ onMounted(() => {
     </div>
   </section>
 
+  <div v-if="isProcessing" class="loading-overlay">
+    <div class="spinner"></div>
+  </div>
   <!-- Shoping Cart Section -->
   <section class="shoping-cart spad">
     <div class="container">
@@ -227,7 +218,7 @@ onMounted(() => {
                   <td class="shoping__cart__quantity">
                     <div class="quantity mx-auto">
                       <button class="qty-btn decrement" @click="decrementQty(index)">-</button>
-                      <input type="text" v-model.number="item.quantity" class="qty-input" />
+                      <input type="text" v-model.number="item.quantity" class="qty-input" readonly>
                       <button class="qty-btn increment" @click="incrementQty(index)">+</button>
 
                     </div>
@@ -249,28 +240,7 @@ onMounted(() => {
         </div>
       </div>
       <div class="row">
-        <!-- <div class="col-lg-12">
-          <div class="shoping__cart__btns">
-            <router-link to="/san-pham" class="primary-btn cart-btn">
-              TIẾP TỤC MUA SẮM
-              <font-awesome-icon :icon="['fas', 'bag-shopping']" />
-            </router-link>
-          </div>
-        </div> -->
         <div class="col-lg-6">
-          <!-- <div class="shoping__continue">
-            <div class="shoping__discount">
-              <h5>ƯU ĐÃI GIẢM GIÁ</h5>
-              <form @submit.prevent="applyDiscount">
-                <input type="text" v-model="discountCode" placeholder="Nhập mã giảm giá nếu có" />
-                <button type="submit" class="site-btn">
-                  ÁP DỤNG
-                  <font-awesome-icon :icon="['fas', 'ticket']" />
-                </button>
-              </form>
-              <p v-if="discountApplied">Mã giảm giá đã được áp dụng!</p>
-            </div>
-          </div> -->
         </div>
         <div class="col-lg-12">
           <div class="shoping__checkout">
@@ -332,5 +302,33 @@ onMounted(() => {
   border: none;
   font-size: 16px;
   background-color: #f7f7f7;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>

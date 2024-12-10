@@ -114,7 +114,6 @@ const discounts = ref([]);
 const editingDiscount = ref(null);
 const isModalVisible = ref(false);
 
-// Define validation error messages
 const errors = ref({
     code: '',
     value: '',
@@ -142,7 +141,6 @@ const goToPage = (page) => {
     }
 };
 
-// Fetch the list of discounts
 const fetchDiscounts = async () => {
     try {
         const response = await axios.get(`${API_URL}/api/discounts`);
@@ -152,7 +150,6 @@ const fetchDiscounts = async () => {
     }
 };
 
-// Delete a discount
 const deleteDiscount = async (id) => {
     try {
         const response = await axios.delete(`${API_URL}/api/discounts/${id}`);
@@ -172,20 +169,17 @@ const deleteDiscount = async (id) => {
     }
 };
 
-// Edit a discount
 const editDiscount = (discount) => {
     editingDiscount.value = { ...discount };
     isModalVisible.value = true;
 };
 
-// Close the modal
 const closeModal = () => {
     isModalVisible.value = false;
     editingDiscount.value = null;
     clearErrors();
 };
 
-// Clear validation errors
 const clearErrors = () => {
     errors.value = {
         code: '',
@@ -196,12 +190,9 @@ const clearErrors = () => {
     };
 };
 
-// Update the discount
 const updateDiscount = async () => {
-    // Reset errors before validation
     clearErrors();
 
-    // Validate form fields
     if (!editingDiscount.value.code) {
         errors.value.code = 'Mã giảm giá là bắt buộc.';
     }
@@ -221,7 +212,6 @@ const updateDiscount = async () => {
         errors.value.usage_limit = 'Giới hạn sử dụng phải lớn hơn 0.';
     }
 
-    // If validation fails, return early
     if (Object.values(errors.value).some((error) => error !== '')) {
         return;
     }
@@ -245,7 +235,6 @@ const updateDiscount = async () => {
     }
 };
 
-// Fetch discounts on page load
 onMounted(() => {
     fetchDiscounts();
 });
@@ -271,7 +260,6 @@ onMounted(() => {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #fff;
     z-index: 1050;
     width: 50%;
     max-width: 600px;

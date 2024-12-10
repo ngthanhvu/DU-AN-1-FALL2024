@@ -16,6 +16,10 @@
       </div>
     </div>
   </section>
+
+  <div v-if="isProcessing" class="loading-overlay">
+    <div class="spinner"></div>
+  </div>
   <!-- Breadcrumb Section End -->
   <div v-if="cartItems.length === 0" style="min-height: 100vh;"
     class="d-flex align-items-center justify-content-center">
@@ -190,6 +194,8 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 const cartItems = ref([]);
 
+const isProcessing = ref(false);
+
 const selectedAddress = ref(null);
 const isAddingNewAddress = ref(false);
 const isLoadingAddress = ref(true);
@@ -357,6 +363,9 @@ const paymentMethod = ref(null);
 // console.log(cartItems.product.id);
 
 const confirmPayment = async () => {
+  if (isProcessing.value) return; // Ngăn chặn nhiều lần nhấn thanh toán
+  isProcessing.value = true; // Bắt đầu hiển thị loading
+
   console.log("Selected Address:", selectedAddress.value);
   console.log("Total Price:", totalAfterDiscount.value);
   console.log("Payment Method:", paymentMethod.value);
@@ -370,6 +379,7 @@ const confirmPayment = async () => {
     !selectedAddress.value.commune ||
     !selectedAddress.value.hamlet)) {
     Swal.fire('Lỗi', 'Vui lòng điền đầy đủ thông tin giao hàng!', 'error');
+    isProcessing.value = false;
     return;
   }
 
@@ -422,10 +432,12 @@ const confirmPayment = async () => {
           } else {
             console.error("Không có URL thanh toán!");
             alert("Không có URL thanh toán!");
+            isProcessing.value = false;
           }
         } catch (error) {
           console.error("Lỗi khi thực hiện thanh toán:", error);
           Swal.fire('Lỗi', 'Có lỗi xảy ra trong quá trình thanh toán.', 'error');
+          isProcessing.value = false;
         }
       }
       else if (paymentMethod.value === 'momo') {
@@ -442,10 +454,12 @@ const confirmPayment = async () => {
           } else {
             console.error("Không có URL thanh toán MoMo!");
             alert("Không có URL thanh toán MoMo!");
+            isProcessing.value = false;
           }
         } catch (error) {
           console.error("Lỗi khi thực hiện thanh toán MoMo:", error);
           alert("Có lỗi xảy ra trong quá trình thanh toán MoMo.");
+          isProcessing.value = false;
         }
       } else if (paymentMethod.value === 'cod') {
         // Swal.fire('Thành công', 'Thanh toán thành công', 'success');
@@ -471,11 +485,13 @@ const confirmPayment = async () => {
     } else {
       console.error("Có lỗi xảy ra trong quá trình tạo đơn hàng.");
       Swal.fire('Lỗi', 'Có lỗi xảy ra trong quá trình tạo đơn hàng.', 'error');
+      isProcessing.value = false;
       router.push('/thanh-cong?status=01&order_id=' + response.data.order.id);
     }
   } catch (error) {
     console.error("Lỗi khi tạo đơn hàng:", error.response?.data || error);
     Swal.fire('Lỗi', 'Có lỗi xảy ra trong quá trình tạo đơn hàng.', 'error');
+    isProcessing.value = false;
     router.push('/thanh-cong?status=01&order_id=' + response.data.order.id);
   }
 };
@@ -537,3 +553,33 @@ onMounted(() => {
   getEmaillUser();
 });
 </script>
+
+<style>
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+</style>

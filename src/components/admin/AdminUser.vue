@@ -73,7 +73,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
@@ -116,6 +116,7 @@ const fetchUsers = async () => {
 };
 
 const editUser = (user) => {
+  console.log('Edit User:', user);
   selectedUser.value = { ...user };
   isModalVisible.value = true;
 };
@@ -190,6 +191,9 @@ const deleteUser = async (id) => {
   }
 };
 
+watch(isModalVisible, (newValue) => {
+  console.log('isModalVisible changed:', newValue);
+});
 
 onMounted(() => {
   fetchUsers();
@@ -228,5 +232,9 @@ h1 {
 
 .modal-footer .btn {
   margin-left: 10px;
+}
+
+.modal-overlay {
+  z-index: 9999;
 }
 </style>

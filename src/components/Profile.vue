@@ -346,6 +346,11 @@ const deleteAddress = async (id) => {
       const response = await axios.delete(`${API_URL}/api/address/${id}`);
       if (response.status === 200) {
         loadAddress();
+        Swal.fire({
+          icon: 'success',
+          'title': 'Thành công!',
+          'text': 'Đã xóa địa chỉ thành công!',
+        })
       }
     } catch (error) {
       console.error("Error deleting address:", error);
@@ -355,11 +360,6 @@ const deleteAddress = async (id) => {
 
 const saveNewAddress = async () => {
   if (newAddress.value.full_name && newAddress.value.phone && newAddress.value.province && newAddress.value.district && newAddress.value.commune && newAddress.value.hamlet) {
-    const hamletRegex = /#@%\^&\*/;
-    if (newAddress.value.hamlet.match(hamletRegex)) {
-      Swal.fire('Lỗi', 'Thôn xóm không được có kí tự đặc biệt!', 'error');
-      return;
-    }
     const phoneRegex = /^[0-9]{9}$/; // Chỉ cho phép 9 chữ số
     if (!phoneRegex.test(String(newAddress.value.phone).trim())) {
 

@@ -88,21 +88,24 @@
         <div class="row">
           <div v-for="product in products" :key="product.id" class="col-md-3 col-sm-6 mb-5 product-col">
             <div class="product-box">
-              <div class="product-thumbnail">
+              <div class="product-thumbnail" style="position: relative;">
                 <router-link :to="'/chi-tiet-san-pham/' + product.id" class="image_link">
                   <img :src="`${API_URL}/storage/${product.images.find(img => img.is_primary === 1)?.image_path}`"
                     class="lazyload" :alt="product.name" width="100%">
+                  <!-- Hiển thị ảnh "hết hàng" khi quantity === 0 -->
+                  <img v-if="product.quantity === 0"
+                    src="https://theme.hstatic.net/1000333546/1000986972/14/hethang.png?v=900"
+                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; z-index: 100;"
+                    alt="Hết hàng">
                 </router-link>
-                <div v-if="product.isOnSale" class="product-label">
-                  <strong class="label">Sale</strong>
-                </div>
               </div>
               <div class="product-info a-left">
                 <h3 class="product-name">
                   <router-link :to="'/chi-tiet-san-pham/' + product.id">{{ product.name }}</router-link>
                 </h3>
-                <p class="product-category text-muted"><span class="text-muted">Danh mục:</span> {{
-                  product.category.name }}</p>
+                <p class="product-category text-muted">
+                  <span class="text-muted">Danh mục:</span> {{ product.category.name }}
+                </p>
                 <div class="price-box clearfix">
                   <span class="price product-price">{{ formatVND(product.price) }}</span>
                   <span v-if="product.oldPrice" class="price product-price-old">
@@ -112,6 +115,7 @@
               </div>
             </div>
           </div>
+
           <div v-if="products.length === 0" class="col-md-12 text-center">
             <p>Không tìm thấy sản phẩm nào</p>
           </div>

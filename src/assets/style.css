@@ -1720,7 +1720,7 @@ input[type="file"]:focus {
     font-weight: bold;
 }
 
-.modal-overlay {
+.modal-overlay1 {
     position: fixed;
     top: 0;
     left: 0;
@@ -1737,7 +1737,7 @@ input[type="file"]:focus {
     transition: opacity 0.3s ease-in-out;
 }
 
-.modal-overlay.show {
+.modal-overlay1.show {
     opacity: 1;
     pointer-events: auto;
     /* Khi modal hiển thị thì nó nhận sự kiện */

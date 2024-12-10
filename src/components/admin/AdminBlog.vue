@@ -165,6 +165,7 @@ const closeEditModal = () => {
 const handleImageChange = (event) => {
   editingPost.value.image = event.target.files[0];
 };
+
 const updatePost = async () => {
   try {
     const formData = new FormData();
@@ -172,13 +173,21 @@ const updatePost = async () => {
     formData.append('content', editingPost.value.content);
     formData.append('user_id', editingPost.value.user_id);
 
-    if (editingPost.value.image) {
-      formData.append('image', editingPost.value.image);
+    if (!editingPost.value.image) {
+      formData.append('image', '');
     }
 
-    const response = await axios.put(`${API_URL}/api/posts/${editingPost.value.id}`, formData);
+    const response = await axios.post(`${API_URL}/api/posts/${editingPost.value.id}?_method=PUT`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    // Cập nhật bài viết trên giao diện
     const index = posts.value.findIndex(post => post.id === editingPost.value.id);
     posts.value[index] = response.data.post;
+
+    // Đóng modal
     showEditModal.value = false;
     alert('Bài viết đã được cập nhật!');
   } catch (error) {
@@ -186,6 +195,7 @@ const updatePost = async () => {
     alert('Không thể cập nhật bài viết!');
   }
 };
+
 
 onMounted(fetchPosts);
 </script>

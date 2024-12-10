@@ -52,12 +52,6 @@ const handleFileUpload = (event) => {
 };
 
 const validateTitle = () => {
-  const regex = /^[A-Za-z0-9\s.,?!'À-ÿáéíóúàèìòùâêôíàèìòùĂ-ỹ\-]*$/;
-
-  if (!regex.test(form.value.title)) {
-    titleError.value = "Tiêu đề không được chứa các ký tự đặc biệt như: ~ ` ! @ # $ % ^ & * ( ) _ + = / ? > < | \\ \" { } [ ] ; :";
-    return false;
-  }
 
   if (!form.value.title.trim()) {
     titleError.value = "Tiêu đề không được để trống.";
