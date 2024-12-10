@@ -124,58 +124,37 @@ class PostController extends Controller
             $post = Post::findOrFail($id);
 
             $validatedData = $request->validate([
-                'title' => 'sometimes|required|string|max:255',  // Kiểm tra tiêu đề
-                'content' => 'sometimes|required|string',  // Kiểm tra nội dung
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'  // Kiểm tra ảnh
+                'title' => 'sometimes|required|string|max:255',
+                'content' => 'sometimes|required|string',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5048'
             ]);
-
-            if ($request->has('title')) {
-                $post->title = $validatedData['title'];
-            }
-
-            if ($request->has('content')) {
-                $post->content = $validatedData['content'];
-            }
 
             if ($request->hasFile('image')) {
                 if ($post->image && Storage::exists($post->image)) {
                     Storage::delete($post->image);
                 }
-
-                $post->image = $request->file('image')->store('images', 'public');
+                $validatedData['image'] = $request->file('image')->store('images', 'public');
             }
 
-            $post->save();
-
-            $updateResult = $post->update($validatedData);
-
-            if (!$updateResult) {
-                return response()->json([
-                    'message' => 'Cập nhật bài viết thất bại',
-                    'data' => $validatedData
-                ], 500);
-            }
-
-            $post->refresh();
+            $post->update($validatedData);
 
             return response()->json([
                 'message' => 'Bài viết đã được cập nhật thành công',
-                'post' => $post
+                'post' => $post->refresh()
             ], 200);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            Log::error('Validation error: ', $e->errors());
             return response()->json([
-                'message' => 'Lỗi validate',
+                'message' => 'Lỗi validate dữ liệu',
                 'errors' => $e->errors()
             ], 422);
         } catch (\Exception $e) {
-            Log::error('Error updating post: ', ['error' => $e->getMessage()]);
             return response()->json([
                 'message' => 'Không thể cập nhật bài viết',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
+
 
     public function destroy(string $id)
     {

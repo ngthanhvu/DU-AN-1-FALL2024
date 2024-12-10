@@ -22,7 +22,7 @@ class AddressController extends Controller
                 'tinh_thanh' => 'required|string|max:255',
                 'quan_huyen' => 'required|string|max:255',
                 'xa_phuong' => 'required|string|max:255',
-                'thon_xom' => 'required|string|regex:/^[a-zA-Z0-9\s\-\.]*$/|max:255',
+                'thon_xom' => 'required|string|max:255',
                 'user_id' => 'required|exists:users,id',
             ]);
 
